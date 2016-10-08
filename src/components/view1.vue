@@ -3,6 +3,8 @@
   </div>
 </template>
 <script>
-export default {
-};
+import Vue from 'vue';
+export default Vue.component('View1', {
+  template: 'view1',
+});
 </script>

@@ -30,8 +30,9 @@ const userRooms = userRef.child('rooms');
 const roomRef = db.ref('/room');
 
 
-export default Vue.extend({
-  data: {
+export default Vue.component('Chat', {
+  data() {
+    return {};
   },
   firebase: {
     peopleList: peopleListRef,

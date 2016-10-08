@@ -1,7 +1,11 @@
 <template>
   <div id="app">
-    <router-link to="/hello">/hello</router-link>
-    <router-link to="/view1">/view1</router-link>
+    <nav>
+      <a href="/hello">hello</a>
+      <a href="/view1">view1</a>
+      <a href="/chat">Chat</a>
+    </nav>
+
     <router-view></router-view>
   </div>
 </template>
