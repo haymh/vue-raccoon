@@ -4,5 +4,6 @@
 </template>
 <script>
 export default {
+  name: 'view1',
 };
 </script>

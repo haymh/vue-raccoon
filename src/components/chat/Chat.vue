@@ -13,7 +13,6 @@
 </template>
 <script>
 import firebase from 'firebase';
-import Vue from 'vue';
 // Initialize Firebase
 const config = {
   apiKey: 'AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ',
@@ -30,8 +29,10 @@ const userRooms = userRef.child('rooms');
 const roomRef = db.ref('/room');
 
 
-export default Vue.extend({
-  data: {
+export default {
+  name: 'Chat',
+  data() {
+    return {};
   },
   firebase: {
     peopleList: peopleListRef,
@@ -45,7 +46,7 @@ export default Vue.extend({
     peopleList: {
       handler() {
         this.peopleList.map((person) => {
-          if (this.rooms.filter((room) => room.other === person['.key']).length === 0) {
+          if (this.rooms.filter(room => room.other === person['.key']).length === 0) {
             person.needRoom = true;
           } else {
             person.needRoom = false;
@@ -93,5 +94,5 @@ export default Vue.extend({
       }
     },
   },
-});
+};
 </script>
