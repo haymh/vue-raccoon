@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import Vue from 'vue';
-export default Vue.component('Hello', {
+export default {
+  name: 'Hello',
   data() {
     return {
       msg: 'Hello Vue!',
@@ -76,7 +76,7 @@ export default Vue.component('Hello', {
       console.log('select', this.autocompleteResult);
     },
   },
-});
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

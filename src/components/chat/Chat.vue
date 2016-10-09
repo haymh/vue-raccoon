@@ -13,7 +13,6 @@
 </template>
 <script>
 import firebase from 'firebase';
-import Vue from 'vue';
 // Initialize Firebase
 const config = {
   apiKey: 'AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ',
@@ -30,7 +29,8 @@ const userRooms = userRef.child('rooms');
 const roomRef = db.ref('/room');
 
 
-export default Vue.component('Chat', {
+export default {
+  name: 'Chat',
   data() {
     return {};
   },
@@ -94,5 +94,5 @@ export default Vue.component('Chat', {
       }
     },
   },
-});
+};
 </script>
