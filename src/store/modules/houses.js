@@ -10,24 +10,24 @@ const state = {
 // mutations
 const mutations = {
   [types.RECEIVE_HOUSES](_state, { houses }) {
-    state.all = houses;
+    _state.all = houses;
   },
 
   [types.ADD_FAVORITE](_state, { id }) {
-    const newFavorite = state.all.find(h => h.id === id);
-    newFavorite.like++;
+    const newFavorite = _state.all.find(h => h.id === id);
+    newFavorite.like += 1;
     newFavorite.isFavor = true;
   },
 
   [types.REMOVE_FAVORITE](_state, { id }) {
-    const toRemove = state.all.find(h => h.id === id);
-    toRemove.like--;
+    const toRemove = _state.all.find(h => h.id === id);
+    toRemove.like -= 1;
     toRemove.isFavor = false;
   },
 
-  [types.TAG_FAVORITE](_state) {
-    _state.user.favoriteHouses.forEach((favorite) => {
-      state.all.find(h => h.id === favorite.id).isFavor = true;
+  [types.TAG_FAVORITE](_state, { favoriteHouses }) {
+    favoriteHouses.forEach((favorite) => {
+      _state.all.find(h => h.id === favorite.id).isFavor = true;
     });
   },
 

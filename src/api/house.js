@@ -1,13 +1,15 @@
-export const search = (searchTerms) => {
+export default (searchTerms) => {
   console.log(searchTerms);
-  setTimeout(() =>
-    [
-      {
-        id: 1,
-      },
-      {
-        id: 2,
-      },
-    ]
-  , 500);
+  return new Promise((fulfill) => {
+    setTimeout(() =>
+      fulfill([
+        {
+          id: 1,
+        },
+        {
+          id: 2,
+        },
+      ])
+    , 500);
+  });
 };

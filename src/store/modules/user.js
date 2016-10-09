@@ -20,14 +20,14 @@ const mutations = {
 
   [types.ADD_SEARCH](_state, { newSearch }) {
     if (_state.seaches
-      .filter((search) => JSON.stringify(search) === JSON.stringify(newSearch)) === 0) {
+      .filter(search => JSON.stringify(search) === JSON.stringify(newSearch)) === 0) {
       _state.searches.push(newSearch);
     }
   },
 
   [types.ADD_FAVORITE](_state, { newFavorite }) {
     if (_state.favoriteHouses
-      .filter((favorite) => favorite.id === newFavorite.id) === 0) {
+      .filter(favorite => favorite.id === newFavorite.id) === 0) {
       _state.favoriteHouses.push(newFavorite);
     }
   },
