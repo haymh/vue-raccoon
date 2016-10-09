@@ -1,0 +1,8 @@
+export const CHANGE_USER = 'CHANGE_USER';
+export const ADD_SEARCH = 'ADD_SEARCH';
+
+export const ADD_FAVORITE = 'ADD_FAVORITE';
+export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
+export const RECEIVE_HOUSES = 'RECEIVE_HOUSES';
+export const TAG_FAVORITE = 'TAG_FAVORITE';
+export const FILTER_HOUSE = 'FILTER_HOUSE';
