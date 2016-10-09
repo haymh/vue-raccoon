@@ -1,11 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-Vue.use(Router);
 
 import HelloView from '../components/Hello.vue';
 import View1 from '../components/view1.vue';
 import ChatView from '../components/chat/Chat.vue';
+
+Vue.use(Router);
+
 
 export default new Router({
   mode: 'history',
@@ -16,5 +18,6 @@ export default new Router({
     { path: '/hello', component: HelloView },
     { path: '/view1', component: View1 },
     { path: '/chat', component: ChatView },
+    { path: '*', redirect: '/hello' },
   ],
 });

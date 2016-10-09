@@ -46,7 +46,7 @@ export default {
     peopleList: {
       handler() {
         this.peopleList.map((person) => {
-          if (this.rooms.filter((room) => room.other === person['.key']).length === 0) {
+          if (this.rooms.filter(room => room.other === person['.key']).length === 0) {
             person.needRoom = true;
           } else {
             person.needRoom = false;
