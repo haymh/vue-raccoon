@@ -9,16 +9,13 @@ export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
     // Filter house
     commit(types.FILTER_HOUSE, {
       filter: state.houses.lastFilter,
-      refilter: true,
+      isDelta: false,
     });
   });
 };
 
-export const filterHouses = ({ commit }, filter) => {
-  commit(types.FILTER_HOUSE, {
-    filter,
-    refilter: false,
-  });
+export const filterHouses = ({ commit }, { filter, isDelta }) => {
+  commit(types.FILTER_HOUSE, { filter, isDelta });
 };
 
 export const setUser = ({ commit }, { id, isTemp, favoriteHouses, searches }) => {

@@ -10,3 +10,4 @@ export const user = (state) => {
 
 export const allHouses = state => state.houses.all;
 export const filterResults = state => state.houses.filterResults;
+export const lastFilter = state => state.houses.lastFilter;
