@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-default/index.css';
 
 import App from './App.vue';
 import router from './router';
+import store from './store';
 
 Vue.use(Element);
 Vue.use(VueResource);
@@ -28,6 +29,7 @@ Vue.use(VueFire);
 /* eslint-disable no-new */
 new Vue({
   router,
+  store,
   el: '#app',
   render: h => h(App),
 });
