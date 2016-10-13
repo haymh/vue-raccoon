@@ -80,7 +80,6 @@ import { mapGetters } from 'vuex';
 import { db } from '../../api/fire';
 import ChatRoom from './ChatRoom.vue';
 
-const peopleListRef = db.ref('/user');
 const roomRef = db.ref('/room');
 
 
@@ -107,33 +106,12 @@ export default {
   watch: {
     peopleList: {
       handler() {
-        this.peopleList.map((person) => {
-          const res = this.userRooms.filter(room => room.other === person['.key']);
-          if (res.length === 0) {
-            person.needRoom = true;
-          } else {
-            person.needRoom = false;
-            person.roomId = res[0]['.key'];
-          }
-          return person;
-        });
+        this.updatePeopleStatus();
       },
     },
     userRooms: {
       handler() {
-        console.log('rooms changed');
-        this.peopleList.map((person) => {
-          const res = this.userRooms.filter(room => room.other === person['.key']);
-          if (res.length === 0) {
-            person.needRoom = true;
-          } else {
-            person.needRoom = false;
-            person.roomId = res[0]['.key'];
-          }
-          return person;
-        });
-        console.log(this.peopleList);
-        console.log(this.userRooms);
+        this.updatePeopleStatus();
       },
     },
     userId: {
@@ -148,10 +126,9 @@ export default {
     createRoom(userId, friendId) {
       // Get a key for a new Post.
       const roomKey = roomRef.push().key;
-      const userRoomKey = this.$firebaseRefs.userRooms.push().key;
-      const friendRoomKey = peopleListRef.child(friendId).child('rooms').push().key;
-      // record roomId with current user
-      this.peopleList.find(p => p['.key'] === friendId).roomId = roomKey;
+      const friend = this.peopleList.find(p => p['.key'] === friendId);
+      friend.roomId = roomKey;
+      friend.needRoom = false;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
@@ -160,13 +137,13 @@ export default {
         createdBy: userId,
       };
 
-      updates[`/user/${userId}/rooms/${userRoomKey}`] = {
+      updates[`/user/${userId}/rooms/${roomKey}`] = {
         other: friendId,
         status: false,
         unreadCount: 0,
       };
 
-      updates[`/user/${friendId}/rooms/${friendRoomKey}`] = {
+      updates[`/user/${friendId}/rooms/${roomKey}`] = {
         other: userId,
         status: false,
         unreadCount: 0,
@@ -183,6 +160,18 @@ export default {
       } else {
         this.activeRoomId = friend.roomId;
       }
+    },
+    updatePeopleStatus() {
+      this.peopleList.map((person) => {
+        const res = this.userRooms.filter(room => room.other === person['.key']);
+        if (res.length === 0) {
+          person.needRoom = true;
+        } else {
+          person.needRoom = false;
+          person.roomId = res[0]['.key'];
+        }
+        return person;
+      });
     },
   },
 };
