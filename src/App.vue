@@ -125,7 +125,61 @@ a {
 }
 </style>
 <script>
+import { db, timeStamp } from './api/fire';
+
+const peopleListRef = db.ref('/user');
+/* eslint-disable no-undef */
 export default {
   name: 'App',
+  data() {
+    return {
+      needCreateUser: false,
+    };
+  },
+  created() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.queryUser(userId);
+    } else {
+      this.createUser();
+    }
+  },
+  methods: {
+    createUser() {
+      // create a user
+      const newUserKey = peopleListRef.push().key;
+      console.log('newUserKey', newUserKey);
+      const updates = {};
+      updates[`/user/${newUserKey}`] = {
+        isTemp: true,
+        createdAt: timeStamp,
+        favoriteHouses: [],
+        searches: [],
+        rooms: [],
+      };
+      db.ref().update(updates).then(() => {
+        this.$store.dispatch('setUser',
+          {
+            id: newUserKey,
+            isTemp: true,
+            favoriteHouses: [],
+            searches: [],
+          }
+        );
+        localStorage.setItem('userId', newUserKey);
+      });
+    },
+    queryUser(userId) {
+      peopleListRef.child(userId).once('value').then((snapshot) => {
+        const userStore = {
+          id: userId,
+          isTemp: snapshot.val().isTemp,
+          favoriteHouses: [...(snapshot.val().favoriteHouses || [])],
+          searches: [...(snapshot.val().searches || [])],
+        };
+        this.$store.dispatch('setUser', userStore);
+      });
+    },
+  },
 };
 </script>

@@ -11,7 +11,7 @@
       </ul>
     </div>
   </div>
-  <ChatRoom :room-id="activeRoomId" :user="user"></ChatRoom>
+  <ChatRoom :room-id="activeRoomId" :userId="userId"></ChatRoom>
 </div>
 </template>
 
@@ -76,12 +76,11 @@
 }
 </style>
 <script>
+import { mapGetters } from 'vuex';
 import { db } from '../../api/fire';
 import ChatRoom from './ChatRoom.vue';
 
 const peopleListRef = db.ref('/user');
-const userRef = db.ref('/user/-KTNGLIn1MJFdYEPVSpW');
-const userRooms = userRef.child('rooms');
 const roomRef = db.ref('/room');
 
 
@@ -89,41 +88,70 @@ export default {
   name: 'Chat',
   data() {
     return {
-      activeRoomId: '-KSzSJku0mv6PUoU1EOL',
+      activeRoomId: '',
+      peopleList: [],
+      userRooms: [],
     };
+  },
+  created() {
+    this.$bindAsArray('peopleList', db.ref('/user'));
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+    ]),
   },
   components: {
     ChatRoom,
-  },
-  firebase: {
-    peopleList: peopleListRef,
-    user: {
-      source: userRef,
-      asObject: true,
-    },
-    rooms: userRooms,
   },
   watch: {
     peopleList: {
       handler() {
         this.peopleList.map((person) => {
-          if (this.rooms.filter(room => room.other === person['.key']).length === 0) {
+          const res = this.userRooms.filter(room => room.other === person['.key']);
+          if (res.length === 0) {
             person.needRoom = true;
           } else {
             person.needRoom = false;
+            person.roomId = res[0]['.key'];
           }
           return person;
         });
       },
     },
+    userRooms: {
+      handler() {
+        console.log('rooms changed');
+        this.peopleList.map((person) => {
+          const res = this.userRooms.filter(room => room.other === person['.key']);
+          if (res.length === 0) {
+            person.needRoom = true;
+          } else {
+            person.needRoom = false;
+            person.roomId = res[0]['.key'];
+          }
+          return person;
+        });
+        console.log(this.peopleList);
+        console.log(this.userRooms);
+      },
+    },
+    userId: {
+      handler() {
+        if (this.userId && this.userId !== '') {
+          this.$bindAsArray('userRooms', db.ref(`/user/${this.userId}/rooms`));
+        }
+      },
+    },
   },
-  computed: {},
   methods: {
     createRoom(userId, friendId) {
       // Get a key for a new Post.
       const roomKey = roomRef.push().key;
-      const userRoomKey = userRooms.push().key;
+      const userRoomKey = this.$firebaseRefs.userRooms.push().key;
       const friendRoomKey = peopleListRef.child(friendId).child('rooms').push().key;
+      // record roomId with current user
+      this.peopleList.find(p => p['.key'] === friendId).roomId = roomKey;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
@@ -148,9 +176,12 @@ export default {
     openChat(friend) {
       console.log(friend['.key'], 'needChat?', friend.needRoom);
       if (friend.needRoom) {
-        this.createRoom(this.user['.key'], friend['.key']).then(() => {
+        this.createRoom(this.userId, friend['.key']).then(() => {
           console.log('cao ni ma!!!!!!!!!!!');
+          this.activeRoomId = friend.roomId;
         });
+      } else {
+        this.activeRoomId = friend.roomId;
       }
     },
   },

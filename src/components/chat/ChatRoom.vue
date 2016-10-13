@@ -106,9 +106,10 @@ import ChatTextBox from './ChatTextBox.vue';
 
 export default {
   name: 'ChatRoom',
-  props: ['roomId', 'user'],
+  props: ['roomId', 'userId'],
   data() {
     return {
+      messageList: [],
     };
   },
   filters: {
@@ -126,17 +127,22 @@ export default {
       },
     },
   },
-  created() {
-    console.log('before create', this.roomId);
-    this.$bindAsArray('messageList', db.ref(`/room/${this.roomId}/messages`));
-  },
   components: { ChatTextBox },
-  watch: {},
+  watch: {
+    roomId: {
+      handler() {
+        console.log('roomId', this.roomId);
+        if (this.roomId && this.roomId !== '') {
+          this.$bindAsArray('messageList', db.ref(`/room/${this.roomId}/messages`));
+        }
+      },
+    },
+  },
   computed: {
   },
   methods: {
     isMsgMyself(message) {
-      return message.metadata.from === this.user['.key'];
+      return message.metadata.from === this.userId;
     },
     sendMessage(message) {
       console.log('ok', message);
@@ -144,7 +150,7 @@ export default {
         message,
         metadata: {
           createdAt: timeStamp,
-          from: this.user['.key'],
+          from: this.userId,
         },
       };
       this.$firebaseRefs.messageList.push(newMessage);
