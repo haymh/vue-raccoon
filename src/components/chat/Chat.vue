@@ -104,16 +104,6 @@ export default {
     ChatRoom,
   },
   watch: {
-    peopleList: {
-      handler() {
-        this.updatePeopleStatus();
-      },
-    },
-    userRooms: {
-      handler() {
-        this.updatePeopleStatus();
-      },
-    },
     userId: {
       handler() {
         if (this.userId && this.userId !== '') {
@@ -126,9 +116,7 @@ export default {
     createRoom(userId, friendId) {
       // Get a key for a new Post.
       const roomKey = roomRef.push().key;
-      const friend = this.peopleList.find(p => p['.key'] === friendId);
-      friend.roomId = roomKey;
-      friend.needRoom = false;
+      this.peopleList.find(p => p['.key'] === friendId).roomId = roomKey;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
@@ -151,27 +139,22 @@ export default {
       return db.ref().update(updates);
     },
     openChat(friend) {
-      console.log(friend['.key'], 'needChat?', friend.needRoom);
-      if (friend.needRoom) {
+      const roomId = this.roomId(friend);
+      if (roomId) {
+        this.activeRoomId = roomId;
+      } else {
         this.createRoom(this.userId, friend['.key']).then(() => {
           console.log('cao ni ma!!!!!!!!!!!');
-          this.activeRoomId = friend.roomId;
+          this.activeRoomId = this.roomId(friend);
         });
-      } else {
-        this.activeRoomId = friend.roomId;
       }
     },
-    updatePeopleStatus() {
-      this.peopleList.map((person) => {
-        const res = this.userRooms.filter(room => room.other === person['.key']);
-        if (res.length === 0) {
-          person.needRoom = true;
-        } else {
-          person.needRoom = false;
-          person.roomId = res[0]['.key'];
-        }
-        return person;
-      });
+    roomId(friend) {
+      const res = this.userRooms.filter(room => room.other === friend['.key']);
+      if (res.length === 0) {
+        return undefined;
+      }
+      return res[0]['.key'];
     },
   },
 };
