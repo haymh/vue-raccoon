@@ -5,7 +5,7 @@ import Router from 'vue-router';
 import HelloView from '../components/Hello.vue';
 import View1 from '../components/view1.vue';
 import ChatView from '../components/chat/Chat.vue';
-import Listing from '../components/listing.vue';
+import Listing from '../components/listing/listing.vue';
 
 Vue.use(Router);
 
