@@ -1,0 +1,80 @@
+{
+  "rules": {
+    "userRooms": {
+      "$userId": {
+        // only user self can read & write this
+        ".read": "auth.uid === $userId",
+        // only authenticated user in the same room can add other user in room
+        ".write": "auth !== null || auth.uid === $userId",
+        "$roomId": {
+          // room must exist before user is added to the room
+          ".write" : "root.child('rooms/' + $roomId + '/members/' + $userId).exists() && root.child('rooms/' + $roomId + '/members/' + auth.id).exists()",
+        	"roomName": { ".validate": "newData.isString() && newData.val().length < 20" }
+        }
+      }
+    },
+    "rooms": {
+      "$roomId": {
+        // members in this room can read & write
+        ".read": "data.child('members/' + auth.uid).exists()",
+        ".write": "newData.child('members/' + auth.uid).exists()",
+        "members": {
+          "$userId": {
+            "nickName": { ".validate": "newData.isString() && newData.val().length < 20" },
+            "status": { ".validate": "newData.isBoolean()" },
+          }
+        },
+        "createdAt": { ".validate": "newData.val() <= now && !data.exists()" },
+        // can only be created by yourself
+        "createdBy": { ".validate": "newData.val() === auth.uid && !data.exists()" },
+      }
+    },
+    "messages": {
+      "$roomId": {
+        // anyone in this room can read and write
+        ".read": "root.child('rooms/' + $roomId + '/members/' + auth.uid).exists()",
+        ".write": "root.child('rooms/' + $roomId + '/members/' + auth.uid).exists()",
+        "$messageId": {
+          ".validate": "newData.hasChildren(['sentBy', 'sentAt', 'content'])",
+          // can only sent by yourself
+          "sentBy": { ".validate": "newData.val() === auth.uid" },
+          "sentAt": { ".validate": "newData.val() <= now" },
+          "content": { ".validate": "newData.isString() && newData.val().length > 0" },
+        }
+      }
+    },
+    "users": {
+      // anyone logged in can read
+      ".read": "auth !== null",
+      "$userId": {
+        // only user self can write data
+        ".write": "auth.uid === $userId",
+        ".validate": "newData.hasChildren(['nickName', 'type', 'isTemp', 'createdAt', 'lastLogin'])",
+        "nickName": { ".validate": "newData.isString() && newData.val().length < 20" },
+        "type": { ".validate": "newData.val() === 'buyer' || newData.val() === 'agent' " },
+        "isTemp": { ".validate": "newData.isBoolean()" },
+        "createdAt": { ".validate": "newData.val() <= now" },
+        "lastLogin": { ".validate": "newData.val() <= now" },
+      }
+    },
+    "buyerData": {
+      "$userId": {
+        // user self or agent who has access can read
+        ".read": "auth.uid === $userId || root.child('users/' + auth.uid + '/type').val() === 'agent'",
+        ".write": "auth.uid === $userId",
+        "favoriteHouses": {
+          "$fhId": {
+            "id": { ".validate": "newData.isString() && newData.val().length > 0" },
+          }
+        },
+        "searches": {
+          "$sId": {
+            "searchTerm": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "searchAt": { ".validate": "newData.val() <= now" },
+          }
+        },
+        "lastUpdate": { ".validate": "newData.val() <= now" },
+      }
+    }
+  }
+}

@@ -5,11 +5,11 @@
     <ul v-if="messageList">
       <li v-for="msg in messageList">
         <p class="time">
-          <span>{{ msg.metadata.createdAt | time }}</span>
+          <span>{{ msg.sentAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
           <!-- <img class="avatar" width="30" height="30" :src="item.self ? user.img : session.user.img" /> -->
-          <div class="text">{{ msg.message }}</div>
+          <div class="text">{{ msg.content }}</div>
         </div>
       </li>
     </ul>
@@ -133,7 +133,7 @@ export default {
       handler() {
         console.log('roomId', this.roomId);
         if (this.roomId && this.roomId !== '') {
-          this.$bindAsArray('messageList', db.ref(`/room/${this.roomId}/messages`));
+          this.$bindAsArray('messageList', db.ref(`/messages/${this.roomId}`));
         }
       },
     },
@@ -142,16 +142,14 @@ export default {
   },
   methods: {
     isMsgMyself(message) {
-      return message.metadata.from === this.userId;
+      return message.sentBy === this.userId;
     },
     sendMessage(message) {
       console.log('ok', message);
       const newMessage = {
-        message,
-        metadata: {
-          createdAt: timeStamp,
-          from: this.userId,
-        },
+        content: message,
+        sentAt: timeStamp,
+        sentBy: this.userId,
       };
       this.$firebaseRefs.messageList.push(newMessage);
     },

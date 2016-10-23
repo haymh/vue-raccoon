@@ -77,10 +77,10 @@
 </style>
 <script>
 import { mapGetters } from 'vuex';
-import { db } from '../../api/fire';
+import { db, timeStamp } from '../../api/fire';
 import ChatRoom from './ChatRoom.vue';
 
-const roomRef = db.ref('/room');
+const roomRef = db.ref('/rooms');
 
 
 export default {
@@ -89,52 +89,49 @@ export default {
     return {
       activeRoomId: '',
       peopleList: [],
-      userRooms: [],
     };
   },
   created() {
-    this.$bindAsArray('peopleList', db.ref('/user'));
+    this.$bindAsArray('peopleList', db.ref('/users'));
   },
   computed: {
     ...mapGetters([
       'userId',
+      'userRooms',
     ]),
   },
   components: {
     ChatRoom,
   },
   watch: {
-    userId: {
-      handler() {
-        if (this.userId && this.userId !== '') {
-          this.$bindAsArray('userRooms', db.ref(`/user/${this.userId}/rooms`));
-        }
-      },
-    },
   },
   methods: {
     createRoom(userId, friendId) {
       // Get a key for a new Post.
       const roomKey = roomRef.push().key;
-      this.peopleList.find(p => p['.key'] === friendId).roomId = roomKey;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
-      updates[`/room/${roomKey}`] = {
-        messages: [],
+      updates[`/rooms/${roomKey}`] = {
+        members: {},
         createdBy: userId,
+        createdAt: timeStamp,
+      };
+      updates[`/rooms/${roomKey}`].members[userId] = { nickName: 'userId', status: true };
+      updates[`/rooms/${roomKey}`].members[friendId] = { nickName: 'friendId', status: false };
+      return {
+        promise: db.ref().update(updates),
+        roomKey,
+      };
+    },
+    addRoomToUser(userId, friendId, roomKey) {
+      const updates = {};
+      updates[`/userRooms/${userId}/${roomKey}`] = {
+        roomName: 'New Chat',
       };
 
-      updates[`/user/${userId}/rooms/${roomKey}`] = {
-        other: friendId,
-        status: false,
-        unreadCount: 0,
-      };
-
-      updates[`/user/${friendId}/rooms/${roomKey}`] = {
-        other: userId,
-        status: false,
-        unreadCount: 0,
+      updates[`/userRooms/${friendId}/${roomKey}`] = {
+        roomName: 'New Chat',
       };
       return db.ref().update(updates);
     },
@@ -143,18 +140,23 @@ export default {
       if (roomId) {
         this.activeRoomId = roomId;
       } else {
-        this.createRoom(this.userId, friend['.key']).then(() => {
-          console.log('cao ni ma!!!!!!!!!!!');
-          this.activeRoomId = this.roomId(friend);
+        const { promise, roomKey } = this.createRoom(this.userId, friend['.key']);
+        promise
+        .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
+        .then(() => {
+          this.activeRoomId = roomKey;
+        })
+        .catch((e) => {
+          console.log(e);
         });
       }
     },
     roomId(friend) {
-      const res = this.userRooms.filter(room => room.other === friend['.key']);
+      const res = this.userRooms.filter(room => room.members[friend['.key']] !== undefined);
       if (res.length === 0) {
         return undefined;
       }
-      return res[0]['.key'];
+      return res[0].roomId;
     },
   },
 };
