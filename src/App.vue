@@ -125,7 +125,107 @@ a {
 }
 </style>
 <script>
+import firebase from 'firebase';
+import { db, timeStamp } from './api/fire';
+
+
+const peopleListRef = db.ref('/users');
+/* eslint-disable no-undef */
 export default {
   name: 'App',
+  data() {
+    return {
+      needCreateUser: false,
+    };
+  },
+  created() {
+    // add event listener for auth state
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in.
+        const id = user.uid;
+        const isTemp = user.isAnonymous;
+        peopleListRef.child(id).on('value', (userProfile) => {
+          if (userProfile.val() !== null) {
+            // user exists
+            // read user profile
+            const nickName = userProfile.val().nickName;
+            this.$store.dispatch('setUserProfile', { id, isTemp, nickName });
+            // const type = userProfile.val().type;
+            // const createdAt = userProfile.val().createdAt;
+            // const lastLogin = userProfile.val().lastLogin;
+            // read user generated data
+            db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
+              this.$store.dispatch('setUserData', {
+                favoriteHouses: [...(buyerData.val().favoriteHouses || [])],
+                searches: [...(buyerData.val().searches || [])],
+              });
+            });
+            // read userRooms
+            db.ref(`/userRooms/${id}`).on('value', (userRooms) => {
+              const userRoomsRes = userRooms.val();
+              if (userRoomsRes !== null) {
+                /* eslint-disable no-restricted-syntax */
+                for (const key in userRooms.val()) {
+                  /* eslint-disable no-prototype-builtins */
+                  if (userRoomsRes.hasOwnProperty(key)) {
+                    const room = { roomId: key };
+                    // query room members
+                    db.ref(`/rooms/${key}`).once('value', (roomRes) => {
+                      if (roomRes.val()) {
+                        room.createdAt = roomRes.val().createdAt;
+                        room.createdBy = roomRes.val().createdBy;
+                        room.members = roomRes.val().members;
+                        this.$store.dispatch('addRoom', { room });
+                      }
+                    });
+                  }
+                }
+              }
+            });
+          } else {
+            // user doesn't exists
+            // create a user profile
+            console.log('creating user ', id);
+            const updates = {};
+            updates[`/users/${id}`] = {
+              isTemp,
+              type: 'buyer',
+              nickName: 'Visitor',
+              createdAt: timeStamp,
+              lastLogin: timeStamp,
+            };
+            // create a buyer data
+            updates[`/buyerData/${id}`] = {
+              favoriteHouses: [],
+              searches: [],
+              lastUpdate: timeStamp,
+            };
+            db.ref().update(updates).then(() => {
+              this.$store.dispatch('setUser',
+                {
+                  id,
+                  isTemp,
+                  nickName: 'Visitor',
+                  favoriteHouses: [],
+                  searches: [],
+                  userRooms: [],
+                }
+              );
+            });
+          }
+        });
+        // ...
+      } else {
+        // User is signed out.
+        // Do an anonymously sign in
+        firebase.auth().signInAnonymously().catch((error) => {
+          console.log('error during sign in anonymously', error);
+        });
+      }
+    });
+  },
+  methods: {
+  },
 };
 </script>

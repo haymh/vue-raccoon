@@ -1,97 +1,162 @@
 <template>
-  <div>
-    <pre> {{ user }} </pre>
-    <pre> {{ rooms }} </pre>
-    <ul>
-      <li v-for="person in peopleList">
-        <el-button @click.native="openChat(person)">
-          {{ person['.key'] }}
-        </el-button>
-      </li>
-    </ul>
+<div class="chat">
+  <div class="sidebar">
+    <!-- <card></card> -->
+    <div class="list">
+      <ul>
+        <li v-for="person in peopleList" :class="{ active: false }" @click="openChat(person)">
+          <!-- <img class="avatar"  width="30" height="30" :alt="item.user.name" :src="item.user.img"> -->
+          <p class="name">{{person['.key']}}</p>
+        </li>
+      </ul>
+    </div>
   </div>
+  <ChatRoom :room-id="activeRoomId" :userId="userId"></ChatRoom>
+</div>
 </template>
+
+<style scoped>
+.chat {
+  margin: 20px auto;
+  width: 800px;
+  height: 600px;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.sidebar,
+.main {
+  height: 100%;
+}
+
+.main {
+  position: relative;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.sidebar {
+  float: left;
+  width: 300px;
+  color: #f4f4f4;
+  background-color: #2e3238;
+}
+
+.list ul {
+  list-style-type: none;
+}
+
+.list li {
+  padding: 12px 15px;
+  border-bottom: 1px solid #292C33;
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.list li:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.list li.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.list .avatar,
+.list .name {
+  vertical-align: middle;
+}
+
+.list .avatar {
+  border-radius: 2px;
+}
+
+.list .name {
+  display: inline-block;
+  margin: 0 0 0 15px;
+}
+</style>
 <script>
-import firebase from 'firebase';
-// Initialize Firebase
-const config = {
-  apiKey: 'AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ',
-  authDomain: 'raccoon-c86bb.firebaseapp.com',
-  databaseURL: 'https://raccoon-c86bb.firebaseio.com',
-  storageBucket: 'raccoon-c86bb.appspot.com',
-  messagingSenderId: '198553806411',
-};
-firebase.initializeApp(config);
-const db = firebase.database();
-const peopleListRef = db.ref('/user');
-const userRef = db.ref('/user/-KTNGLIn1MJFdYEPVSpW');
-const userRooms = userRef.child('rooms');
-const roomRef = db.ref('/room');
+import { mapGetters } from 'vuex';
+import { db, timeStamp } from '../../api/fire';
+import ChatRoom from './ChatRoom.vue';
+
+const roomRef = db.ref('/rooms');
 
 
 export default {
   name: 'Chat',
   data() {
-    return {};
+    return {
+      activeRoomId: '',
+      peopleList: [],
+    };
   },
-  firebase: {
-    peopleList: peopleListRef,
-    user: {
-      source: userRef,
-      asObject: true,
-    },
-    rooms: userRooms,
-  },
-  watch: {
-    peopleList: {
-      handler() {
-        this.peopleList.map((person) => {
-          if (this.rooms.filter(room => room.other === person['.key']).length === 0) {
-            person.needRoom = true;
-          } else {
-            person.needRoom = false;
-          }
-          return person;
-        });
-      },
-    },
+  created() {
+    this.$bindAsArray('peopleList', db.ref('/users'));
   },
   computed: {
+    ...mapGetters([
+      'userId',
+      'userRooms',
+    ]),
+  },
+  components: {
+    ChatRoom,
+  },
+  watch: {
   },
   methods: {
     createRoom(userId, friendId) {
       // Get a key for a new Post.
       const roomKey = roomRef.push().key;
-      const userRoomKey = userRooms.push().key;
-      const friendRoomKey = peopleListRef.child(friendId).child('rooms').push().key;
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
-      updates[`/room/${roomKey}`] = {
-        messages: [],
+      updates[`/rooms/${roomKey}`] = {
+        members: {},
         createdBy: userId,
+        createdAt: timeStamp,
+      };
+      updates[`/rooms/${roomKey}`].members[userId] = { nickName: 'userId', status: true };
+      updates[`/rooms/${roomKey}`].members[friendId] = { nickName: 'friendId', status: false };
+      return {
+        promise: db.ref().update(updates),
+        roomKey,
+      };
+    },
+    addRoomToUser(userId, friendId, roomKey) {
+      const updates = {};
+      updates[`/userRooms/${userId}/${roomKey}`] = {
+        roomName: 'New Chat',
       };
 
-      updates[`/user/${userId}/rooms/${userRoomKey}`] = {
-        other: friendId,
-        status: false,
-        unreadCount: 0,
-      };
-
-      updates[`/user/${friendId}/rooms/${friendRoomKey}`] = {
-        other: userId,
-        status: false,
-        unreadCount: 0,
+      updates[`/userRooms/${friendId}/${roomKey}`] = {
+        roomName: 'New Chat',
       };
       return db.ref().update(updates);
     },
     openChat(friend) {
-      console.log(friend['.key'], 'needChat?', friend.needRoom);
-      if (friend.needRoom) {
-        this.createRoom(this.user['.key'], friend['.key']).then(() => {
-          console.log('cao ni ma!!!!!!!!!!!');
+      const roomId = this.roomId(friend);
+      if (roomId) {
+        this.activeRoomId = roomId;
+      } else {
+        const { promise, roomKey } = this.createRoom(this.userId, friend['.key']);
+        promise
+        .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
+        .then(() => {
+          this.activeRoomId = roomKey;
+        })
+        .catch((e) => {
+          console.log(e);
         });
       }
+    },
+    roomId(friend) {
+      const res = this.userRooms.filter(room => room.members[friend['.key']] !== undefined);
+      if (res.length === 0) {
+        return undefined;
+      }
+      return res[0].roomId;
     },
   },
 };
