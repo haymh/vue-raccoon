@@ -15,6 +15,7 @@
   "dependencies": {
     "element-ui": "^1.0.0-rc.5",
     "firebase": "^3.4.1",
+    "flexboxgrid": "^6.3.1",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.0",

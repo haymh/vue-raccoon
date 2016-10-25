@@ -8,14 +8,16 @@
         <router-link to="/hello">Hello</router-link>
         <router-link to="/view1">View1</router-link>
         <router-link to="/chat">Chat</router-link>
+        <router-link to="/main">Main</router-link>
       </div>
     </div>
     <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
+      <router-view></router-view>
     </transition>
   </div>
 </template>
 <style>
+
 body {
 	font-family: Roboto, Helvetica, sans-serif;
 	font-size: 15px;
@@ -84,11 +86,7 @@ a {
 	vertical-align: middle;
 }
 
-.view {
-	max-width: 800px;
-	margin: 0 auto;
-	position: relative;
-}
+
 
 .fade-enter-active,
 .fade-leave-active {
