@@ -20,18 +20,18 @@ export default {
 </script>
 
 <template>
-<div class="text">
+<div class="ChatTextBox">
   <textarea placeholder="按 Ctrl + Enter 发送" v-model="content" @keyup="onKeyup"></textarea>
 </div>
 </template>
 
 <style scoped>
-.text {
+.ChatTextBox {
   height: 160px;
   border-top: solid 1px #ddd;
 }
 
-.text textarea {
+.ChatTextBox textarea {
   padding: 10px;
   height: 100%;
   width: 100%;

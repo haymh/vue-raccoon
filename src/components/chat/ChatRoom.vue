@@ -1,6 +1,6 @@
 <template>
-<div class="main">
-  <div class="message">
+<div class="ChatRoom">
+  <div class="message" v-scroll-bottom>
     <!-- <pre>{{messageList}}</pre> -->
     <ul v-if="messageList">
       <li v-for="msg in messageList">
@@ -8,7 +8,7 @@
           <span>{{ msg.sentAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
-          <!-- <img class="avatar" width="30" height="30" :src="item.self ? user.img : session.user.img" /> -->
+          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : friend.avatar" />
           <div class="text">{{ msg.content }}</div>
         </div>
       </li>
@@ -18,8 +18,8 @@
 </div>
 </template>
 
-<style scoped>
-  .text {
+<style>
+  .ChatTextBox {
     position: absolute;
     width: 100%;
     height: 10%;
@@ -33,6 +33,9 @@
     height: calc(100% - 180px);
   }
 
+  .message ul {
+    list-style-type: none;
+  }
   .message li {
     margin-bottom: 15px;
   }
@@ -54,7 +57,7 @@
   .message .avatar {
     float: left;
     margin: 0 10px 0 0;
-    border-radius: 3px;
+    border-radius: 50%;
   }
 
   .message .text {
@@ -68,7 +71,7 @@
     text-align: left;
     word-break: break-all;
     background-color: #fafafa;
-    border-radius: 4px;
+    border-radius: 6px;
   }
 
   .message .text:before {
@@ -106,7 +109,7 @@ import ChatTextBox from './ChatTextBox.vue';
 
 export default {
   name: 'ChatRoom',
-  props: ['roomId', 'userId'],
+  props: ['roomId', 'userId', 'user', 'friend'],
   data() {
     return {
       messageList: [],
@@ -122,7 +125,7 @@ export default {
   },
   directives: {
     'scroll-bottom': {
-      update: (el) => {
+      componentUpdated: (el) => {
         el.scrollTop = el.scrollHeight - el.clientHeight;
       },
     },

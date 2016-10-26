@@ -149,11 +149,7 @@ export default {
           if (userProfile.val() !== null) {
             // user exists
             // read user profile
-            const nickName = userProfile.val().nickName;
-            this.$store.dispatch('setUserProfile', { id, isTemp, nickName });
-            // const type = userProfile.val().type;
-            // const createdAt = userProfile.val().createdAt;
-            // const lastLogin = userProfile.val().lastLogin;
+            this.$store.dispatch('setUserProfile', { id, ...userProfile.val() });
             // read user generated data
             db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
               this.$store.dispatch('setUserData', {
@@ -169,14 +165,11 @@ export default {
                 for (const key in userRooms.val()) {
                   /* eslint-disable no-prototype-builtins */
                   if (userRoomsRes.hasOwnProperty(key)) {
-                    const room = { roomId: key };
                     // query room members
                     db.ref(`/rooms/${key}`).once('value', (roomRes) => {
-                      if (roomRes.val()) {
-                        room.createdAt = roomRes.val().createdAt;
-                        room.createdBy = roomRes.val().createdBy;
-                        room.members = roomRes.val().members;
-                        this.$store.dispatch('addRoom', { room });
+                      const room = roomRes.val();
+                      if (room) {
+                        this.$store.dispatch('addRoom', { roomId: key, ...room });
                       }
                     });
                   }

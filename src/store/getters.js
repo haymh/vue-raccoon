@@ -7,6 +7,7 @@ export const user = (state) => {
     favoriteHouses: state.user.favoriteHouses,
     searches: state.user.searches,
     userRooms: state.user.userRooms,
+    avatar: state.user.avatar,
   };
 };
 

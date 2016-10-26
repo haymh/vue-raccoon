@@ -6,6 +6,7 @@ const state = {
   id: '',
   isTemp: true,
   nickName: '',
+  avatar: '',
   favoriteHouses: [],
   searches: [],
   userRooms: [],
@@ -13,19 +14,22 @@ const state = {
 
 // mutations
 const mutations = {
-  [types.CHANGE_USER](_state, { id, isTemp, nickName, favoriteHouses, searches, userRooms }) {
+  [types.CHANGE_USER](_state,
+     { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
     _state.nickName = nickName;
     _state.favoriteHouses = favoriteHouses;
     _state.searches = searches;
     _state.userRooms = userRooms;
+    _state.avatar = avatar;
   },
 
-  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickName }) {
+  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickName, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
     _state.nickName = nickName;
+    _state.avatar = avatar;
   },
 
   [types.LOAD_USER_DATA](_state, { favoriteHouses, searches }) {
@@ -37,7 +41,7 @@ const mutations = {
     _state.userRooms = userRooms;
   },
 
-  [types.ADD_ROOM](_state, { room }) {
+  [types.ADD_ROOM](_state, room) {
     _state.userRooms.push(room);
   },
 
