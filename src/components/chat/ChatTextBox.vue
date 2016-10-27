@@ -8,9 +8,18 @@ export default {
     };
   },
   methods: {
+    onKeypress(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+      }
+    },
     onKeyup(e) {
-      if (e.ctrlKey && e.keyCode === 13 && this.content.length) {
-        // this.sendMessage(this.content);
+      if (e.keyCode === 13 && !e.shiftKey) {
+        this.send();
+      }
+    },
+    send() {
+      if (this.content.length > 0) {
         this.$emit('sendmessage', this.content);
         this.content = '';
       }
@@ -21,23 +30,39 @@ export default {
 
 <template>
 <div class="ChatTextBox">
-  <textarea placeholder="按 Ctrl + Enter 发送" v-model="content" @keyup="onKeyup"></textarea>
+    <textarea placeholder="按 Enter 发送" v-model="content" @keyup="onKeyup" @keypress="onKeypress"></textarea>
+    <div class="controls">
+      <el-button class="send-button" @click.native="send">Send</el-button>
+    </div>
 </div>
 </template>
 
 <style scoped>
 .ChatTextBox {
   height: 160px;
+  margin: 0;
   border-top: solid 1px #ddd;
 }
 
 .ChatTextBox textarea {
   padding: 10px;
-  height: 100%;
   width: 100%;
+  height: 120px;
+  box-sizing: border-box;
   border: none;
   outline: none;
-  font-family: "Micrsofot Yahei";
   resize: none;
+  font-size: 16px;
+  margin-bottom: 0;
+}
+.ChatTextBox .send-button {
+  height: 100%;
+  font-weight: bold;
+}
+.controls{
+  margin-top: 0;
+  padding-top: 0;
+  background-color: white;
+  text-align: right;
 }
 </style>

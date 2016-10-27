@@ -2,6 +2,16 @@
 <div class="chat">
   <div class="sidebar">
     <!-- <card></card> -->
+    <header class="row">
+      <div class="col-xs-2">
+        <img class="avatar" :src="user.avatar" alt="" />
+      </div>
+      <div class="col-xs-10">
+        <el-input class="searchbar" size="small" placeholder="搜索">
+          <el-button slot="append" icon="search"></el-button>
+        </el-input>
+      </div>
+    </header>
     <ChatList :peopleList="peopleList" v-on:openchat="openChat"></Chatlist>
   </div>
   <ChatRoom :room-id="activeRoomId" :userId="userId" :friend="activeFriend" :user="user"></ChatRoom>
@@ -17,6 +27,24 @@
   border-radius: 3px;
 }
 
+.sidebar {
+  float: left;
+  width: 300px;
+  color: #f4f4f4;
+  background-color: #2e3238;
+}
+.sidebar header {
+  padding: 10px;
+}
+.sidebar .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.sidebar input {
+  color: white;
+  background-color: #2e3238;
+}
 .sidebar,
 .ChatRoom {
   height: 100%;
@@ -28,13 +56,6 @@
   background-color: #eee;
 }
 
-.sidebar {
-  float: left;
-  width: 300px;
-  color: #f4f4f4;
-  background-color: #2e3238;
-}
-
 .ChatList {
   height: 100%;
   overflow-y: scroll;
@@ -42,6 +63,7 @@
 
 .ChatList ul {
   list-style-type: none;
+  padding-left: 0;
 }
 
 .ChatList li {
