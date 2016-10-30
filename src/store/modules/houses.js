@@ -10,6 +10,7 @@ const state = {
 };
 
 // mutations
+/* eslint-disable no-param-reassign */
 const mutations = {
   [types.RECEIVE_HOUSES](_state, { houses }) {
     _state.all = houses;
@@ -69,6 +70,7 @@ const mutations = {
     }
   },
 };
+/* eslint-enable no-param-reassign */
 
 export default {
   state,
