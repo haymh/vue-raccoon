@@ -13,6 +13,7 @@ const state = {
 };
 
 // mutations
+/* eslint-disable no-param-reassign */
 const mutations = {
   [types.CHANGE_USER](_state,
      { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar }) {
@@ -59,6 +60,7 @@ const mutations = {
     }
   },
 };
+/* eslint-enable no-param-reassign */
 
 export default {
   state,
