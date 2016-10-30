@@ -8,6 +8,7 @@
         <router-link to="/hello">Hello</router-link>
         <router-link to="/view1">View1</router-link>
         <router-link to="/chat">Chat</router-link>
+        <router-link to="/map">Map</router-link>
       </div>
     </div>
     <transition name="fade" mode="out-in">
@@ -85,7 +86,7 @@ a {
 }
 
 .view {
-	max-width: 800px;
+	max-width: 1200px;
 	margin: 0 auto;
 	position: relative;
 }
