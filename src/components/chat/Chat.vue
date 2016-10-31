@@ -1,7 +1,6 @@
 <template>
 <div class="chat">
   <div class="sidebar">
-    <!-- <card></card> -->
     <header class="row">
       <div class="col-xs-2">
         <img class="avatar" :src="user.avatar" alt="" />
@@ -20,9 +19,9 @@
 
 <style>
 .chat {
-  margin: 20px auto;
-  width: 800px;
-  height: 600px;
+  margin: 10px auto;
+  width: 100vw;
+  height: 90vh;
   overflow: hidden;
   border-radius: 3px;
 }
@@ -39,6 +38,7 @@
 .sidebar .avatar {
   width: 40px;
   height: 40px;
+  background-image: url('http://placehold.it/40x40');
   border-radius: 50%;
 }
 .sidebar input {
@@ -78,7 +78,7 @@
 }
 
 .ChatList li.active {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: black;
 }
 
 .ChatList .avatar,

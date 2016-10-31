@@ -1,9 +1,26 @@
 <template>
   <div class="ChatList">
     <ul>
-      <li v-for="person in peopleList" :class="{ active: false }" @click="openChat(person)">
-        <img class="avatar"  width="50" height="50" :alt="person.nickName" :src="person.avatar">
-        <p class="name">{{person.nickName}}</p>
+      <li v-for="(person, index) in peopleList" :class="{ active: isActive(index) }" @click="openChat(person, index)">
+        <div class="row">
+          <div class="col-xs-2">
+            <img class="avatar"  width="50" height="50" :alt="person.nickName" :src="person.avatar">
+          </div>
+          <div class="col-xs-8">
+            <p class="name">{{person.nickName}}</p>
+          </div>
+          <div class="col-xs-2">
+            <el-dropdown>
+              <span class="el-dropdown-link">
+                <i class="el-icon-caret-bottom"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>Add</el-dropdown-item>
+                <el-dropdown-item>Block</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -21,7 +38,7 @@ export default {
   props: ['peopleList'],
   data() {
     return {
-      activeRoomId: '',
+      activeIndex: null,
     };
   },
   computed: {
@@ -64,8 +81,9 @@ export default {
       };
       return db.ref().update(updates);
     },
-    openChat(friend) {
-      console.log('open chat');
+    openChat(friend, index) {
+      console.log('open chat', index);
+      this.activeIndex = index;
       const roomId = this.roomId(friend);
       if (roomId) {
         this.$emit('openchat', { roomId, friend });
@@ -87,6 +105,10 @@ export default {
         return undefined;
       }
       return res[0].roomId;
+    },
+    isActive(index) {
+      console.log(index);
+      return this.activeIndex === index;
     },
   },
 };

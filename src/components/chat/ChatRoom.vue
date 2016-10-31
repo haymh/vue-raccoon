@@ -1,7 +1,14 @@
 <template>
 <div class="ChatRoom">
+  <div class="topbar row">
+    <p>
+      {{ friend.nickName }}
+    </p>
+    <el-button type="text">
+      <i class="el-icon-caret-bottom"></i>
+    </el-button>
+  </div>
   <div class="message" v-scroll-bottom>
-    <!-- <pre>{{messageList}}</pre> -->
     <ul v-if="messageList">
       <li v-for="msg in messageList">
         <p class="time">
@@ -19,6 +26,16 @@
 </template>
 
 <style>
+  .topbar {
+    margin: 0px 0px;
+    height: 40px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  }
+  .topbar p {
+    margin: auto;
+    text-align: center;
+  }
   .ChatTextBox {
     position: absolute;
     width: 100%;

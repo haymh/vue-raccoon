@@ -32,7 +32,7 @@ export default {
 <div class="ChatTextBox">
     <textarea placeholder="按 Enter 发送" v-model="content" @keyup="onKeyup" @keypress="onKeypress"></textarea>
     <div class="controls">
-      <el-button class="send-button" @click.native="send">Send</el-button>
+      <el-button type="text" class="send-button" @click.native="send">Send</el-button>
     </div>
 </div>
 </template>
