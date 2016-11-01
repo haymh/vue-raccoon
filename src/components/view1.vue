@@ -10,11 +10,13 @@
     <pre>{{ allHouses }}</pre>
     <h1>Filter Results</h1>
     <pre>{{ filterResults }}</pre>
+    <ChatBar></ChatBar>
   </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import FilterElement from './filter/Filter-element.vue';
+import ChatBar from './chat/ChatBar.vue';
 
 export default {
   name: 'view1',
@@ -23,7 +25,10 @@ export default {
     'allHouses',
     'filterResults',
   ]),
-  components: { FilterElement },
+  components: {
+    FilterElement,
+    ChatBar,
+  },
   methods: {
     searchHouse() {
       this.$store.dispatch('searchHouse');

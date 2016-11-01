@@ -33,7 +33,7 @@
     "chai": "^3.5.0",
     "chromedriver": "^2.21.2",
     "connect-history-api-fallback": "^1.1.0",
-    "cross-spawn": "^4.0.2",
+    "cross-spawn": "^5.0.0",
     "css-loader": "^0.25.0",
     "element-ui": "^1.0.0-rc.8",
     "eslint": "^3.9.0",
