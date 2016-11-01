@@ -2,11 +2,8 @@
 <div class="ChatRoom">
   <div class="topbar row">
     <p>
-      {{ friend.nickName }}
+      {{ (friend || { nickName: ''}).nickName }}
     </p>
-    <el-button type="text">
-      <i class="el-icon-caret-bottom"></i>
-    </el-button>
   </div>
   <div class="message" v-scroll-bottom>
     <ul v-if="messageList">
@@ -47,7 +44,7 @@
   .message {
     padding: 10px 15px;
     overflow-y: scroll;
-    height: calc(100% - 180px);
+    height: calc(100% - 220px);
   }
 
   .message ul {
