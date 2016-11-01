@@ -1,28 +1,57 @@
 <template>
-  <div>
-    <el-select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
-      <el-option
-        v-for="item in schema.conditions.price.minChoices"
-        :label="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <el-select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
-      <el-option
-        v-for="item in schema.conditions.price.maxChoices"
-        :label="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <el-select v-model="schema.conditions.bath.min">
-      <el-option
-        v-for="item in schema.conditions.bath.minChoices"
-        :label="item+'+'"
-        :value="item">
-      </el-option>
-    </el-select>
-  </div>
+<div>
+  <el-row>
+    <el-col :span="12">
+      <el-row :gutter="5">
+        <el-col :span="4">
+          <div class="text">Price:</div>
+        </el-col>
+        <el-col :span="9">
+          <el-select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
+            <el-option
+              v-for="item in schema.conditions.price.minChoices"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="2">
+          <div class="text">to</div>
+        </el-col>
+        <el-col :span="9">
+          <el-select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
+            <el-option
+              v-for="item in schema.conditions.price.maxChoices"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-select v-model="schema.conditions.bath.min">
+          <el-option
+            v-for="item in schema.conditions.bath.minChoices"
+            :label="item+'+'"
+            :value="item">
+          </el-option>
+        </el-select>
+      </el-row>
+    </el-col>
+    <el-col :span="12">
+      <div class="grid-content bg-purple-light">
+      </div>
+    </el-col>
+  </el-row>
+</div>
 </template>
+<style>
+.text {
+  display: inline-block;
+  vertical-align: middle;
+  align: center;
+}
+</style>
 <script>
 import { mapGetters } from 'vuex';
 import * as filterSchema from './filter-schema';
