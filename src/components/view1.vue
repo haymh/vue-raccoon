@@ -4,8 +4,8 @@
     <el-button type="primary" @click.native="searchHouse">search house</el-button>
     <el-button type="primary" @click.native="filter">filter</el-button>
     <FilterElement></FilterElement>
-    <h1>User</h1>
-    <pre>{{ user }}</pre>
+    <!-- <h1>User</h1>
+    <pre>{{ user }}</pre> -->
     <h1>All Houses</h1>
     <pre>{{ allHouses }}</pre>
     <h1>Filter Results</h1>

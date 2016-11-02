@@ -1,12 +1,12 @@
 <template>
 <div>
-  <el-row>
-    <el-col :span="12">
-      <el-row :gutter="5">
-        <el-col :span="4">
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="row">
+        <div class="col-xs-2">
           <div class="text">Price:</div>
-        </el-col>
-        <el-col :span="9">
+        </div>
+        <div class="col-xs-4">
           <el-select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
             <el-option
               v-for="item in schema.conditions.price.minChoices"
@@ -14,11 +14,11 @@
               :value="item">
             </el-option>
           </el-select>
-        </el-col>
-        <el-col :span="2">
+        </div>
+        <div class="col-xs-2">
           <div class="text">to</div>
-        </el-col>
-        <el-col :span="9">
+        </div>
+        <div class="col-xs-4">
           <el-select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
             <el-option
               v-for="item in schema.conditions.price.maxChoices"
@@ -26,22 +26,71 @@
               :value="item">
             </el-option>
           </el-select>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-select v-model="schema.conditions.bath.min">
-          <el-option
-            v-for="item in schema.conditions.bath.minChoices"
-            :label="item+'+'"
-            :value="item">
-          </el-option>
-        </el-select>
-      </el-row>
-    </el-col>
-    <el-col :span="12">
-      <div class="grid-content bg-purple-light">
+        </div>
       </div>
-    </el-col>
+      <div class="row">
+        <div class="col-xs-2">
+          <div class="text">Bed:</div>
+        </div>
+        <div class="col-xs-4">
+          <el-select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
+            <el-option
+              v-for="item in schema.conditions.bed.minChoices"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-xs-2">
+          <div class="text">to</div>
+        </div>
+        <div class="col-xs-4">
+          <el-select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
+            <el-option
+              v-for="item in schema.conditions.bed.maxChoices"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-2">
+          <div class="text">Bath:</div>
+        </div>
+        <div class="col-xs-4">
+          <el-select v-model="schema.conditions.bath.min" @change="changeFilter('bath', false)">
+            <el-option
+              v-for="item in schema.conditions.bath.minChoices"
+              :label="item+'+'"
+              :value="item">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="text">Property Types:</div>
+        </div>
+        <div class="col-xs-8">
+          <div v-for="choice in schema.conditions.propertyType.choices">
+            <el-checkbox v-model="choice.checked" @change="changeFilter('propertyType', false)">{{ choice.value }}</el-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class="text">Listing Types:</div>
+        </div>
+        <div class="col-xs-8">
+          <div v-for="choice in schema.conditions.listingType.choices">
+            <el-checkbox v-model="choice.checked"  @change="changeFilter('listingType', false)">{{ choice.value }}</el-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
   </el-row>
 </div>
 </template>
