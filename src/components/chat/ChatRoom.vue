@@ -115,7 +115,8 @@ export default {
   filters: {
     time(date) {
       if (typeof date === 'string' || typeof date === 'number') {
-        date = new Date(date);
+        const paredDate = new Date(date);
+        return `${paredDate.getHours()}:${paredDate.getMinutes()}`;
       }
       return `${date.getHours()}:${date.getMinutes()}`;
     },

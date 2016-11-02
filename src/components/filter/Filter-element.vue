@@ -1,28 +1,109 @@
 <template>
-  <div>
-    <el-select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
-      <el-option
-        v-for="item in schema.conditions.price.minChoices"
-        :label="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <el-select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
-      <el-option
-        v-for="item in schema.conditions.price.maxChoices"
-        :label="item"
-        :value="item">
-      </el-option>
-    </el-select>
-    <el-select v-model="schema.conditions.bath.min">
-      <el-option
-        v-for="item in schema.conditions.bath.minChoices"
-        :label="item+'+'"
-        :value="item">
-      </el-option>
-    </el-select>
-  </div>
+<div>
+  <div class="columns">
+    <div class="column is-half">
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-2">
+          <label class="label">Price:</label>
+        </div>
+        <div class="column is-4">
+          <span class="select">
+          <select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
+            <option
+              v-for="item in schema.conditions.price.minChoices"
+              :label="item"
+              :value="item">
+            </option>
+          </select>
+        </span>
+        </div>
+        <div class="column is-2">
+          <div class="text">to</div>
+        </div>
+        <div class="column is-4">
+          <span class="select">
+          <select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
+            <option
+              v-for="item in schema.conditions.price.maxChoices"
+              :label="item"
+              :value="item">
+            </option>
+          </select>
+        </span>
+        </div>
+        <div class="column is-2">
+          <div class="text">Bed:</div>
+        </div>
+        <div class="column is-4">
+          <span class="select">
+          <select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
+            <option
+              v-for="item in schema.conditions.bed.minChoices"
+              :label="item"
+              :value="item">
+            </option>
+          </select>
+        </span>
+        </div>
+        <div class="column is-2">
+          <div class="text">to</div>
+        </div>
+        <div class="column is-4">
+          <span class="select">
+          <select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
+            <option
+              v-for="item in schema.conditions.bed.maxChoices"
+              :label="item"
+              :value="item">
+            </option>
+          </select>
+        </span>
+        </div>
+        <div class="column is-2">
+          <div class="text">Bath:</div>
+        </div>
+        <div class="column is-4">
+          <span class="select">
+          <select v-model="schema.conditions.bath.min" @change="changeFilter('bath', false)">
+            <option
+              v-for="item in schema.conditions.bath.minChoices"
+              :label="item+'+'"
+              :value="item">
+            </option>
+          </select>
+        </span>
+        </div>
+      </div>
+    </div>
+    <div class="column is-half">
+      <div class="columns is-multiline is-mobile">
+        <div class="column is-4">
+          <div class="text">Property Types:</div>
+        </div>
+        <div class="column is-8">
+          <div v-for="choice in schema.conditions.propertyType.choices">
+            <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', false)">{{ choice.value }}</input>
+          </div>
+        </div>
+        <div class="column is-4">
+          <div class="text">Listing Types:</div>
+        </div>
+        <div class="column is-8">
+          <div v-for="choice in schema.conditions.listingType.choices">
+            <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', false)">{{ choice.value }}</input>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 </template>
+<style>
+.text {
+  display: inline-block;
+  vertical-align: middle;
+  align: center;
+}
+</style>
 <script>
 import { mapGetters } from 'vuex';
 import * as filterSchema from './filter-schema';

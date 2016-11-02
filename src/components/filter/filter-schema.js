@@ -104,9 +104,9 @@ export const schema = {
       key: 'price',
       ...betweenType,
       minChoices: [NO_MIN, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
-         80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
+        80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
       maxChoices: [NO_MAX, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
-         80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
+        80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
     },
     bed: {
       key: 'bed',
@@ -148,17 +148,17 @@ export const schema = {
       minChoices: [NO_MIN, 2016, 2015, 2014, 2000, 1990],
       maxChoices: [NO_MAX, 2016, 2015, 2014, 2000, 1990],
     },
-    propertyTypes: {
+    propertyType: {
       key: 'propertyTypes',
       type: ONEOF,
       choices: [
-        { value: 'Single_family', checked: true },
+        { value: 'Single_Family', checked: true },
         { value: 'Townhouse', checked: true },
         { value: 'Apartment', checked: true },
         { value: 'Condo', checked: true },
       ],
     },
-    listingTypes: {
+    listingType: {
       key: 'listingTypes',
       type: ONEOF,
       choices: [

@@ -10,6 +10,7 @@ const state = {
 };
 
 // mutations
+/* eslint-disable no-param-reassign */
 const mutations = {
   [types.RECEIVE_HOUSES](_state, { houses }) {
     _state.all = houses;
@@ -39,20 +40,7 @@ const mutations = {
       _state.filterResults = _state.all;
       return;
     }
-    _state.filterResults = _state.all.filter((house) => {
-      for (let i = 0; i < filter.length; i += 1) {
-        const condition = filter[i];
-        switch (condition.type) {
-          case filterSchema.BETWEEN:
-            if (house.price < condition.min || house.price > condition.max) {
-              return false;
-            }
-            break;
-          default:
-        }
-      }
-      return true;
-    });
+    let toFilter = _state.all;
     if (isDelta) {
       // merge into lastFilter
       console.log('merge');
@@ -64,11 +52,48 @@ const mutations = {
           _state.lastFilter[i] = condition;
         }
       });
+      // filter from last filter results
+      toFilter = _state.filterResults;
     } else {
       _state.lastFilter = filter;
     }
+    _state.filterResults = toFilter.filter((house) => {
+      for (let i = 0; i < filter.length; i += 1) {
+        const condition = filter[i];
+        switch (condition.type) {
+          case filterSchema.BETWEEN:
+            if (house[condition.key] < condition.min || house[condition.key] > condition.max) {
+              return false;
+            }
+            break;
+          case filterSchema.GREATER:
+            if (house[condition.key] < condition.min) {
+              return false;
+            }
+            break;
+          case filterSchema.LESS:
+            if (house[condition.key] > condition.max) {
+              return false;
+            }
+            break;
+          case filterSchema.ONEOF:
+            for (let j = 0; j < condition.choices.length; j += 1) {
+              if (condition.choices[j].value === house[condition.key]) {
+                if (!condition.choices[j].checked) {
+                  return false;
+                }
+                break;
+              }
+            }
+            break;
+          default:
+        }
+      }
+      return true;
+    });
   },
 };
+/* eslint-enable no-param-reassign */
 
 export default {
   state,
