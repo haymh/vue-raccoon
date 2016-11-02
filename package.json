@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "bulma": "^0.2.3",
     "element-ui": "^1.0.0-rc.5",
     "firebase": "^3.4.1",
     "vue": "^2.0.1",

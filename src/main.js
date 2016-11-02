@@ -3,14 +3,12 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import VueFire from 'vuefire';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
+import 'bulma/css/bulma.css';
 
 import App from './App.vue';
 import router from './router';
 import store from './store';
 
-Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueFire);
 
