@@ -1,15 +1,26 @@
 <template>
-<div class="ChatBar">
-  <div class="toggle-bar" @click="toggleChat()" :style="{ 'background-color': toggleBarColor }">
-    <label>Chat</label>
+  <div class="ChatBar">
+    <div class="ChatBarList">
+      <div class="toggle-bar" @click="toggleChat()" :style="{ 'background-color': toggleBarColor }">
+        <p class="subtitle">Chat</p>
+      </div>
+      <div class="" :style="{ display: chatPanelDisplay }">
+        <ChatList :peopleList="peopleList" v-on:openchat="openChat"></ChatList>
+      </div>
+    </div>
+    <div class="ChatBarRoom" :style="{ display: chatRoomBarDisplay }">
+      <div class="toggle-bar" @click="toggleRoom()" :style="{ 'background-color': toggleBarColor }">
+        <p class="subtitle">Room</p>
+      </div>
+      <div class="" :style="{ display: chatRoomDisplay }">
+        <ChatRoom :room-id="activeRoomId" :userId="userId" :friend="activeFriend" :user="user"></ChatRoom>
+      </div>
+    </div>
   </div>
-  <div class="" :style="{ display: chatPanelDisplay }">
-    <ChatList :peopleList="peopleList" :openchat="openChat"></ChatList>
-  </div>
-</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { db } from '../../api/fire';
 import ChatRoom from './ChatRoom.vue';
 import ChatList from './ChatList.vue';
@@ -20,11 +31,22 @@ export default {
     return {
       chatPanelOpen: false,
       chatPanelDisplay: 'none',
+      chatRoomOpen: false,
+      chatRoomBarDisplay: 'none',
+      chatRoomDisplay: 'none',
       toggleBarColor: 'white',
+      activeRoomId: '',
+      activeFriend: null,
     };
   },
   created() {
     this.$bindAsArray('peopleList', db.ref('/users').orderByChild('type').equalTo('agent'));
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+      'user',
+    ]),
   },
   components: {
     ChatRoom,
@@ -42,15 +64,27 @@ export default {
       }
       console.log('open', this.chatPanelDisplay, this.chatPanelOpen);
     },
-    openChat() {
+    toggleRoom() {
+      this.chatRoomOpen = !this.chatRoomOpen;
+      if (this.chatRoomOpen) {
+        this.chatRoomDisplay = 'block';
+      } else {
+        this.chatRoomDisplay = 'none';
+      }
+    },
+    openChat({ roomId, friend }) {
       console.log('openChat');
+      this.activeRoomId = roomId;
+      this.activeFriend = friend;
+      this.chatRoomBarDisplay = 'block';
+      this.chatRoomDisplay = 'block';
     },
   },
 };
 </script>
 
 <style>
-.ChatBar {
+.ChatBar .ChatBarList {
   position: fixed;
   bottom: 0;
   left: 40px;
@@ -66,6 +100,11 @@ export default {
   height: 35px;
   padding: 2px 15px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.ChatBar .toggle-bar p {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
 }
 .ChatBar .ChatList {
   min-height: 300px;
@@ -99,5 +138,18 @@ export default {
 .ChatBar .ChatList .name {
   display: inline-block;
   margin: 0 0 0 15px;
+}
+
+.ChatBar .ChatBarRoom {
+  position: fixed;
+  bottom: 0;
+  left: 360px;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  border-radius: 4px;
+}
+.ChatBar .ChatRoom {
+  height: 500px;
 }
 </style>
