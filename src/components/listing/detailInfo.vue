@@ -1,27 +1,29 @@
 <template>
-  <div id="detailInfo">
-    <div class="detailInfoWrapper">
-      <div class="title">
-        南北双通透 精装三居室 好位置 仅有契税
-      </div>
-      <div class="location">
-        <img class="locationIcon" src="./locationIcon.png"></img>
-        <div class="locationText">830 azusa #65 Azusa, CA 91702</div>
-      </div>
-      <div class="amenities">
-        <div class="leftColumn">
-          <div class="leftUnorderedList">
-            <li>$/Sq. Ft.: <b>$69</b></li>
-            <li>Days Online: <b>1</b></li>
-            <li>HOA: <b>None</b></li>
-          </div>
-        </div>
-        <div class="rightColumn">
-          <div class="rightUnorderedList">
-            <li>Year Built: <b>2004</b></li>
-            <li>Lot Size: <b>-</b></li>
-            <li>Status: <b>Active</b></li>
-          </div>
+  <div class="detail-info-wrapper">
+    <header class="card-header">
+      <h1 class="title">{{listingData.title}}</h1>
+    </header>
+    <div class="heading" style="padding-left: 10px">{{viewVisit}}</div>
+    <table class="table is-striped detail">
+      <tbody>
+        <tr>
+          <td>$/Sq. Ft.: <b>{{'$'+numberFormat(listingData.sqftPrice)}}</b></td>
+          <td>Year Built: <b>{{listingData.yearBuilt}}</b></td>
+        </tr>
+        <tr>
+          <td>Days Online: <b>{{daysOnline}}</b></td>
+          <td>Lot Size: <b>{{lot}}</b></td>
+        </tr>
+        <tr>
+          <td>HOA: <b>{{hoa}}</b></td>
+          <td>Status: <b>{{listingData.status}}</b></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item" v-for="tag in listingData.tags">
+          <a v-bind:class="['button',tagStyle(tag),'is-small','is-outlined']">{{tag}}</a>
         </div>
       </div>
     </div>
@@ -38,43 +40,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.location {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 10px;
+.detail {
+  margin-bottom: 0px;
 }
-.locationIcon {
-  display: inline-block;
-  height: 15px;
-}
-.locationText {
-  display: inline-block;
-}
-.leftUnorderedList {
-  list-style-type: none;
-}
-.rightUnorderedList {
-  list-style-type: none;
-}
-li {
-  line-height: 30px;
-  border-top-width: 1px;
-  border-bottom: solid #e6e6e6;
-  border-bottom-width: 1px;
-}
-.amenities {
-  border-top: solid #e6e6e6;
-  border-top-width: 1px;
-}
-.leftColumn {
-  display: inline-block;
-  width: 49%;
-}
-.rightColumn {
-  display: inline-block;
-  width: 49%;
-}
-.detailInfoWrapper {
+.detail-info-wrapper {
   font-family: serif;
   color: #727272;
   margin: 5px;
@@ -84,6 +53,59 @@ li {
 <script>
 export default {
   name: 'DetailInfo',
-  el: '#detailInfo',
+  props: ['listingData'],
+  created() {
+    this.viewVisit = this.numberFormat(this.listingData.views)
+                      .concat(' views/')
+                      .concat(this.numberFormat(this.listingData.visits))
+                      .concat(' visits');
+    if (this.listingData.postDate) {
+      this.daysOnline = this.daysFromToday(this.listingData.postDate);
+    }
+    if (this.listingData.lotSize) {
+      this.lot = this.numberFormat(this.listingData.lotSize);
+    } else {
+      this.lot = '-';
+    }
+    if (this.listingData.hoa) {
+      this.hoa = ('$').concat(this.numberFormat(this.listingData.hoa));
+    } else {
+      this.hoa = 'None';
+    }
+  },
+  methods: {
+    numberFormat(n) {
+      this.k = '';
+      this.number = n;
+      while (this.number > 1000) {
+        this.m = this.number % 1000;
+        this.d = '';
+        if (this.m === 0) {
+          this.d = '000';
+        } else {
+          this.d = this.m.toString();
+        }
+        this.k = (',').concat(this.d).concat(this.k);
+        this.number /= 1000;
+      }
+      this.k = (this.number).toString().concat(this.k);
+      return this.k;
+    },
+    daysFromToday(dateStr) {
+      this.d = new Date(dateStr);
+      this.today = new Date();
+      return parseInt((this.today - this.d) / (24 * 3600 * 1000), 10);
+    },
+    tagStyle(tagStr) {
+      if (tagStr === 'Newly Constructed') {
+        return 'is-success';
+      } else if (tagStr === 'Open House') {
+        return 'is-danger';
+      } else if (tagStr === 'School') {
+        return 'is-info';
+      }
+      return '';
+    },
+  },
 };
 </script>

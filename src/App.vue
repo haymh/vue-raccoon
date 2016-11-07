@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <div class="header">
       <div class="inner">
         <router-link to="/" exact>
@@ -12,7 +14,9 @@
       </div>
     </div>
     <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
+			<div style="margin:80px">
+				<router-view class="view"></router-view>
+			</div>
     </transition>
   </div>
 </template>
