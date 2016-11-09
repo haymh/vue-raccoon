@@ -108,7 +108,7 @@ a {
 
 @media (max-width: 600px) {
 	body {
-		font-size: 14px;
+		/*font-size: 14px;*/
 	}
 
 	.header .inner {

@@ -7,13 +7,17 @@
   </div>
   <div class="message" v-scroll-bottom>
     <ul v-if="messageList">
-      <li v-for="msg in messageList">
-        <p class="time">
+      <li v-for="(msg, index) in messageList">
+        <p class="time" v-show="shouldDisplayTimeStamp(msg, index)">
           <span>{{ msg.sentAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
           <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : friend.avatar" />
-          <div class="text">{{ msg.content }}</div>
+          <div class="text">
+            <p>
+              {{ msg.content }}
+            </p>
+          </div>
         </div>
       </li>
     </ul>
@@ -44,7 +48,7 @@
   .message {
     padding: 10px 15px;
     overflow-y: scroll;
-    height: calc(100% - 220px);
+    height: calc(100% - 200px);
   }
 
   .message ul {
@@ -81,7 +85,6 @@
     max-width: calc(100% - 40px);
     min-height: 30px;
     line-height: 2.5;
-    font-size: 12px;
     text-align: left;
     word-break: break-all;
     background-color: #fafafa;
@@ -132,10 +135,10 @@ export default {
   filters: {
     time(date) {
       if (typeof date === 'string' || typeof date === 'number') {
-        const paredDate = new Date(date);
-        return `${paredDate.getHours()}:${paredDate.getMinutes()}`;
+        const d = new Date(date);
+        return `${d.toLocaleDateString()}, ${d.toLocaleTimeString()}`;
       }
-      return `${date.getHours()}:${date.getMinutes()}`;
+      return null;
     },
   },
   directives: {
@@ -161,6 +164,18 @@ export default {
   methods: {
     isMsgMyself(message) {
       return message.sentBy === this.userId;
+    },
+    shouldDisplayTimeStamp(msg, index) {
+      const currentMsgSentAt = msg.sentAt;
+      if (index === 0) {
+        return true;
+      }
+      const lastMsg = this.messageList[index - 1];
+      if (lastMsg) {
+        const lastMsgSentAt = lastMsg.sentAt;
+        return currentMsgSentAt - lastMsgSentAt > 300000;
+      }
+      return false;
     },
     sendMessage(message) {
       console.log('ok', message);
