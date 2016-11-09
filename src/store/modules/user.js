@@ -16,7 +16,7 @@ const state = {
 /* eslint-disable no-param-reassign */
 const mutations = {
   [types.CHANGE_USER](_state,
-     { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar }) {
+    { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
     _state.nickName = nickName;

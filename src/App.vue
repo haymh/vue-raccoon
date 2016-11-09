@@ -203,7 +203,7 @@ export default {
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
-                }
+                },
               );
             });
           }
