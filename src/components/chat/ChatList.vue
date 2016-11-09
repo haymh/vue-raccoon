@@ -2,14 +2,14 @@
   <div class="ChatList">
     <ul>
       <li v-for="(person, index) in peopleList" :class="{ active: isActive(index) }" @click="openChat(person, index)">
-        <div class="row">
-          <div class="col-xs-2">
-            <img class="avatar"  width="50" height="50" :alt="person.nickName" :src="person.avatar">
+        <div class="columns is-mobile">
+          <div class="column is-3">
+            <img class="avatar" :alt="person.nickName" :src="person.avatar">
           </div>
-          <div class="col-xs-8">
+          <div class="column is-7">
             <p class="name">{{person.nickName}}</p>
           </div>
-          <div class="col-xs-2">
+          <div class="column is-2">
             <el-dropdown>
               <span class="el-dropdown-link">
                 <i class="el-icon-caret-bottom"></i>

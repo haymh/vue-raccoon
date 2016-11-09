@@ -1,11 +1,11 @@
 <template>
 <div class="chat">
   <div class="sidebar">
-    <header class="row">
-      <div class="col-xs-2">
+    <header class="columns is-mobile">
+      <div class="column is-3">
         <img class="avatar" :src="user.avatar" alt="" />
       </div>
-      <div class="col-xs-10">
+      <div class="column is-9">
         <el-input class="searchbar" size="small" placeholder="搜索">
           <el-button slot="append" icon="search"></el-button>
         </el-input>
