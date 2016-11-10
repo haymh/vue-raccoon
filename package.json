@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "bulma": "^0.2.3",
-    "element-ui": "^1.0.0-rc.9",
+    "element-ui": "1.0.0",
     "firebase": "^3.5.3",
     "vue": "^2.0.3",
     "vue-resource": "^1.0.3",

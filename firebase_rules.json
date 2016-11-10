@@ -22,6 +22,7 @@
           "$userId": {
             "nickName": { ".validate": "newData.isString() && newData.val().length < 20" },
             "status": { ".validate": "newData.isBoolean()" },
+            "unread": { ".validate": "newData.val() >= 0 && data.parent().child('status').val() === false" }
           }
         },
         "createdAt": { ".validate": "newData.val() <= now && !data.exists()" },

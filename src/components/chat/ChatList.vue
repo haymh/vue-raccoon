@@ -6,10 +6,13 @@
           <div class="column is-3">
             <img class="avatar" :alt="person.nickName" :src="person.avatar">
           </div>
-          <div class="column is-7">
+          <div class="column is-6">
             <p class="name">{{person.nickName}}</p>
           </div>
           <div class="column is-2">
+            <span class="tag is-danger">1</span>
+          </div>
+          <div class="column is-1">
             <el-dropdown>
               <span class="el-dropdown-link">
                 <i class="el-icon-caret-bottom"></i>

@@ -155,6 +155,7 @@ export default {
         console.log('roomId', this.roomId);
         if (this.roomId && this.roomId !== '') {
           this.$bindAsArray('messageList', db.ref(`/messages/${this.roomId}`));
+          this.$bindAsObject('roomMemberFriendUnread', db.ref(`/rooms/${this.roomId}/members/${this.friend['.key']}/unread`));
         }
       },
     },
@@ -185,6 +186,17 @@ export default {
         sentBy: this.userId,
       };
       this.$firebaseRefs.messageList.push(newMessage);
+      this.updateUnreadCount();
+    },
+    updateUnreadCount() {
+      let count = this.roomMemberFriendUnread['.value'];
+      if (count) {
+        count += 1;
+      } else {
+        count = 1;
+      }
+      console.log('unread ', count);
+      this.$firebaseRefs.roomMemberFriendUnread.set(count);
     },
   },
 };
