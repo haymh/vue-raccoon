@@ -155,7 +155,7 @@ export default {
         console.log('roomId', this.roomId);
         if (this.roomId && this.roomId !== '') {
           this.$bindAsArray('messageList', db.ref(`/messages/${this.roomId}`));
-          this.$bindAsObject('roomMemberFriendUnread', db.ref(`/rooms/${this.roomId}/members/${this.friend['.key']}/unread`));
+          this.$bindAsObject('roomMemberFriendUnread', db.ref(`/unread/${this.friend['.key']}/${this.roomId}`));
         }
       },
     },

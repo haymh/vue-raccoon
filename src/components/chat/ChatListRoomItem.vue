@@ -9,7 +9,7 @@
           <p class="name">{{person.nickName}}</p>
         </div>
         <div class="column is-2">
-          <span v-show="showUnread()" class="tag is-danger">{{ this.room.members[this.userId].unread }}</span>
+          <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>
         </div>
         <div class="column is-1">
           <el-dropdown>
@@ -43,11 +43,17 @@ export default {
     const personId = this.notMe(this.room.members);
     console.log('Other Person Id: ', personId);
     this.$bindAsObject('person', db.ref(`/users/${personId}`));
+    this.$bindAsObject('unread', db.ref(`/unread/${this.userId}/${this.room.roomId}`));
   },
   computed: {
     ...mapGetters([
       'userId',
     ]),
+  },
+  filters: {
+    unreadFormatter(count) {
+      return count > 10 ? '10+' : count;
+    },
   },
   methods: {
     // returns the member that is not current user
@@ -61,7 +67,8 @@ export default {
       return undefined;
     },
     showUnread() {
-      const unread = this.room.members[this.userId].unread;
+      const unread = this.unread['.value'];
+      console.log(unread);
       return unread && unread > 0;
     },
   },

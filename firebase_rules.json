@@ -21,8 +21,7 @@
         "members": {
           "$userId": {
             "nickName": { ".validate": "newData.isString() && newData.val().length < 20" },
-            "status": { ".validate": "newData.isBoolean()" },
-            "unread": { ".validate": "newData.val() >= 0 && data.parent().child('status').val() === false" }
+            "status": { ".validate": "newData.isBoolean()" }
           }
         },
         "createdAt": { ".validate": "newData.val() <= now && !data.exists()" },
@@ -42,6 +41,21 @@
           "sentAt": { ".validate": "newData.val() <= now" },
           "content": { ".validate": "newData.isString() && newData.val().length > 0" },
         }
+      }
+    },
+    "unread": {
+      "$userId": {
+        ".read": "auth.uid === $userId",
+        ".write": "auth !== null",
+        "$roomId": {
+          ".validate": "newData.val() >= 0 && root.child('presence/' + $userId).val() === false"
+        }
+      }
+    },
+    "presence": {
+      "$userId": {
+        // only user self can write
+        ".write": "auth.uid === $userId"
       }
     },
     "users": {
