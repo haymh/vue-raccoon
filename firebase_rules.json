@@ -48,7 +48,7 @@
         ".read": "auth.uid === $userId",
         ".write": "auth !== null",
         "$roomId": {
-          ".validate": "newData.val() >= 0 && root.child('presence/' + $userId).val() === false"
+          ".validate": "newData.val() >= 0"
         }
       }
     },

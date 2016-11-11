@@ -145,6 +145,14 @@ export default {
         // User is signed in.
         const id = user.uid;
         const isTemp = user.isAnonymous;
+        // Change user online status
+        const userPresenceRef = db.ref(`/presence/${id}`);
+        db.ref('.info/connected').on('value', (snapshot) => {
+          if (snapshot.val()) {
+            userPresenceRef.onDisconnect().set(false); // or remove this node
+            userPresenceRef.set(true);
+          }
+        });
         peopleListRef.child(id).on('value', (userProfile) => {
           if (userProfile.val() !== null) {
             // user exists

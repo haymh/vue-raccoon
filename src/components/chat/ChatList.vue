@@ -83,8 +83,8 @@ export default {
         createdBy: userId,
         createdAt: timeStamp,
       };
-      updates[`/rooms/${roomKey}`].members[userId] = { nickName: 'userId', status: true };
-      updates[`/rooms/${roomKey}`].members[friendId] = { nickName: 'friendId', status: false };
+      updates[`/rooms/${roomKey}`].members[userId] = { nickName: 'userId' };
+      updates[`/rooms/${roomKey}`].members[friendId] = { nickName: 'friendId' };
       return {
         promise: db.ref().update(updates),
         roomKey,
