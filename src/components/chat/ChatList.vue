@@ -1,37 +1,53 @@
 <template>
   <div class="ChatList">
-    <ul>
-      <li v-for="(person, index) in peopleList" :class="{ active: isActive(index) }" @click="openChat(person, index)">
-        <div class="columns is-mobile">
-          <div class="column is-3">
-            <img class="avatar" :alt="person.nickName" :src="person.avatar">
+    <aside class="menu">
+      <p class="menu-label">
+        Recent
+      </p>
+      <ul class="menu-list">
+        <ChatListRoomItem
+          v-for="(room, index) in userRooms"
+          :room="room"
+          :class="{ active: isActive(index) }"
+          @click="openChat(person, index)">
+      </ul>
+      <p class="menu-label">
+        Suggested
+      </p>
+      <ul class="menu-list">
+        <li v-for="(person, index) in peopleList" :class="{ active: isActive(index) }" @click="openChat(person, index)">
+          <div class="columns is-mobile">
+            <div class="column is-3">
+              <img class="avatar" :alt="person.nickName" :src="person.avatar">
+            </div>
+            <div class="column is-6">
+              <p class="name">{{person.nickName}}</p>
+            </div>
+            <div class="column is-2">
+              <!-- <span v-show="showUnread(person)" class="tag is-danger">{{ unreadCount(person) }}</span> -->
+            </div>
+            <div class="column is-1">
+              <el-dropdown>
+                <span class="el-dropdown-link">
+                  <i class="el-icon-caret-bottom"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>Add</el-dropdown-item>
+                  <el-dropdown-item>Block</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
           </div>
-          <div class="column is-6">
-            <p class="name">{{person.nickName}}</p>
-          </div>
-          <div class="column is-2">
-            <span class="tag is-danger">1</span>
-          </div>
-          <div class="column is-1">
-            <el-dropdown>
-              <span class="el-dropdown-link">
-                <i class="el-icon-caret-bottom"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Block</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </aside>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import { db, timeStamp } from '../../api/fire';
+import ChatListRoomItem from './ChatListRoomItem.vue';
 
 const roomRef = db.ref('/rooms');
 
@@ -51,6 +67,7 @@ export default {
     ]),
   },
   components: {
+    ChatListRoomItem,
   },
   watch: {
   },
@@ -110,7 +127,6 @@ export default {
       return res[0].roomId;
     },
     isActive(index) {
-      console.log(index);
       return this.activeIndex === index;
     },
   },
