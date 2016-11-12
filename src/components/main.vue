@@ -1,31 +1,23 @@
 <template>
 <div class="wrap container-fluid">
-  <div class="row">
-    <div class="col-xs-6
-                col-sm-6
-                col-md-6
-                col-lg-6
-                ">
-      <div class="map-container" style="background-color:red"><el-button @click.native="scrollTo">click</el-button></div>
-    </div>
-    <div class="col-xs-6
-                col-sm-6
-                col-md-6
-                col-lg-6">
-      <div id="list" class="list-container" style="background-color:blue">
-        <div v-for="i in 40" class="text item">
-          <el-card class="box-card">
-              <div v-for="o in 4" class="text item">
-                {{'列表内容 ' + i }}
-              </div>
-            </el-card>
-        </div>
+  <nav-bar></nav-bar>
+  <div class="columns">
+    <div class="column is-three-quarters">
+      <div class="map-container" style="background-color:green">
+        <a class="button is-danger save-button">Save Search</a>
       </div>
+    </div>
+    <div class="columns">
+      <filter-element class="column"></filter-element>
     </div>
   </div>
 </div>
 </template>
 <style>
+.save-button {
+  float: right;
+  margin: 10px;
+}
 .map-container,.list-container {
   height: calc(100vh - 65px);
   padding: 0;
@@ -41,6 +33,8 @@
 
 </style>
 <script>
+import navbar from './navbar.vue';
+import filter from './filter/Filter-element.vue';
 
 export default {
   name: 'main',
@@ -50,6 +44,8 @@ export default {
     };
   },
   components: {
+    'nav-bar': navbar,
+    'filter-element': filter,
   },
   methods: {
     scrollTo() {

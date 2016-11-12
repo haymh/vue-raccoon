@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <div class="header">
       <div class="inner">
         <router-link to="/" exact>
@@ -34,7 +36,6 @@ a {
 
 .header {
 	background-color: #1f1f1f;
-	position: fixed;
 	z-index: 999;
 	top: 0;
 	left: 0;
