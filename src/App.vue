@@ -192,7 +192,7 @@ export default {
             updates[`/users/${id}`] = {
               isTemp,
               type: 'buyer',
-              nickName: 'Visitor',
+              nickname: 'Visitor',
               createdAt: timeStamp,
               lastLogin: timeStamp,
             };
@@ -207,7 +207,7 @@ export default {
                 {
                   id,
                   isTemp,
-                  nickName: 'Visitor',
+                  nickname: 'Visitor',
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],

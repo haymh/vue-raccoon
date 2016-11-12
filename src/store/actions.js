@@ -19,12 +19,12 @@ export const filterHouses = ({ commit }, { filter, isDelta }) => {
 };
 
 export const setUser = ({ commit },
-   { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar }) => {
-  commit(types.CHANGE_USER, { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar });
+   { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
+  commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
 };
 
-export const setUserProfile = ({ commit }, { id, isTemp, nickName, avatar }) => {
-  commit(types.LOAD_USER_PROFILE, { id, isTemp, nickName, avatar });
+export const setUserProfile = ({ commit }, { id, isTemp, nickname, avatar }) => {
+  commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar });
 };
 
 export const setUserData = ({ commit }, { favoriteHouses, searches }) => {

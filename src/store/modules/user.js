@@ -5,7 +5,7 @@ import * as types from '../mutation-types';
 const state = {
   id: '',
   isTemp: true,
-  nickName: '',
+  nickname: '',
   avatar: '',
   favoriteHouses: [],
   searches: [],
@@ -16,20 +16,20 @@ const state = {
 /* eslint-disable no-param-reassign */
 const mutations = {
   [types.CHANGE_USER](_state,
-    { id, isTemp, nickName, favoriteHouses, searches, userRooms, avatar }) {
+    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
-    _state.nickName = nickName;
+    _state.nickname = nickname;
     _state.favoriteHouses = favoriteHouses;
     _state.searches = searches;
     _state.userRooms = userRooms;
     _state.avatar = avatar;
   },
 
-  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickName, avatar }) {
+  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickname, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
-    _state.nickName = nickName;
+    _state.nickname = nickname;
     _state.avatar = avatar;
   },
 

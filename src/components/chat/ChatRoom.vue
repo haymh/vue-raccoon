@@ -2,14 +2,14 @@
 <div class="ChatRoom">
   <div class="topbar row">
     <p>
-      {{ (friend || { nickName: ''}).nickName }}
+      {{ (friend || { nickname: ''}).nickname }}
     </p>
   </div>
   <div class="message" v-scroll-bottom>
     <ul v-if="messageList">
       <li v-for="(msg, index) in messageList">
         <p class="time" v-show="shouldDisplayTimeStamp(msg, index)">
-          <span>{{ msg.sentAt | time }}</span>
+          <span>{{ msg.createdAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
           <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : friend.avatar" />
@@ -167,13 +167,13 @@ export default {
       return message.sentBy === this.userId;
     },
     shouldDisplayTimeStamp(msg, index) {
-      const currentMsgSentAt = msg.sentAt;
+      const currentMsgSentAt = msg.createdAt;
       if (index === 0) {
         return true;
       }
       const lastMsg = this.messageList[index - 1];
       if (lastMsg) {
-        const lastMsgSentAt = lastMsg.sentAt;
+        const lastMsgSentAt = lastMsg.createdAt;
         return currentMsgSentAt - lastMsgSentAt > 300000;
       }
       return false;
@@ -182,7 +182,7 @@ export default {
       console.log('ok', message);
       const newMessage = {
         content: message,
-        sentAt: timeStamp,
+        createdAt: timeStamp,
         sentBy: this.userId,
       };
       this.$firebaseRefs.messageList.push(newMessage);

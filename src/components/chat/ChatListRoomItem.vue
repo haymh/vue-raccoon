@@ -3,10 +3,10 @@
     <li>
       <div class="columns is-mobile">
         <div class="column is-3">
-          <img class="avatar" :alt="person.nickName" :src="person.avatar">
+          <img class="avatar" :alt="person.nickname" :src="person.avatar">
         </div>
         <div class="column is-6">
-          <p class="name">{{person.nickName}}</p>
+          <p class="name">{{person.nickname}}</p>
         </div>
         <div class="column is-2">
           <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>

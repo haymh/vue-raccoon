@@ -20,7 +20,7 @@
         ".write": "newData.child('members/' + auth.uid).exists()",
         "members": {
           "$userId": {
-            "nickName": { ".validate": "newData.isString() && newData.val().length < 20" },
+            "nickname": { ".validate": "newData.isString() && newData.val().length < 20" },
             "status": { ".validate": "newData.isBoolean()" }
           }
         },
@@ -35,10 +35,10 @@
         ".read": "root.child('rooms/' + $roomId + '/members/' + auth.uid).exists()",
         ".write": "root.child('rooms/' + $roomId + '/members/' + auth.uid).exists()",
         "$messageId": {
-          ".validate": "newData.hasChildren(['sentBy', 'sentAt', 'content'])",
+          ".validate": "newData.hasChildren(['sentBy', 'createdAt', 'content'])",
           // can only sent by yourself
           "sentBy": { ".validate": "newData.val() === auth.uid" },
-          "sentAt": { ".validate": "newData.val() <= now" },
+          "createdAt": { ".validate": "newData.val() <= now" },
           "content": { ".validate": "newData.isString() && newData.val().length > 0" },
         }
       }
@@ -65,8 +65,8 @@
       "$userId": {
         // only user self can write data
         ".write": "auth.uid === $userId",
-        ".validate": "newData.hasChildren(['nickName', 'type', 'isTemp', 'createdAt', 'lastLogin'])",
-        "nickName": { ".validate": "newData.isString() && newData.val().length < 20" },
+        ".validate": "newData.hasChildren(['nickname', 'type', 'isTemp', 'createdAt', 'lastLogin'])",
+        "nickname": { ".validate": "newData.isString() && newData.val().length < 20" },
         "type": { ".validate": "newData.val() === 'buyer' || newData.val() === 'agent' " },
         "isTemp": { ".validate": "newData.isBoolean()" },
         "createdAt": { ".validate": "newData.val() <= now" },

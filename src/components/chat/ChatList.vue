@@ -18,10 +18,10 @@
         <li v-for="(person, index) in peopleList" :class="{ active: isActive(index) }" @click="openChat(person, index)">
           <div class="columns is-mobile">
             <div class="column is-3">
-              <img class="avatar" :alt="person.nickName" :src="person.avatar">
+              <img class="avatar" :alt="person.nickname" :src="person.avatar">
             </div>
             <div class="column is-6">
-              <p class="name">{{person.nickName}}</p>
+              <p class="name">{{person.nickname}}</p>
             </div>
             <div class="column is-2">
               <!-- <span v-show="showUnread(person)" class="tag is-danger">{{ unreadCount(person) }}</span> -->
@@ -83,8 +83,8 @@ export default {
         createdBy: userId,
         createdAt: timeStamp,
       };
-      updates[`/rooms/${roomKey}`].members[userId] = { nickName: 'userId' };
-      updates[`/rooms/${roomKey}`].members[friendId] = { nickName: 'friendId' };
+      updates[`/rooms/${roomKey}`].members[userId] = { nickname: 'userId' };
+      updates[`/rooms/${roomKey}`].members[friendId] = { nickname: 'friendId' };
       return {
         promise: db.ref().update(updates),
         roomKey,
