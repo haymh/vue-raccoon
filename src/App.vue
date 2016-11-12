@@ -11,11 +11,18 @@
         <router-link to="/view1">View1</router-link>
         <router-link to="/chat">Chat</router-link>
         <router-link to="/main">Main</router-link>
+				<transition name="fade" mode="out-in">
+		      <router-view></router-view>
+						<router-link to="/listing">Listing</router-link>
+		      </div>
+		    </div>
+		    <transition name="fade" mode="out-in">
+					<div style="margin:80px">
+						<router-view class="view"></router-view>
+					</div>
+		    </transition>
       </div>
     </div>
-    <transition name="fade" mode="out-in">
-      <router-view></router-view>
-    </transition>
   </div>
 </template>
 <style>
