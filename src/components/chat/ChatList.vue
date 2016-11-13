@@ -9,7 +9,8 @@
           v-for="(room, index) in userRooms"
           :room="room"
           :class="{ active: isActive(index) }"
-          @click="openChat(person, index)">
+          @click.native="openChatByRoom(room, index)">
+        </ChatListRoomItem>
       </ul>
       <p class="menu-label">
         Suggested
@@ -118,6 +119,10 @@ export default {
           console.log(e);
         });
       }
+    },
+    openChatByRoom(room, index) {
+      console.log('open chat by room', room.roomId, index);
+      this.$emit('openchat', { roomId: room.roomId, friend: null });
     },
     roomId(friend) {
       const res = this.userRooms.filter(room => room.members[friend['.key']] !== undefined);

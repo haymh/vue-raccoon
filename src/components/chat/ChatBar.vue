@@ -13,7 +13,7 @@
         <p class="subtitle">Room</p>
       </div>
       <div class="" :style="{ display: chatRoomDisplay }">
-        <ChatRoom :room-id="activeRoomId" :userId="userId" :friend="activeFriend" :user="user"></ChatRoom>
+        <ChatRoom :room-id="activeRoomId" :userId="userId" :user="user"></ChatRoom>
       </div>
     </div>
   </div>

@@ -13,7 +13,7 @@
     </header>
     <ChatList :peopleList="peopleList" v-on:openchat="openChat"></Chatlist>
   </div>
-  <ChatRoom :room-id="activeRoomId" :userId="userId" :friend="activeFriend" :user="user"></ChatRoom>
+  <ChatRoom :room-id="activeRoomId" :userId="userId" :user="user"></ChatRoom>
 </div>
 </template>
 

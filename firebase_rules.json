@@ -45,7 +45,7 @@
     },
     "unread": {
       "$userId": {
-        ".read": "auth.uid === $userId",
+        ".read": "auth !== null",
         ".write": "auth !== null",
         "$roomId": {
           ".validate": "newData.val() >= 0"

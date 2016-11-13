@@ -2,17 +2,25 @@
 <div class="ChatRoom">
   <div class="topbar row">
     <p>
-      {{ (friend || { nickname: ''}).nickname }}
+      {{ (recipientProfile || { nickname: ''}).nickname }}
     </p>
   </div>
   <div class="message" v-scroll-bottom>
+    <pre>
+      {{ recipientProfile }}
+    </pre>
+    count
+    <pre>
+      {{ recipientUnreadCount['.value'] }}
+    </pre>
+
     <ul v-if="messageList">
       <li v-for="(msg, index) in messageList">
         <p class="time" v-show="shouldDisplayTimeStamp(msg, index)">
           <span>{{ msg.createdAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
-          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : friend.avatar" />
+          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : recipient.avatar" />
           <div class="text">
             <p>
               {{ msg.content }}
@@ -48,6 +56,7 @@
   .message {
     padding: 10px 15px;
     overflow-y: scroll;
+    overflow-x: hidden;
     height: calc(100% - 200px);
   }
 
@@ -126,10 +135,12 @@ import ChatTextBox from './ChatTextBox.vue';
 
 export default {
   name: 'ChatRoom',
-  props: ['roomId', 'userId', 'user', 'friend'],
+  props: ['roomId', 'userId', 'user'],
   data() {
     return {
       messageList: [],
+      members: [],
+      recipientProfile: {},
     };
   },
   filters: {
@@ -155,7 +166,21 @@ export default {
         console.log('roomId', this.roomId);
         if (this.roomId && this.roomId !== '') {
           this.$bindAsArray('messageList', db.ref(`/messages/${this.roomId}`));
-          this.$bindAsObject('roomMemberFriendUnread', db.ref(`/unread/${this.friend['.key']}/${this.roomId}`));
+          this.$bindAsArray('members', db.ref(`/rooms/${this.roomId}/members`));
+          this.$bindAsObject('room', db.ref(`/rooms/${this.roomId}`));
+        }
+      },
+    },
+    members: {
+      handler() {
+        if (this.members && this.members.length !== 0) {
+          console.log('members updated');
+          const recipient = this.members.filter(member => member['.key'] !== this.userId)[0];
+          console.log(recipient['.key']);
+          if (recipient) {
+            this.$bindAsObject('recipientUnreadCount', db.ref(`/unread/${recipient['.key']}/${this.roomId}`));
+            this.$bindAsObject('recipientProfile', db.ref(`/users/${recipient['.key']}`));
+          }
         }
       },
     },
@@ -189,14 +214,14 @@ export default {
       this.updateUnreadCount();
     },
     updateUnreadCount() {
-      let count = this.roomMemberFriendUnread['.value'];
+      let count = this.recipientUnreadCount['.value'];
       if (count) {
         count += 1;
       } else {
         count = 1;
       }
       console.log('unread ', count);
-      this.$firebaseRefs.roomMemberFriendUnread.set(count);
+      this.$firebaseRefs.recipientUnreadCount.set(count);
     },
   },
 };
