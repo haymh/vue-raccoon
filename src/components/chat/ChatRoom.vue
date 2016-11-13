@@ -11,7 +11,7 @@
     </pre>
     count
     <pre>
-      {{ recipientUnreadCount['.value'] }}
+      {{ recipientUnreadCount }}
     </pre>
 
     <ul v-if="messageList">

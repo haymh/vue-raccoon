@@ -177,7 +177,7 @@ export default {
                     db.ref(`/rooms/${key}`).once('value', (roomRes) => {
                       const room = roomRes.val();
                       if (room) {
-                        this.$store.dispatch('addRoom', { roomId: key, ...room });
+                        this.$store.dispatch('upsertRoom', { roomId: key, ...room });
                       }
                     });
                   }

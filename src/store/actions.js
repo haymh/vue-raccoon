@@ -35,6 +35,6 @@ export const setUserRooms = ({ commit }, { userRooms }) => {
   commit(types.LOAD_USER_ROOM, { userRooms });
 };
 
-export const addRoom = ({ commit }, room) => {
-  commit(types.ADD_ROOM, room);
+export const upsertRoom = ({ commit }, room) => {
+  commit(types.UPSERT_ROOM, room);
 };

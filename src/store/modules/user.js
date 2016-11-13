@@ -42,8 +42,14 @@ const mutations = {
     _state.userRooms = userRooms;
   },
 
-  [types.ADD_ROOM](_state, room) {
-    _state.userRooms.push(room);
+  [types.UPSERT_ROOM](_state, newRoom) {
+    for (let i = 0; i < _state.userRooms.length; i += 1) {
+      if (_state.userRooms[i].roomId === newRoom.roomId) {
+        _state.userRooms[i] = newRoom;
+        return;
+      }
+    }
+    _state.userRooms.push(newRoom);
   },
 
   [types.ADD_SEARCH](_state, { newSearch }) {
