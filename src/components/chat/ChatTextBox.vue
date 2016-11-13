@@ -8,11 +8,6 @@ export default {
     };
   },
   methods: {
-    onKeypress(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-      }
-    },
     onKeyup(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         this.send();
@@ -30,9 +25,9 @@ export default {
 
 <template>
 <div class="ChatTextBox">
-    <textarea placeholder="按 Enter 发送" v-model="content" @keyup="onKeyup" @keypress="onKeypress"></textarea>
+    <textarea placeholder="按 Enter 发送" v-model="content" v-on:keyup="onKeyup"></textarea>
     <div class="controls">
-      <el-button type="text" class="send-button" @click.native="send">Send</el-button>
+      <a class="button is-primary is-outlined" @click="send">Send</a>
     </div>
 </div>
 </template>

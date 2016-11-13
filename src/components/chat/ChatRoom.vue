@@ -5,7 +5,7 @@
       {{ (recipientProfile || { nickname: ''}).nickname }}
     </p>
   </div>
-  <div class="message" v-scroll-bottom>
+  <div id="messageContainer" class="message" v-scroll-bottom>
     <pre>
       {{ recipientProfile }}
     </pre>
@@ -14,8 +14,8 @@
       {{ recipientUnreadCount }}
     </pre>
 
-    <ul v-if="messageList">
-      <li v-for="(msg, index) in messageList">
+    <ul v-if="messageList" is="transition-group">
+      <li v-for="(msg, index) in messageList" :key="msg['.key']">
         <p class="time" v-show="shouldDisplayTimeStamp(msg, index)">
           <span>{{ msg.createdAt | time }}</span>
         </p>
@@ -167,6 +167,11 @@ export default {
           this.$bindAsArray('members', db.ref(`/rooms/${this.roomId}/members`));
           this.$bindAsObject('room', db.ref(`/rooms/${this.roomId}`));
         }
+        // update again because somehow directives not detecting children updates
+        this.$nextTick(() => {
+          const el = document.getElementById('messageContainer');
+          el.scrollTop = el.scrollHeight - el.clientHeight;
+        });
       },
     },
     members: {

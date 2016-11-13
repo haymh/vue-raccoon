@@ -4,19 +4,23 @@
       <p class="menu-label">
         Recent
       </p>
-      <ul class="menu-list">
+      <ul class="menu-list" is="transition-group">
         <ChatListRoomItem
           v-for="(room, index) in userRooms"
           :room="room"
           :class="{ active: isActive(index) }"
+          :key="room.roomId"
           @click.native="openChatByRoom(room, index)">
         </ChatListRoomItem>
       </ul>
       <p class="menu-label">
         Suggested
       </p>
-      <ul class="menu-list">
-        <li v-for="(person, index) in peopleList" :class="{ active: isActive(index) }" @click="openChat(person, index)">
+      <ul class="menu-list" is="transition-group">
+        <li v-for="(person, index) in peopleList"
+          :class="{ active: isActive(index) }"
+          :key="person['.key']"
+          @click="openChat(person, index)">
           <div class="columns is-mobile">
             <div class="column is-3">
               <img class="avatar" :alt="person.nickname" :src="person.avatar">
