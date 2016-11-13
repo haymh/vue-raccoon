@@ -21,10 +21,7 @@
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
           <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : recipientProfile.avatar" />
-          <div class="text">
-            <p>
-              {{ msg.content }}
-            </p>
+          <div class="text" v-html="compileMarkdown(msg.content)">
           </div>
         </div>
       </li>
@@ -130,6 +127,7 @@
   }
 </style>
 <script>
+import marked from 'marked';
 import { db, timeStamp } from '../../api/fire';
 import ChatTextBox from './ChatTextBox.vue';
 
@@ -222,6 +220,9 @@ export default {
       }
       console.log('unread ', count);
       this.$firebaseRefs.recipientUnreadCount.set(count);
+    },
+    compileMarkdown(input) {
+      return marked(input, { sanitize: true });
     },
   },
 };

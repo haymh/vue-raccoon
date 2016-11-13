@@ -28,7 +28,7 @@
               <!-- <span v-show="showUnread(person)" class="tag is-danger">{{ unreadCount(person) }}</span> -->
             </div>
             <div class="column is-1">
-              <el-dropdown>
+              <!-- <el-dropdown>
                 <span class="el-dropdown-link">
                   <i class="el-icon-caret-bottom"></i>
                 </span>
@@ -36,7 +36,7 @@
                   <el-dropdown-item>Add</el-dropdown-item>
                   <el-dropdown-item>Block</el-dropdown-item>
                 </el-dropdown-menu>
-              </el-dropdown>
+              </el-dropdown> -->
             </div>
           </div>
         </li>
