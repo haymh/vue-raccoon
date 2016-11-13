@@ -20,7 +20,7 @@
           <span>{{ msg.createdAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
-          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : recipient.avatar" />
+          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : recipientProfile.avatar" />
           <div class="text">
             <p>
               {{ msg.content }}
