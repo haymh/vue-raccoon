@@ -18,7 +18,7 @@
             <ul v-for="(label, index) in chartData.labels">
               <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
                 {{label}}:
-                <span class="subtitle is-5">
+                <span class="subtitle is-5" style="float:right">
                   {{chartData.datasets[0].data[index] | formatCurrency}}
                 </span>
               </li>
