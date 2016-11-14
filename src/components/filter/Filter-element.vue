@@ -1,69 +1,56 @@
 <template>
-<div>
-  <div class="columns">
-    <div class="column is-half">
-      <div class="columns is-multiline is-mobile">
-        <div class="column is-2">
-          <label class="label">Price:</label>
-        </div>
-        <div class="column is-4">
-          <span class="select">
-          <select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
+<div class="wrapper">
+  <div class="level simple-filter is-mobile">
+    <label class="label">Price:</label>
+    <span class="select">
+      <select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
+        <option
+          v-for="item in schema.conditions.price.minChoices"
+          :label="item"
+          :value="item">
+        </option>
+      </select>
+    </span>
+    <label class="label">to</label>
+    <span class="select">
+      <select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
+        <option
+          v-for="item in schema.conditions.price.maxChoices"
+          :label="item"
+          :value="item">
+        </option>
+      </select>
+    </span>
+      <label class="label bed-filter">Bed:</label>
+      <span class="select bed-filter">
+        <select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
+          <option
+            v-for="item in schema.conditions.bed.minChoices"
+            :label="item"
+            :value="item">
+          </option>
+        </select>
+      </span>
+      <label class="label bed-filter">to</label>
+      <span class="select bed-filter">
+        <select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
             <option
-              v-for="item in schema.conditions.price.minChoices"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
+            v-for="item in schema.conditions.bed.maxChoices"
+            :label="item"
+            :value="item">
+          </option>
+        </select>
+      </span>
+    <div>
+      <a class="button is-link" v-on:click="toggleFilterView">
+        <span>More Filters</span>
+        <span class="icon">
+          <i class="fa fa-angle-down"></i>
         </span>
-        </div>
-        <div class="column is-2">
-          <div class="text">to</div>
-        </div>
-        <div class="column is-4">
-          <span class="select">
-          <select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
-            <option
-              v-for="item in schema.conditions.price.maxChoices"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-        </div>
-        <div class="column is-2">
-          <div class="text">Bed:</div>
-        </div>
-        <div class="column is-4">
-          <span class="select">
-          <select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
-            <option
-              v-for="item in schema.conditions.bed.minChoices"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-        </div>
-        <div class="column is-2">
-          <div class="text">to</div>
-        </div>
-        <div class="column is-4">
-          <span class="select">
-          <select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
-            <option
-              v-for="item in schema.conditions.bed.maxChoices"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-        </div>
-        <div class="column is-2">
-          <div class="text">Bath:</div>
-        </div>
-        <div class="column is-4">
-          <span class="select">
+      </a>
+      <div class="box dropdown-content" v-bind:style="{display: showFilter? 'inline-block':'none'}">
+        <div class="label">Bath</div>
+        <span class="select">
           <select v-model="schema.conditions.bath.min" @change="changeFilter('bath', false)">
             <option
               v-for="item in schema.conditions.bath.minChoices"
@@ -72,36 +59,40 @@
             </option>
           </select>
         </span>
+        <div class="label">Property Types</div>
+        <div v-for="choice in schema.conditions.propertyType.choices">
+          <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', false)">{{ choice.value }}</input>
+        </div>
+        <div class="label">Listing Types</div>
+        <div v-for="choice in schema.conditions.listingType.choices">
+          <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', false)">{{ choice.value }}</input>
         </div>
       </div>
     </div>
-    <div class="column is-half">
-      <div class="columns is-multiline is-mobile">
-        <div class="column is-4">
-          <div class="text">Property Types:</div>
-        </div>
-        <div class="column is-8">
-          <div v-for="choice in schema.conditions.propertyType.choices">
-            <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', false)">{{ choice.value }}</input>
-          </div>
-        </div>
-        <div class="column is-4">
-          <div class="text">Listing Types:</div>
-        </div>
-        <div class="column is-8">
-          <div v-for="choice in schema.conditions.listingType.choices">
-            <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', false)">{{ choice.value }}</input>
-          </div>
-        </div>
-      </div>
-    </div>
+  </div>
 </div>
 </template>
 <style>
-.text {
-  display: inline-block;
-  vertical-align: middle;
-  align: center;
+@media only screen and (max-width: 979px) {
+  .bed-filter {
+    display: none !important;
+  }
+  .wrapper {
+    max-width: 380px !important;
+  }
+}
+.simple-filter {
+  padding: 5px;
+  margin: 0px;
+  position: relative;
+}
+.wrapper {
+  max-width: 650px;
+}
+.dropdown-content {
+  position: absolute;
+  z-index: 100;
+  right: 0px;
 }
 </style>
 <script>
@@ -112,6 +103,7 @@ export default {
   name: 'Filter-element',
   data() {
     return {
+      showFilter: false,
       schema: filterSchema.schema,
     };
   },
@@ -121,6 +113,9 @@ export default {
     'lastFilter',
   ]),
   methods: {
+    toggleFilterView() {
+      this.showFilter = !this.showFilter;
+    },
     validateMinMax(key, changed) {
       const min = this.schema.conditions[key].min;
       const max = this.schema.conditions[key].max;

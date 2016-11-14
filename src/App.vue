@@ -15,7 +15,7 @@
       </div>
     </div>
 		<transition name="fade" mode="out-in">
-			<div style="margin:80px">
+			<div>
 				<router-view class="view"></router-view>
 			</div>
 		</transition>
@@ -90,7 +90,10 @@ a {
 	vertical-align: middle;
 }
 
-
+.view {
+	margin: 0 auto;
+	position: relative;
+}
 
 .fade-enter-active,
 .fade-leave-active {

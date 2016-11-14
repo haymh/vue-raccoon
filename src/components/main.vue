@@ -1,14 +1,16 @@
 <template>
 <div class="wrap container-fluid">
   <nav-bar></nav-bar>
-  <div class="columns">
-    <div class="column is-three-quarters">
+  <div class="columns is-gapless is-mobile">
+    <div class="column">
       <div class="map-container" style="background-color:green">
         <a class="button is-danger save-button">Save Search</a>
       </div>
     </div>
-    <div class="columns">
-      <filter-element class="column"></filter-element>
+    <div class="column is-narrow">
+      <filter-element>
+      </filter-element>
+      <house-list></house-list>
     </div>
   </div>
 </div>
@@ -34,6 +36,7 @@
 </style>
 <script>
 import navbar from './navbar.vue';
+import list from './list/list.vue';
 import filter from './filter/Filter-element.vue';
 
 export default {
@@ -46,6 +49,7 @@ export default {
   components: {
     'nav-bar': navbar,
     'filter-element': filter,
+    'house-list': list,
   },
   methods: {
     scrollTo() {

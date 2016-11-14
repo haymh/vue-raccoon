@@ -1,8 +1,8 @@
 <template>
   <div class="basic-info-wrapper">
     <div class="price">{{'$' + numberFormat(listingData.price)}}</div>
-    <div class="value-label">{{listingData.beds + ' Beds'}}</div>
-    <div class="value-label">{{listingData.baths + ' Baths'}}</div>
+    <div class="value-label">{{listingData.bed + ' Beds'}}</div>
+    <div class="value-label">{{listingData.bath + ' Baths'}}</div>
     <div class="value-label">{{numberFormat(listingData.sqft) + ' Sq.Ft.'}}</div>
     <div class="address">{{address}}</div>
     </div>

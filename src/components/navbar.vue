@@ -5,7 +5,6 @@
       <img src="../../static/logo.png" alt="Bulma logo">
     </a>
   </div>
-
   <div class="nav-right nav-menu">
     <a class="nav-item" href="#">
       1-123-4567
@@ -21,7 +20,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'navbar',
-  };
+import search from './Hello.vue';
+
+export default {
+  name: 'navbar',
+  components: { search },
+};
 </script>
