@@ -4,12 +4,14 @@
     <el-button type="primary" @click.native="searchHouse">search house</el-button>
     <el-button type="primary" @click.native="filter">filter</el-button>
     <FilterElement></FilterElement>
+    <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
     <h1>User</h1>
     <pre>{{ user }}</pre>
     <h1>All Houses</h1>
     <pre>{{ allHouses }}</pre>
     <h1>Filter Results</h1>
     <pre>{{ filterResults }}</pre>
+
     <ChatBar></ChatBar>
   </div>
 </template>
@@ -17,9 +19,16 @@
 import { mapGetters } from 'vuex';
 import FilterElement from './filter/Filter-element.vue';
 import ChatBar from './chat/ChatBar.vue';
+import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
 
 export default {
   name: 'view1',
+  data() {
+    return {
+      price: 30000,
+      hoa: 300,
+    };
+  },
   computed: mapGetters([
     'user',
     'allHouses',
@@ -28,6 +37,7 @@ export default {
   components: {
     FilterElement,
     ChatBar,
+    MortgageCalculator,
   },
   methods: {
     searchHouse() {
