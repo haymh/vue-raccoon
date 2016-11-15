@@ -35,7 +35,7 @@
           <div class="columns is-multiline">
             <label class="label column is-12">Price</label>
             <div class="column is-12">
-              <input class="input" type="number" v-model="newPrice">
+              <FormatableNumberInput :value="newPrice" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newPrice', $event)"></FormatableNumberInput>
             </div>
             <input class="column is-offset-1 is-10" type="range" :min="minPrice" :max="maxPrice" step="1000" v-model="newPrice">
           </div>
@@ -45,8 +45,8 @@
             <label class="label column is-12">Down Payment</label>
             <div class="column is-12">
               <p class="control has-addons">
-                <input class="input is-expanded" type="number" :value="downPayment" v-on:keyup.enter="enterDownPayment">
-                <input class="input" type="number" min="0" max="1" step="0.01" v-model="downPaymentRate">
+                <FormatableNumberInput class="is-expanded" :value="downPayment" :formatMethod="formatCurrency" v-on:valuechange="enterDownPayment"></FormatableNumberInput>
+                <FormatableNumberInput :value="downPaymentRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event / 100)"></FormatableNumberInput>
               </p>
             </div>
             <input class="column is-offset-1 is-10" type="range" min="0" max="1.0" step="0.01" v-model="downPaymentRate">
@@ -73,7 +73,7 @@
               <div class="columns is-multiline">
                 <label class="label column is-12">Interest Rate</label>
                 <div class="column is-12">
-                  <input class="input" type="number" min="0" max="0.1" step="0.00005" v-model="interestRate">
+                  <FormatableNumberInput :value="interestRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('interestRate', $event / 100)"></FormatableNumberInput>
                 </div>
               </div>
             </div>
@@ -86,8 +86,8 @@
             </div>
             <div class="column is-12">
               <p class="control has-addons">
-                <input class="input is-expanded" type="number" min="0" max="0.1" step="0.00005" :value="propertyTax"  v-on:keyup.enter="enterPropertyTax">
-                <input class="input" type="number" min="0" max="0.1" step="0.00005" v-model="propertyTaxRate">
+                <FormatableNumberInput class="is-expanded" :value="propertyTax * 12" :formatMethod="formatCurrency" v-on:valuechange="enterPropertyTax"></FormatableNumberInput>
+                <FormatableNumberInput :value="propertyTaxRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('propertyTaxRate', $event / 100)"></FormatableNumberInput>
               </p>
             </div>
           </div>
@@ -99,7 +99,7 @@
               <label class="label">HOA Dues</label>
             </div>
             <div class="column is-12">
-              <input class="input" type="number" min="0" max="10000" step="10" v-model="newHoa">
+              <FormatableNumberInput :value="newHoa" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newHoa', $event)"></FormatableNumberInput>
             </div>
           </div>
         </div>
@@ -110,8 +110,8 @@
             </div>
             <div class="column is-12">
               <p class="control has-addons">
-                <input class="input is-expanded" type="number" min="0" max="100000" step="10" :value="insurance"  v-on:keyup.enter="enterInsurance">
-                <input class="input" type="number" min="0" max="0.1" step="0.00005" v-model="insuranceRate">
+                <FormatableNumberInput class="is-expanded" :value="insurance" :formatMethod="formatCurrency" v-on:valuechange="enterInsurance"></FormatableNumberInput>
+                <FormatableNumberInput :value="insuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('insuranceRate', $event / 100)"></FormatableNumberInput>
               </p>
             </div>
           </div>
@@ -124,8 +124,8 @@
             </div>
             <div class="column is-12">
               <p class="control has-addons">
-                <input class="input is-expanded" type="number" min="0" max="100000" step="10" :value="mortgageInsurance"  v-on:keyup.enter="enterMortgageInsurance">
-                <input class="input" type="number" min="0" max="0.1" step="0.00005" v-model="mortgageInsuranceRate">
+                <FormatableNumberInput class="is-expanded" :value="mortgageInsurance" :formatMethod="formatCurrency" v-on:valuechange="enterMortgageInsurance"></FormatableNumberInput>
+                <FormatableNumberInput :value="mortgageInsuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('mortgageInsuranceRate', $event / 100)"></FormatableNumberInput>
               </p>
             </div>
           </div>
@@ -136,14 +136,11 @@
   </div>
 </template>
 <style>
-li {
-    display: list-item;
-    text-align: -webkit-match-parent;
-}
 </style>
 <script>
 /* eslint-disable import/extensions */
 import VueChart from '../chartjs_wrapper/VueChart.vue';
+import FormatableNumberInput from './FormatableNumberInput.vue';
 
 
 export default {
@@ -204,8 +201,8 @@ export default {
       return this.newPrice * this.downPaymentRate;
     },
     propertyTax() {
-      // per year
-      return this.propertyTaxRate * this.newPrice;
+      // per month
+      return this.propertyTaxRate * this.newPrice / 12;
     },
     insurance() {
       // per month
@@ -221,7 +218,7 @@ export default {
     monthlyPayment() {
       const mortgageInsurance = this.mortgageInsuranceApply ? this.mortgageInsurance : 0;
       return this.principal + this.insurance + this.newHoa +
-        this.propertyTax / 12 + mortgageInsurance;
+        this.propertyTax + mortgageInsurance;
     },
     chartData() {
       return {
@@ -254,20 +251,20 @@ export default {
       return `$${money.toFixed(2)}`;
     },
   },
-  components: { VueChart },
+  components: { VueChart, FormatableNumberInput },
   methods: {
-    enterDownPayment(e) {
-      this.downPaymentRate = e.target.value / this.newPrice;
+    enterDownPayment(value) {
+      this.downPaymentRate = value / this.newPrice;
       this.downPaymentRate = this.downPaymentRate > 1.0 ? 1.0 : this.downPaymentRate;
     },
-    enterPropertyTax(e) {
-      this.propertyTaxRate = e.target.value / this.newPrice;
+    enterPropertyTax(value) {
+      this.propertyTaxRate = value / this.newPrice;
     },
-    enterInsurance(e) {
-      this.insuranceRate = e.target.value / this.newPrice;
+    enterInsurance(value) {
+      this.insuranceRate = value * 12 / this.newPrice;
     },
-    enterMortgageInsurance(e) {
-      this.mortgageInsuranceRate = e.target.value * 12 / (this.newPrice - this.downPayment);
+    enterMortgageInsurance(value) {
+      this.mortgageInsuranceRate = value * 12 / (this.newPrice - this.downPayment);
     },
     loanTypeChanged() {
       this.interestRate = this.loanTypes[this.selectedLoanType].value;
@@ -276,6 +273,29 @@ export default {
       return {
         color,
       };
+    },
+    editModel(value, e) {
+      e.target.value = value;
+    },
+    assignValue(data, e) {
+      /* eslint-disable no-param-reassign */
+      this[data] = e.target.value;
+      document.activeElement.blur();
+    },
+    formatCurrency(money) {
+      if (typeof money === 'string' || money instanceof String) {
+        return `$${parseFloat(money).toFixed(2)}`;
+      }
+      return `$${money.toFixed(2)}`;
+    },
+    formatPercentage(percent) {
+      if (typeof percent === 'string' || percent instanceof String) {
+        return `%${parseFloat(percent).toFixed(3)}`;
+      }
+      return `%${percent.toFixed(3)}`;
+    },
+    dataChange(binding, value) {
+      this[binding] = value;
     },
   },
 };
