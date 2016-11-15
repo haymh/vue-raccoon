@@ -108,7 +108,7 @@ a {
 
 @media (max-width: 600px) {
 	body {
-		font-size: 14px;
+		/*font-size: 14px;*/
 	}
 
 	.header .inner {
@@ -145,6 +145,14 @@ export default {
         // User is signed in.
         const id = user.uid;
         const isTemp = user.isAnonymous;
+        // Change user online status
+        const userPresenceRef = db.ref(`/presence/${id}`);
+        db.ref('.info/connected').on('value', (snapshot) => {
+          if (snapshot.val()) {
+            userPresenceRef.onDisconnect().set(false); // or remove this node
+            userPresenceRef.set(true);
+          }
+        });
         peopleListRef.child(id).on('value', (userProfile) => {
           if (userProfile.val() !== null) {
             // user exists
@@ -169,7 +177,7 @@ export default {
                     db.ref(`/rooms/${key}`).once('value', (roomRes) => {
                       const room = roomRes.val();
                       if (room) {
-                        this.$store.dispatch('addRoom', { roomId: key, ...room });
+                        this.$store.dispatch('upsertRoom', { roomId: key, ...room });
                       }
                     });
                   }
@@ -184,7 +192,7 @@ export default {
             updates[`/users/${id}`] = {
               isTemp,
               type: 'buyer',
-              nickName: 'Visitor',
+              nickname: 'Visitor',
               createdAt: timeStamp,
               lastLogin: timeStamp,
             };
@@ -199,7 +207,7 @@ export default {
                 {
                   id,
                   isTemp,
-                  nickName: 'Visitor',
+                  nickname: 'Visitor',
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],

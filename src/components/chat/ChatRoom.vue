@@ -2,18 +2,27 @@
 <div class="ChatRoom">
   <div class="topbar row">
     <p>
-      {{ (friend || { nickName: ''}).nickName }}
+      {{ (recipientProfile || { nickname: ''}).nickname }}
     </p>
   </div>
-  <div class="message" v-scroll-bottom>
-    <ul v-if="messageList">
-      <li v-for="msg in messageList">
-        <p class="time">
-          <span>{{ msg.sentAt | time }}</span>
+  <div id="messageContainer" class="message" v-scroll-bottom>
+    <pre>
+      {{ recipientProfile }}
+    </pre>
+    count
+    <pre>
+      {{ recipientUnreadCount }}
+    </pre>
+
+    <ul v-if="messageList" is="transition-group">
+      <li v-for="(msg, index) in messageList" :key="msg['.key']">
+        <p class="time" v-show="shouldDisplayTimeStamp(msg, index)">
+          <span>{{ msg.createdAt | time }}</span>
         </p>
         <div class="main" :class="{ self: isMsgMyself(msg) }">
-          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : friend.avatar" />
-          <div class="text">{{ msg.content }}</div>
+          <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : recipientProfile.avatar" />
+          <div class="text" v-html="compileMarkdown(msg.content)">
+          </div>
         </div>
       </li>
     </ul>
@@ -44,7 +53,8 @@
   .message {
     padding: 10px 15px;
     overflow-y: scroll;
-    height: calc(100% - 220px);
+    overflow-x: hidden;
+    height: calc(100% - 200px);
   }
 
   .message ul {
@@ -81,7 +91,6 @@
     max-width: calc(100% - 40px);
     min-height: 30px;
     line-height: 2.5;
-    font-size: 12px;
     text-align: left;
     word-break: break-all;
     background-color: #fafafa;
@@ -118,24 +127,27 @@
   }
 </style>
 <script>
+import marked from 'marked';
 import { db, timeStamp } from '../../api/fire';
 import ChatTextBox from './ChatTextBox.vue';
 
 export default {
   name: 'ChatRoom',
-  props: ['roomId', 'userId', 'user', 'friend'],
+  props: ['roomId', 'userId', 'user'],
   data() {
     return {
       messageList: [],
+      members: [],
+      recipientProfile: {},
     };
   },
   filters: {
     time(date) {
       if (typeof date === 'string' || typeof date === 'number') {
-        const paredDate = new Date(date);
-        return `${paredDate.getHours()}:${paredDate.getMinutes()}`;
+        const d = new Date(date);
+        return `${d.toLocaleDateString()}, ${d.toLocaleTimeString()}`;
       }
-      return `${date.getHours()}:${date.getMinutes()}`;
+      return null;
     },
   },
   directives: {
@@ -152,6 +164,26 @@ export default {
         console.log('roomId', this.roomId);
         if (this.roomId && this.roomId !== '') {
           this.$bindAsArray('messageList', db.ref(`/messages/${this.roomId}`));
+          this.$bindAsArray('members', db.ref(`/rooms/${this.roomId}/members`));
+          this.$bindAsObject('room', db.ref(`/rooms/${this.roomId}`));
+        }
+        // update again because somehow directives not detecting children updates
+        this.$nextTick(() => {
+          const el = document.getElementById('messageContainer');
+          el.scrollTop = el.scrollHeight - el.clientHeight;
+        });
+      },
+    },
+    members: {
+      handler() {
+        if (this.members && this.members.length !== 0) {
+          console.log('members updated');
+          const recipient = this.members.filter(member => member['.key'] !== this.userId)[0];
+          console.log(recipient['.key']);
+          if (recipient) {
+            this.$bindAsObject('recipientUnreadCount', db.ref(`/unread/${recipient['.key']}/${this.roomId}`));
+            this.$bindAsObject('recipientProfile', db.ref(`/users/${recipient['.key']}`));
+          }
         }
       },
     },
@@ -162,14 +194,40 @@ export default {
     isMsgMyself(message) {
       return message.sentBy === this.userId;
     },
+    shouldDisplayTimeStamp(msg, index) {
+      const currentMsgSentAt = msg.createdAt;
+      if (index === 0) {
+        return true;
+      }
+      const lastMsg = this.messageList[index - 1];
+      if (lastMsg) {
+        const lastMsgSentAt = lastMsg.createdAt;
+        return currentMsgSentAt - lastMsgSentAt > 300000;
+      }
+      return false;
+    },
     sendMessage(message) {
       console.log('ok', message);
       const newMessage = {
         content: message,
-        sentAt: timeStamp,
+        createdAt: timeStamp,
         sentBy: this.userId,
       };
       this.$firebaseRefs.messageList.push(newMessage);
+      this.updateUnreadCount();
+    },
+    updateUnreadCount() {
+      let count = this.recipientUnreadCount['.value'];
+      if (count) {
+        count += 1;
+      } else {
+        count = 1;
+      }
+      console.log('unread ', count);
+      this.$firebaseRefs.recipientUnreadCount.set(count);
+    },
+    compileMarkdown(input) {
+      return marked(input, { sanitize: true });
     },
   },
 };
