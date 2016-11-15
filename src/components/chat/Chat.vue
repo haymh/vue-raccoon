@@ -1,38 +1,29 @@
 <template>
 <div class="chat">
   <div class="sidebar">
-    <!-- <card></card> -->
-    <div class="list">
-      <ul>
-        <li v-for="person in peopleList" :class="{ active: false }" @click="openChat(person)">
-          <!-- <img class="avatar"  width="30" height="30" :alt="item.user.name" :src="item.user.img"> -->
-          <p class="name">{{person['.key']}}</p>
-        </li>
-      </ul>
-    </div>
+    <header class="columns is-mobile">
+      <div class="column is-3">
+        <img class="avatar" :src="user.avatar" alt="" />
+      </div>
+      <div class="column is-9">
+        <el-input class="searchbar" size="small" placeholder="搜索">
+          <el-button slot="append" icon="search"></el-button>
+        </el-input>
+      </div>
+    </header>
+    <ChatList :peopleList="peopleList" v-on:openchat="openChat"></Chatlist>
   </div>
-  <ChatRoom :room-id="activeRoomId" :userId="userId"></ChatRoom>
+  <ChatRoom :room-id="activeRoomId" :userId="userId" :user="user"></ChatRoom>
 </div>
 </template>
 
-<style scoped>
+<style>
 .chat {
-  margin: 20px auto;
-  width: 800px;
-  height: 600px;
+  margin: 10px auto;
+  width: 100vw;
+  height: 90vh;
   overflow: hidden;
   border-radius: 3px;
-}
-
-.sidebar,
-.main {
-  height: 100%;
-}
-
-.main {
-  position: relative;
-  overflow: hidden;
-  background-color: #eee;
 }
 
 .sidebar {
@@ -41,46 +32,74 @@
   color: #f4f4f4;
   background-color: #2e3238;
 }
-
-.list ul {
-  list-style-type: none;
+.sidebar header {
+  padding: 10px;
+}
+.sidebar .avatar {
+  width: 40px;
+  height: 40px;
+  background-image: url('http://placehold.it/40x40');
+  border-radius: 50%;
+}
+.sidebar input {
+  color: white;
+  background-color: #2e3238;
+}
+.sidebar,
+.ChatRoom {
+  height: 100%;
 }
 
-.list li {
+.ChatRoom {
+  position: relative;
+  overflow: hidden;
+  background-color: #eee;
+}
+
+.ChatList {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.ChatList ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.ChatList li {
   padding: 12px 15px;
   border-bottom: 1px solid #292C33;
   cursor: pointer;
-  transition: background-color 0.1s;
+  transition: all .25s ease;
 }
 
-.list li:hover {
+.ChatList li:hover {
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-.list li.active {
-  background-color: rgba(255, 255, 255, 0.1);
+.ChatList li.active {
+  background-color: black;
 }
 
-.list .avatar,
-.list .name {
+.ChatList .avatar,
+.ChatList .name {
   vertical-align: middle;
 }
 
-.list .avatar {
-  border-radius: 2px;
+.ChatList .avatar {
+  border-radius: 50%;
 }
 
-.list .name {
+.ChatList .name {
   display: inline-block;
   margin: 0 0 0 15px;
 }
 </style>
 <script>
 import { mapGetters } from 'vuex';
-import { db, timeStamp } from '../../api/fire';
+import { db } from '../../api/fire';
 import ChatRoom from './ChatRoom.vue';
-
-const roomRef = db.ref('/rooms');
+import ChatList from './ChatList.vue';
 
 
 export default {
@@ -88,75 +107,30 @@ export default {
   data() {
     return {
       activeRoomId: '',
+      activeFriend: null,
       peopleList: [],
     };
   },
   created() {
-    this.$bindAsArray('peopleList', db.ref('/users'));
+    this.$bindAsArray('peopleList', db.ref('/users').orderByChild('type').equalTo('agent'));
   },
   computed: {
     ...mapGetters([
       'userId',
+      'user',
       'userRooms',
     ]),
   },
   components: {
     ChatRoom,
+    ChatList,
   },
   watch: {
   },
   methods: {
-    createRoom(userId, friendId) {
-      // Get a key for a new Post.
-      const roomKey = roomRef.push().key;
-
-      // Write the new post's data simultaneously in the posts list and the user's post list.
-      const updates = {};
-      updates[`/rooms/${roomKey}`] = {
-        members: {},
-        createdBy: userId,
-        createdAt: timeStamp,
-      };
-      updates[`/rooms/${roomKey}`].members[userId] = { nickName: 'userId', status: true };
-      updates[`/rooms/${roomKey}`].members[friendId] = { nickName: 'friendId', status: false };
-      return {
-        promise: db.ref().update(updates),
-        roomKey,
-      };
-    },
-    addRoomToUser(userId, friendId, roomKey) {
-      const updates = {};
-      updates[`/userRooms/${userId}/${roomKey}`] = {
-        roomName: 'New Chat',
-      };
-
-      updates[`/userRooms/${friendId}/${roomKey}`] = {
-        roomName: 'New Chat',
-      };
-      return db.ref().update(updates);
-    },
-    openChat(friend) {
-      const roomId = this.roomId(friend);
-      if (roomId) {
-        this.activeRoomId = roomId;
-      } else {
-        const { promise, roomKey } = this.createRoom(this.userId, friend['.key']);
-        promise
-        .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
-        .then(() => {
-          this.activeRoomId = roomKey;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      }
-    },
-    roomId(friend) {
-      const res = this.userRooms.filter(room => room.members[friend['.key']] !== undefined);
-      if (res.length === 0) {
-        return undefined;
-      }
-      return res[0].roomId;
+    openChat({ roomId, friend }) {
+      this.activeRoomId = roomId;
+      this.activeFriend = friend;
     },
   },
 };

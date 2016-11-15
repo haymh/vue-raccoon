@@ -113,7 +113,7 @@ a {
 
 @media (max-width: 600px) {
 	body {
-		font-size: 14px;
+		/*font-size: 14px;*/
 	}
 
 	.header .inner {
@@ -150,15 +150,19 @@ export default {
         // User is signed in.
         const id = user.uid;
         const isTemp = user.isAnonymous;
+        // Change user online status
+        const userPresenceRef = db.ref(`/presence/${id}`);
+        db.ref('.info/connected').on('value', (snapshot) => {
+          if (snapshot.val()) {
+            userPresenceRef.onDisconnect().set(false); // or remove this node
+            userPresenceRef.set(true);
+          }
+        });
         peopleListRef.child(id).on('value', (userProfile) => {
           if (userProfile.val() !== null) {
             // user exists
             // read user profile
-            const nickName = userProfile.val().nickName;
-            this.$store.dispatch('setUserProfile', { id, isTemp, nickName });
-            // const type = userProfile.val().type;
-            // const createdAt = userProfile.val().createdAt;
-            // const lastLogin = userProfile.val().lastLogin;
+            this.$store.dispatch('setUserProfile', { id, ...userProfile.val() });
             // read user generated data
             db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
               this.$store.dispatch('setUserData', {
@@ -174,14 +178,11 @@ export default {
                 for (const key in userRooms.val()) {
                   /* eslint-disable no-prototype-builtins */
                   if (userRoomsRes.hasOwnProperty(key)) {
-                    const room = { roomId: key };
                     // query room members
                     db.ref(`/rooms/${key}`).once('value', (roomRes) => {
-                      if (roomRes.val()) {
-                        room.createdAt = roomRes.val().createdAt;
-                        room.createdBy = roomRes.val().createdBy;
-                        room.members = roomRes.val().members;
-                        this.$store.dispatch('addRoom', { room });
+                      const room = roomRes.val();
+                      if (room) {
+                        this.$store.dispatch('upsertRoom', { roomId: key, ...room });
                       }
                     });
                   }
@@ -196,7 +197,7 @@ export default {
             updates[`/users/${id}`] = {
               isTemp,
               type: 'buyer',
-              nickName: 'Visitor',
+              nickname: 'Visitor',
               createdAt: timeStamp,
               lastLogin: timeStamp,
             };
@@ -211,11 +212,11 @@ export default {
                 {
                   id,
                   isTemp,
-                  nickName: 'Visitor',
+                  nickname: 'Visitor',
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
-                }
+                },
               );
             });
           }

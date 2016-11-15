@@ -144,8 +144,7 @@ export default {
             {
               filter: [newCondition],
               isDelta: true,
-            }
-          );
+            });
         }
       } else {
         if (filterSchema.shouldRemoveCondition(newCondition)) {
@@ -157,8 +156,7 @@ export default {
             {
               filter: newConditions,
               isDelta: false,
-            }
-          );
+            });
         } else {
           // calculate if new filter result will be subset of last filter result
           if (filterSchema.isNewResultSubset(oldCondition, newCondition)) {
@@ -167,8 +165,7 @@ export default {
               {
                 filter: [newCondition],
                 isDelta: true,
-              }
-            );
+              });
           } else {
             const newConditions = [...this.lastFilter];
             // update conditions
@@ -177,8 +174,7 @@ export default {
               {
                 filter: newConditions,
                 isDelta: false,
-              }
-            );
+              });
           }
         }
       }

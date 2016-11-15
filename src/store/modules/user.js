@@ -5,7 +5,8 @@ import * as types from '../mutation-types';
 const state = {
   id: '',
   isTemp: true,
-  nickName: '',
+  nickname: '',
+  avatar: '',
   favoriteHouses: [],
   searches: [],
   userRooms: [],
@@ -14,19 +15,22 @@ const state = {
 // mutations
 /* eslint-disable no-param-reassign */
 const mutations = {
-  [types.CHANGE_USER](_state, { id, isTemp, nickName, favoriteHouses, searches, userRooms }) {
+  [types.CHANGE_USER](_state,
+    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
-    _state.nickName = nickName;
+    _state.nickname = nickname;
     _state.favoriteHouses = favoriteHouses;
     _state.searches = searches;
     _state.userRooms = userRooms;
+    _state.avatar = avatar;
   },
 
-  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickName }) {
+  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickname, avatar }) {
     _state.id = id;
     _state.isTemp = isTemp;
-    _state.nickName = nickName;
+    _state.nickname = nickname;
+    _state.avatar = avatar;
   },
 
   [types.LOAD_USER_DATA](_state, { favoriteHouses, searches }) {
@@ -38,8 +42,14 @@ const mutations = {
     _state.userRooms = userRooms;
   },
 
-  [types.ADD_ROOM](_state, { room }) {
-    _state.userRooms.push(room);
+  [types.UPSERT_ROOM](_state, newRoom) {
+    for (let i = 0; i < _state.userRooms.length; i += 1) {
+      if (_state.userRooms[i].roomId === newRoom.roomId) {
+        _state.userRooms[i] = newRoom;
+        return;
+      }
+    }
+    _state.userRooms.push(newRoom);
   },
 
   [types.ADD_SEARCH](_state, { newSearch }) {
