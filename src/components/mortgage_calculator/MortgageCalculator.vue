@@ -183,7 +183,7 @@ export default {
   },
   computed: {
     mortgageInsuranceApply() {
-      return this.downPaymentRate < 0.2;
+      return this.downPaymentRate < 20;
     },
     mortgageInsuranceStyle() {
       return this.mortgageInsuranceApply ? { display: 'block' } : { display: 'none' };
