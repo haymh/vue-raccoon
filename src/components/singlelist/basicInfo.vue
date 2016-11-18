@@ -1,9 +1,9 @@
 <template>
   <div class="basic-info-wrapper">
     <div class="price">{{'$' + numberFormat(listingData.price)}}</div>
-    <div class="value-label">{{listingData.bed + ' Beds'}}</div>
-    <div class="value-label">{{listingData.bath + ' Baths'}}</div>
-    <div class="value-label">{{numberFormat(listingData.sqft) + ' Sq.Ft.'}}</div>
+    <div class="value-label">{{listingData.beds + ' Beds'}}</div>
+    <div class="value-label">{{listingData.baths + ' Baths'}}</div>
+    <div class="value-label">{{numberFormat(listingData.sizeInSF) + ' Sq.Ft.'}}</div>
     <div class="address">{{address}}</div>
     </div>
 </template>
@@ -41,16 +41,21 @@
 export default {
   name: 'BasicInfo',
   props: ['listingData'],
-  created() {
-    this.address = (this.listingData.streetNumber.toString()).concat(' ')
-                    .concat(this.listingData.address1).concat(' ')
-                    .concat(this.listingData.address2)
-                    .concat(' ')
-                    .concat(this.listingData.city)
-                    .concat(', ')
-                    .concat(this.listingData.state)
-                    .concat(' ')
-                    .concat(this.listingData.zip);
+  computed: {
+    address() {
+      if (this.listingData) {
+        return this.listingData.address.address1
+                  .concat(' ')
+                  .concat(this.listingData.address.address2)
+                  .concat(' ')
+                  .concat(this.listingData.address.city)
+                  .concat(', ')
+                  .concat(this.listingData.address.state)
+                  .concat(' ')
+                  .concat(this.listingData.address.zip);
+      }
+      return '';
+    },
   },
   methods: {
     numberFormat(n) {

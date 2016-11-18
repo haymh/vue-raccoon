@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="listing-image" :style="{backgroundImage: 'url(' + listingData.media[index] + ')'}" >
+    <div class="listing-image" :style="{backgroundImage: 'url(' + listingData.pics[index] + ')'}" >
       <div class="arrows">
         <a class="icon is-medium leftArrow" v-on:click="prevImage">
           <i class="fa fa-caret-left" aria-hidden="true"></i>
@@ -51,11 +51,11 @@ export default {
   },
   methods: {
     nextImage() {
-      this.index = (this.index === this.listingData.media.length - 1) ? 0 : this.index += 1;
+      this.index = (this.index === this.listingData.pics.length - 1) ? 0 : this.index += 1;
     },
     prevImage() {
       this.index = (this.index === 0) ?
-       this.index = this.listingData.media.length - 1 : this.index -= 1;
+       this.index = this.listingData.pics.length - 1 : this.index -= 1;
     },
   },
 };

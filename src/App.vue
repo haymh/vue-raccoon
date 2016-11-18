@@ -10,7 +10,6 @@
         <router-link to="/hello">Hello</router-link>
         <router-link to="/view1">View1</router-link>
         <router-link to="/chat">Chat</router-link>
-        <router-link to="/map">Map</router-link>
         <router-link to="/main">Main</router-link>
 				<router-link to="/listing">Listing</router-link>
       </div>

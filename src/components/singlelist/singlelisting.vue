@@ -76,7 +76,6 @@ export default {
     };
   },
   created() {
-    this.like = this.singleListingData.like;
   },
   methods: {
     likeListing() {

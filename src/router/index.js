@@ -4,7 +4,6 @@ import Router from 'vue-router';
 import HelloView from '../components/Hello.vue';
 import View1 from '../components/view1.vue';
 import ChatView from '../components/chat/Chat.vue';
-import MapView from '../components/MapView.vue';
 import Main from '../components/main.vue';
 import SingleListing from '../components/singlelist/singlelisting.vue';
 
@@ -19,7 +18,6 @@ export default new Router({
     { path: '/hello', component: HelloView },
     { path: '/view1', component: View1 },
     { path: '/chat', component: ChatView },
-    { path: '/map', component: MapView },
     { path: '/main', component: Main },
     { path: '/listing', component: SingleListing },
     { path: '*', redirect: '/hello' },
