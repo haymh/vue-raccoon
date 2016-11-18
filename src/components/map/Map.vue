@@ -75,7 +75,7 @@
               this.markers,
               {
                 imagePath: './static/m',
-              }
+              },
             );
           } else if (this.map.getZoom() > 12) {
             if (this.markerCluster) {
@@ -98,13 +98,13 @@
         if (this.map.getZoom() > 12) {
           this.markers.filter(
             marker => !marker.getMap() &&
-                      this.map.getBounds().contains(marker.getPosition())
-          ).forEach(marker => marker.setMap(this.map));
+                      this.map.getBounds().contains(marker.getPosition()))
+                      .forEach(marker => marker.setMap(this.map));
 
           this.markers.filter(
             marker => marker.getMap() &&
-                      !this.map.getBounds().contains(marker.getPosition())
-          ).forEach(marker => marker.setMap(null));
+                      !this.map.getBounds().contains(marker.getPosition()))
+                      .forEach(marker => marker.setMap(null));
         }
       },
 
@@ -181,9 +181,7 @@
         const googleLatLng = new google.maps.LatLng(lat, lng);
         const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
-        marker.overlay = new this.HouseMarker(
-          bounds, this.map, { house }
-        );
+        marker.overlay = new this.HouseMarker(bounds, this.map, { house });
       },
     },
   };
