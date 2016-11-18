@@ -8,7 +8,7 @@
         <ChatListRoomItem
           v-for="(room, index) in userRooms"
           :room="room"
-          :class="{ active: isActive(index) }"
+          :class="{ active: isActive(room.roomId) }"
           :key="room.roomId"
           @click.native="openChatByRoom(room, index)">
         </ChatListRoomItem>
@@ -18,7 +18,7 @@
       </p>
       <ul class="menu-list" is="transition-group">
         <li v-for="(person, index) in peopleList"
-          :class="{ active: isActive(index) }"
+          :class="{ active: isActive(person['.key']) }"
           :key="person['.key']"
           @click="openChat(person, index)">
           <div class="columns is-mobile">
@@ -108,7 +108,7 @@ export default {
     },
     openChat(friend, index) {
       console.log('open chat', index);
-      this.activeIndex = index;
+      this.activeIndex = friend['.key'];
       const roomId = this.roomId(friend);
       if (roomId) {
         this.$emit('openchat', { roomId, friend });
@@ -126,6 +126,7 @@ export default {
     },
     openChatByRoom(room, index) {
       console.log('open chat by room', room.roomId, index);
+      this.activeIndex = room.roomId;
       this.$emit('openchat', { roomId: room.roomId, friend: null });
     },
     roomId(friend) {
@@ -135,8 +136,8 @@ export default {
       }
       return res[0].roomId;
     },
-    isActive(index) {
-      return this.activeIndex === index;
+    isActive(key) {
+      return this.activeIndex === key;
     },
   },
 };

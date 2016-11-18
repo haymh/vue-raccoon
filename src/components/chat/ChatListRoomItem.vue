@@ -1,5 +1,4 @@
 <template lang="html">
-  <div class="ChatRoomListItem">
     <li>
       <div class="columns is-mobile">
         <div class="column is-3">
@@ -26,7 +25,6 @@
         </div>
       </div>
     </li>
-  </div>
 </template>
 
 <script>
@@ -78,6 +76,7 @@ export default {
 </script>
 
 <style scoped lang="css">
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s
 }
