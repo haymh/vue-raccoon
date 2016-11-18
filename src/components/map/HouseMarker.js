@@ -38,25 +38,21 @@ const HouseMarkerClassGenerator = () => class HouseMarker extends google.maps.Ov
 
     this.div = div;
 
-    const innerDiv = document.createElement('div');
-    innerDiv.style.marginLeft = '-1px';
-    innerDiv.style.display = 'inline-block';
-    innerDiv.style.position = 'fixed';
-    innerDiv.style.height = '16px';
-    innerDiv.style.border = '1px solid green';
-    innerDiv.style.backgroundColor = 'white';
-    innerDiv.style.padding = '1px';
-    innerDiv.style.paddingRight = '3px';
-
     const span = document.createElement('span');
     span.innerHTML =
       `${this.house.address.address1}${this.house.address.address2 ? ` ${this.house.address.address2}` : ''}${this.house.address.address3 ? ` ${this.house.address.address3}` : ''}`;
+    span.style.marginLeft = '-1px';
+    span.style.display = 'inline-block';
+    span.style.position = 'fixed';
+    span.style.height = '20px';
+    span.style.border = '1px solid green';
+    span.style.backgroundColor = 'white';
+    span.style.padding = '1px';
+    span.style.paddingRight = '3px';
     span.style.whiteSpace = 'nowrap';
-    span.style.fontSize = '12px';
+    span.style.fontSize = '14px';
     span.style.fontWeight = '500';
-    innerDiv.appendChild(span);
-
-    this.div.appendChild(innerDiv);
+    this.div.appendChild(span);
 
     // Add the element to the "overlayImage" pane.
     const panes = this.getPanes();
