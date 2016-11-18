@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <div class="header">
       <div class="inner">
         <router-link to="/" exact>
@@ -9,14 +11,19 @@
         <router-link to="/view1">View1</router-link>
         <router-link to="/chat">Chat</router-link>
         <router-link to="/map">Map</router-link>
+        <router-link to="/main">Main</router-link>
+				<router-link to="/listing">Listing</router-link>
       </div>
     </div>
-    <transition name="fade" mode="out-in">
-      <router-view class="view"></router-view>
-    </transition>
+		<transition name="fade" mode="out-in">
+			<div>
+				<router-view class="view"></router-view>
+			</div>
+		</transition>
   </div>
 </template>
 <style>
+
 body {
 	font-family: Roboto, Helvetica, sans-serif;
 	font-size: 15px;
@@ -33,7 +40,6 @@ a {
 
 .header {
 	background-color: #1f1f1f;
-	position: fixed;
 	z-index: 999;
 	top: 0;
 	left: 0;
@@ -86,7 +92,6 @@ a {
 }
 
 .view {
-	max-width: 1200px;
 	margin: 0 auto;
 	position: relative;
 }

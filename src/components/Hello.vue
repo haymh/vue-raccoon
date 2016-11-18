@@ -30,7 +30,7 @@
 
 <script>
 export default {
-  name: 'Hello',
+  name: 'Search',
   data() {
     return {
       msg: 'Hello Vue!',
