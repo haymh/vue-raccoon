@@ -35,9 +35,9 @@
           <div class="columns is-multiline">
             <label class="label column is-12">Price</label>
             <div class="column is-12">
-              <FormatableNumberInput :value="newPrice" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newPrice', $event)"></FormatableNumberInput>
+              <FormatableNumberInput :value="newPrice" :formatMethod="formatCurrency" v-on:valuechange="enterPrice"></FormatableNumberInput>
             </div>
-            <input class="column is-offset-1 is-10" type="range" :min="minPrice" :max="maxPrice" step="1000" v-model="newPrice">
+            <el-slider class="column is-12" :min="minPrice" :max="maxPrice" :step="1000" v-model="newPrice"></el-slider>
           </div>
         </div>
         <div class="column is-6">
@@ -46,10 +46,10 @@
             <div class="column is-12">
               <p class="control has-addons">
                 <FormatableNumberInput class="is-expanded" :value="downPayment" :formatMethod="formatCurrency" v-on:valuechange="enterDownPayment"></FormatableNumberInput>
-                <FormatableNumberInput :value="downPaymentRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event / 100)"></FormatableNumberInput>
+                <FormatableNumberInput :value="downPaymentRate" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event)"></FormatableNumberInput>
               </p>
             </div>
-            <input class="column is-offset-1 is-10" type="range" min="0" max="1.0" step="0.01" v-model="downPaymentRate">
+            <el-slider class="column is-12" v-model="downPaymentRate"></el-slider>
           </div>
         </div>
 
@@ -152,8 +152,10 @@ export default {
   data() {
     return {
       newPrice: this.price,
+      maxPrice: this.price * 1.2,
+      minPrice: this.price * 0.8,
       newHoa: this.hoa,
-      downPaymentRate: 0.2,
+      downPaymentRate: 20,
       loanTypes: [
         {
           text: '30 Yr. Fixed',
@@ -181,7 +183,7 @@ export default {
   },
   computed: {
     mortgageInsuranceApply() {
-      return this.downPaymentRate < 0.2;
+      return this.downPaymentRate < 20;
     },
     mortgageInsuranceStyle() {
       return this.mortgageInsuranceApply ? { display: 'block' } : { display: 'none' };
@@ -191,14 +193,8 @@ export default {
       /* eslint-disable no-mixed-operators */
       return (this.newPrice - this.downPayment) * this.mortgageInsuranceRate / 12;
     },
-    minPrice() {
-      return this.price * 0.8;
-    },
-    maxPrice() {
-      return this.price * 1.2;
-    },
     downPayment() {
-      return this.newPrice * this.downPaymentRate;
+      return this.newPrice * this.downPaymentRate / 100;
     },
     propertyTax() {
       // per month
@@ -253,9 +249,14 @@ export default {
   },
   components: { VueChart, FormatableNumberInput },
   methods: {
+    enterPrice(value) {
+      this.newPrice = value;
+      this.maxPrice = value * 1.2;
+      this.minPrice = value * 0.8;
+    },
     enterDownPayment(value) {
-      this.downPaymentRate = value / this.newPrice;
-      this.downPaymentRate = this.downPaymentRate > 1.0 ? 1.0 : this.downPaymentRate;
+      this.downPaymentRate = value / this.newPrice * 100;
+      this.downPaymentRate = this.downPaymentRate > 100 ? 100 : this.downPaymentRate;
     },
     enterPropertyTax(value) {
       this.propertyTaxRate = value / this.newPrice;
