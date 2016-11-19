@@ -8,6 +8,7 @@ const state = {
   filterResults: [],
   lastFilter: [],
   selected: null,
+  current: null,
 };
 
 // mutations
@@ -15,6 +16,10 @@ const state = {
 const mutations = {
   [types.RECEIVE_HOUSES](_state, { houses }) {
     _state.all = houses;
+  },
+
+  [types.SET_CURRENT_HOUSE](_state, { house }) {
+    _state.current = house;
   },
 
   [types.ADD_FAVORITE](_state, { id }) {

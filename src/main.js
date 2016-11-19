@@ -4,6 +4,7 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import VueFire from 'vuefire';
 import Element from 'element-ui';
+import VueLazyload from 'vue-lazyload';
 import 'element-ui/lib/theme-default/index.css';
 import 'bulma/css/bulma.css';
 
@@ -14,6 +15,12 @@ import store from './store';
 Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueFire);
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  // error: '../static/error.png',
+  loading: '../static/loading.gif',
+  attempt: 1,
+});
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
 

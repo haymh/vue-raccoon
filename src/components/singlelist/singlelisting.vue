@@ -13,7 +13,7 @@
       <div class="column is-half is-hidden-touch">
         <list-detail-info v-bind:listingData="singleListingData"></list-detail-info>
         <footer class="card-footer actions">
-          <a class="card-footer-item">View Detail</a>
+          <router-link class="card-footer-item" to="/house/1">View Detail</router-link>
         </footer>
       </div>
     </div>

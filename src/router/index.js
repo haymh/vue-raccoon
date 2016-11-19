@@ -6,6 +6,7 @@ import View1 from '../components/view1.vue';
 import ChatView from '../components/chat/Chat.vue';
 import Main from '../components/main.vue';
 import SingleListing from '../components/singlelist/singlelisting.vue';
+import Detail from '../components/Detail.vue';
 
 Vue.use(Router);
 
@@ -20,6 +21,7 @@ export default new Router({
     { path: '/chat', component: ChatView },
     { path: '/main', component: Main },
     { path: '/listing', component: SingleListing },
+    { path: '/house/:id', component: Detail },
     { path: '*', redirect: '/hello' },
   ],
 });

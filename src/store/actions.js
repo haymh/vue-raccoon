@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
-import search from '../api/house';
+import { search, findById } from '../api/house';
 
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
   search(searchTerms).then((houses) => {
@@ -12,6 +12,12 @@ export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
       filter: state.houses.lastFilter,
       isDelta: false,
     });
+  });
+};
+
+export const findHouseById = ({ commit }, { id }) => {
+  findById(id).then((house) => {
+    commit(types.SET_CURRENT_HOUSE, { house });
   });
 };
 
