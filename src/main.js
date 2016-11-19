@@ -5,9 +5,9 @@ import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
 import VueFire from 'vuefire';
 import Element from 'element-ui';
-import VueLazyload from 'vue-lazyload';
 import 'element-ui/lib/theme-default/index.css';
 import 'bulma/css/bulma.css';
+import AwesomeSwiper from 'vue-awesome-swiper';
 
 import App from './App.vue';
 import router from './router';
@@ -17,16 +17,11 @@ Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
   error: 'http://placehold.it/325x250',
-  loading: 'http://placehold.it/325x250',
+  loading: '../static/loading.gif',
   attempt: 2,
 });
 Vue.use(VueFire);
-Vue.use(VueLazyload, {
-  preLoad: 1.3,
-  // error: '../static/error.png',
-  loading: '../static/loading.gif',
-  attempt: 1,
-});
+Vue.use(AwesomeSwiper);
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
 

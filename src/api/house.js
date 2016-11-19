@@ -83,13 +83,13 @@ export const findById = (id) => {
             'http://photos.zillowstatic.com/p_f/ISa52ebg17zh291000000000.jpg',
             'http://photos.zillowstatic.com/p_f/ISuctjelacmj081000000000.jpg',
             'http://photos.zillowstatic.com/p_f/ISuwk274vh3gw91000000000.jpg'],
-          description: 'po fang zi dou TM mai',
+          description: 'UC living at it\'s best! Comfort and style abound in this nicely updated, upper corner unit. Relaxing pine views welcome you to the many details of this wonderful home. Property features include: Arched doorways, 14\' vaulted ceilings, Venetian plaster, upgraded kitchen, recessed lighting, new closets with built in dressers, dual pane windows in master, new doors throughout, and even it\'s own laundry room. Storage includes: generous 1 car garage, 16\'x7\' storage unit, and 6\'x17\' finished attic storage.',
           status: 'Active',
           likes: 2,
           views: 200,
           propertyType: 'Condo',
           hoa: 0,
-          built: (new Date()).toString(),
+          built: '1960',
           yearRenovated: new Date(),
           feature: [
             {
