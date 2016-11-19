@@ -7,6 +7,7 @@ const state = {
   all: [],
   filterResults: [],
   lastFilter: [],
+  selected: null,
 };
 
 // mutations
@@ -91,6 +92,11 @@ const mutations = {
       }
       return true;
     });
+  },
+
+  [types.SELECT_HOUSE](_state, { house }) {
+    console.log('Select house -> ', house);
+    _state.selected = house;
   },
 };
 /* eslint-enable no-param-reassign */

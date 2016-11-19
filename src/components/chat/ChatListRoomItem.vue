@@ -1,5 +1,4 @@
 <template lang="html">
-  <div class="ChatRoomListItem">
     <li>
       <div class="columns is-mobile">
         <div class="column is-3">
@@ -9,7 +8,9 @@
           <p class="name">{{person.nickname}}</p>
         </div>
         <div class="column is-2">
-          <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>
+          <transition name="fade">
+            <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>
+          </transition>
         </div>
         <div class="column is-1">
           <el-dropdown>
@@ -24,7 +25,6 @@
         </div>
       </div>
     </li>
-  </div>
 </template>
 
 <script>
@@ -75,5 +75,12 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style scoped lang="css">
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
 </style>

@@ -171,6 +171,10 @@ export default {
         this.$nextTick(() => {
           const el = document.getElementById('messageContainer');
           el.scrollTop = el.scrollHeight - el.clientHeight;
+
+          // update current user unread count
+          const currentUserUnreadRef = db.ref(`/unread/${this.userId}/${this.roomId}`);
+          currentUserUnreadRef.set(0);
         });
       },
     },

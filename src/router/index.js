@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-
 import HelloView from '../components/Hello.vue';
 import View1 from '../components/view1.vue';
 import ChatView from '../components/chat/Chat.vue';
@@ -9,7 +8,6 @@ import Main from '../components/main.vue';
 import SingleListing from '../components/singlelist/singlelisting.vue';
 
 Vue.use(Router);
-
 
 export default new Router({
   mode: 'history',

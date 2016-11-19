@@ -7,8 +7,8 @@
     <table class="table is-striped detail">
       <tbody>
         <tr>
-          <td>$/Sq. Ft.: <b>{{'$'+numberFormat(listingData.sqftPrice)}}</b></td>
-          <td>Year Built: <b>{{listingData.yearBuilt}}</b></td>
+          <td>$/Sq. Ft.: <b>{{'$'+numberFormat(listingData.unitPriceInSF)}}</b></td>
+          <td>Year Built: <b>{{listingData.built | formatDate}}</b></td>
         </tr>
         <tr>
           <td>Days Online: <b>{{daysOnline}}</b></td>
@@ -62,8 +62,8 @@ export default {
     if (this.listingData.postDate) {
       this.daysOnline = this.daysFromToday(this.listingData.postDate);
     }
-    if (this.listingData.lotSize) {
-      this.lot = this.numberFormat(this.listingData.lotSize);
+    if (this.listingData.lotSizeInSF) {
+      this.lot = this.numberFormat(this.listingData.lotSizeInSF);
     } else {
       this.lot = '-';
     }
@@ -72,6 +72,15 @@ export default {
     } else {
       this.hoa = 'None';
     }
+  },
+  filters: {
+    formatDate(date) {
+      if (typeof date === 'string' || typeof date === 'number') {
+        const d = new Date(date);
+        return d.toLocaleDateString();
+      }
+      return null;
+    },
   },
   methods: {
     numberFormat(n) {

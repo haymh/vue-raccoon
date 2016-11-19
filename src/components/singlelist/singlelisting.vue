@@ -3,7 +3,7 @@
     <div class="columns is-gapless">
       <div class="column is-half left-column">
         <list-basic-info class="basic-info" v-bind:listingData="singleListingData"></list-basic-info>
-        <list-gallery :images="singleListingData.media"></list-gallery>
+        <list-gallery :images="singleListingData.pics"></list-gallery>
         <a class="like" v-bind:style="{color: like? '#ff3860':'white'}">
           <span class="icon is-medium" v-on:click="likeListing">
             <i v-bind:class="['fa',like ? 'fa-heart' : 'fa-heart-o']"></i>
@@ -76,7 +76,6 @@ export default {
     };
   },
   created() {
-    this.like = this.singleListingData.like;
   },
   methods: {
     likeListing() {

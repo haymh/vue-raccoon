@@ -77,7 +77,8 @@
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-.ChatList li.active {
+.ChatList li.active,
+.ChatList .ChatListRoomItem.active {
   background-color: black;
 }
 
