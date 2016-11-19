@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="listing-image" :style="{backgroundImage: 'url(' + listingData.pics[index] + ')'}" >
+    <div>
+      <img v-for="(imgUrl, index) in images"
+        v-show="index === currentIndex"
+        v-lazy="imgUrl"
+        :alt="index"
+        class="listing-image"/>
       <div class="arrows">
         <a class="icon is-medium leftArrow" v-on:click="prevImage">
           <i class="fa fa-caret-left" aria-hidden="true"></i>
@@ -43,19 +48,20 @@
 <script>
 export default {
   name: 'Gallery',
-  props: ['listingData'],
+  props: ['images'],
   data() {
     return {
-      index: 0,
+      currentIndex: 0,
     };
   },
   methods: {
     nextImage() {
-      this.index = (this.index === this.listingData.pics.length - 1) ? 0 : this.index += 1;
+      this.currentIndex = (this.currentIndex === this.images.length - 1)
+      ? 0 : this.currentIndex += 1;
     },
     prevImage() {
-      this.index = (this.index === 0) ?
-       this.index = this.listingData.pics.length - 1 : this.index -= 1;
+      this.currentIndex = (this.currentIndex === 0) ?
+       this.currentIndex = this.images.length - 1 : this.currentIndex -= 1;
     },
   },
 };

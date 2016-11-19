@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import VueResource from 'vue-resource';
+import VueLazyload from 'vue-lazyload';
 import VueFire from 'vuefire';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
@@ -13,6 +14,11 @@ import store from './store';
 
 Vue.use(Element);
 Vue.use(VueResource);
+Vue.use(VueLazyload, {
+  error: 'http://placehold.it/325x250',
+  loading: 'http://placehold.it/325x250',
+  attempt: 2,
+});
 Vue.use(VueFire);
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
