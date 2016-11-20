@@ -49,7 +49,7 @@
     },
 
     mounted() {
-      if (!this.mapReady) this.googleMapLoaded();
+      if (this.mapScriptReady && !this.mapReady) this.googleMapLoaded();
     },
 
     methods: {
