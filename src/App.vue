@@ -7,9 +7,9 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/logo.png" alt="logo">
         </router-link>
-        <router-link to="/hello">Hello</router-link>
+        <router-link to="/hello">{{ $t('nav.hello') }}</router-link>
         <router-link to="/view1">View1</router-link>
-        <router-link to="/chat">Chat</router-link>
+        <router-link to="/chat">{{ $t('nav.chat') }}</router-link>
         <router-link to="/main">Main</router-link>
 				<router-link to="/listing">Listing</router-link>
       </div>
