@@ -85,11 +85,11 @@
   </div>
 
   <!-- map -->
-  <!-- <div class="section">
-    <div class="body">
-      <RaccoonMap class='map' :houses="[currentHouse]"></RaccoonMap>
+  <div class="section">
+    <div class='map'>
+      <RaccoonMap :houses="[currentHouse]"></RaccoonMap>
     </div>
-  </div> -->
+  </div>
 
   <!-- mortgage calculator -->
   <div class="section">
@@ -101,6 +101,12 @@
   <!-- <pre>{{ [currentHouse] }}</pre> -->
 </div>
 </template>
+<style>
+.map {
+  height: 300px;
+  width: 600px;
+}
+</style>
 <script>
 import { mapGetters } from 'vuex';
 import ThumbSlider from './singlelist/ThumbSlider.vue';
@@ -112,7 +118,7 @@ export default {
     'currentHouse',
   ]),
   watch: {
-    '$route'() {
+    $route() {
       this.$store.dispatch('findHouseById', { id: this.$route.params.id });
     },
   },

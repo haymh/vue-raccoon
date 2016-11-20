@@ -31,7 +31,7 @@ const HouseMarkerClassGenerator = () => class HouseMarker extends google.maps.Ov
     div.style.textAlign = 'center';
 
     const img = document.createElement('img');
-    img.src = './static/small_house.png';
+    img.src = '/static/small_house.png';
     img.style.width = '20';
     img.style.height = '20';
     div.appendChild(img);
