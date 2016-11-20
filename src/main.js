@@ -13,6 +13,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+import locales from './locales';
+
 Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
@@ -25,23 +27,7 @@ Vue.use(VueFire);
 
 // i18n config
 Vue.config.lang = 'zh';
-// Vue.config.lang = 'en';
-
-// ready translated locales
-const locales = {
-  en: {
-    nav: {
-      hello: 'Hello',
-      chat: 'Chat',
-    },
-  },
-  zh: {
-    nav: {
-      hello: '你好',
-      chat: '聊天',
-    },
-  },
-};
+Vue.config.fallbackLang = 'en';
 
 // set locales
 Object.keys(locales).forEach((lang) => {
