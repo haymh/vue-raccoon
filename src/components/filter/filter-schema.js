@@ -34,7 +34,7 @@ export const isNewResultSubset = (oldCondition, newCondition) => {
       for (let i = 0; i < oldCondition.choices.length; i += 1) {
         const oldChoice = oldCondition.choices[i];
         const newChoice = newCondition.choices[i];
-        if (!oldChoice && newChoice) {
+        if (!oldChoice.checked && newChoice.checked) {
           return false;
         }
       }
@@ -91,7 +91,10 @@ export const cleanCopyCondition = (condition) => {
     case ONEOF:
       return {
         ...common,
-        choices: condition.choices,
+        choices: condition.choices.map((choice) => {
+          const c = { value: choice.value, checked: choice.checked };
+          return c;
+        }),
       };
     default:
       return {};
@@ -148,18 +151,18 @@ export const schema = {
       minChoices: [NO_MIN, 2016, 2015, 2014, 2000, 1990],
       maxChoices: [NO_MAX, 2016, 2015, 2014, 2000, 1990],
     },
-    propertyTypes: {
-      key: 'propertyTypes',
+    propertyType: {
+      key: 'propertyType',
       type: ONEOF,
       choices: [
-        { value: 'Single_family', checked: true },
+        { value: 'Single_Family', checked: true },
         { value: 'Townhouse', checked: true },
         { value: 'Apartment', checked: true },
         { value: 'Condo', checked: true },
       ],
     },
-    listingTypes: {
-      key: 'listingTypes',
+    listingType: {
+      key: 'listingType',
       type: ONEOF,
       choices: [
         { value: 'Active', checked: true },

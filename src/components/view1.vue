@@ -1,8 +1,7 @@
 <template>
   <div>
-    <el-button type="primary" @click.native="readUserLocally">load user from local storage</el-button>
-    <el-button type="primary" @click.native="searchHouse">search house</el-button>
-    <el-button type="primary" @click.native="filter">filter</el-button>
+    <a class="button" @click="readUserLocally">load user from local storage</a>
+    <a class="button" @click="searchHouse">search house</a>
     <FilterElement></FilterElement>
     <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
     <h1>User</h1>
