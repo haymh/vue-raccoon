@@ -22,7 +22,8 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-param-reassign': [2, {'props': false}],
     'no-lonely-if': 0,
-    'object-shorthand': 1
+    'object-shorthand': 1,
+    'no-underscore-dangle': 0
   },
   'globals': {
     'google': true,

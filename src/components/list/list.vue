@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="list in filterResults">
-      <single-list v-bind:singleListingData="list"></single-list>
+    <div v-for="item in filterResults">
+      <single-list v-bind:singleListingData="item"></single-list>
     </div>
     <h1>All Houses</h1>
     <pre>{{ allHouses }}</pre>
