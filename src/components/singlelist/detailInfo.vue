@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-info-wrapper">
+  <div class="detail-info-wrapper is-marginless">
     <header class="card-header">
       <h1 class="title">{{listingData.title}}</h1>
     </header>
@@ -7,7 +7,7 @@
     <table class="table is-striped detail">
       <tbody>
         <tr>
-          <td>$/Sq. Ft.: <b>{{'$'+numberFormat(listingData.unitPriceInSF)}}</b></td>
+          <td>$/Sq. Ft.: <b>{{listingData.unitPriceInSF | formatNumber(2, '$')}}</b></td>
           <td>Year Built: <b>{{listingData.built | formatDate}}</b></td>
         </tr>
         <tr>
@@ -21,10 +21,11 @@
       </tbody>
     </table>
     <div class="level">
-      <div class="level-left">
-        <div class="level-item" v-for="tag in listingData.tags">
-          <a v-bind:class="['button',tagStyle(tag),'is-small','is-outlined']">{{tag}}</a>
-        </div>
+      <div class="level-item" v-for="tag in listingData.tags">
+        <span class="tag is-info">{{tag}}</span>
+      </div>
+      <div class="level-right">
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -46,7 +47,7 @@
 .detail-info-wrapper {
   font-family: serif;
   color: #727272;
-  margin: 5px;
+  padding: 5px;
 }
 </style>
 
@@ -55,20 +56,20 @@ export default {
   name: 'DetailInfo',
   props: ['listingData'],
   created() {
-    this.viewVisit = this.numberFormat(this.listingData.views)
+    this.viewVisit = this.$options.filters.formatNumber(this.listingData.views, 0, '')
                       .concat(' views/')
-                      .concat(this.numberFormat(this.listingData.visits))
+                      .concat(this.$options.filters.formatNumber(this.listingData.visits, 0, ''))
                       .concat(' visits');
     if (this.listingData.postDate) {
       this.daysOnline = this.daysFromToday(this.listingData.postDate);
     }
     if (this.listingData.lotSizeInSF) {
-      this.lot = this.numberFormat(this.listingData.lotSizeInSF);
+      this.lot = this.$options.filters.formatNumber(this.listingData.lotSizeInSF, 0, '');
     } else {
       this.lot = '-';
     }
     if (this.listingData.hoa) {
-      this.hoa = ('$').concat(this.numberFormat(this.listingData.hoa));
+      this.hoa = this.$options.filters.formatNumber(this.listingData.hoa, 0, '$');
     } else {
       this.hoa = 'None';
     }
@@ -83,23 +84,6 @@ export default {
     },
   },
   methods: {
-    numberFormat(n) {
-      this.k = '';
-      this.number = n;
-      while (this.number > 1000) {
-        this.m = this.number % 1000;
-        this.d = '';
-        if (this.m === 0) {
-          this.d = '000';
-        } else {
-          this.d = this.m.toString();
-        }
-        this.k = (',').concat(this.d).concat(this.k);
-        this.number /= 1000;
-      }
-      this.k = (this.number).toString().concat(this.k);
-      return this.k;
-    },
     daysFromToday(dateStr) {
       this.d = new Date(dateStr);
       this.today = new Date();

@@ -52,6 +52,7 @@
           nextButton: '.swiper-button-next',
           prevButton: '.swiper-button-prev',
           spaceBetween: 10,
+          centeredSlides: true,
           lazyLoading: true,
           mousewheelControl: true,
         },

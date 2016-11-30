@@ -22,6 +22,15 @@ Vue.use(VueLazyload, {
 });
 Vue.use(VueFire);
 Vue.use(AwesomeSwiper);
+Vue.filter('formatNumber', (n, p, symbol) => {
+  const res = n.toFixed(p).replace(/./g, (c, i, a) => {
+    if (i && c !== '.' && ((a.length - i) % 3 === 0)) {
+      return `,${c}`;
+    }
+    return c;
+  });
+  return `${symbol}${res}`;
+});
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
 

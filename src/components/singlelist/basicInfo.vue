@@ -1,9 +1,9 @@
 <template>
   <div class="basic-info-wrapper">
-    <div class="price">{{'$' + numberFormat(listingData.price)}}</div>
+    <div class="price">{{listingData.price | formatNumber(0, '$')}}</div>
     <div class="value-label">{{listingData.beds + ' Beds'}}</div>
     <div class="value-label">{{listingData.baths + ' Baths'}}</div>
-    <div class="value-label">{{numberFormat(listingData.sizeInSF) + ' Sq.Ft.'}}</div>
+    <div class="value-label">{{listingData.sizeInSF | formatNumber(0, '') + ' Sq.Ft.'}}</div>
     <div class="address">{{address}}</div>
     </div>
 </template>
@@ -54,25 +54,6 @@ export default {
                   .concat(this.listingData.address.zip);
       }
       return '';
-    },
-  },
-  methods: {
-    numberFormat(n) {
-      this.k = '';
-      this.number = n;
-      while (this.number > 1000) {
-        this.m = this.number % 1000;
-        this.d = '';
-        if (this.m === 0) {
-          this.d = '000';
-        } else {
-          this.d = this.m.toString();
-        }
-        this.k = (',').concat(this.d).concat(this.k);
-        this.number = Math.floor(this.number / 1000);
-      }
-      this.k = (this.number).toString().concat(this.k);
-      return this.k;
     },
   },
 };
