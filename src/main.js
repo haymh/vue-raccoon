@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
+import VueI18n from 'vue-i18n';
 import VueFire from 'vuefire';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
@@ -12,6 +13,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 
+import locales from './locales';
+
 Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
@@ -19,7 +22,17 @@ Vue.use(VueLazyload, {
   loading: 'http://placehold.it/325x250',
   attempt: 2,
 });
+Vue.use(VueI18n);
 Vue.use(VueFire);
+
+// i18n config
+Vue.config.lang = 'zh';
+Vue.config.fallbackLang = 'en';
+
+// set locales
+Object.keys(locales).forEach((lang) => {
+  Vue.locale(lang, locales[lang]);
+});
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
 
