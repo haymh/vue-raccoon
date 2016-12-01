@@ -12,7 +12,10 @@
     <div class="column is-narrow">
       <filter-element>
       </filter-element>
-      <house-list></house-list>
+      <SortBar></SortBar>
+      <div class="list-container">
+        <house-list></house-list>
+      </div>
     </div>
   </div>
 </div>
@@ -40,6 +43,7 @@
 import { mapGetters } from 'vuex';
 import navbar from './navbar.vue';
 import list from './list/list.vue';
+import SortBar from './list/SortBar.vue';
 import filter from './filter/Filter-element.vue';
 import Map from './map/Map.vue';
 
@@ -54,6 +58,7 @@ export default {
     'nav-bar': navbar,
     'filter-element': filter,
     'house-list': list,
+    SortBar,
     RaccoonMap: Map,
   },
   computed: mapGetters([
