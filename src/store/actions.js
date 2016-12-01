@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-fetch';
+import firebase from 'firebase';
 import * as types from './mutation-types';
 import search from '../api/house';
 
@@ -30,6 +31,39 @@ export function selectHouse({ commit }, { house }) {
 export const filterHouses = ({ commit }, { filter, isDelta }) => {
   commit(types.FILTER_HOUSE, { filter, isDelta });
 };
+
+export function userLogin({ commit }, { email, password }) {
+  console.log('calling userLogin');
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      console.log('login', user);
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode === 'auth/wrong-password') {
+        console.warn('Wrong password.');
+      } else {
+        console.warn(errorMessage);
+      }
+      console.log(error);
+    });
+}
+
+export function userSignup({ commit }, { email, password }) {
+  console.log('user signing up');
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((user) => {
+      console.log('signup', user);
+    })
+  .catch((error) => {
+    // const errorCode = error.code;
+    const errorMessage = error.message;
+    console.warn(errorMessage);
+    console.log(error);
+  });
+}
 
 export const setUser = ({ commit },
    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {

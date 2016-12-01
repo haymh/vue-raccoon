@@ -150,6 +150,7 @@ export default {
         // User is signed in.
         const id = user.uid;
         const isTemp = user.isAnonymous;
+        console.log(user);
         // Change user online status
         const userPresenceRef = db.ref(`/presence/${id}`);
         db.ref('.info/connected').on('value', (snapshot) => {
@@ -193,13 +194,21 @@ export default {
             // user doesn't exists
             // create a user profile
             console.log('creating user ', id);
+            let nickname = 'Visitor';
+            if (user.email) {
+              console.log(user.email);
+              const regex = /([^\s@]+)@[^\s@]+\.[^\s@]+/;
+              console.log(regex.exec(user.email));
+              nickname = regex.exec(user.email)[1];
+            }
             const updates = {};
             updates[`/users/${id}`] = {
               isTemp,
               type: 'buyer',
-              nickname: 'Visitor',
+              nickname,
               createdAt: timeStamp,
               lastLogin: timeStamp,
+              email: user.email ? user.email : undefined,
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
@@ -212,7 +221,7 @@ export default {
                 {
                   id,
                   isTemp,
-                  nickname: 'Visitor',
+                  nickname,
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
