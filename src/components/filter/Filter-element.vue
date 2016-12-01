@@ -21,26 +21,26 @@
         </option>
       </select>
     </span>
-      <label class="label bed-filter">Bed:</label>
-      <span class="select bed-filter">
-        <select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
+    <label class="label bed-filter">Bed:</label>
+    <span class="select bed-filter">
+      <select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
+        <option
+          v-for="item in schema.conditions.bed.minChoices"
+          :label="item"
+          :value="item">
+        </option>
+      </select>
+    </span>
+    <label class="label bed-filter">to</label>
+    <span class="select bed-filter">
+      <select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
           <option
-            v-for="item in schema.conditions.bed.minChoices"
-            :label="item"
-            :value="item">
-          </option>
-        </select>
-      </span>
-      <label class="label bed-filter">to</label>
-      <span class="select bed-filter">
-        <select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
-            <option
-            v-for="item in schema.conditions.bed.maxChoices"
-            :label="item"
-            :value="item">
-          </option>
-        </select>
-      </span>
+          v-for="item in schema.conditions.bed.maxChoices"
+          :label="item"
+          :value="item">
+        </option>
+      </select>
+    </span>
     <div>
       <a class="button is-link" v-on:click="toggleFilterView">
         <span>More Filters</span>
@@ -49,6 +49,28 @@
         </span>
       </a>
       <div class="box dropdown-content" v-bind:style="{display: showFilter? 'inline-block':'none'}">
+        <div class="bed-filter-min">
+          <label class="label">Bed:</label>
+          <span class="select">
+            <select v-model="schema.conditions.bed.min" @change="changeFilter('bed', true, 'min')">
+              <option
+                v-for="item in schema.conditions.bed.minChoices"
+                :label="item"
+                :value="item">
+              </option>
+            </select>
+          </span>
+          <label class="label">to</label>
+          <span class="select">
+              <select v-model="schema.conditions.bed.max" @change="changeFilter('bed', true, 'max')">
+                <option
+                v-for="item in schema.conditions.bed.maxChoices"
+                :label="item"
+                :value="item">
+              </option>
+            </select>
+          </span>
+        </div>
         <div class="label">Bath</div>
         <span class="select">
           <select v-model="schema.conditions.bath.min" @change="changeFilter('bath', false)">
@@ -74,12 +96,18 @@
 </template>
 <style>
 @media only screen and (max-width: 979px) {
+  .bed-filter-min {
+    display: inline-block !important;
+  }
   .bed-filter {
     display: none !important;
   }
   .wrapper {
     max-width: 380px !important;
   }
+}
+.bed-filter-min {
+  display: none;
 }
 .simple-filter {
   padding: 5px;

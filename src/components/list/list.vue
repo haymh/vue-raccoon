@@ -1,15 +1,14 @@
 <template>
   <div>
-    <div v-for="list in filterResults">
-      <single-list v-bind:singleListingData="list"></single-list>
+    <div class="singlelist" v-for="list in filterResults">
+      <single-list  v-bind:singleListingData="list"></single-list>
     </div>
-    <h1>All Houses</h1>
-    <pre>{{ allHouses }}</pre>
-    <h1>Filter Results</h1>
-    <pre>{{ filterResults }}</pre>
   </div>
 </template>
 <style>
+ .singlelist {
+   margin-bottom: 10px;
+ }
 </style>
 <script>
 import { mapGetters } from 'vuex';

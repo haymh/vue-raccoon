@@ -9,7 +9,7 @@
         <span>{{ selectedHouse && selectedHouse.address }}</span>
       </div>
     </div>
-    <div class="column is-narrow">
+    <div class="column is-narrow list-filter-container">
       <filter-element>
       </filter-element>
       <SortBar></SortBar>
@@ -22,17 +22,28 @@
 </template>
 <style>
 .save-button {
-  float: right;
+  position: absolute !important;
+  z-index: 100;
+  right: 0px;
   margin: 10px;
 }
-.map-container,.list-container {
+.map-container {
+  position: relative;
   height: calc(100vh - 65px);
   padding: 0;
   margin: 0;
 }
-.list-container {
+.list-filter-container {
+  height: calc(100vh - 65px);
   overflow: hidden;
-  overflow-y: scroll;
+}
+.list-container {
+  height: calc(100vh - 107px);
+  position: relative;
+  overflow: scroll;
+}
+.list-container::-webkit-scrollbar {
+  display: none;
 }
 .box-card {
   height: 100px;
