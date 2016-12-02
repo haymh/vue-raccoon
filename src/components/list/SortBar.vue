@@ -1,12 +1,15 @@
 <template>
-  <div>
+  <div class="control is-horizontal">
+    <div class="control-label">
+     <label class="label">Sort By</label>
+    </div>
     <p class="control has-addons">
       <span class="select">
-        <select v-model="sortBy">
+        <select v-model="sortBy" @change="setSort">
           <option v-for="item in options">{{item}}</option>
         </select>
       </span>
-      <a class="button" v-on:click="toggleUpAndDown">
+      <a class="button is-primary is-outlined" v-on:click="toggleUpAndDown">
         <span class="icon is-small">
           <i v-bind:class="upOrDown"></i>
         </span>
@@ -25,7 +28,7 @@ export default {
       options: [
         'price', 'beds', 'baths', 'lots',
       ],
-      sortBy: 'price',
+      sortBy: '',
       lowToHigh: true,
     };
   },
@@ -44,6 +47,10 @@ export default {
   methods: {
     toggleUpAndDown() {
       this.lowToHigh = !this.lowToHigh;
+      this.setSort();
+    },
+    setSort() {
+      this.$store.dispatch('setSort', { key: this.sortBy, asc: this.lowToHigh });
     },
   },
 };

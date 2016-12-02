@@ -37,6 +37,10 @@ export const filterHouses = ({ commit }, { filter, isDelta }) => {
   commit(types.FILTER_HOUSE, { filter, isDelta });
 };
 
+export const setSort = ({ commit }, { key, asc }) => {
+  commit(types.SET_SORT, { sort: { key, asc } });
+};
+
 export const setUser = ({ commit },
    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
   commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
