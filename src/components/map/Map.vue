@@ -11,9 +11,7 @@
   export default {
     props: ['houses'],
     data() {
-      return {
-        things: 'cool',
-      };
+      return {};
     },
 
     watch: {
@@ -28,43 +26,58 @@
     },
 
     created() {
-      this.mapReady = false;
-      const googleMapScript = document.createElement('SCRIPT');
-      const baseUrl = 'https://maps.googleapis.com/maps/api/js';
-      const url = `${baseUrl}?key=AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ&callback=googleMapsInit`;
-      window.googleMapsInit = () => {
-        this.googleMapLoaded();
-      };
-      googleMapScript.setAttribute('src', url);
-      googleMapScript.setAttribute('async', '');
-      googleMapScript.setAttribute('defer', '');
-      document.body.appendChild(googleMapScript);
+      if (!document.getElementById('google-map-script')) {
+        this.mapScriptReady = false;
+        const googleMapScript = document.createElement('SCRIPT');
+        const baseUrl = 'https://maps.googleapis.com/maps/api/js';
+        const url = `${baseUrl}?key=AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ&callback=googleMapsInit`;
+        window.googleMapsInit = () => {
+          this.mapScriptReady = true;
+          if (this.$el) this.googleMapLoaded();
+        };
+        googleMapScript.setAttribute('src', url);
+        googleMapScript.setAttribute('async', '');
+        googleMapScript.setAttribute('defer', '');
+        googleMapScript.setAttribute('id', 'google-map-script');
+        document.body.appendChild(googleMapScript);
 
-      const clusterScript = document.createElement('SCRIPT');
-      const clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
-      clusterScript.setAttribute('src', clusterUrl);
-      document.body.appendChild(clusterScript);
+        const clusterScript = document.createElement('SCRIPT');
+        const clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+        clusterScript.setAttribute('src', clusterUrl);
+        document.body.appendChild(clusterScript);
+      } else this.mapScriptReady = true;
+    },
+
+    mounted() {
+      if (this.mapScriptReady && !this.mapReady) this.googleMapLoaded();
     },
 
     methods: {
       googleMapLoaded() {
+        let center = { lat: 32.856385, lng: -117.202936 };
+        if (this.houses.length === 1) {
+          const [lat, lng] = this.houses[0].location.coordinates;
+          center = { lat, lng };
+        }
+
         this.mapReady = true;
         this.map = new google.maps.Map(this.$el, {
-          center: { lat: 32.856385, lng: -117.202936 },
+          center,
           zoom: 13,
         });
 
         this.HouseMarker = HouseMarkerClassGenerator();
         this.PriceOverlay = PriceOverlayClassGenerator();
-        this.markersFromHouses();
-        this.showMarkersInView();
 
-        this.applyMarkerClickHandler();
+        google.maps.event.addListenerOnce(this.map, 'idle', () => {
+          this.markersFromHouses();
+          this.showMarkersInView();
+          this.applyMarkerClickHandler();
+        });
 
         this.map.addListener('center_changed', this.showMarkersInView);
 
         this.map.addListener('zoom_changed', () => {
-          console.log('Zoom changed! Current zoom -> ', this.map.getZoom());
           if (this.map.getZoom() <= 12 && !this.markerCluster) {
             if (this.activeMarker) {
               this.activeMarker.overlay.toggleDOM();
@@ -95,7 +108,7 @@
       },
 
       showMarkersInView() {
-        if (this.map.getZoom() > 12) {
+        if (this.map.getBounds() && this.map.getZoom() > 12) {
           this.markers.filter(
             marker => !marker.getMap() &&
                       this.map.getBounds().contains(marker.getPosition()))
@@ -168,7 +181,7 @@
         this.markers = this.houses.map((house) => {
           const marker = new google.maps.Marker({
             position: { lat: house.location.coordinates[0], lng: house.location.coordinates[1] },
-            icon: './static/small_house.png',
+            icon: '/static/small_house.png',
           });
           marker.house = house;
           return marker;

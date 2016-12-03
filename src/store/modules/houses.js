@@ -8,11 +8,47 @@ const state = {
   filterResults: [],
   lastFilter: [],
   selected: null,
+  sort: null,
+};
+
+const sorting = () => {
+  if (state.filterResults.length && state.sort) {
+    const toSort = [];
+    const notSort = [];
+    state.filterResults.forEach((h) => {
+      if (h[state.sort.key] !== undefined || h[state.sort.key] !== null) {
+        toSort.push(h);
+      } else {
+        notSort.push(h);
+      }
+    });
+    toSort.sort((a, b) => {
+      if (a[state.sort.key] === b[state.sort.key]) {
+        return 0;
+      }
+      if (state.sort.asc) {
+        if (a[state.sort.key] < b[state.sort.key]) {
+          return -1;
+        }
+        return 1;
+      }
+      if (a[state.sort.key] <= b[state.sort.key]) {
+        return 1;
+      }
+      return -1;
+    });
+    state.filterResults = toSort.concat(notSort);
+  }
 };
 
 // mutations
 /* eslint-disable no-param-reassign */
 const mutations = {
+  [types.SET_SORT](_state, { sort }) {
+    _state.sort = sort;
+    sorting();
+  },
+
   [types.RECEIVE_HOUSES](_state, { houses }) {
     _state.all = houses;
   },
@@ -92,6 +128,7 @@ const mutations = {
       }
       return true;
     });
+    sorting();
   },
 
   [types.SELECT_HOUSE](_state, { house }) {

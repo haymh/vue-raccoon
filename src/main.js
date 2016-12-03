@@ -8,6 +8,7 @@ import VueFire from 'vuefire';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import 'bulma/css/bulma.css';
+import AwesomeSwiper from 'vue-awesome-swiper';
 
 import App from './App.vue';
 import router from './router';
@@ -19,11 +20,21 @@ Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
   error: 'http://placehold.it/325x250',
-  loading: 'http://placehold.it/325x250',
+  loading: '../static/loading.gif',
   attempt: 2,
 });
 Vue.use(VueI18n);
 Vue.use(VueFire);
+Vue.use(AwesomeSwiper);
+Vue.filter('formatNumber', (n, p, symbol) => {
+  const res = n.toFixed(p).replace(/./g, (c, i, a) => {
+    if (i && c !== '.' && ((a.length - i) % 3 === 0)) {
+      return `,${c}`;
+    }
+    return c;
+  });
+  return `${symbol}${res}`;
+});
 
 // i18n config
 Vue.config.lang = 'zh';

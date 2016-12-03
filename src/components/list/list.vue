@@ -20,11 +20,13 @@ export default {
   components: {
     'single-list': SingleList,
   },
-  computed: mapGetters([
-    'user',
-    'allHouses',
-    'filterResults',
-  ]),
+  computed: {
+    ...mapGetters([
+      'user',
+      'allHouses',
+      'filterResults',
+    ]),
+  },
   created() {
     this.$store.dispatch('searchHouse');
   },

@@ -1,6 +1,5 @@
 <template>
   <input class="input" type="text"
-    style="padding-right:20px;"
     :value="formatMethod(value)"
     v-on:focus="editMode"
     v-on:keyup.enter="outFocus"

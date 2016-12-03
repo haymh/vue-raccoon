@@ -1,39 +1,42 @@
 <template>
-  <div class="card is-fullwidth">
-    <header class="card-header">
-      <p class="card-header-title">
-        Mortgage Calculator
-      </p>
-      <a class="card-header-icon">
-        <i class="fa fa-angle-down"></i>
-      </a>
-    </header>
-    <div class="card-content">
-      <div class="box">
-        <div class="columns">
-          <div class="column is-4">
-            <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
-          </div>
-          <div class="column is-4">
-            <ul v-for="(label, index) in chartData.labels">
-              <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
-                {{label}}:
-                <span class="subtitle is-5" style="float:right">
-                  {{chartData.datasets[0].data[index] | formatCurrency}}
-                </span>
-              </li>
-            </ul>
-          </div>
-          <div class="column is-4">
-            <h1 class="title">Monthly Payment</h1>
-            <h1 class="title">{{ monthlyPayment | formatCurrency }}</h1>
-          </div>
+  <div class="box">
+    <div class="level">
+      <div class="level-left">
+        <h1 class="title is-3">Mortgage Calculator</h1>
+      </div>
+      <div class="level-right">
+        <a class="button">
+          <span>save</span>
+          <span class="icon">
+            <i class="fa fa-bookmark"></i>
+          </span>
+        </a>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <div class="columns is-multiline">
+        <div class="column is-12">
+          <h2 class="title is-4">Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</h2>
+        </div>
+        <div class="column is-offset-1 is-4">
+          <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
+        </div>
+        <div class="column is-offset-1 is-5">
+          <ul v-for="(label, index) in chartData.labels">
+            <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
+              {{label}}
+              <span class="subtitle is-5" style="float:right">
+                {{chartData.datasets[0].data[index] | formatNumber(0, '$')}}
+              </span>
+            </li>
+          </ul>
         </div>
       </div>
       <div class="columns is-multiline">
         <div class="column is-6">
-          <div class="columns is-multiline">
-            <label class="label column is-12">Price</label>
+          <div class="columns is-multiline is-gapless">
+            <p class="heading column is-12">Price</p>
             <div class="column is-12">
               <FormatableNumberInput :value="newPrice" :formatMethod="formatCurrency" v-on:valuechange="enterPrice"></FormatableNumberInput>
             </div>
@@ -41,13 +44,13 @@
           </div>
         </div>
         <div class="column is-6">
-          <div class="columns is-multiline">
-            <label class="label column is-12">Down Payment</label>
+          <div class="columns is-multiline is-gapless">
+            <p class="heading column is-12">Down Payment</p>
             <div class="column is-12">
-              <p class="control has-addons">
-                <FormatableNumberInput class="is-expanded" :value="downPayment" :formatMethod="formatCurrency" v-on:valuechange="enterDownPayment"></FormatableNumberInput>
-                <FormatableNumberInput :value="downPaymentRate" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event)"></FormatableNumberInput>
-              </p>
+              <div class="columns is-mobile is-gapless">
+                <FormatableNumberInput class="column is-8" :value="downPayment" :formatMethod="formatCurrency" v-on:valuechange="enterDownPayment"></FormatableNumberInput>
+                <FormatableNumberInput class="column is-4" :value="downPaymentRate" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event)"></FormatableNumberInput>
+              </div>
             </div>
             <el-slider class="column is-12" v-model="downPaymentRate"></el-slider>
           </div>
@@ -56,8 +59,8 @@
         <div class="column is-6">
           <div class="columns">
             <div class="column is-6">
-              <div class="columns is-multiline">
-                <label class="label column is-12">Loan Type</label>
+              <div class="columns is-multiline is-gapless">
+                <p class="heading column is-12">Loan Type</p>
                 <div class="column is-12">
                   <span class="select" v-on:change="loanTypeChanged">
                     <select v-model="selectedLoanType">
@@ -70,8 +73,8 @@
               </div>
             </div>
             <div class="column is-6">
-              <div class="columns is-multiline">
-                <label class="label column is-12">Interest Rate</label>
+              <div class="columns is-multiline is-gapless">
+                <p class="heading column is-12">Interest Rate</p>
                 <div class="column is-12">
                   <FormatableNumberInput :value="interestRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('interestRate', $event / 100)"></FormatableNumberInput>
                 </div>
@@ -80,53 +83,45 @@
           </div>
         </div>
         <div class="column is-6">
-          <div class="columns is-multiline">
+          <div class="columns is-multiline is-gapless">
+            <p class="heading column is-12">Property Tax</p>
             <div class="column is-12">
-              <label class="label">Property Tax</label>
-            </div>
-            <div class="column is-12">
-              <p class="control has-addons">
-                <FormatableNumberInput class="is-expanded" :value="propertyTax * 12" :formatMethod="formatCurrency" v-on:valuechange="enterPropertyTax"></FormatableNumberInput>
-                <FormatableNumberInput :value="propertyTaxRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('propertyTaxRate', $event / 100)"></FormatableNumberInput>
-              </p>
+              <div class="columns is-mobile is-gapless">
+                <FormatableNumberInput class="column is-8" :value="propertyTax * 12" :formatMethod="formatCurrency" v-on:valuechange="enterPropertyTax"></FormatableNumberInput>
+                <FormatableNumberInput class="column is-4" :value="propertyTaxRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('propertyTaxRate', $event / 100)"></FormatableNumberInput>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="column is-6">
-          <div class="columns is-multiline">
-            <div class="column is-12">
-              <label class="label">HOA Dues</label>
-            </div>
+          <div class="columns is-multiline is-gapless">
+            <p class="heading column is-12">HOA Dues</p>
             <div class="column is-12">
               <FormatableNumberInput :value="newHoa" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newHoa', $event)"></FormatableNumberInput>
             </div>
           </div>
         </div>
         <div class="column is-6">
-          <div class="columns is-multiline">
+          <div class="columns is-multiline is-gapless">
+            <p class="heading column is-12">Home Insurance</p>
             <div class="column is-12">
-              <label class="label">Home Insurance</label>
-            </div>
-            <div class="column is-12">
-              <p class="control has-addons">
-                <FormatableNumberInput class="is-expanded" :value="insurance" :formatMethod="formatCurrency" v-on:valuechange="enterInsurance"></FormatableNumberInput>
-                <FormatableNumberInput :value="insuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('insuranceRate', $event / 100)"></FormatableNumberInput>
-              </p>
+              <div class="columns is-mobile is-gapless">
+                <FormatableNumberInput class="column is-8" :value="insurance" :formatMethod="formatCurrency" v-on:valuechange="enterInsurance"></FormatableNumberInput>
+                <FormatableNumberInput class="is-4" :value="insuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('insuranceRate', $event / 100)"></FormatableNumberInput>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="column is-6" v-bind:style="mortgageInsuranceStyle">
-          <div class="columns is-multiline">
+          <div class="columns is-multiline is-gapless">
+            <p class="heading column is-12">Mortgage Insurance</p>
             <div class="column is-12">
-              <label class="label">Mortgage Insurance</label>
-            </div>
-            <div class="column is-12">
-              <p class="control has-addons">
-                <FormatableNumberInput class="is-expanded" :value="mortgageInsurance" :formatMethod="formatCurrency" v-on:valuechange="enterMortgageInsurance"></FormatableNumberInput>
-                <FormatableNumberInput :value="mortgageInsuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('mortgageInsuranceRate', $event / 100)"></FormatableNumberInput>
-              </p>
+              <div class="columns is-mobile is-gapless">
+                <FormatableNumberInput class="column is-8" :value="mortgageInsurance" :formatMethod="formatCurrency" v-on:valuechange="enterMortgageInsurance"></FormatableNumberInput>
+                <FormatableNumberInput class="column is-4" :value="mortgageInsuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('mortgageInsuranceRate', $event / 100)"></FormatableNumberInput>
+              </div>
             </div>
           </div>
         </div>
@@ -241,10 +236,17 @@ export default {
     },
   },
   watch: {
-  },
-  filters: {
-    formatCurrency(money) {
-      return `$${money.toFixed(2)}`;
+    price: {
+      handler() {
+        this.newPrice = this.price;
+        this.maxPrice = this.price * 1.2;
+        this.minPrice = this.price * 0.8;
+      },
+    },
+    hoa: {
+      handler() {
+        this.newHoa = this.hoa;
+      },
     },
   },
   components: { VueChart, FormatableNumberInput },
