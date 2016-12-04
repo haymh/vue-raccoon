@@ -1,3 +1,4 @@
+// TODO: move this back to RacAPIClient class.
 export const search = (searchTerms) => {
   console.log(searchTerms);
   return new Promise((fulfill) => {

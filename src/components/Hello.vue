@@ -36,7 +36,7 @@
 
 <script>
 import debounce from 'lodash.debounce';
-import fetch from 'isomorphic-fetch';
+import API from '../api';
 
 export default {
   name: 'Search',
@@ -81,16 +81,9 @@ export default {
     querySearchDebounced: debounce((crap, queryString, cb) => {
       console.log('loading');
       console.log('Dirty: ', crap.searchQueryIsDirty);
-      fetch(`http://127.0.0.1:3000/autocomplete?types=(cities)&q=${queryString}`,
-        {
-          // params: { types: '(cities)', q: queryString },
-          headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA4MTc3ODYsImV4cCI6MTQ4MDkwNDE4Nn0.2yUDGEKN8IInzjaVZbI3dA1rHYLPXOhf5Qm-cmIE5dU',
-          },
-        })
-      .then(response => response.json())
+      API.getAutoComplete(queryString)
       .then((json) => {
-        // success callback
+        // success
         console.log('loaded', json);
         const res = json.predictions.map(obj =>
           ({ text: obj.description, value: obj.description }));
@@ -98,11 +91,9 @@ export default {
         crap.searchQueryIsDirty = false;
         cb(res);
       }, (err) => {
-        // error callback
         console.log('err', err);
       });
     }, 1000),
-    queryStringAsync() {},
     handleSelect() {
       console.log('select', this.searchQuery);
     },
