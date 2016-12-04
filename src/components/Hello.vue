@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     search() {
-      console.log('Search: ', this.searchQuery, ' proceed? ', !this.searchQueryIsDirty);
+      console.log('Search: ', this.searchQuery);
     },
     addGuest() {
       this.people.push(this.guestList[Math.floor(Math.random() * this.guestList.length)]);
@@ -83,9 +83,9 @@ export default {
       console.log('Dirty: ', crap.searchQueryIsDirty);
       fetch(`http://127.0.0.1:3000/autocomplete?types=(cities)&q=${queryString}`,
         {
-          // body: { types: '(cities)', q: queryString },
+          // params: { types: '(cities)', q: queryString },
           headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA3NTEzNzIsImV4cCI6MTQ4MDc1MjgxMn0.QB6GLuplqgUPQbxFP638bSJHSvjz_vzdI9-Sb191dfk',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA4MTc3ODYsImV4cCI6MTQ4MDkwNDE4Nn0.2yUDGEKN8IInzjaVZbI3dA1rHYLPXOhf5Qm-cmIE5dU',
           },
         })
       .then(response => response.json())
