@@ -18,6 +18,7 @@
     "chart.js": "^2.4.0",
     "element-ui": "1.0.4",
     "firebase": "^3.6.2",
+    "firebaseui": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash.assign": "^4.2.0",
     "lodash.debounce": "^4.0.8",
