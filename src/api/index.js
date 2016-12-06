@@ -6,6 +6,7 @@
 */
 
 import axios from 'axios';
+import * as houseAPI from './house';
 
 const baseURL = 'http://127.0.0.1:3000';
 // TODO: Change this token when you became a new user
@@ -22,6 +23,7 @@ class RacAPIClient {
           Authorization: `Bearer ${token}`,
         },
       });
+      this.houseAPI = houseAPI;
       RacAPIClient.instance = this;
     }
     return RacAPIClient.instance;
@@ -37,6 +39,14 @@ class RacAPIClient {
         params: { types: '(cities)', q: qs },
       })
     .then(response => response.data);
+  }
+
+  getFavorite(userId) {
+    return this.houseAPI.favorite(userId);
+  }
+
+  getRecentViewed(userId) {
+    return this.houseAPI.recentViewed(userId);
   }
 }
 
