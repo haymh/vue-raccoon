@@ -40,9 +40,11 @@ class RacAPIClient {
       })
     .then(response => response.data);
   }
-
+/* eslint-disable */
   getFavorite(userId) {
-    return this.houseAPI.favorite(userId);
+    console.log(userId);
+    // return this.houseAPI.favorite(userId);
+    return new Promise((fulfill, reject) => reject());
   }
 
   getRecentViewed(userId) {

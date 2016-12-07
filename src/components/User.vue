@@ -153,6 +153,11 @@ export default {
   },
   created() {
     console.log('user', this.user);
+    // TODO: check if user id equal to router id prameter
+    console.log('current user? ', this.user.id === this.$route.params.id);
+    if (this.user.id !== this.$route.params.id) {
+      this.$router.push(`/user/${this.user.id}`);
+    }
   },
   computed: {
     ...mapGetters([
@@ -174,8 +179,6 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     console.log('entering user page for ', to.params.id);
-    // TODO: query favorite property
-    // TODO: query recent viewed property
     Promise.all([
       API.getFavorite(to.params.id),
       API.getRecentViewed(to.params.id),
@@ -185,13 +188,24 @@ export default {
         vm.favorite = results[0];
         vm.recentViewed = results[1];
       });
+    }, (error) => {
+      console.log(error);
+      // TODO: redirect to error page
+      next(false);
     });
   },
   watch: {
     $route() {
       console.log('reentering user page for ', this.$route.params.id);
-      // TODO: query favorite property
-      // TODO: query recent viewed property
+      Promise.all([
+        API.getFavorite(this.$route.params.id),
+        API.getRecentViewed(this.$route.params.id),
+      ]).then((results) => {
+        this.favorite = results[0];
+        this.recentViewed = results[1];
+      }, (error) => {
+        this.$router.push(`/error/${error}`);
+      });
     },
   },
   methods: {

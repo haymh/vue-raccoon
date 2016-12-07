@@ -8,6 +8,7 @@ import Main from '../components/main.vue';
 import SingleListing from '../components/singlelist/singlelisting.vue';
 import Detail from '../components/Detail.vue';
 import UserPage from '../components/User.vue';
+import ErrorPage from '../components/Error.vue';
 
 Vue.use(Router);
 
@@ -24,6 +25,7 @@ export default new Router({
     { path: '/listing', component: SingleListing },
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
+    { path: '/error/:msg', component: ErrorPage },
     { path: '*', redirect: '/hello' },
   ],
 });
