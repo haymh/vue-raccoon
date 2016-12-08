@@ -1,5 +1,5 @@
 <template>
-  <div class="container profile">
+  <div class="container">
     <div :class="['modal', showEditProfileModal ? 'is-active':'']" v-if="showEditProfileModal">
       <div class="modal-background" @click="toggleEditProfileModal"></div>
       <div class="modal-card">
@@ -52,7 +52,7 @@
         </footer>
       </div>
     </div>
-    <div class="section profile-heading">
+    <div class="section">
       <div class="columns">
         <div class="column is-2">
           <div class="image is-128x128 avatar">
@@ -85,14 +85,12 @@
         </div>
       </div>
     </div>
-    <div class="profile-options">
-        <div class="tabs is-fullwidth">
-          <ul>
-            <li :class="isTabActive(0)" @click="changeTab(0)"><a><span class="icon"><i class="fa fa-list"></i></span> <span>Recent Viewed</span></a></li>
-            <li :class="isTabActive(1)" @click="changeTab(1)"><a><span class="icon"><i class="fa fa-heart"></i></span> <span>My Favorites</span></a></li>
-          </ul>
-        </div>
-      </div>
+    <div class="tabs is-fullwidth">
+      <ul>
+        <li :class="isTabActive(0)" @click="changeTab(0)"><a><span class="icon"><i class="fa fa-list"></i></span> <span>Recent Viewed</span></a></li>
+        <li :class="isTabActive(1)" @click="changeTab(1)"><a><span class="icon"><i class="fa fa-heart"></i></span> <span>My Favorites</span></a></li>
+      </ul>
+    </div>
 
     <div class="box">
         <!-- Main container -->
@@ -128,13 +126,53 @@
     <div class="spacer"></div>
 
     <div class="columns is-multiline">
-      <div v-for="item in currentDisplay" class="column is-6">
+      <div v-for="item in currentDisplay" class="column is-6 house-container">
         <single-list :singleListingData="item"></single-list>
       </div>
 
     </div>
   </div>
 </template>
+
+<style>
+@media (max-width: 1180px) and (min-width: 768px) {
+ .house-container .list {
+    width: 100%;
+  }
+ .house-container .list .left-column {
+    width: 100% !important;
+  }
+ .house-container .list .basic-info {
+    width: 100% !important;
+  }
+ .house-container .list .right-column {
+    display: none;
+  }
+}
+.house-container .list {
+  max-width: 650px;
+  min-width: 300px;
+  padding: 0px;
+  position: relative;
+  margin: 0px !important;
+}
+.house-container .list .actions {
+  position: absolute;
+  width: 50%;
+  bottom: 0px;
+}
+.house-container .list .like {
+  position: absolute;
+  top: 0px;
+  padding: 5px;
+  margin: 10px;
+}
+.house-container .list .basic-info {
+  position: absolute;
+  width: 50%;
+  bottom: 0px;
+}
+</style>
 
 <script>
 import { mapGetters } from 'vuex';
@@ -191,7 +229,7 @@ export default {
     }, (error) => {
       console.log(error);
       // TODO: redirect to error page
-      next(false);
+      next(`/error/${error}`);
     });
   },
   watch: {

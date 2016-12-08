@@ -42,9 +42,7 @@ class RacAPIClient {
   }
 /* eslint-disable */
   getFavorite(userId) {
-    console.log(userId);
-    // return this.houseAPI.favorite(userId);
-    return new Promise((fulfill, reject) => reject());
+    return this.houseAPI.favorite(userId);
   }
 
   getRecentViewed(userId) {
