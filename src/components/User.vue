@@ -149,6 +149,20 @@
     display: none;
   }
 }
+@media (max-width: 650px) {
+ .house-container .list {
+    width: 100%;
+  }
+ .house-container .list .left-column {
+    width: 100% !important;
+  }
+ .house-container .list .basic-info {
+    width: 100% !important;
+  }
+ .house-container .list .right-column {
+    display: none;
+  }
+}
 .house-container .list {
   max-width: 650px;
   min-width: 300px;

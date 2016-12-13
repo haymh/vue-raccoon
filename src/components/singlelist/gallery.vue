@@ -20,6 +20,7 @@
 .listing-image{
   background-size: cover;
   min-height: 250px;
+  display: block;
 }
 .gallery {
   position: relative;
