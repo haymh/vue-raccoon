@@ -216,6 +216,8 @@ export default {
                   id,
                   isTemp,
                   nickname: 'Visitor',
+                  email: user.email,
+                  displayName: user.displayName,
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],

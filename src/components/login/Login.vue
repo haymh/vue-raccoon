@@ -31,7 +31,7 @@
 
 <script>
   import firebase from 'firebase';
-  import firebaseui from 'firebaseui';
+  import { ui } from '../../api/fire';
   import '../../../node_modules/firebaseui/dist/firebaseui.css';
 
   export default {
@@ -57,13 +57,20 @@
           firebase.auth.GithubAuthProvider.PROVIDER_ID,
           firebase.auth.EmailAuthProvider.PROVIDER_ID,
         ],
+        signInSuccessUrl: '/main',
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
-      const ui = new firebaseui.auth.AuthUI(firebase.auth());
+      console.log('erroring out before this?');
+      this.ui = ui;
+      console.log('erroring out after this?');
       // The start method will wait until the DOM is loaded.
-      ui.start('#firebaseui-auth-container', uiConfig);
+      this.ui.start('#firebaseui-auth-container', uiConfig);
       this.formReady = true;
+    },
+    beforeDestroy() {
+      console.log('about to destroy this view');
+      this.ui.reset();
     },
     methods: {
       openLogin(event) {
@@ -79,16 +86,10 @@
         const { email, password } = this;
         this.$store.dispatch('userLogin', { email, password });
       },
-      signup() {
-        console.log('signing up');
-        const { email, password } = this;
-        this.$store.dispatch('userSignup', { email, password });
-      },
-      signInSuccess(currentUser, credential, redirectUrl) {
-        console.log(currentUser);
-        console.log(credential);
-        console.log(redirectUrl);
+      signInSuccess() {
         this.formOpen = false;
+        this.ui.reset();
+        return true;
       },
     },
   };

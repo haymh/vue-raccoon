@@ -41,7 +41,6 @@ export const setUser = ({ commit },
 };
 
 export function setUserProfile({ commit }, { id, isTemp, nickname, avatar, displayName, email }) {
-  console.log(displayName, email);
   commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar, displayName, email });
 }
 
