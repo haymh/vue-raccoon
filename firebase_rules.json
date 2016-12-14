@@ -71,6 +71,8 @@
         "isTemp": { ".validate": "newData.isBoolean()" },
         "createdAt": { ".validate": "newData.val() <= now" },
         "lastLogin": { ".validate": "newData.val() <= now" },
+        "displayName": { ".validate": "newData.isString() && newData.val().length < 20" },
+        "email": { ".validate": "newData.isString() && newData.val().length < 20" },
       }
     },
     "buyerData": {

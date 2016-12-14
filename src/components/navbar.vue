@@ -6,7 +6,10 @@
     </a>
   </div>
   <div class="nav-right nav-menu">
-    <Login />
+    <Login v-if="user.isTemp" />
+    <a class="nav-item" href="#" v-else>
+      {{user.displayName}}
+    </a>
     <a class="nav-item" href="#">
       1-123-4567
     </a>
@@ -21,11 +24,13 @@
 </template>
 
 <script>
-import search from './Hello.vue';
-import Login from './login/Login.vue';
+  import { mapGetters } from 'vuex';
+  import search from './Hello.vue';
+  import Login from './login/Login.vue';
 
-export default {
-  name: 'navbar',
-  components: { search, Login },
-};
+  export default {
+    name: 'navbar',
+    components: { search, Login },
+    computed: mapGetters(['user']),
+  };
 </script>

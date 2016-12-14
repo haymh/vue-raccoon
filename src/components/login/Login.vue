@@ -47,6 +47,7 @@
         this.formOpen = true;
       }
       const uiConfig = {
+        callbacks: { signInSuccess: this.signInSuccess },
         signInFlow: 'popup',
         signInOptions: [
           // Leave the lines as is for the providers you want to offer your users.
@@ -82,6 +83,12 @@
         console.log('signing up');
         const { email, password } = this;
         this.$store.dispatch('userSignup', { email, password });
+      },
+      signInSuccess(currentUser, credential, redirectUrl) {
+        console.log(currentUser);
+        console.log(credential);
+        console.log(redirectUrl);
+        this.formOpen = false;
       },
     },
   };

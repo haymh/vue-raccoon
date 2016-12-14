@@ -26,11 +26,13 @@ const mutations = {
     _state.avatar = avatar;
   },
 
-  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickname, avatar }) {
+  [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickname, avatar, displayName, email }) {
     _state.id = id;
     _state.isTemp = isTemp;
     _state.nickname = nickname;
     _state.avatar = avatar;
+    _state.displayName = displayName;
+    _state.email = email;
   },
 
   [types.LOAD_USER_DATA](_state, { favoriteHouses, searches }) {
