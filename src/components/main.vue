@@ -9,13 +9,38 @@
         <span>{{ selectedHouse && selectedHouse.address }}</span>
       </div>
     </div>
-    <div class="column is-narrow list-filter-container">
-      <filter-element>
-      </filter-element>
-      <SortBar></SortBar>
-      <div class="list-container">
-        <house-list></house-list>
+    <div class="column is-narrow">
+      <div>
+        <filter-element>
+        </filter-element>
+        <div class="columns">
+          <div class="column is-4">
+            <SortBar></SortBar>
+          </div>
+          <div class="column is-8">
+            <!-- <Pagination :totalPages="2"></Pagination> -->
+            <el-pagination
+              small
+              layout="total, prev, pager, next, jumper"
+              :current-page="currentPage"
+              :page-size="pageSize"
+              :total="filterResults.length"
+              @current-change="changeCurrent">
+            </el-pagination>
+          </div>
+        </div>
       </div>
+      <div class="list-container">
+        <house-list :houseList="currentList"></house-list>
+      </div>
+      <el-pagination
+        small
+        layout="total, prev, pager, next, jumper"
+        :current-page="currentPage"
+        :page-size="pageSize"
+        :total="filterResults.length"
+        @current-change="changeCurrent">
+      </el-pagination>
     </div>
   </div>
 </div>
@@ -32,10 +57,6 @@
   height: calc(100vh - 65px);
   padding: 0;
   margin: 0;
-}
-.list-filter-container {
-  height: calc(100vh - 65px);
-  overflow: hidden;
 }
 .list-container {
   height: calc(100vh - 107px);
@@ -63,6 +84,8 @@ export default {
   data() {
     return {
       position: 0,
+      currentPage: 1,
+      pageSize: 1,
     };
   },
   components: {
@@ -72,10 +95,18 @@ export default {
     SortBar,
     RaccoonMap: Map,
   },
-  computed: mapGetters([
-    'allHouses',
-    'selectedHouse',
-  ]),
+  computed: {
+    ...mapGetters([
+      'allHouses',
+      'selectedHouse',
+      'filterResults',
+    ]),
+    currentList() {
+      const begin = (this.currentPage - 1) * this.pageSize;
+      const end = begin + this.pageSize;
+      return this.filterResults.slice(begin, end);
+    },
+  },
   watch: {
     selectedHouse: (val) => {
       console.log('Selected house passed down');
@@ -85,11 +116,15 @@ export default {
   created() {
     // TODO: need a server
     // this.$store.dispatch('fetchHouses');
+    this.$store.dispatch('searchHouse');
   },
   methods: {
     scrollTo() {
       /* eslint-disable no-undef */
       document.getElementById('list').scrollTop = 20 * 100;
+    },
+    changeCurrent(current) {
+      this.currentPage = current;
     },
   },
 };

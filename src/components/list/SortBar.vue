@@ -1,9 +1,7 @@
 <template>
   <div class="control is-horizontal">
-    <div class="control-label">
-     <label class="label">Sort By</label>
-    </div>
     <p class="control has-addons">
+      <span class="label">Sort By</span>
       <span class="select">
         <select v-model="sortBy" @change="setSort">
           <option v-for="item in options">{{item}}</option>
