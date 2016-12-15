@@ -46,6 +46,8 @@
       if (this.$route.query.mode === 'select') {
         this.formOpen = true;
       }
+    },
+    mounted() {
       const uiConfig = {
         callbacks: { signInSuccess: this.signInSuccess },
         signInFlow: 'popup',
@@ -61,9 +63,8 @@
       };
 
       // Initialize the FirebaseUI Widget using Firebase.
-      console.log('erroring out before this?');
       this.ui = ui;
-      console.log('erroring out after this?');
+
       // The start method will wait until the DOM is loaded.
       this.ui.start('#firebaseui-auth-container', uiConfig);
       this.formReady = true;
