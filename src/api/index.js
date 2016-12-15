@@ -14,19 +14,15 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA4
 
 class RacAPIClient {
   constructor() {
-    if (!RacAPIClient.instance) {
-      console.log('RacAPIClient Initiated');
-      this.client = axios.create({
-        baseURL,
-        timeout: 1000,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      this.houseAPI = houseAPI;
-      RacAPIClient.instance = this;
-    }
-    return RacAPIClient.instance;
+    console.log('RacAPIClient Initiated');
+    this.client = axios.create({
+      baseURL,
+      timeout: 1000,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    this.houseAPI = houseAPI;
   }
 
   /**
@@ -40,7 +36,7 @@ class RacAPIClient {
       })
     .then(response => response.data);
   }
-/* eslint-disable */
+
   getFavorite(userId) {
     return this.houseAPI.favorite(userId);
   }
