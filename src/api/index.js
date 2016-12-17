@@ -6,6 +6,7 @@
 */
 
 import axios from 'axios';
+import * as houseAPI from './house';
 
 const baseURL = 'http://127.0.0.1:3000';
 // TODO: Change this token when you became a new user
@@ -13,18 +14,15 @@ const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA4
 
 class RacAPIClient {
   constructor() {
-    if (!RacAPIClient.instance) {
-      console.log('RacAPIClient Initiated');
-      this.client = axios.create({
-        baseURL,
-        timeout: 1000,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      RacAPIClient.instance = this;
-    }
-    return RacAPIClient.instance;
+    console.log('RacAPIClient Initiated');
+    this.client = axios.create({
+      baseURL,
+      timeout: 1000,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    this.houseAPI = houseAPI;
   }
 
   /**
@@ -37,6 +35,14 @@ class RacAPIClient {
         params: { types: '(cities)', q: qs },
       })
     .then(response => response.data);
+  }
+
+  getFavorite(userId) {
+    return this.houseAPI.favorite(userId);
+  }
+
+  getRecentViewed(userId) {
+    return this.houseAPI.recentViewed(userId);
   }
 }
 

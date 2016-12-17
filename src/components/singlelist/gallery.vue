@@ -1,45 +1,42 @@
 <template>
   <div>
-    <div>
+    <div class="gallery">
       <img v-for="(imgUrl, index) in images"
         v-show="index === currentIndex"
         v-lazy="imgUrl"
         :alt="index"
         class="listing-image"/>
-      <div class="arrows">
         <a class="icon is-medium leftArrow" v-on:click="prevImage">
           <i class="fa fa-caret-left" aria-hidden="true"></i>
         </a>
         <a class="icon is-medium rightArrow" v-on:click="nextImage">
           <i class="fa fa-caret-right" aria-hidden="true"></i>
         </a>
-      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-@media only screen and (max-width: 979px) {
-  .rightArrow {
-    right: 0px !important;
-  }
-}
 .listing-image{
   background-size: cover;
   min-height: 250px;
+  display: block;
+}
+.gallery {
+  position: relative;
 }
 .arrows {
   color: white;
+  display: inline-block;
 }
 .leftArrow {
-  position: absolute;
-  left: 0px;
+  position: absolute;;
   top: 45%;
   color: white;
 }
 .rightArrow {
   position: absolute;
-  right: 50%;
+  right: 0px;
   top: 45%;
   color: white;
 }

@@ -11,7 +11,7 @@
         <router-link to="/view1">View1</router-link>
         <router-link to="/chat">{{ $t('nav.chat') }}</router-link>
         <router-link to="/main">Main</router-link>
-				<router-link to="/listing">Listing</router-link>
+				<router-link to="/user/123">Profile</router-link>
       </div>
     </div>
 		<transition name="fade" mode="out-in">

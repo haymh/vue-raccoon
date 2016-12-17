@@ -666,6 +666,10 @@ export const findById = (id) => {
   });
 };
 
+export const favorite = id => search(id);
+
+export const recentViewed = id => search(id);
+
 export const defaultHouse = {
   address: {
     address1: '-',
