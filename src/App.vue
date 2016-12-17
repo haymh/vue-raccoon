@@ -147,6 +147,7 @@ export default {
     // add event listener for auth state
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        console.log('User signed in!', user);
         // User is signed in.
         const id = user.uid;
         const isTemp = user.isAnonymous;
@@ -200,6 +201,8 @@ export default {
               nickname: 'Visitor',
               createdAt: timeStamp,
               lastLogin: timeStamp,
+              email: user.email,
+              displayName: user.displayName,
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
@@ -213,6 +216,8 @@ export default {
                   id,
                   isTemp,
                   nickname: 'Visitor',
+                  email: user.email,
+                  displayName: user.displayName,
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],

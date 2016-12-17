@@ -8,6 +8,7 @@ export const user = (state) => {
     searches: state.user.searches,
     userRooms: state.user.userRooms,
     avatar: state.user.avatar,
+    displayName: state.user.displayName,
   };
 };
 

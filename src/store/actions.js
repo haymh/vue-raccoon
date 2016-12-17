@@ -40,9 +40,9 @@ export const setUser = ({ commit },
   commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
 };
 
-export const setUserProfile = ({ commit }, { id, isTemp, nickname, avatar }) => {
-  commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar });
-};
+export function setUserProfile({ commit }, { id, isTemp, nickname, avatar, displayName, email }) {
+  commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar, displayName, email });
+}
 
 export const setUserData = ({ commit }, { favoriteHouses, searches }) => {
   commit(types.LOAD_USER_DATA, { favoriteHouses, searches });

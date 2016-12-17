@@ -1,4 +1,6 @@
 import firebase from 'firebase';
+import firebaseui from 'firebaseui';
+
 // Initialize Firebase
 const initFirebase = () => {
   let first = true;
@@ -23,3 +25,5 @@ const initFirebase = () => {
 const getDB = initFirebase();
 export const db = getDB();
 export const timeStamp = firebase.database.ServerValue.TIMESTAMP;
+export const ui = new firebaseui.auth.AuthUI(firebase.auth());
+
