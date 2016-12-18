@@ -1,9 +1,9 @@
 <template>
   <div class="user-info">
-    <a class="nav-item" href="#" v-on:click="open">
+    <a href="#" v-on:click="open">
       {{user.displayName}}
     </a>
-    <div class="modal" v-bind:class="{ 'is-active': formOpen }">
+    <div class="modal is-overlay" v-bind:class="{ 'is-active': formOpen }">
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">

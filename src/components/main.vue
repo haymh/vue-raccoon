@@ -1,19 +1,15 @@
 <template>
-<div class="wrap container-fluid">
-  <nav-bar></nav-bar>
-  <div class="columns is-gapless is-mobile">
-    <div class="column">
-      <div class="map-container" style="background-color:green">
+  <div class="columns is-gapless is-mobile content-container">
+    <div class="column map-container">
         <a class="button is-danger save-button">Save Search</a>
-        <RaccoonMap class='map' :houses="allHouses"></RaccoonMap>
-        <span>{{ selectedHouse && selectedHouse.address }}</span>
-      </div>
+        <RaccoonMap class="map" :houses="allHouses">
+        </RaccoonMap>
     </div>
-    <div class="column is-narrow">
-      <div>
+    <div class="column is-narrow right-container">
+      <div class="toolbar-container">
         <filter-element>
         </filter-element>
-        <div class="columns">
+        <div class="columns is-gapless">
           <div class="column is-4">
             <SortBar></SortBar>
           </div>
@@ -33,33 +29,41 @@
       <div class="list-container">
         <house-list :houseList="currentList"></house-list>
       </div>
-      <el-pagination
-        small
-        layout="total, prev, pager, next, jumper"
-        :current-page="currentPage"
-        :page-size="pageSize"
-        :total="filterResults.length"
-        @current-change="changeCurrent">
-      </el-pagination>
+      <div class="has-text-centered">
+        <el-pagination
+          small
+          layout="total, prev, pager, next, jumper"
+          :current-page="currentPage"
+          :page-size="pageSize"
+          :total="filterResults.length"
+          @current-change="changeCurrent">
+        </el-pagination>
+      </div>
     </div>
   </div>
-</div>
 </template>
 <style>
-.save-button {
-  position: absolute !important;
-  z-index: 100;
-  right: 0px;
-  margin: 10px;
+.content-container {
+  height: 100%;
+}
+.right-container {
+  height: 100%;
+}
+.right-container .toolbar-container {
+  height: 74px;
+}
+.map-container .save-button {
+  position: absolute;
+  z-index: 1;
+  margin-top: 10px;
 }
 .map-container {
-  position: relative;
-  height: calc(100vh - 65px);
-  padding: 0;
-  margin: 0;
+  height: 100%;
+}
+.map-container .map {
 }
 .list-container {
-  height: calc(100vh - 107px);
+  height: calc(100% - 106px);
   position: relative;
   overflow: scroll;
 }
@@ -73,7 +77,6 @@
 </style>
 <script>
 import { mapGetters } from 'vuex';
-import navbar from './navbar.vue';
 import list from './list/list.vue';
 import SortBar from './list/SortBar.vue';
 import filter from './filter/Filter-element.vue';
@@ -85,11 +88,10 @@ export default {
     return {
       position: 0,
       currentPage: 1,
-      pageSize: 1,
+      pageSize: 10,
     };
   },
   components: {
-    'nav-bar': navbar,
     'filter-element': filter,
     'house-list': list,
     SortBar,

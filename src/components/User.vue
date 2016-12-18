@@ -61,7 +61,7 @@
         </div>
         <div class="column is-4 name">
           <p>
-            <span class="title is-bold">{{user.nickname || '游客'}}</span>
+            <span class="title is-bold">{{user.displayName || '游客'}}</span>
             <span class="button is-primary is-outlined follow" @click="toggleEditProfileModal">修改个人资料</span>
           </p>
         </div>

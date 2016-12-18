@@ -66,7 +66,6 @@
         // only user self can write data
         ".write": "auth.uid === $userId",
         ".validate": "newData.hasChildren(['nickname', 'type', 'isTemp', 'createdAt', 'lastLogin'])",
-        "nickname": { ".validate": "newData.isString() && newData.val().length < 20" },
         "type": { ".validate": "newData.val() === 'buyer' || newData.val() === 'agent' " },
         "isTemp": { ".validate": "newData.isBoolean()" },
         "createdAt": { ".validate": "newData.val() <= now" },
