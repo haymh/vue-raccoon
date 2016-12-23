@@ -21,7 +21,7 @@ module.exports = {
     'no-debugger': 0,
     'no-param-reassign': [2, {'props': false}],
     'no-lonely-if': 0,
-    'object-shorthand': 1
+    'object-shorthand': 1,
   },
   'globals': {
     'google': true,

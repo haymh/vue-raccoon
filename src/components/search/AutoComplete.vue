@@ -41,7 +41,8 @@
 
 <template>
 <div class="">
-  <p class="control has-icon has-icon-right is-marginless">
+  <p class="control has-icon has-icon-right is-marginless"
+     :class="showLoading">
     <input v-model="keyword" class="input"
       :placeholder="placeholder"
       @input="onInput($event.target.value)"
@@ -50,7 +51,6 @@
       @keydown.down="moveDown"
       @keydown.up="moveUp"
       @keydown.enter="select">
-    <i class="fa fa-angle-down"></i>
   </p>
   <ul v-show="isOpen" class="options-list">
     <li v-for="(option, index) in options"
@@ -71,6 +71,10 @@ export default {
       required: true,
     },
     placeholder: String,
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -80,12 +84,23 @@ export default {
     };
   },
   computed: {
+    showLoading() {
+      return this.isLoading ? 'is-loading' : '';
+    },
+  },
+  watch: {
+    options: {
+      handler(val) {
+        this.isOpen = val.length !== 0;
+      },
+    },
   },
   methods: {
     onInput(value) {
       this.highlightedPosition = 0;
-      this.isOpen = !!value;
-      this.$emit('input', value);
+      if (value) {
+        this.$emit('input', value);
+      }
     },
     moveDown() {
       if (!this.isOpen) {

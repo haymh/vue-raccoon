@@ -10,7 +10,7 @@ import * as houseAPI from './house';
 
 const baseURL = 'http://127.0.0.1:3000';
 // TODO: Change this token when you became a new user
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODI0NTU0MDUsImV4cCI6MTQ4MjU0MTgwNX0.Naxfm1MznQLgXc0ArYDMNTBlgtySpSJ9muNRqInQI3E';
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODI0Njg1NTgsImV4cCI6MTQ4MjU1NDk1OH0.cfv_bg4X-kfsIEhvxQF2y9mQdzh9UZ2HCcC6BeMGuTc';
 
 class RacAPIClient {
   constructor() {

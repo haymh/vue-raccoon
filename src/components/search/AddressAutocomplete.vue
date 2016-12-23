@@ -1,6 +1,7 @@
 <template>
   <Autocomplete v-model="searchQuery"
     :options="searchResult"
+    :isLoading="searchQueryIsLoading"
     placeholder="请输入city, zip"
     @select="handleSelect">
     <template slot="item" scope="option">
@@ -29,6 +30,7 @@ export default {
     return {
       searchQuery: '',
       searchQueryIsDirty: false,
+      searchQueryIsLoading: false,
       searchResult: [],
     };
   },
@@ -38,6 +40,7 @@ export default {
         console.log('oldVal', oldVal);
         console.log('val', val);
         this.querySearch(val, (res) => {
+          this.searchQueryIsLoading = false;
           this.searchResult = res;
         });
       },
@@ -47,6 +50,7 @@ export default {
     querySearch(queryString, cb) {
       console.log('querySearchWrapper');
       this.searchQueryIsDirty = true;
+      this.searchQueryIsLoading = true;
       this.querySearchDebounced(this, queryString, cb);
     },
     querySearchDebounced: debounce((crap, queryString, cb) => {
@@ -63,6 +67,7 @@ export default {
         cb(res);
       }, (err) => {
         console.log('err', err);
+        crap.searchQueryIsLoading = false;
       });
     }, 1000),
     handleSelect() {
