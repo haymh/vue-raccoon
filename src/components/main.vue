@@ -2,8 +2,8 @@
   <div class="columns is-gapless is-mobile content-container">
     <div class="column map-container">
         <a class="button is-danger save-button">Save Search</a>
-        <RaccoonMap class="map" :houses="allHouses">
-        </RaccoonMap>
+        <!-- <RaccoonMap class="map" :houses="allHouses">
+        </RaccoonMap> -->
     </div>
     <div class="column is-narrow right-container">
       <div class="toolbar-container">
@@ -114,11 +114,6 @@ export default {
       console.log('Selected house passed down');
       console.log(val);
     },
-  },
-  created() {
-    // TODO: need a server
-    // this.$store.dispatch('fetchHouses');
-    this.$store.dispatch('searchHouse');
   },
   methods: {
     scrollTo() {

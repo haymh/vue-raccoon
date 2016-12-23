@@ -56,7 +56,7 @@
     <li v-for="(option, index) in options"
         :class="{'highlighted': index === highlightedPosition}"
         @mouseenter="highlightedPosition = index" @mousedown="select">
-      <slot name="item" :title="option.text" :description="option.value"></slot>
+      <slot name="item" :option="option"></slot>
     </li>
   </ul>
 </div>

@@ -3,7 +3,7 @@
     <header class="card-header">
       <h1 class="title">{{listingData.title}}</h1>
     </header>
-    <div class="heading" style="padding-left: 10px">{{viewVisit}}</div>
+    <div class="heading" style="padding-left: 10px">{{viewLike}}</div>
     <table class="table is-striped detail">
       <tbody>
         <tr>
@@ -56,10 +56,10 @@ export default {
   name: 'DetailInfo',
   props: ['listingData'],
   created() {
-    this.viewVisit = this.$options.filters.formatNumber(this.listingData.views, 0, '')
+    this.viewLike = this.$options.filters.formatNumber(this.listingData.views, 0, '')
                       .concat(' views/')
-                      .concat(this.$options.filters.formatNumber(this.listingData.visits, 0, ''))
-                      .concat(' visits');
+                      .concat(this.$options.filters.formatNumber(this.listingData.likes, 0, ''))
+                      .concat(' likes');
     if (this.listingData.postDate) {
       this.daysOnline = this.daysFromToday(this.listingData.postDate);
     }
@@ -69,7 +69,7 @@ export default {
       this.lot = '-';
     }
     if (this.listingData.hoa) {
-      this.hoa = this.$options.filters.formatNumber(this.listingData.hoa, 0, '$');
+      this.hoa = this.$options.filters.formatNumber(this.listingData.hoa.fee, 0, '$');
     } else {
       this.hoa = 'None';
     }

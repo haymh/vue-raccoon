@@ -4,9 +4,9 @@
     :isLoading="searchQueryIsLoading"
     placeholder="请输入city, zip"
     @select="handleSelect">
-    <template slot="item" scope="option">
+    <template slot="item" scope="data">
      <p>
-       <strong>{{ option.title }}</strong>
+       <strong>{{ data.option.text }}</strong>
      </p>
    </template>
   </Autocomplete>
@@ -61,7 +61,7 @@ export default {
         // success
         console.log('loaded', json);
         const res = json.predictions.map(obj =>
-          ({ text: obj.description, value: obj.description }));
+          ({ text: obj.description, value: obj }));
         console.log(res);
         crap.searchQueryIsDirty = false;
         cb(res);
@@ -70,8 +70,8 @@ export default {
         crap.searchQueryIsLoading = false;
       });
     }, 1000),
-    handleSelect() {
-      this.$emit('newQuery', this.searchQuery);
+    handleSelect(selected) {
+      this.$emit('newQuery', selected);
     },
   },
 };

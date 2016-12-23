@@ -40,18 +40,15 @@
 export default {
   name: 'BasicInfo',
   props: ['listingData'],
+  created() {
+    console.log('basicinfo', this.listingData);
+  },
   computed: {
     address() {
       if (this.listingData) {
-        return this.listingData.address.address1
-                  .concat(' ')
-                  .concat(this.listingData.address.address2)
-                  .concat(' ')
-                  .concat(this.listingData.address.city)
-                  .concat(', ')
-                  .concat(this.listingData.address.state)
-                  .concat(' ')
-                  .concat(this.listingData.address.zip);
+        const addr = this.listingData.address;
+        return `${addr.streetNumberNumeric || ''} ${addr.streetName || ''} ${addr.streetSuffix || ''}, ${addr.city || ''},
+          ${addr.stateOrProvince || ''}, ${addr.postalCode || ''}`;
       }
       return '';
     },
