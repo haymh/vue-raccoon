@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
-import * as raccoonAPI from '../api';
+import raccoonAPI from '../api';
 
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
@@ -38,10 +38,14 @@ export const setSort = ({ commit }, { key, asc }) => {
 export const setUser = ({ commit },
    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
   commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
+  // set firebase user id, so we can refresh token
+  raccoonAPI.refreshToken(id);
 };
 
 export function setUserProfile({ commit }, { id, isTemp, nickname, avatar, displayName, email }) {
   commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar, displayName, email });
+  // set firebase user id, so we can refresh token
+  raccoonAPI.refreshToken(id);
 }
 
 export const setUserData = ({ commit }, { favoriteHouses, searches }) => {

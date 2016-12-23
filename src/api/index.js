@@ -9,8 +9,6 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 const baseURL = 'http://127.0.0.1:3000';
-// TODO: Change this token when you became a new user
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODI0Njg1NTgsImV4cCI6MTQ4MjU1NDk1OH0.cfv_bg4X-kfsIEhvxQF2y9mQdzh9UZ2HCcC6BeMGuTc';
 
 class RacAPIClient {
   constructor() {
@@ -18,11 +16,25 @@ class RacAPIClient {
     this.client = axios.create({
       baseURL,
       timeout: 1000,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
     });
     this.houseAPI = houseAPI;
+    this.firebaseUserId = null;
+  }
+
+  refreshToken(firebaseUserId) {
+    if (firebaseUserId) {
+      this.client.post('/user/auth',
+        {
+          uid: firebaseUserId,
+        })
+        .then((response) => {
+          console.log('got token', response.data.token);
+          this.client.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+        });
+    } else {
+      console.log('firebase user id is not set');
+      throw new Error('firebase user id is not set');
+    }
   }
 
   /**
