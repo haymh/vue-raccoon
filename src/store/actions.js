@@ -1,9 +1,9 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
-import { search } from '../api/house';
+import * as raccoonAPI from '../api';
 
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
-  search(searchTerms).then((houses) => {
+  raccoonAPI.searchHouse(searchTerms).then((houses) => {
     commit(types.RECEIVE_HOUSES, { houses });
     // TODO: tag favorite houses
     commit(types.TAG_FAVORITE, { favoriteHouses: rootState.user.favoriteHouses });

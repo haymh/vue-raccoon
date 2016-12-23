@@ -3,10 +3,10 @@
     <div class="container">
       <div class="nav-left">
         <router-link class="nav-item is-brand" to="/" exact>
-          <img src="../../static/logo.png" alt="Bulma logo">
+          <img src="../../static/logo.png">
         </router-link>
         <div class="nav-item">
-          <input class="input" type="text" placeholder="Search BulmaHub">
+          <AddressAutocomplete class="autocomplete-input"></AddressAutocomplete>
         </div>
         <router-link class="nav-item" to="/hello">{{ $t('nav.hello') }}</router-link>
         <router-link class="nav-item" to="/view1">View1</router-link>
@@ -37,8 +37,8 @@
 </template>
 
 <style>
-.searchbox {
-  width: 80px;
+.autocomplete-input {
+  width: auto;
 }
 .nav-global {
 	background-color: #1f1f1f;
@@ -74,10 +74,11 @@
   import search from './Hello.vue';
   import Login from './login/Login.vue';
   import UserInfo from './login/UserInfo.vue';
+  import AddressAutocomplete from './search/AddressAutocomplete.vue';
 
   export default {
     name: 'navbar',
-    components: { search, Login, UserInfo },
+    components: { search, Login, UserInfo, AddressAutocomplete },
     computed: mapGetters(['user']),
   };
 </script>

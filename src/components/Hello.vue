@@ -3,13 +3,26 @@
   <div class="text">输入后匹配输入建议</div>
   <el-row>
     <el-col :span="12">
-      <el-autocomplete v-model="searchQuery"
-        :fetch-suggestions="querySearch"
+      <Autocomplete v-model="searchQuery"
+        :options="searchResult"
         placeholder="请输入city, zip"
-        :trigger-on-focus="false"
         @select="handleSelect">
-        <el-button slot="append" icon="search" @click.native="search"></el-button>
-      </el-autocomplete>
+
+        <template slot="item" scope="option">
+     <article class="media">
+       <figure class="media-left">
+         <p class="image is-64x64">
+           <img :src="option.thumbnail">
+         </p>
+       </figure>
+       <p>
+         <strong>{{ option.title }}</strong>
+         <br> {{ option.description }}
+       </p>
+     </article>
+   </template>
+        <!-- <el-button slot="append" icon="search" @click.native="search"></el-button> -->
+      </Autocomplete>
     </el-col>
     <el-col :span="2">
     </el-col>
@@ -37,10 +50,16 @@
 <script>
 import debounce from 'lodash.debounce';
 import API from '../api';
+import Autocomplete from './search/AutoComplete.vue';
 
 export default {
   name: 'Search',
   created() {
+  },
+  components: {
+    Autocomplete,
+  },
+  computed: {
   },
   data() {
     return {
@@ -52,6 +71,7 @@ export default {
       greetings: [],
       searchQuery: '',
       searchQueryIsDirty: false,
+      searchResult: [],
     };
   },
   watch: {
@@ -63,6 +83,15 @@ export default {
         console.log(this.greetings);
       },
       deep: false,
+    },
+    searchQuery: {
+      handler(val, oldVal) {
+        console.log('oldVal', oldVal);
+        console.log('val', val);
+        this.querySearch(val, (res) => {
+          this.searchResult = res;
+        });
+      },
     },
   },
   methods: {
@@ -94,8 +123,8 @@ export default {
         console.log('err', err);
       });
     }, 1000),
-    handleSelect() {
-      console.log('select', this.searchQuery);
+    handleSelect(val) {
+      console.log('select', val);
     },
   },
 };
