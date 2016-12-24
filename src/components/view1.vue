@@ -3,6 +3,23 @@
     <a class="button" @click="readUserLocally">load user from local storage</a>
     <a class="button" @click="searchHouse">search house</a>
     <FilterElement></FilterElement>
+    <Pagination
+      :currentPage="current"
+      :pageSize="10"
+      :total="1000"
+      :size="6"
+      :chunk="true"
+      @currentChanged="changeCurrent">
+    </Pagination>
+    <Pagination
+      :currentPage="current"
+      :pageSize="10"
+      :total="1000"
+      :size="9"
+      :chunkSize="6"
+      :chunk="true"
+      @currentChanged="changeCurrent">
+    </Pagination>
     <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
     <h1>User</h1>
     <pre>{{ user }}</pre>
@@ -19,6 +36,7 @@ import { mapGetters } from 'vuex';
 import FilterElement from './filter/Filter-element.vue';
 import ChatBar from './chat/ChatBar.vue';
 import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
+import Pagination from './list/Pagination.vue';
 
 export default {
   name: 'view1',
@@ -26,6 +44,7 @@ export default {
     return {
       price: 30000,
       hoa: 300,
+      current: 0,
     };
   },
   computed: mapGetters([
@@ -37,6 +56,7 @@ export default {
     FilterElement,
     ChatBar,
     MortgageCalculator,
+    Pagination,
   },
   methods: {
     searchHouse() {
@@ -54,6 +74,9 @@ export default {
         ],
         searches: [],
       });
+    },
+    changeCurrent(current) {
+      this.current = current;
     },
   },
 };

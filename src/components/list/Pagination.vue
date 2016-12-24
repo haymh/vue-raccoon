@@ -73,7 +73,13 @@ export default {
     },
     currentPage: {
       handler() {
-        this.current = this.currentPage;
+        if (this.currentPage < this.totalPages) {
+          this.current = this.currentPage;
+        }
+        if (this.currentPage <= this.totalPages - this.realSize
+          && this.currentPage >= this.first + this.size) {
+          this.first = this.currentPage;
+        }
       },
     },
   },
@@ -88,7 +94,7 @@ export default {
   data() {
     return {
       current: this.currentPage,
-      first: 0,
+      first: this.currentPage,
       realSize: this.size,
       totalPages: 0,
     };
