@@ -8,7 +8,7 @@
 import axios from 'axios';
 import * as houseAPI from './house';
 
-const baseURL = 'http://127.0.0.1:3000';
+const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
 
 class RacAPIClient {
   constructor() {
@@ -17,6 +17,7 @@ class RacAPIClient {
       baseURL,
       timeout: 1000,
     });
+    this.client.defaults.headers.post['Content-Type'] = 'application/json';
     this.houseAPI = houseAPI;
     this.firebaseUserId = null;
   }

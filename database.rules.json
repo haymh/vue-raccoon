@@ -26,7 +26,7 @@
         },
         "createdAt": { ".validate": "newData.val() <= now && !data.exists()" },
         // can only be created by yourself
-        "createdBy": { ".validate": "newData.val() === auth.uid && !data.exists()" },
+        "createdBy": { ".validate": "newData.val() === auth.uid && !data.exists()" }
       }
     },
     "messages": {
@@ -39,7 +39,7 @@
           // can only sent by yourself
           "sentBy": { ".validate": "newData.val() === auth.uid" },
           "createdAt": { ".validate": "newData.val() <= now" },
-          "content": { ".validate": "newData.isString() && newData.val().length > 0" },
+          "content": { ".validate": "newData.isString() && newData.val().length > 0" }
         }
       }
     },
@@ -71,7 +71,7 @@
         "createdAt": { ".validate": "newData.val() <= now" },
         "lastLogin": { ".validate": "newData.val() <= now" },
         "displayName": { ".validate": "newData.isString() && newData.val().length < 20" },
-        "email": { ".validate": "newData.isString() && newData.val().length < 20" },
+        "email": { ".validate": "newData.isString() && newData.val().length < 20" }
       }
     },
     "buyerData": {
@@ -81,16 +81,16 @@
         ".write": "auth.uid === $userId",
         "favoriteHouses": {
           "$fhId": {
-            "id": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "id": { ".validate": "newData.isString() && newData.val().length > 0" }
           }
         },
         "searches": {
           "$sId": {
             "searchTerm": { ".validate": "newData.isString() && newData.val().length > 0" },
-            "searchAt": { ".validate": "newData.val() <= now" },
+            "searchAt": { ".validate": "newData.val() <= now" }
           }
         },
-        "lastUpdate": { ".validate": "newData.val() <= now" },
+        "lastUpdate": { ".validate": "newData.val() <= now" }
       }
     }
   }
