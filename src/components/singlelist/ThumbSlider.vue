@@ -27,7 +27,7 @@
 
 <template>
   <div style="height: 500px">
-    <swiper :options="swiperOptionTop" class="gallery-top">
+    <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
       <swiper-slide v-for="url in images">
         <img :data-src="url" class="swiper-lazy">
         <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
@@ -35,49 +35,54 @@
       <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
       <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
     </swiper>
-    <swiper :options="swiperOptionThumbs" class="gallery-thumbs">
+    <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
       <swiper-slide v-for="url in images" :style="backgroundImage(url)"></swiper-slide>
     </swiper>
   </div>
 </template>
 
 <script>
-  export default {
-    name: 'ThumbSlider',
-    props: ['images'],
-    data() {
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
+
+export default {
+  name: 'ThumbSlider',
+  props: ['images'],
+  components: {
+    swiper,
+    swiperSlide,
+  },
+  data() {
+    return {
+      swiperOptionTop: {
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        spaceBetween: 10,
+        centeredSlides: true,
+        lazyLoading: true,
+        mousewheelControl: true,
+      },
+      swiperOptionThumbs: {
+        spaceBetween: 10,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        touchRatio: 0.2,
+        slideToClickedSlide: true,
+      },
+    };
+  },
+  mounted() {
+    // TODO: fix this, params not found
+    // const swiperTop = this.$refs.swiperTop.swiper;
+    // const swiperThumbs = this.$refs.swiperThumbs.swiper;
+    // swiperTop.params.control = swiperThumbs;
+    // swiperThumbs.params.control = swiperTop;
+  },
+  methods: {
+    backgroundImage(url) {
       return {
-        swiperOptionTop: {
-          name: 'swiperTop',
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 10,
-          centeredSlides: true,
-          lazyLoading: true,
-          mousewheelControl: true,
-        },
-        swiperOptionThumbs: {
-          name: 'swiperThumbs',
-          spaceBetween: 10,
-          centeredSlides: true,
-          slidesPerView: 'auto',
-          touchRatio: 0.2,
-          slideToClickedSlide: true,
-        },
+        'background-image': `url(${url})`,
       };
     },
-    mounted() {
-      const swiperTop = this.$children.find(children => children.options.name === 'swiperTop').swiper;
-      const swiperThumbs = this.$children.find(children => children.options.name === 'swiperThumbs').swiper;
-      swiperTop.params.control = swiperThumbs;
-      swiperThumbs.params.control = swiperTop;
-    },
-    methods: {
-      backgroundImage(url) {
-        return {
-          'background-image': `url(${url})`,
-        };
-      },
-    },
-  };
+  },
+};
 </script>

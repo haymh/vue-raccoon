@@ -2,7 +2,7 @@
       <div class="columns has-text-centered">
         <div class="column is-3">
           <p class="subtitle is-5">
-            <strong>{{propertyDetail.address.address1}}</strong><br>
+            <!-- <strong>{{propertyDetail.address.address1}}</strong><br> -->
             {{propertyDetail.address | formatAddress}}
           </p>
         </div>

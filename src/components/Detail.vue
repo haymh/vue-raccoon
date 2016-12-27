@@ -39,7 +39,7 @@
             </section>
           </div>
           <div class="body">
-            <thumb-slider v-if="currentHouse.pics.length" :images="currentHouse.pics"></thumb-slider>
+            <thumb-slider v-if="currentHouse.pics" :images="currentHouse.pics"></thumb-slider>
           </div>
           <footer class="footer">
             <div class="container">
@@ -76,15 +76,15 @@
             <div class="level">
               <div class="level-item has-text-centered">
                 <p class="heading">HOA Dues</p>
-                <p class="title">{{currentHouse.hoa}}</p>
+                <p class="title">{{currentHouse.hoa.fee}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Community</p>
-                <p class="title">{{currentHouse.address.city}}</p>
+                <p class="title">{{currentHouse.city}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">County</p>
-                <p class="title">{{currentHouse.address.county}}</p>
+                <p class="title">{{currentHouse.county}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">MLS #</p>
@@ -106,7 +106,7 @@
         <div class="section">
           <A NAME=calculator></A>
           <div class="body">
-            <mortgage-calculator :price="currentHouse.price" :hoa="currentHouse.hoa"></mortgage-calculator>
+            <!-- <mortgage-calculator :price="currentHouse.price" :hoa="currentHouse.hoa.fee"></mortgage-calculator> -->
           </div>
         </div>
         <!-- <pre>{{ [currentHouse] }}</pre> -->
@@ -126,7 +126,8 @@ import ThumbSlider from './singlelist/ThumbSlider.vue';
 import Map from './map/Map.vue';
 import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
 import Summary from './detail/Summary.vue';
-import { findById, defaultHouse } from '../api/house';
+import API from '../api';
+import { defaultHouse } from '../api/house';
 
 export default {
   data() {
@@ -135,7 +136,9 @@ export default {
     };
   },
   beforeRouteEnter(to, from, next) {
-    findById(to.params.id).then((h) => {
+    API.getHouse(to.params.id).then((h) => {
+      console.log(h);
+
       next((vm) => {
         vm.currentHouse = h;
       });
@@ -146,7 +149,7 @@ export default {
   watch: {
     $route() {
       this.currentHouse = defaultHouse;
-      findById(this.$route.params.id).then((h) => {
+      API.getHouse(this.$route.params.id).then((h) => {
         this.currentHouse = h;
       }, (error) => {
         console.log(error);

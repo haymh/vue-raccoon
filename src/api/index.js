@@ -64,6 +64,10 @@ class RacAPIClient {
       },
     ).then(response => response.data);
   }
+
+  getHouse(houseId) {
+    return this.client.get(`/house/${houseId}`).then(response => response.data);
+  }
 }
 
 const instance = new RacAPIClient();

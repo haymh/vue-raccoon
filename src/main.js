@@ -8,7 +8,6 @@ import VueFire from 'vuefire';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import 'bulma/css/bulma.css';
-import AwesomeSwiper from 'vue-awesome-swiper';
 
 import App from './App.vue';
 import router from './router';
@@ -25,7 +24,6 @@ Vue.use(VueLazyload, {
 });
 Vue.use(VueI18n);
 Vue.use(VueFire);
-Vue.use(AwesomeSwiper);
 Vue.filter('formatNumber', (n, p, symbol) => {
   const res = n.toFixed(p).replace(/./g, (c, i, a) => {
     if (i && c !== '.' && ((a.length - i) % 3 === 0)) {

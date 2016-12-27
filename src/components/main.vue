@@ -2,8 +2,8 @@
   <div class="columns is-gapless is-mobile content-container">
     <div class="column map-container">
         <a class="button is-danger save-button">Save Search</a>
-        <!-- <RaccoonMap class="map" :houses="allHouses">
-        </RaccoonMap> -->
+        <RaccoonMap class="map" :houses="currentList">
+        </RaccoonMap>
     </div>
     <div class="column is-narrow right-container">
       <div class="toolbar-container">
@@ -15,14 +15,14 @@
           </div>
           <div class="column is-8">
             <!-- <Pagination :totalPages="2"></Pagination> -->
-            <el-pagination
+            <!-- <el-pagination
               small
               layout="total, prev, pager, next, jumper"
               :current-page="currentPage"
               :page-size="pageSize"
               :total="filterResults.length"
               @current-change="changeCurrent">
-            </el-pagination>
+            </el-pagination> -->
           </div>
         </div>
       </div>

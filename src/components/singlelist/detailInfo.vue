@@ -1,7 +1,7 @@
 <template>
   <div class="detail-info-wrapper is-marginless">
     <header class="card-header">
-      <h1 class="title">{{listingData.title}}</h1>
+      <h1 class="title">{{listingData.propertyType}}</h1>
     </header>
     <div class="heading" style="padding-left: 10px">{{viewLike}}</div>
     <table class="table is-striped detail">
@@ -12,7 +12,7 @@
         </tr>
         <tr>
           <td>Days Online: <b>{{daysOnline}}</b></td>
-          <td>Lot Size: <b>{{lot}}</b></td>
+          <td>Lot Size: <b>{{lot}}</b> Sq.Ft.</td>
         </tr>
         <tr>
           <td>HOA: <b>{{hoa}}</b></td>
@@ -45,7 +45,6 @@
   margin-bottom: 0px;
 }
 .detail-info-wrapper {
-  font-family: serif;
   color: #727272;
   padding: 5px;
 }
@@ -74,6 +73,11 @@ export default {
       this.hoa = 'None';
     }
   },
+  data() {
+    return {
+      daysOnline: '-',
+    };
+  },
   filters: {
     formatDate(date) {
       if (typeof date === 'string' || typeof date === 'number') {
@@ -81,6 +85,9 @@ export default {
         return d.toLocaleDateString();
       }
       return null;
+    },
+    sqftToAcre(sqft) {
+      return (sqft / 43560).toFixed(1);
     },
   },
   methods: {

@@ -56,7 +56,7 @@
       googleMapLoaded() {
         let center = { lat: 32.856385, lng: -117.202936 };
         if (this.houses.length === 1) {
-          const [lat, lng] = this.houses[0].location.coordinates;
+          const { lat, lng } = this.houses[0].googleLocation.location;
           center = { lat, lng };
         }
 
@@ -158,7 +158,7 @@
           marker.addListener('mouseover', () => {
             if (marker !== this.activeMarker) {
               const house = marker.house;
-              const [lat, lng] = house.location.coordinates;
+              const { lat, lng } = house.googleLocation.location;
               const googleLatLng = new google.maps.LatLng(lat, lng);
               const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
@@ -180,7 +180,7 @@
       markersFromHouses() {
         this.markers = this.houses.map((house) => {
           const marker = new google.maps.Marker({
-            position: { lat: house.location.coordinates[0], lng: house.location.coordinates[1] },
+            position: house.googleLocation.location,
             icon: '/static/small_house.png',
           });
           marker.house = house;
@@ -190,7 +190,7 @@
 
       createOverlayFromMarker(marker) {
         const house = marker.house;
-        const [lat, lng] = house.location.coordinates;
+        const { lat, lng } = house.googleLocation.location;
         const googleLatLng = new google.maps.LatLng(lat, lng);
         const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
