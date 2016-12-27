@@ -25,13 +25,16 @@ Vue.use(VueLazyload, {
 Vue.use(VueI18n);
 Vue.use(VueFire);
 Vue.filter('formatNumber', (n, p, symbol) => {
-  const res = n.toFixed(p).replace(/./g, (c, i, a) => {
-    if (i && c !== '.' && ((a.length - i) % 3 === 0)) {
-      return `,${c}`;
-    }
-    return c;
-  });
-  return `${symbol}${res}`;
+  if (!isNaN(parseFloat(n)) && isFinite(n)) {
+    const res = n.toFixed(p).replace(/./g, (c, i, a) => {
+      if (i && c !== '.' && ((a.length - i) % 3 === 0)) {
+        return `,${c}`;
+      }
+      return c;
+    });
+    return `${symbol}${res}`;
+  }
+  return n;
 });
 
 // i18n config

@@ -20,9 +20,11 @@ export default {
     },
     handleNewQuery(newQuery) {
       console.log('new query', newQuery);
+      const query = newQuery.text.split(', ');
+      console.log('split', query);
       this.$store.dispatch('searchHouse', {
-        city: 'Rancho Cucamonga',
-        state: 'ca',
+        city: query[0],
+        state: query[1],
       });
     },
   },
