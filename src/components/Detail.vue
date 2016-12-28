@@ -32,7 +32,7 @@
                     {{currentHouse.title}}
                   </h1>
                   <h2 class="subtitle">
-                    {{currentHouse.views}} views / {{currentHouse.visits}} visits
+                    {{currentHouse.views}} views / {{currentHouse.likes}} likes
                   </h2>
                 </div>
               </div>
@@ -66,11 +66,11 @@
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Stories</p>
-                <p class="title">{{currentHouse.floors}}</p>
+                <p class="title">{{currentHouse.stories}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Built</p>
-                <p class="title">{{currentHouse.built}}</p>
+                <p class="title">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
               </div>
             </div>
             <div class="level">
@@ -80,15 +80,15 @@
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Community</p>
-                <p class="title">{{currentHouse.city}}</p>
+                <p class="title">{{currentHouse.address.city}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">County</p>
-                <p class="title">{{currentHouse.county}}</p>
+                <p class="title">{{currentHouse.address.county}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">MLS #</p>
-                <p class="title">{{currentHouse.APN}}</p>
+                <p class="title">{{currentHouse.mlsNumber}}</p>
               </div>
             </div>
           </div>
@@ -106,7 +106,7 @@
         <div class="section">
           <A NAME=calculator></A>
           <div class="body">
-            <!-- <mortgage-calculator :price="currentHouse.price" :hoa="currentHouse.hoa.fee"></mortgage-calculator> -->
+            <mortgage-calculator :price="parseFloat(currentHouse.price)" :hoa="parseFloat(currentHouse.hoa.fee)"></mortgage-calculator>
           </div>
         </div>
         <!-- <pre>{{ [currentHouse] }}</pre> -->

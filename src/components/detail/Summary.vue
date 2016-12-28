@@ -57,7 +57,7 @@ export default {
   props: ['propertyDetail'],
   filters: {
     formatAddress(address) {
-      return `${address.city}, ${address.state} ${address.zip}`;
+      return `${address.city}, ${address.stateOrProvince} ${address.postalCode}`;
     },
   },
 };
