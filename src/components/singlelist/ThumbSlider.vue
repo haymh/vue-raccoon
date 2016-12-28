@@ -10,6 +10,10 @@
     height: 80%;
     width: 100%;
   }
+  .gallery-top .swiper-slide img {
+    width: 100%;
+    height: auto;
+  }
   .gallery-thumbs {
     height: 20%;
     box-sizing: border-box;
@@ -26,7 +30,7 @@
 </style>
 
 <template>
-  <div style="height: 500px">
+  <div style="height:500px">
     <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
       <swiper-slide v-for="url in images">
         <img :data-src="url" class="swiper-lazy">
@@ -34,6 +38,7 @@
       </swiper-slide>
       <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
       <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+      <div class="swiper-pagination"  slot="pagination"></div>
     </swiper>
     <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
       <swiper-slide v-for="url in images" :style="backgroundImage(url)"></swiper-slide>
@@ -54,14 +59,20 @@ export default {
   data() {
     return {
       swiperOptionTop: {
+        notNextTick: true,
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev',
         spaceBetween: 10,
         centeredSlides: true,
         lazyLoading: true,
+        preloadImages: false,
         mousewheelControl: true,
+        setWrapperSize: true,
+        pagination: '.swiper-pagination',
+        paginationType: 'fraction',
       },
       swiperOptionThumbs: {
+        notNextTick: true,
         spaceBetween: 10,
         centeredSlides: true,
         slidesPerView: 'auto',
@@ -70,12 +81,18 @@ export default {
       },
     };
   },
+  computed: {
+    swiperTop() {
+      return this.$refs.swiperTop.swiper;
+    },
+    swiperThumbs() {
+      return this.$refs.swiperThumbs.swiper;
+    },
+  },
   mounted() {
     // TODO: fix this, params not found
-    // const swiperTop = this.$refs.swiperTop.swiper;
-    // const swiperThumbs = this.$refs.swiperThumbs.swiper;
-    // swiperTop.params.control = swiperThumbs;
-    // swiperThumbs.params.control = swiperTop;
+    this.swiperTop.params.control = this.swiperThumbs;
+    this.swiperThumbs.params.control = this.swiperTop;
   },
   methods: {
     backgroundImage(url) {
