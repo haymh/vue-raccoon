@@ -22,9 +22,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Gallery from './gallery.vue';
 import BasicInfo from './basicInfo.vue';
 import DetailInfo from './detailInfo.vue';
+import { db, timeStamp } from '../../api/fire';
 
 export default {
   name: 'SingleList',
@@ -34,16 +36,32 @@ export default {
     'list-basic-info': BasicInfo,
     'list-detail-info': DetailInfo,
   },
+  computed: {
+    ...mapGetters([
+      'userId',
+    ]),
+    like() {
+      return this.favorite.createdAt !== undefined;
+    },
+  },
   data() {
     return {
-      like: false,
     };
   },
   created() {
+    console.log('LIST ITEM', this.singleListingData);
+    console.log(this.userId);
+    this.$bindAsObject('favorite', db.ref(`buyerData/${this.userId}/favoriteHouses/${this.singleListingData._id}`));
   },
   methods: {
     likeListing() {
-      this.like = !this.like;
+      console.log(this.favorite);
+      const value = this.favorite.createdAt;
+      if (value) {
+        this.$firebaseRefs.favorite.remove();
+      } else {
+        this.$firebaseRefs.favorite.set({ createdAt: timeStamp });
+      }
     },
   },
 };

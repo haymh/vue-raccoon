@@ -106,7 +106,7 @@
         <div class="section">
           <A NAME=calculator></A>
           <div class="body">
-            <mortgage-calculator :price="parseFloat(currentHouse.price)" :hoa="parseFloat(currentHouse.hoa.fee)"></mortgage-calculator>
+            <mortgage-calculator :price="parseFloat(currentHouse.price)" :hoa="parseFloat(currentHouse.hoa.fee || '0')"></mortgage-calculator>
           </div>
         </div>
         <!-- <pre>{{ [currentHouse] }}</pre> -->

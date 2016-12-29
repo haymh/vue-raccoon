@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="singlelist" v-for="list in houseList">
-      <single-list  v-bind:singleListingData="list"></single-list>
+    <div class="singlelist" v-for="item in houseList">
+      <single-list v-bind:singleListingData="item"></single-list>
     </div>
   </div>
 </template>
