@@ -9,19 +9,19 @@
   import MarkerClusterer from './markerclusterer';
 
   export default {
-    props: ['houses'],
+    props: ['houses', 'mapCenterChanged'],
     data() {
       return {};
     },
 
     watch: {
       houses: {
-        handler() {
+        handler(val) {
+          console.log('map getting new houses -> ', val);
           if (this.mapReady) {
             this.resetMarkers();
           }
         },
-        deep: false,
       },
     },
 
@@ -69,13 +69,19 @@
         this.HouseMarker = HouseMarkerClassGenerator();
         this.PriceOverlay = PriceOverlayClassGenerator();
 
-        google.maps.event.addListenerOnce(this.map, 'idle', () => {
+        google.maps.event.addListener(this.map, 'idle', () => {
           this.markersFromHouses();
           this.showMarkersInView();
           this.applyMarkerClickHandler();
+
+          if (this.mapCenterChanged) {
+            const lat = this.map.getCenter().lat();
+            const lng = this.map.getCenter().lng();
+            this.mapCenterChanged(lat, lng);
+          }
         });
 
-        this.map.addListener('center_changed', this.showMarkersInView);
+        // this.map.addListener('center_changed', this.mapCenterChanged);
 
         this.map.addListener('zoom_changed', () => {
           if (this.map.getZoom() <= 12 && !this.markerCluster) {
@@ -179,8 +185,9 @@
 
       markersFromHouses() {
         this.markers = this.houses.map((house) => {
+          const { lat, lng } = house.googleLocation.location;
           const marker = new google.maps.Marker({
-            position: house.googleLocation.location,
+            position: { lat, lng },
             icon: '/static/small_house.png',
           });
           marker.house = house;

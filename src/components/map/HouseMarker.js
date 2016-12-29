@@ -39,8 +39,14 @@ const HouseMarkerClassGenerator = () => class HouseMarker extends google.maps.Ov
     this.div = div;
 
     const span = document.createElement('span');
-    span.innerHTML =
-      `${this.house.address.address1}${this.house.address.address2 ? ` ${this.house.address.address2}` : ''}${this.house.address.address3 ? ` ${this.house.address.address3}` : ''}`;
+    const {
+      streetNumberNumeric,
+      streetNumber,
+      streetName,
+      streetSuffix,
+      streetDirPrefix,
+    } = this.house.address;
+    span.innerHTML = `${streetNumber || streetNumberNumeric} ${streetDirPrefix ? `${streetDirPrefix} ` : ''}${streetName} ${streetSuffix}`;
     span.style.marginLeft = '-1px';
     span.style.display = 'inline-block';
     span.style.position = 'fixed';

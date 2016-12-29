@@ -50,6 +50,7 @@ const mutations = {
   },
 
   [types.RECEIVE_HOUSES](_state, { houses }) {
+    console.log('Receiving houses -> ', houses.length);
     _state.all = houses;
   },
 
