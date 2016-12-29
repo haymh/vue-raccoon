@@ -8,8 +8,8 @@
 import axios from 'axios';
 import * as houseAPI from './house';
 
-// const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
-const baseURL = 'http://localhost:3000';
+const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
+// const baseURL = 'http://localhost:3000';
 
 class RacAPIClient {
   constructor() {
@@ -72,7 +72,6 @@ class RacAPIClient {
       },
     ).then((response) => {
       if (byGeo) {
-        console.log('Got houses -> ', response.data.length);
         return response.data.map(result => ({ ...result.obj, dist: result.dist }));
       }
       return response.data;

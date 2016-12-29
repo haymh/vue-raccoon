@@ -16,12 +16,12 @@
 
     watch: {
       houses: {
-        handler(val) {
-          console.log('map getting new houses -> ', val);
+        handler() {
           if (this.mapReady) {
             this.resetMarkers();
           }
         },
+        deep: true,
       },
     },
 
