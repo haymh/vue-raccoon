@@ -43,6 +43,7 @@ export default {
   computed: {
     address() {
       if (this.listingData) {
+        console.log('listing data', this.listingData);
         return this.listingData.address.address1
                   .concat(' ')
                   .concat(this.listingData.address.address2)

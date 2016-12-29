@@ -9,19 +9,20 @@
   import MarkerClusterer from './markerclusterer';
 
   export default {
-    props: ['houses'],
+    props: ['houses', 'mapCenterChanged'],
     data() {
       return {};
     },
 
     watch: {
       houses: {
-        handler() {
+        handler(val) {
+          console.log('map getting new houses -> ', val);
           if (this.mapReady) {
             this.resetMarkers();
           }
         },
-        deep: false,
+        deep: true,
       },
     },
 
@@ -69,13 +70,19 @@
         this.HouseMarker = HouseMarkerClassGenerator();
         this.PriceOverlay = PriceOverlayClassGenerator();
 
-        google.maps.event.addListenerOnce(this.map, 'idle', () => {
+        google.maps.event.addListener(this.map, 'idle', () => {
           this.markersFromHouses();
           this.showMarkersInView();
           this.applyMarkerClickHandler();
+
+          if (this.mapCenterChanged) {
+            const lat = this.map.getCenter().lat();
+            const lng = this.map.getCenter().lng();
+            this.mapCenterChanged(lat, lng);
+          }
         });
 
-        this.map.addListener('center_changed', this.showMarkersInView);
+        // this.map.addListener('center_changed', this.mapCenterChanged);
 
         this.map.addListener('zoom_changed', () => {
           if (this.map.getZoom() <= 12 && !this.markerCluster) {
@@ -108,17 +115,17 @@
       },
 
       showMarkersInView() {
-        if (this.map.getBounds() && this.map.getZoom() > 12) {
-          this.markers.filter(
-            marker => !marker.getMap() &&
-                      this.map.getBounds().contains(marker.getPosition()))
-                      .forEach(marker => marker.setMap(this.map));
+      //  if (this.map.getBounds() && this.map.getZoom() > 12) {
+        this.markers.filter(
+          marker => !marker.getMap() &&
+                    this.map.getBounds().contains(marker.getPosition()))
+                    .forEach(marker => marker.setMap(this.map));
 
-          this.markers.filter(
-            marker => marker.getMap() &&
-                      !this.map.getBounds().contains(marker.getPosition()))
-                      .forEach(marker => marker.setMap(null));
-        }
+        this.markers.filter(
+          marker => marker.getMap() &&
+                    !this.map.getBounds().contains(marker.getPosition()))
+                    .forEach(marker => marker.setMap(null));
+      //  }
       },
 
       resetMarkers() {
@@ -158,7 +165,7 @@
           marker.addListener('mouseover', () => {
             if (marker !== this.activeMarker) {
               const house = marker.house;
-              const [lat, lng] = house.location.coordinates;
+              const { lat, lng } = house.googleLocation.location;
               const googleLatLng = new google.maps.LatLng(lat, lng);
               const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
@@ -179,8 +186,9 @@
 
       markersFromHouses() {
         this.markers = this.houses.map((house) => {
+          const { lat, lng } = house.googleLocation.location;
           const marker = new google.maps.Marker({
-            position: { lat: house.location.coordinates[0], lng: house.location.coordinates[1] },
+            position: { lat, lng },
             icon: '/static/small_house.png',
           });
           marker.house = house;
@@ -190,7 +198,7 @@
 
       createOverlayFromMarker(marker) {
         const house = marker.house;
-        const [lat, lng] = house.location.coordinates;
+        const { lat, lng } = house.googleLocation.location;
         const googleLatLng = new google.maps.LatLng(lat, lng);
         const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
