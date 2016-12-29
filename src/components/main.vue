@@ -14,15 +14,14 @@
             <SortBar></SortBar>
           </div>
           <div class="column is-8">
-            <!-- <Pagination :totalPages="2"></Pagination> -->
-            <!-- <el-pagination
-              small
-              layout="total, prev, pager, next, jumper"
-              :current-page="currentPage"
-              :page-size="pageSize"
+            <Pagination
+              :currentPage="currentPage"
+              :pageSize="pageSize"
               :total="filterResults.length"
-              @current-change="changeCurrent">
-            </el-pagination> -->
+              :size="10"
+              :chunk="true"
+              @currentChanged="changeCurrent">
+            </Pagination>
           </div>
         </div>
       </div>
@@ -30,14 +29,14 @@
         <house-list :houseList="currentList"></house-list>
       </div>
       <div class="has-text-centered">
-        <el-pagination
-          small
-          layout="total, prev, pager, next, jumper"
-          :current-page="currentPage"
-          :page-size="pageSize"
+        <Pagination
+          :currentPage="currentPage"
+          :pageSize="pageSize"
           :total="filterResults.length"
-          @current-change="changeCurrent">
-        </el-pagination>
+          :size="10"
+          :chunk="true"
+          @currentChanged="changeCurrent">
+        </Pagination>
       </div>
     </div>
   </div>
@@ -79,6 +78,7 @@
 import { mapGetters } from 'vuex';
 import list from './list/list.vue';
 import SortBar from './list/SortBar.vue';
+import Pagination from './list/Pagination.vue';
 import filter from './filter/Filter-element.vue';
 import Map from './map/Map.vue';
 
@@ -87,8 +87,8 @@ export default {
   data() {
     return {
       position: 0,
-      currentPage: 1,
-      pageSize: 10,
+      currentPage: 0,
+      pageSize: 5,
     };
   },
   components: {
@@ -96,6 +96,7 @@ export default {
     'house-list': list,
     SortBar,
     RaccoonMap: Map,
+    Pagination,
   },
   computed: {
     ...mapGetters([
@@ -104,7 +105,7 @@ export default {
       'filterResults',
     ]),
     currentList() {
-      const begin = (this.currentPage - 1) * this.pageSize;
+      const begin = this.currentPage * this.pageSize;
       const end = begin + this.pageSize;
       return this.filterResults.slice(begin, end);
     },
