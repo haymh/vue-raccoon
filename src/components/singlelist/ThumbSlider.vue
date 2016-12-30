@@ -33,15 +33,16 @@
   <div style="height:500px">
     <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
       <swiper-slide v-for="url in images">
-        <img :data-src="url" class="swiper-lazy">
-        <div class="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+        <img v-lazy="url"/>
       </swiper-slide>
       <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
       <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
       <div class="swiper-pagination"  slot="pagination"></div>
     </swiper>
     <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-      <swiper-slide v-for="url in images" :style="backgroundImage(url)"></swiper-slide>
+      <swiper-slide v-for="url in images">
+        <img v-lazy="url"/>
+      </swiper-slide>
     </swiper>
   </div>
 </template>

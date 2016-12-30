@@ -36,12 +36,14 @@
    bottom: 0px;
  }
  .singlelist .list .like {
+   z-index: 1;
    position: absolute;
    top: 0px;
    padding: 5px;
    margin: 10px;
  }
  .singlelist .list .basic-info {
+   z-index: 1;
    position: absolute;
    width: 50%;
    bottom: 0px;

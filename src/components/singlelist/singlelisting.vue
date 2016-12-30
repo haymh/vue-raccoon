@@ -2,7 +2,8 @@
   <div class="box list">
     <div class="columns is-gapless is-mobile">
       <div class="column is-half left-column">
-        <list-gallery :images="singleListingData.pics"></list-gallery>
+        <!-- <list-gallery :images="singleListingData.pics"></list-gallery> -->
+        <Slider :images="singleListingData.pics" :clickHandler="onClickHandler"></Slider>
         <list-basic-info class="basic-info" v-bind:listingData="singleListingData"></list-basic-info>
 
         <a class="like" v-bind:style="{color: like? '#ff3860':'white'}">
@@ -26,6 +27,7 @@ import { mapGetters } from 'vuex';
 import Gallery from './gallery.vue';
 import BasicInfo from './basicInfo.vue';
 import DetailInfo from './detailInfo.vue';
+import Slider from './Slider.vue';
 import { db, timeStamp } from '../../api/fire';
 
 export default {
@@ -35,6 +37,7 @@ export default {
     'list-gallery': Gallery,
     'list-basic-info': BasicInfo,
     'list-detail-info': DetailInfo,
+    Slider,
   },
   computed: {
     ...mapGetters([
@@ -62,6 +65,9 @@ export default {
       } else {
         this.$firebaseRefs.favorite.set({ createdAt: timeStamp });
       }
+    },
+    onClickHandler() {
+      console.log('sb');
     },
   },
 };

@@ -1,8 +1,5 @@
 <template>
   <div class="detail-info-wrapper is-marginless">
-    <header class="card-header">
-      <h1 class="title">{{listingData.propertyType}}</h1>
-    </header>
     <div class="heading" style="padding-left: 10px">{{viewLike}}</div>
     <table class="table is-striped detail">
       <tbody>
