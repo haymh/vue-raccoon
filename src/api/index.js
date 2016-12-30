@@ -50,8 +50,12 @@ class RacAPIClient {
     .then(response => response.data);
   }
 
-  getFavorite(userId) {
-    return this.houseAPI.favorite(userId);
+  getFavorite(firebaseUserId) {
+    return this.client.get('/user/favorite',
+      {
+        params: { uid: firebaseUserId },
+      })
+    .then(response => response.data);
   }
 
   getRecentViewed(userId) {

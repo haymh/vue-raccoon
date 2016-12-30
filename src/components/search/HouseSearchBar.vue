@@ -26,6 +26,7 @@ export default {
         city: query[0],
         state: query[1],
       });
+      this.$router.push('/main');
     },
   },
 };

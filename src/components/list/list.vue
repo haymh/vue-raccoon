@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="singlelist" v-for="item in houseList">
+    <div class="singlelist" v-for="item in houseList" :key="item._id">
       <single-list v-bind:singleListingData="item"></single-list>
     </div>
   </div>
