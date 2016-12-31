@@ -5,6 +5,7 @@ export const search = (searchTerms) => {
     setTimeout(() =>
       fulfill([
         {
+          _id: 'aabbcc112233',
           address: {
             address1: '3819 Vinyard Ave.',
             address2: '#42',
@@ -672,14 +673,14 @@ export const recentViewed = id => search(id);
 
 export const defaultHouse = {
   address: {
-    address1: '-',
-    address2: '-',
-    address3: '',
-    state: '-',
+    streetName: '-',
+    streetNumber: '-',
+    streetSuffix: '',
+    stateOrProvince: '-',
     city: '-',
     county: '-',
     country: '-',
-    zip: '-',
+    postalCode: '-',
   },
   pics: [],
   description: '-',
@@ -696,6 +697,7 @@ export const defaultHouse = {
     coordinates: [32.8357239, -117.1939502],
   },
   city: '-',
+  state: '-',
   beds: 0,
   baths: 0,
   floors: 0,
@@ -713,4 +715,10 @@ export const defaultHouse = {
   postDate: '-',
   tags: [],
   visits: 0,
+  googleLocation: {
+    location: {
+      lat: 0,
+      lng: 0,
+    },
+  },
 };

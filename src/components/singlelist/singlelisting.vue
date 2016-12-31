@@ -2,7 +2,8 @@
   <div class="box list">
     <div class="columns is-gapless is-mobile">
       <div class="column is-half left-column">
-        <list-gallery :images="singleListingData.pics"></list-gallery>
+        <!-- <list-gallery :images="singleListingData.pics"></list-gallery> -->
+        <Slider :images="singleListingData.pics" :clickHandler="onClickHandler"></Slider>
         <list-basic-info class="basic-info" v-bind:listingData="singleListingData"></list-basic-info>
 
         <a class="like" v-bind:style="{color: like? '#ff3860':'white'}">
@@ -14,7 +15,7 @@
       <div class="column is-half right-column">
         <list-detail-info v-bind:listingData="singleListingData"></list-detail-info>
         <footer class="card-footer actions">
-          <router-link class="card-footer-item" to="/house/1">View Detail</router-link>
+          <router-link class="card-footer-item" :to="`/house/${singleListingData._id}`">View Detail</router-link>
         </footer>
       </div>
     </div>
@@ -22,9 +23,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Gallery from './gallery.vue';
 import BasicInfo from './basicInfo.vue';
 import DetailInfo from './detailInfo.vue';
+import Slider from './Slider.vue';
+import { db, timeStamp } from '../../api/fire';
 
 export default {
   name: 'SingleList',
@@ -33,17 +37,37 @@ export default {
     'list-gallery': Gallery,
     'list-basic-info': BasicInfo,
     'list-detail-info': DetailInfo,
+    Slider,
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+    ]),
+    like() {
+      return this.favorite.createdAt !== undefined;
+    },
   },
   data() {
     return {
-      like: false,
     };
   },
   created() {
+    console.log('LIST ITEM', this.singleListingData);
+    console.log(this.userId);
+    this.$bindAsObject('favorite', db.ref(`buyerData/${this.userId}/favoriteHouses/${this.singleListingData._id}`));
   },
   methods: {
     likeListing() {
-      this.like = !this.like;
+      console.log(this.favorite);
+      const value = this.favorite.createdAt;
+      if (value) {
+        this.$firebaseRefs.favorite.remove();
+      } else {
+        this.$firebaseRefs.favorite.set({ createdAt: timeStamp });
+      }
+    },
+    onClickHandler() {
+      console.log('sb');
     },
   },
 };

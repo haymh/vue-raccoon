@@ -9,6 +9,7 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
+// const baseURL = 'http://localhost:3000';
 
 class RacAPIClient {
   constructor() {
@@ -50,8 +51,12 @@ class RacAPIClient {
     .then(response => response.data);
   }
 
-  getFavorite(userId) {
-    return this.houseAPI.favorite(userId);
+  getFavorite(firebaseUserId) {
+    return this.client.get('/user/favorite',
+      {
+        params: { uid: firebaseUserId },
+      })
+    .then(response => response.data);
   }
 
   getRecentViewed(userId) {
@@ -64,6 +69,10 @@ class RacAPIClient {
         params: { ...searchTerm },
       },
     ).then(response => response.data);
+  }
+
+  getHouse(houseId) {
+    return this.client.get(`/house/${houseId}`).then(response => response.data);
   }
 }
 

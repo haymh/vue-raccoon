@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import moment from 'moment';
 import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
 import VueI18n from 'vue-i18n';
@@ -8,7 +9,6 @@ import VueFire from 'vuefire';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
 import 'bulma/css/bulma.css';
-import AwesomeSwiper from 'vue-awesome-swiper';
 
 import App from './App.vue';
 import router from './router';
@@ -25,16 +25,20 @@ Vue.use(VueLazyload, {
 });
 Vue.use(VueI18n);
 Vue.use(VueFire);
-Vue.use(AwesomeSwiper);
 Vue.filter('formatNumber', (n, p, symbol) => {
-  const res = n.toFixed(p).replace(/./g, (c, i, a) => {
-    if (i && c !== '.' && ((a.length - i) % 3 === 0)) {
-      return `,${c}`;
-    }
-    return c;
-  });
-  return `${symbol}${res}`;
+  if (!isNaN(parseFloat(n)) && isFinite(n)) {
+    const res = n.toFixed(p).replace(/./g, (c, i, a) => {
+      if (i && c !== '.' && ((a.length - i) % 3 === 0)) {
+        return `,${c}`;
+      }
+      return c;
+    });
+    return `${symbol}${res}`;
+  }
+  return n;
 });
+
+Vue.filter('formatDate', (date, formatString) => moment(date).format(formatString));
 
 // i18n config
 Vue.config.lang = 'zh';

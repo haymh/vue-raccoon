@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="singlelist" v-for="list in houseList">
-      <single-list  v-bind:singleListingData="list"></single-list>
+    <div class="singlelist" v-for="item in houseList" :key="item._id">
+      <single-list v-bind:singleListingData="item"></single-list>
     </div>
   </div>
 </template>
@@ -36,12 +36,14 @@
    bottom: 0px;
  }
  .singlelist .list .like {
+   z-index: 1;
    position: absolute;
    top: 0px;
    padding: 5px;
    margin: 10px;
  }
  .singlelist .list .basic-info {
+   z-index: 1;
    position: absolute;
    width: 50%;
    bottom: 0px;

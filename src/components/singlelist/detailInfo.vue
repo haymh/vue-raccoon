@@ -1,9 +1,6 @@
 <template>
   <div class="detail-info-wrapper is-marginless">
-    <header class="card-header">
-      <h1 class="title">{{listingData.title}}</h1>
-    </header>
-    <div class="heading" style="padding-left: 10px">{{viewVisit}}</div>
+    <div class="heading" style="padding-left: 10px">{{viewLike}}</div>
     <table class="table is-striped detail">
       <tbody>
         <tr>
@@ -12,7 +9,7 @@
         </tr>
         <tr>
           <td>Days Online: <b>{{daysOnline}}</b></td>
-          <td>Lot Size: <b>{{lot}}</b></td>
+          <td>Lot Size: <b>{{lot}}</b> Sq.Ft.</td>
         </tr>
         <tr>
           <td>HOA: <b>{{hoa}}</b></td>
@@ -45,7 +42,6 @@
   margin-bottom: 0px;
 }
 .detail-info-wrapper {
-  font-family: serif;
   color: #727272;
   padding: 5px;
 }
@@ -56,10 +52,10 @@ export default {
   name: 'DetailInfo',
   props: ['listingData'],
   created() {
-    this.viewVisit = this.$options.filters.formatNumber(this.listingData.views, 0, '')
+    this.viewLike = this.$options.filters.formatNumber(this.listingData.views, 0, '')
                       .concat(' views/')
-                      .concat(this.$options.filters.formatNumber(this.listingData.visits, 0, ''))
-                      .concat(' visits');
+                      .concat(this.$options.filters.formatNumber(this.listingData.likes, 0, ''))
+                      .concat(' likes');
     if (this.listingData.postDate) {
       this.daysOnline = this.daysFromToday(this.listingData.postDate);
     }
@@ -69,10 +65,15 @@ export default {
       this.lot = '-';
     }
     if (this.listingData.hoa) {
-      this.hoa = this.$options.filters.formatNumber(this.listingData.hoa, 0, '$');
+      this.hoa = this.$options.filters.formatNumber(this.listingData.hoa.fee, 0, '$');
     } else {
       this.hoa = 'None';
     }
+  },
+  data() {
+    return {
+      daysOnline: '-',
+    };
   },
   filters: {
     formatDate(date) {
@@ -81,6 +82,9 @@ export default {
         return d.toLocaleDateString();
       }
       return null;
+    },
+    sqftToAcre(sqft) {
+      return (sqft / 43560).toFixed(1);
     },
   },
   methods: {

@@ -1,19 +1,17 @@
 <template>
-  <AutoComplete></AutoComplete>
+  <AddressAutocomplete @newQuery="handleNewQuery"></AddressAutocomplete>
 </template>
 
 <script>
-import AutoComplete from './AutoComplete.vue';
+import AddressAutocomplete from './AddressAutocomplete.vue';
 
 export default {
   name: 'HouseSearchBar',
-  components: { AutoComplete },
+  components: { AddressAutocomplete },
   created() {
   },
   data() {
-    return {
-      query: null,
-    };
+    return {};
   },
   methods: {
     search() {
@@ -22,7 +20,13 @@ export default {
     },
     handleNewQuery(newQuery) {
       console.log('new query', newQuery);
-      this.query = newQuery;
+      const query = newQuery.text.split(', ');
+      console.log('split', query);
+      this.$store.dispatch('searchHouse', {
+        city: query[0],
+        state: query[1],
+      });
+      this.$router.push('/main');
     },
   },
 };

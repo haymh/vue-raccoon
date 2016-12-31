@@ -81,7 +81,8 @@
         ".write": "auth.uid === $userId",
         "favoriteHouses": {
           "$fhId": {
-            "id": { ".validate": "newData.isString() && newData.val().length > 0" }
+            "id": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "createdAt": { ".validate": "newData.val() <= now" }
           }
         },
         "searches": {

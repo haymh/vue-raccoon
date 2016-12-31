@@ -238,6 +238,7 @@ export default {
       console.log(results);
       next((vm) => {
         vm.favorite = results[0];
+        console.log('favorite', results[0]);
         vm.recentViewed = results[1];
       });
     }, (error) => {
@@ -254,6 +255,7 @@ export default {
         API.getRecentViewed(this.$route.params.id),
       ]).then((results) => {
         this.favorite = results[0];
+        console.log('favorite', results[0]);
         this.recentViewed = results[1];
       }, (error) => {
         this.$router.push(`/error/${error}`);

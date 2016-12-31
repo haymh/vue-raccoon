@@ -6,7 +6,7 @@
           <img src="../../static/logo.png">
         </router-link>
         <div class="nav-item">
-          <AddressAutocomplete class="autocomplete-input"></AddressAutocomplete>
+          <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
         </div>
         <router-link class="nav-item" to="/hello">{{ $t('nav.hello') }}</router-link>
         <router-link class="nav-item" to="/view1">View1</router-link>
@@ -74,11 +74,11 @@
   import search from './Hello.vue';
   import Login from './login/Login.vue';
   import UserInfo from './login/UserInfo.vue';
-  import AddressAutocomplete from './search/AddressAutocomplete.vue';
+  import HouseSearchBar from './search/HouseSearchBar.vue';
 
   export default {
     name: 'navbar',
-    components: { search, Login, UserInfo, AddressAutocomplete },
+    components: { search, Login, UserInfo, HouseSearchBar },
     computed: mapGetters(['user']),
   };
 </script>
