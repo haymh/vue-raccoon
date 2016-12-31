@@ -8,11 +8,10 @@
         <div class="nav-item">
           <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
         </div>
-        <router-link class="nav-item" to="/hello">{{ $t('nav.hello') }}</router-link>
-        <router-link class="nav-item" to="/view1">View1</router-link>
-        <router-link class="nav-item" to="/chat">{{ $t('nav.chat') }}</router-link>
-        <router-link class="nav-item" to="/main">Main</router-link>
-        <router-link class="nav-item" to="/user/123">Profile</router-link>
+        <router-link class="nav-item is-tab" to="/hello">{{ $t('nav.hello') }}</router-link>
+        <router-link class="nav-item is-tab" to="/view1">View1</router-link>
+        <router-link class="nav-item is-tab" to="/chat">{{ $t('nav.chat') }}</router-link>
+        <router-link class="nav-item is-tab" to="/main">Main</router-link>
       </div>
       <span class="nav-toggle">
         <span></span>
@@ -20,17 +19,12 @@
         <span></span>
       </span>
       <div class="nav-right nav-menu">
+        <a class="nav-item is-tab" href="#">
+          What?
+        </a>
         <Login class="nav-item" v-show="user.isTemp" />
         <UserInfo class="nav-item" v-show="!user.isTemp" :user="user" />
-        <a class="nav-item is-tab" href="#">
-          1-123-4567
-        </a>
-        <a class="nav-item is-tab" href="#">
-          Documentation
-        </a>
-        <a class="nav-item is-tab" href="#">
-          Blog
-        </a>
+        <router-link class="nav-item is-tab" to="/user/123">Profile</router-link>
       </div>
     </div>
   </nav>

@@ -1,7 +1,7 @@
 <template>
   <div class="control is-horizontal">
     <p class="control has-addons">
-      <span class="label">Sort By</span>
+      <span class="label">Sort:</span>
       <span class="select">
         <select v-model="sortBy" @change="setSort">
           <option v-for="item in options">{{item}}</option>
@@ -11,6 +11,7 @@
         <span class="icon is-small">
           <i v-bind:class="upOrDown"></i>
         </span>
+        <span>{{highOrLow}}</span>
       </a>
     </p>
   </div>
@@ -33,6 +34,9 @@ export default {
   computed: {
     upOrDown() {
       return this.lowToHigh ? 'fa fa-arrow-up' : 'fa fa-arrow-down';
+    },
+    highOrLow() {
+      return this.lowToHigh ? 'Low to High' : 'High to Low';
     },
   },
   watch: {

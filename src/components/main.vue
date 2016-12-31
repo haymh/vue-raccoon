@@ -6,14 +6,14 @@
         </RaccoonMap>
     </div>
     <div class="column is-narrow right-container">
-      <div class="toolbar-container">
+      <header class="toolbar-container">
         <filter-element>
         </filter-element>
-        <div class="columns is-gapless">
-          <div class="column is-4">
+        <div class="columns is-narrow is-gapless toolbar">
+          <div class="column is-5">
             <SortBar></SortBar>
           </div>
-          <div class="column is-8">
+          <div class="column is-7">
             <Pagination
               :currentPage="currentPage"
               :pageSize="pageSize"
@@ -24,7 +24,7 @@
             </Pagination>
           </div>
         </div>
-      </div>
+      </header>
       <div class="list-container">
         <house-list :houseList="currentList"></house-list>
       </div>
@@ -50,6 +50,11 @@
 }
 .right-container .toolbar-container {
   height: 74px;
+  background-color: white;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+.right-container .toolbar-container .toolbar {
+  padding: 0 5px;
 }
 .map-container .save-button {
   position: absolute;
@@ -62,6 +67,7 @@
 .map-container .map {
 }
 .list-container {
+  padding-top: 5px;
   height: calc(100% - 106px);
   position: relative;
   overflow: scroll;

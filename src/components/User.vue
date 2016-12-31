@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <div>
+  <div class="hero">
     <div :class="['modal', showEditProfileModal ? 'is-active':'']" v-if="showEditProfileModal">
       <div class="modal-background" @click="toggleEditProfileModal"></div>
       <div class="modal-card">
@@ -52,12 +53,12 @@
         </footer>
       </div>
     </div>
-    <div class="section">
+    <div class="hero-body">
       <div class="columns">
         <div class="column is-2">
-          <div class="image is-128x128 avatar">
-            <img :src="user.avatar">
-          </div>
+          <figure class="image is-128x128 avatar is-pulled-right">
+            <img :src="user.avatar || 'http://placehold.it/128x128'">
+          </figure>
         </div>
         <div class="column is-4 name">
           <p>
@@ -84,17 +85,22 @@
         </el-badge>
         </div>
       </div>
-    </div>
-    <div class="tabs is-fullwidth">
-      <ul>
-        <li :class="isTabActive(0)" @click="changeTab(0)"><a><span class="icon"><i class="fa fa-list"></i></span> <span>Recent Viewed</span></a></li>
-        <li :class="isTabActive(1)" @click="changeTab(1)"><a><span class="icon"><i class="fa fa-heart"></i></span> <span>My Favorites</span></a></li>
-      </ul>
-    </div>
 
-    <div class="box">
+    </div>
+    <div class="hero-foot">
+      <div class="container">
+        <div class="tabs is-boxed">
+          <ul>
+            <li :class="isTabActive(0)" @click="changeTab(0)"><a><span class="icon"><i class="fa fa-list"></i></span> <span>Recent Viewed</span></a></li>
+            <li :class="isTabActive(1)" @click="changeTab(1)"><a><span class="icon"><i class="fa fa-heart"></i></span> <span>My Favorites</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="nav has-shadow toolbar">
         <!-- Main container -->
-        <nav class="level">
+        <div class="container level">
           <!-- Left side -->
           <div class="level-left">
             <div class="level-item">
@@ -120,21 +126,25 @@
             <p class="level-item"><a>Deleted</a></p>
             <p class="level-item"><a class="button is-success">New</a></p>
           </div>
-        </nav>
+        </div>
       </div>
 
-    <div class="spacer"></div>
-
-    <div class="columns is-multiline">
-      <div v-for="item in currentDisplay" class="column is-6 house-container">
-        <single-list :singleListingData="item"></single-list>
+    <section class="section">
+      <div class="container">
+        <div class="columns is-multiline">
+          <div v-for="item in currentDisplay" class="column is-6 house-container">
+            <single-list :singleListingData="item"></single-list>
+          </div>
+        </div>
       </div>
-
-    </div>
+    </section>
   </div>
 </template>
 
-<style>
+<style scoped>
+.toolbar {
+  background-color: #fafafa;
+}
 @media (max-width: 1180px) and (min-width: 768px) {
  .house-container .list {
     width: 100%;

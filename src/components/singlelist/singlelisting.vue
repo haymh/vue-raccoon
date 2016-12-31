@@ -15,7 +15,7 @@
       <div class="column is-half right-column">
         <list-detail-info v-bind:listingData="singleListingData"></list-detail-info>
         <footer class="card-footer actions">
-          <router-link class="card-footer-item" :to="`/house/${singleListingData._id}`">View Detail</router-link>
+          <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
         </footer>
       </div>
     </div>

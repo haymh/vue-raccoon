@@ -40,7 +40,9 @@ a {
 	color: #34495e;
 	text-decoration: none;
 }
-
+.section {
+  background-color: #fafafa;
+}
 /*.view {
 	margin: 0 auto;
 	position: relative;

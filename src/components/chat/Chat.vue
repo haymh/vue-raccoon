@@ -1,14 +1,17 @@
 <template>
-<div class="chat">
+<div class="chat container">
   <div class="sidebar">
-    <header class="columns is-mobile">
-      <div class="column is-3">
+    <header class="columns is-gapless">
+      <div class="column is-2">
         <img class="avatar" :src="user.avatar" alt="" />
       </div>
-      <div class="column is-9">
-        <el-input class="searchbar" size="small" placeholder="搜索">
-          <el-button slot="append" icon="search"></el-button>
-        </el-input>
+      <div class="column is-10 ">
+        <p class="control has-addons is-fullwidth">
+          <input class="input" type="text" placeholder="Find a person">
+          <a class="button">
+            Search
+          </a>
+        </p>
       </div>
     </header>
     <ChatList :peopleList="peopleList" v-on:openchat="openChat"></Chatlist>
@@ -67,6 +70,7 @@
 }
 
 .ChatList li {
+  width: 100%;
   padding: 12px 15px;
   border-bottom: 1px solid #292C33;
   cursor: pointer;
