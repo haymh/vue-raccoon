@@ -95,8 +95,6 @@ export default {
     return {
       current: this.currentPage,
       first: this.currentPage,
-      realSize: this.size,
-      totalPages: 0,
     };
   },
   methods: {

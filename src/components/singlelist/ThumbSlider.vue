@@ -27,6 +27,9 @@
   .gallery-thumbs .swiper-slide-active {
     opacity: 1;
   }
+  .swiper-button-white {
+    background-color: rgba(51,101,138, 0.2);
+  }
 </style>
 
 <template>

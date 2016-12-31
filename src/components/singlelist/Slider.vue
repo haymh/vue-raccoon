@@ -74,7 +74,6 @@ export default {
         centeredSlides: true,
         lazyLoading: true,
         preloadImages: false,
-        mousewheelControl: true,
         setWrapperSize: true,
         pagination: '.swiper-pagination',
         paginationType: 'fraction',

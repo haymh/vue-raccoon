@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <navbar></navbar>
 		<transition name="fade" mode="out-in">
@@ -10,8 +9,17 @@
 		</transition>
   </div>
 </template>
-<style>
+<style lang="scss">
+$blue: #72d0eb;
+$family-serif: "Lato", serif; // Add a serif family
+$primary: $blue;
+$family-primary: $family-serif; // Use the new serif family
+@import "~bulma";
+</style>
 
+
+<style lang="css">
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 html, body, #app, .main {
   overflow: hidden;
   height: 100%;
@@ -22,11 +30,9 @@ html, body, #app, .main {
 }
 
 body {
-	font-family: Roboto, Helvetica, sans-serif;
 	font-size: 15px;
 	background-color: #f2f3f5;
 	margin: 0;
-	padding-top: 55px;
 	color: #34495e;
 }
 
@@ -92,12 +98,13 @@ export default {
             // read user profile
             this.$store.dispatch('setUserProfile', { id, ...userProfile.val() });
             // read user generated data
-            db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
-              this.$store.dispatch('setUserData', {
-                favoriteHouses: [...(buyerData.val().favoriteHouses || [])],
-                searches: [...(buyerData.val().searches || [])],
-              });
-            });
+            // db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
+            //   console.log(buyerData.val());
+            //   this.$store.dispatch('setUserData', {
+            //     favoriteHouses: [...(buyerData.val().favoriteHouses || [])],
+            //     searches: [...(buyerData.val().searches || [])],
+            //   });
+            // });
             // read userRooms
             db.ref(`/userRooms/${id}`).on('value', (userRooms) => {
               const userRoomsRes = userRooms.val();
@@ -133,8 +140,6 @@ export default {
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
-              favoriteHouses: [],
-              searches: [],
               lastUpdate: timeStamp,
             };
             db.ref().update(updates).then(() => {

@@ -41,20 +41,15 @@
   width: auto;
 }
 .nav-global {
-	background-color: #1f1f1f;
 	z-index: 999;
 	top: 0;
 	left: 0;
 	right: 0;
 }
 
-.nav-global a:hover {
-	color: #fff;
-}
-
 .nav-global a.router-link-active {
 	color: #000;
-	font-weight: 400;
+	font-weight: bold;
 }
 
 .nav-global a:nth-child(6) {
