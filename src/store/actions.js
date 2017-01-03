@@ -3,8 +3,10 @@ import * as types from './mutation-types';
 import raccoonAPI from '../api';
 
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
-  raccoonAPI.searchHouse(searchTerms).then((houses) => {
+  raccoonAPI.searchHouse(searchTerms).then(({ houses, geocode }) => {
+    console.log('Houses are -> ', houses);
     commit(types.RECEIVE_HOUSES, { houses });
+    if (geocode) commit(types.SET_CENTER, { center: geocode });
     // TODO: tag favorite houses
     commit(types.TAG_FAVORITE, { favoriteHouses: rootState.user.favoriteHouses });
     // Filter house

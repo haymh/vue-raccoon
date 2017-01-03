@@ -9,7 +9,7 @@
   import MarkerClusterer from './markerclusterer';
 
   export default {
-    props: ['houses', 'mapCenterChanged'],
+    props: ['houses', 'mapCenterChanged', 'center'],
     data() {
       return {};
     },
@@ -22,6 +22,11 @@
           }
         },
         deep: true,
+      },
+      center(newCenter) {
+        this.map.setZoom(12);
+        console.log('getting new center -> ', newCenter);
+        this.map.setCenter(new google.maps.LatLng(newCenter.lat, newCenter.lng));
       },
     },
 
@@ -54,7 +59,7 @@
 
     methods: {
       googleMapLoaded() {
-        let center = { lat: 32.856385, lng: -117.202936 };
+        let center = this.center || { lat: 32.856385, lng: -117.202936 };
         if (this.houses.length === 1) {
           const { lat, lng } = this.houses[0].googleLocation.location;
           center = { lat, lng };

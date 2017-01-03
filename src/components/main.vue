@@ -2,7 +2,7 @@
   <div class="columns is-gapless is-mobile content-container">
     <div class="column map-container">
         <a class="button is-danger save-button">Save Search</a>
-        <RaccoonMap class="map" :houses="getAllHouses()" :mapCenterChanged="mapCenterChanged">
+        <RaccoonMap class="map" :houses="getAllHouses()" :mapCenterChanged="mapCenterChanged" :center='mapCenter'>
         </RaccoonMap>
     </div>
     <div class="column is-narrow right-container">
@@ -109,6 +109,7 @@ export default {
       'allHouses',
       'selectedHouse',
       'filterResults',
+      'mapCenter',
     ]),
     currentList() {
       const begin = this.currentPage * this.pageSize;
