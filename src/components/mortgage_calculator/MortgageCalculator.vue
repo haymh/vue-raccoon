@@ -40,7 +40,10 @@
             <div class="column is-12">
               <FormatableNumberInput :value="newPrice" :formatMethod="formatCurrency" v-on:valuechange="enterPrice"></FormatableNumberInput>
             </div>
-            <el-slider class="column is-12" :min="minPrice" :max="maxPrice" :step="1000" v-model="newPrice"></el-slider>
+            <!-- <el-slider class="column is-12" :min="minPrice" :max="maxPrice" :step="1000" v-model="newPrice"></el-slider> -->
+            <div class="column is-12">
+              <input type="range" style="display:table-cell; width:100%" :min="minPrice" :max="maxPrice" :step="1000" v-model.number="newPrice">
+            </div>
           </div>
         </div>
         <div class="column is-6">
@@ -52,7 +55,7 @@
                 <FormatableNumberInput class="column is-4" :value="downPaymentRate" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event)"></FormatableNumberInput>
               </div>
             </div>
-            <el-slider class="column is-12" v-model="downPaymentRate"></el-slider>
+            <input type="range" style="display:table-cell; width:100%" min="0" max="100" step="1" v-model.number="downPaymentRate">
           </div>
         </div>
 
