@@ -1,5 +1,5 @@
 <template>
-  <div class="box list">
+  <div class="box list" @mouseover="select">
     <div class="columns is-gapless is-mobile">
       <div class="column is-half left-column">
         <!-- <list-gallery :images="singleListingData.pics"></list-gallery> -->
@@ -67,7 +67,10 @@ export default {
       }
     },
     onClickHandler() {
-      console.log('sb');
+      this.$router.push(`/house/${this.singleListingData._id}`);
+    },
+    select() {
+      console.log(`select this guy ${this.singleListingData._id}`);
     },
   },
 };
