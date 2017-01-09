@@ -81,8 +81,6 @@
           }
         });
 
-        // this.map.addListener('center_changed', this.mapCenterChanged);
-
         this.map.addListener('zoom_changed', () => {
           if (this.map.getZoom() <= 12 && !this.markerCluster) {
             if (this.activeMarker) {
@@ -124,6 +122,14 @@
             marker => marker.getMap() &&
                       !this.map.getBounds().contains(marker.getPosition()))
                       .forEach(marker => marker.setMap(null));
+
+          console.log('Fit markers');
+          const bounds = new google.maps.LatLngBounds();
+          this.markers.forEach((marker) => {
+            bounds.extend(marker.getPosition());
+            // marker.setMap(this.map);
+          });
+          this.map.fitBounds(bounds);
         }
       },
 
