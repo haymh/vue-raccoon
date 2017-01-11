@@ -39,6 +39,13 @@ Vue.filter('formatNumber', (n, p, symbol) => {
 
 Vue.filter('formatDate', (date, formatString) => moment(date).format(formatString));
 
+Vue.filter('safe', (object) => {
+  if (object === undefined) {
+    return {};
+  }
+  return object;
+});
+
 // i18n config
 Vue.config.lang = 'zh';
 Vue.config.fallbackLang = 'en';

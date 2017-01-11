@@ -13,6 +13,7 @@
           <a class="nav-item is-tab" href="#feature">Feature</a>
           <a class="nav-item is-tab" href="#map">Map</a>
           <a class="nav-item is-tab" href="#calculator">Mortgage Calculator</a>
+          <a class="nav-item is-tab" href="#detail">Property Detail</a>
         </div>
       </div>
     </nav>
@@ -28,9 +29,6 @@
             <section class="hero">
               <div class="hero-body">
                 <div class="container">
-                  <h1 class="title">
-                    {{currentHouse.title}}
-                  </h1>
                   <h2 class="subtitle">
                     {{currentHouse.views}} views / {{currentHouse.likes}} likes
                   </h2>
@@ -109,7 +107,12 @@
             <mortgage-calculator :price="parseFloat(currentHouse.price)" :hoa="parseFloat(currentHouse.hoa.fee || '0')"></mortgage-calculator>
           </div>
         </div>
-        <!-- <pre>{{ [currentHouse] }}</pre> -->
+
+        <div class="section">
+          <A NAME=detail></A>
+            <div class="columns is-multiline">
+            </div>
+        </div>
       </div>
     </div>
   </div>
@@ -134,6 +137,14 @@ export default {
     return {
       currentHouse: defaultHouse,
     };
+  },
+  computed: {
+    interior() { return this.currentHouse.feature.interior; },
+    exterior() { return this.currentHouse.feature.exterior; },
+    schoolAndNeighborhood() { return this.currentHouse.feature.schoolAndNeighborhood; },
+    assessment() { return this.currentHouse.feature.assessment; },
+    propertyAndLot() { return this.currentHouse.feature.propertyAndLot; },
+    other() { return this.currentHouse.feature.other; },
   },
   beforeRouteEnter(to, from, next) {
     API.getHouse(to.params.id).then((h) => {
@@ -161,6 +172,14 @@ export default {
     'mortgage-calculator': MortgageCalculator,
     'rac-summary': Summary,
     RaccoonMap: Map,
+  },
+  methods: {
+    notString(s) {
+      if (s === undefined || s === '') {
+        return false;
+      }
+      return true;
+    },
   },
 };
 </script>
