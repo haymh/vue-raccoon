@@ -2,7 +2,7 @@
   <div class="columns is-gapless is-mobile content-container">
     <div class="column map-container">
         <a class="button is-danger save-button">Save Search</a>
-        <RaccoonMap class="map" :houses="getAllHouses()" :mapCenterChanged="mapCenterChanged">
+        <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo">
         </RaccoonMap>
     </div>
     <div class="column is-narrow right-container">
@@ -130,12 +130,9 @@ export default {
     changeCurrent(current) {
       this.currentPage = current;
     },
-    mapCenterChanged(lat, lng) {
-      console.log('Center changed!');
+    searchByGeo(lat, lng) {
+      console.log('Searching by geo');
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
-    },
-    getAllHouses() {
-      return this.$store.getters.allHouses;
     },
   },
 };

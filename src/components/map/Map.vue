@@ -9,7 +9,7 @@
   import MarkerClusterer from './markerclusterer';
 
   export default {
-    props: ['houses', 'mapCenterChanged'],
+    props: ['houses', 'searchByGeo', 'center'],
     data() {
       return {};
     },
@@ -43,6 +43,7 @@
 
         const clusterScript = document.createElement('SCRIPT');
         const clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+        console.log('Center is -> ', this.center);
         clusterScript.setAttribute('src', clusterUrl);
         document.body.appendChild(clusterScript);
       } else this.mapScriptReady = true;
@@ -74,18 +75,31 @@
           this.showMarkersInView();
           this.applyMarkerClickHandler();
 
-          if (this.mapCenterChanged) {
+          console.log('Map is idle');
+          if (this.shouldSearchByGeo && this.searchByGeo) {
+            console.log('map is idle after dragging');
             const lat = this.map.getCenter().lat();
             const lng = this.map.getCenter().lng();
-            this.mapCenterChanged(lat, lng);
+            this.searchByGeo(lat, lng);
+            this.shouldSearchByGeo = false;
+            this.searchingByGeo = true;
           }
         });
 
         this.map.addListener('zoom_changed', () => {
+          if (!this.fittingBounds) {
+            this.shouldSearchByGeo = true;
+          } else { this.fittingBounds = false; }
           if (this.map.getZoom() <= 12 && !this.markerCluster) {
             if (this.activeMarker) {
               this.activeMarker.overlay.toggleDOM();
               this.activeMarker = null;
+            }
+            // remove all markers
+            if (this.markers) {
+              this.markers.forEach((marker) => {
+                marker.setMap(null);
+              });
             }
             this.markerCluster = new MarkerClusterer(
               this.map,
@@ -101,6 +115,15 @@
             }
             this.showMarkersInView();
           }
+        });
+
+        this.map.addListener('dragstart', () => {
+          console.log('User start dragging');
+        });
+
+        this.map.addListener('dragend', () => {
+          console.log('User stop dragging');
+          this.shouldSearchByGeo = true;
         });
 
         this.map.addListener('click', () => {
@@ -123,13 +146,9 @@
                       !this.map.getBounds().contains(marker.getPosition()))
                       .forEach(marker => marker.setMap(null));
 
-          console.log('Fit markers');
-          const bounds = new google.maps.LatLngBounds();
           this.markers.forEach((marker) => {
-            bounds.extend(marker.getPosition());
-            // marker.setMap(this.map);
+            marker.setMap(this.map);
           });
-          this.map.fitBounds(bounds);
         }
       },
 
@@ -142,9 +161,32 @@
         }
 
         this.markersFromHouses();
-        this.showMarkersInView();
 
-        this.applyMarkerClickHandler();
+        if (this.markers && this.markers.length) {
+          if (!this.searchingByGeo) {
+            const bounds = new google.maps.LatLngBounds();
+            this.markers.forEach((marker) => {
+              bounds.extend(marker.getPosition());
+            });
+            this.fittingBounds = true;
+            this.map.fitBounds(bounds);
+          } else { this.searchingByGeo = false; }
+
+          if (this.markerCluster && this.map.getZoom() <= 12) {
+            this.markerCluster.clearMarkers();
+            this.markerCluster = new MarkerClusterer(
+              this.map,
+              this.markers,
+              {
+                imagePath: './static/m',
+              },
+            );
+          }
+
+          this.showMarkersInView();
+
+          this.applyMarkerClickHandler();
+        }
       },
 
       applyMarkerClickHandler() {
