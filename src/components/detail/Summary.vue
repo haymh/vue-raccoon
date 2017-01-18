@@ -19,6 +19,10 @@
             <p class="title is-4 is-marginless">{{propertyDetail.baths}}</p>
             <p class="heading">baths</p>
           </div>
+          <div class="has-right-border">
+            <p class="title is-4 is-marginless">{{propertyDetail.sizeInSF}}</p>
+            <p class="heading">Sq.Ft</p>
+          </div>
           <div style="display: inline-block;">
             <p class="title is-4 is-marginless">{{propertyDetail.sizeInSF | formatNumber(2, '$')}} <i class="subtitle is-6">Sq. Ft.</i></p>
             <p class="title is-6">{{propertyDetail.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></p>
