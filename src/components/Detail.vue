@@ -98,7 +98,7 @@
         <div class="section">
           <A NAME=map></A>
           <div class="map">
-            <RaccoonMap :houses="[currentHouse]"></RaccoonMap>
+            <StaticMap :house="currentHouse"></StaticMap>
           </div>
         </div>
 
@@ -123,13 +123,14 @@
 </style>
 <script>
 import ThumbSlider from './singlelist/ThumbSlider.vue';
-import Map from './map/Map.vue';
+import StaticMap from './map/StaticMap.vue';
 import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
 import Summary from './detail/Summary.vue';
 import API from '../api';
 import { defaultHouse } from '../api/house';
 
 export default {
+  name: 'Detail',
   data() {
     return {
       currentHouse: defaultHouse,
@@ -160,7 +161,7 @@ export default {
     'thumb-slider': ThumbSlider,
     'mortgage-calculator': MortgageCalculator,
     'rac-summary': Summary,
-    RaccoonMap: Map,
+    StaticMap,
   },
 };
 </script>

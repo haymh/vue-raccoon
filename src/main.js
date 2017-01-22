@@ -8,6 +8,7 @@ import VueI18n from 'vue-i18n';
 import VueFire from 'vuefire';
 import Element from 'element-ui';
 import 'element-ui/lib/theme-default/index.css';
+import * as VueGoogleMaps from 'vue2-google-maps';
 
 import App from './App.vue';
 import router from './router';
@@ -24,6 +25,12 @@ Vue.use(VueLazyload, {
 });
 Vue.use(VueI18n);
 Vue.use(VueFire);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ',
+  },
+});
+
 Vue.filter('formatNumber', (n, p, symbol) => {
   if (!isNaN(parseFloat(n)) && isFinite(n)) {
     const res = n.toFixed(p).replace(/./g, (c, i, a) => {
