@@ -6,8 +6,6 @@ import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
 import VueI18n from 'vue-i18n';
 import VueFire from 'vuefire';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
 
 import App from './App.vue';
 import router from './router';
@@ -15,7 +13,6 @@ import store from './store';
 
 import locales from './locales';
 
-Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
   error: 'http://placehold.it/325x250',
