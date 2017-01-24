@@ -8,7 +8,6 @@
         <div class="nav-item">
           <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
         </div>
-        <router-link class="nav-item is-tab" to="/hello">{{ $t('nav.hello') }}</router-link>
         <router-link class="nav-item is-tab" to="/view1">View1</router-link>
         <router-link class="nav-item is-tab" to="/chat">{{ $t('nav.chat') }}</router-link>
         <router-link class="nav-item is-tab" to="/main">Main</router-link>
