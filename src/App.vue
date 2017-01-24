@@ -62,7 +62,6 @@ a {
 import firebase from 'firebase';
 import { mapGetters } from 'vuex';
 import { db, timeStamp } from './api/fire';
-import search from './components/Hello.vue';
 import Login from './components/login/Login.vue';
 import UserInfo from './components/login/UserInfo.vue';
 import navbar from './components/navbar.vue';
@@ -76,7 +75,7 @@ export default {
       needCreateUser: false,
     };
   },
-  components: { search, Login, UserInfo, navbar },
+  components: { Login, UserInfo, navbar },
   computed: mapGetters(['user']),
   created() {
     // add event listener for auth state

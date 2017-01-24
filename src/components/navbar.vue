@@ -59,14 +59,13 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import search from './Hello.vue';
   import Login from './login/Login.vue';
   import UserInfo from './login/UserInfo.vue';
   import HouseSearchBar from './search/HouseSearchBar.vue';
 
   export default {
     name: 'navbar',
-    components: { search, Login, UserInfo, HouseSearchBar },
+    components: { Login, UserInfo, HouseSearchBar },
     computed: mapGetters(['user']),
   };
 </script>
