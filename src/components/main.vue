@@ -7,8 +7,8 @@
     </div>
     <div class="column is-narrow right-container">
       <header class="toolbar-container">
-        <filter-element>
-        </filter-element>
+        <FilterBar>
+        </FilterBar>
         <div class="columns is-narrow is-gapless toolbar">
           <div class="column is-5">
             <SortBar></SortBar>
@@ -85,7 +85,7 @@ import { mapGetters } from 'vuex';
 import list from './list/list.vue';
 import SortBar from './list/SortBar.vue';
 import Pagination from './list/Pagination.vue';
-import filter from './filter/Filter-element.vue';
+import FilterBar from './filter/Filter-element.vue';
 import Map from './map/Map.vue';
 
 export default {
@@ -98,7 +98,7 @@ export default {
     };
   },
   components: {
-    'filter-element': filter,
+    FilterBar,
     'house-list': list,
     SortBar,
     RaccoonMap: Map,

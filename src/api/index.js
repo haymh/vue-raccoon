@@ -46,7 +46,8 @@ class RacAPIClient {
   getAutoComplete(qs) {
     return this.client.get('/autocomplete',
       {
-        params: { types: '(cities)', q: qs },
+        // params: { types: '(cities)', q: qs },
+        params: { types: '(regions)', q: qs },
       })
     .then(response => response.data);
   }
