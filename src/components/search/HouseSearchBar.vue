@@ -26,16 +26,26 @@ export default {
       const secondaryQuery = query[1].split(' ');
       console.log('split #1', query);
       console.log('split #2', secondaryQuery);
-      const zip = parseInt(secondaryQuery[1], 10);
-      let queryObject = {
-        city: query[0],
-        state: query[1],
-      };
-      if (zip) {
+      let queryObject = {};
+      if (query.length > 3) {
+        console.log('Address search: ', query);
         queryObject = {
-          zip,
+          placeId: newQuery.value.place_id,
         };
+      } else {
+        const zip = parseInt(secondaryQuery[1], 10);
+        if (zip) {
+          queryObject = {
+            zip,
+          };
+        } else {
+          queryObject = {
+            city: query[0],
+            state: query[1],
+          };
+        }
       }
+      console.log('queryObject', queryObject);
       this.$store.dispatch('searchHouse', queryObject);
       this.$router.push('/main');
     },
