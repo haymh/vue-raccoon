@@ -131,7 +131,6 @@ export default {
       this.currentPage = current;
     },
     searchByGeo(lat, lng) {
-      console.log('Searching by geo');
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
     },
   },
