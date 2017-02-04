@@ -33,6 +33,7 @@ body {
 	font-size: 15px;
 	background-color: #f2f3f5;
 	margin: 0;
+  padding: 0;
 	color: #34495e;
 }
 

@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <li>
       <div class="columns is-mobile">
         <div class="column is-3">
