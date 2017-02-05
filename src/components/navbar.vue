@@ -8,7 +8,6 @@
         <div class="nav-item">
           <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
         </div>
-        <router-link class="nav-item is-tab" to="/hello">{{ $t('nav.hello') }}</router-link>
         <router-link class="nav-item is-tab" to="/view1">View1</router-link>
         <router-link class="nav-item is-tab" to="/chat">{{ $t('nav.chat') }}</router-link>
         <router-link class="nav-item is-tab" to="/main">Main</router-link>
@@ -60,14 +59,13 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import search from './Hello.vue';
   import Login from './login/Login.vue';
   import UserInfo from './login/UserInfo.vue';
   import HouseSearchBar from './search/HouseSearchBar.vue';
 
   export default {
     name: 'navbar',
-    components: { search, Login, UserInfo, HouseSearchBar },
+    components: { Login, UserInfo, HouseSearchBar },
     computed: mapGetters(['user']),
   };
 </script>

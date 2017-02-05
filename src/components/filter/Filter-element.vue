@@ -110,7 +110,8 @@
   display: none;
 }
 .simple-filter {
-  padding: 5px;
+  padding-top: 2px;
+  padding-left: 5px;
   margin: 0px;
   position: relative;
 }
@@ -128,7 +129,7 @@ import { mapGetters } from 'vuex';
 import * as filterSchema from './filter-schema';
 
 export default {
-  name: 'Filter-element',
+  name: 'FilterBar',
   data() {
     return {
       showFilter: false,

@@ -51,7 +51,6 @@ Vue.config.lang = 'zh';
 Vue.config.fallbackLang = 'en';
 
 // TODO: Set this after login
-Vue.http.headers.common['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA3NDE4ODQsImV4cCI6MTQ4MDc0MzMyNH0.HR3MKIoHMhK8baiyfMjnKPnEAU8UBbLNDZbOy7Wulic';  // eslint-disable-line
 
 // set locales
 Object.keys(locales).forEach((lang) => {

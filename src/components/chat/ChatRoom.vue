@@ -19,7 +19,7 @@
         <p class="time" v-show="shouldDisplayTimeStamp(msg, index)">
           <span>{{ msg.createdAt | time }}</span>
         </p>
-        <div class="main" :class="{ self: isMsgMyself(msg) }">
+        <div  :class="{ self: isMsgMyself(msg) }">
           <img class="avatar" width="40" height="40" :src="isMsgMyself(msg) ? user.avatar : recipientProfile.avatar" />
           <div class="text" v-html="compileMarkdown(msg.content)">
           </div>
@@ -62,6 +62,7 @@
   }
   .message li {
     margin-bottom: 15px;
+    display: block;
   }
 
   .message .time {
@@ -139,6 +140,7 @@ export default {
       messageList: [],
       members: [],
       recipientProfile: {},
+      recipientUnreadCount: 0,
     };
   },
   filters: {
