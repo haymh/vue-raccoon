@@ -1,0 +1,431 @@
+{
+    "_id": "5875b9f4776aaa5b83908d78",
+    "price": 134888,
+    "unitPriceInSF": 266.58,
+    "originalListPrice": 134888,
+    "previousListPrice": null,
+    "closePrice": null,
+    "sizeInSF": 506,
+    "floors": null,
+    "description": "",
+    "built": "1970-01-01T00:00:01.984Z",
+    "builderName": "",
+    "yearBuiltSource": "",
+    "city": "Ontario",
+    "county": "San Bernardino",
+    "beds": 1,
+    "baths": 1,
+    "address": {
+      "streetNumberNumeric": 3719,
+      "streetNumber": "",
+      "postalCode": 91761,
+      "postalCodePlus4": null,
+      "_id": "5875b9f4776aaa5b83908d79",
+      "stateOrProvince": "CA",
+      "country": "US",
+      "city": "Ontario",
+      "streetDirSuffix": "",
+      "streetSuffixModifier": "",
+      "streetSuffix": "",
+      "streetDirPrefix": "",
+      "streetName": "Oak Creek Dr."
+    },
+    "mlsNumber": "AR16758084",
+    "cumulativeDaysOnMarket": 34,
+    "daysOnMarket": 29,
+    "walkScore": null,
+    "otherStructures": "",
+    "listingInfo": {
+      "OriginatingSystemKey": "244817652",
+      "LeaseConsideredYN": "0",
+      "OriginatingSystemID": "MR",
+      "Inclusions": "",
+      "ListingContractDate": "2016-12-12",
+      "Exclusions": "",
+      "DeletedYN": "0",
+      "CloseDate": "",
+      "CoListAgentFirstName": "",
+      "LockBoxVersion": "",
+      "LockBoxType": "NO",
+      "BuyerOfficeName": "",
+      "ListAgentMlsId": "AR41298",
+      "ListAgentLastName": "Alikin",
+      "ListAgentStateLicense": "01946035",
+      "CoListAgentStateLicense": "",
+      "CoBuyerAgentStateLicense": "",
+      "ListOfficeStateLicense": "",
+      "CoListOfficeStateLicense": "",
+      "CoBuyerOfficeStateLicense": "",
+      "CoBuyerAgentLastName": "",
+      "CoBuyerOfficeMlsId": "",
+      "ListOfficeMlsId": "30262",
+      "CoBuyerAgentMlsId": "",
+      "CoListOfficeName": "",
+      "PurchaseContractDate": "",
+      "BuyerAgentLastName": "",
+      "CoListOfficeFax": "",
+      "ListAgentFirstName": "Moekti",
+      "BuyerAgentFirstName": "",
+      "BuyerAgentStateLicense": "",
+      "BuyerOfficeMlsId": "",
+      "BuyerAgentMainOfficeMlsId": "",
+      "ListOfficeName": "Keller Williams Market Center",
+      "CoBuyerAgentFirstName": "",
+      "BuyerAgentMlsId": "",
+      "CoBuyerOfficeName": "",
+      "BuyerOfficeStateLicense": "",
+      "MajorChangeType": "NEWLIST",
+      "CoBuyerAgentBrokerMlsId": "",
+      "CoListAgentLastName": "",
+      "CoListAgentMlsId": ""
+    },
+    "mls": "CRMLS",
+    "__v": 0,
+    "location": {
+      "_id": "5875b9f5776aaa5b83908d7a",
+      "coordinates": [
+        -117.571699,
+        34.021645
+      ],
+      "type": "Point"
+    },
+    "description_zh": "",
+    "histories": [],
+    "lastModifiedAt": "2017-01-11T04:52:04.619Z",
+    "googleLocation": {
+      "placeId": "ChIJAZ1pE7bK3IARHk5gRobniZ4",
+      "location": {
+        "lng": -117.571699,
+        "lat": 34.021645
+      }
+    },
+    "views": 0,
+    "likes": 0,
+    "media": [
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:40",
+        "MediaURL": "http://media.crmls.org/medias/b109ccdf-e136-4676-b378-7e273f9a3c60.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942820",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:40",
+        "MediaURL": "http://media.crmls.org/medias/f8d4b28b-9b01-4f29-b13c-56f6b228e665.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942821",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:40",
+        "MediaURL": "http://media.crmls.org/medias/45b6f9e2-a500-4d84-9ffa-ef1a1a42e4f3.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942822",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:40",
+        "MediaURL": "http://media.crmls.org/medias/c7f7078b-24f2-45e4-a723-315babf57a64.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942823",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:40",
+        "MediaURL": "http://media.crmls.org/medias/64aa053b-bd82-4c46-af05-18896e5816f8.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942824",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:41",
+        "MediaURL": "http://media.crmls.org/medias/baeb87cc-494c-4db6-93c6-22b4747f6495.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942825",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:41",
+        "MediaURL": "http://media.crmls.org/medias/a57159d8-59d2-47a6-bb9e-868516270e2d.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942826",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:41",
+        "MediaURL": "http://media.crmls.org/medias/3c5dbe99-91ff-4979-80b3-d8d0153a38c1.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942827",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:41",
+        "MediaURL": "http://media.crmls.org/medias/9f7e2780-68b3-4d95-8836-8bf3174420a4.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942828",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:42",
+        "MediaURL": "http://media.crmls.org/medias/a536d9c4-22cc-49bb-b4de-5e4933fdd7cb.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942829",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:42",
+        "MediaURL": "http://media.crmls.org/medias/30ad7448-5a08-42f7-bb39-28f2b3a96294.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942830",
+        "OriginatingSystemID": "MR"
+      },
+      {
+        "ResourceName": "1",
+        "MediaHTML": "",
+        "DeletedYN": "0",
+        "ImageHeight": "",
+        "ImageWidth": "",
+        "MediaModificationTimestamp": "2016-12-08 21:48:42",
+        "MediaURL": "http://media.crmls.org/medias/3f251882-0c49-4388-93eb-86810f17517e.jpg",
+        "MediaType": "IMAGE",
+        "ModificationTimestamp": "2016-12-12 11:13:07",
+        "OriginatingSystemMediaKey": "244942831",
+        "OriginatingSystemID": "MR"
+      }
+    ],
+    "openHouse": [],
+    "pics": [
+      "http://media.crmls.org/medias/b109ccdf-e136-4676-b378-7e273f9a3c60.jpg",
+      "http://media.crmls.org/medias/f8d4b28b-9b01-4f29-b13c-56f6b228e665.jpg",
+      "http://media.crmls.org/medias/45b6f9e2-a500-4d84-9ffa-ef1a1a42e4f3.jpg",
+      "http://media.crmls.org/medias/c7f7078b-24f2-45e4-a723-315babf57a64.jpg",
+      "http://media.crmls.org/medias/64aa053b-bd82-4c46-af05-18896e5816f8.jpg",
+      "http://media.crmls.org/medias/baeb87cc-494c-4db6-93c6-22b4747f6495.jpg",
+      "http://media.crmls.org/medias/a57159d8-59d2-47a6-bb9e-868516270e2d.jpg",
+      "http://media.crmls.org/medias/3c5dbe99-91ff-4979-80b3-d8d0153a38c1.jpg",
+      "http://media.crmls.org/medias/9f7e2780-68b3-4d95-8836-8bf3174420a4.jpg",
+      "http://media.crmls.org/medias/a536d9c4-22cc-49bb-b4de-5e4933fdd7cb.jpg",
+      "http://media.crmls.org/medias/30ad7448-5a08-42f7-bb39-28f2b3a96294.jpg",
+      "http://media.crmls.org/medias/3f251882-0c49-4388-93eb-86810f17517e.jpg"
+    ],
+    "feature": {
+      "interior": {
+        "laundry": {
+          "laundryFeatures": "",
+          "hasLaundry": ""
+        },
+        "roomType": "BDUP",
+        "cooling": {
+          "coolingType": "CA",
+          "hasCooling": "1"
+        },
+        "heating": {
+          "hasHeating": "",
+          "heatingType": ""
+        },
+        "appliances": {
+          "hasAppliances": "",
+          "appliancesType": ""
+        },
+        "bath": {
+          "bathroomsFull": "1",
+          "bathroomsHalf": "",
+          "bathroomsFullAndThreeQuarter": "1",
+          "bathroomsOneQuarter": "",
+          "bathroomsThreeQuarter": ""
+        },
+        "fireplace": {
+          "fireplaceFeatures": "NO",
+          "hasFireplace": "0"
+        },
+        "InteriorFeatures": "",
+        "other": {
+          "Flooring": ""
+        }
+      },
+      "exterior": {
+        "parking": {
+          "parkingFeatures": "",
+          "parkingTotal": "1.00",
+          "hasParking": "",
+          "RVParkingDimensions": "",
+          "garageSpaces": "1.00",
+          "hasAttachedGarage": ""
+        },
+        "patio": {
+          "PatioAndPorchFeatures": "",
+          "hasPatio": ""
+        },
+        "exteriorFeatures": "",
+        "homeownerAssociation": {
+          "associationFee": "75",
+          "associationFeeFrequency": "MO",
+          "associationAmenities": "",
+          "associationFee2": "",
+          "associationFee2Frequency": "",
+          "hasAssociation": "1"
+        },
+        "Utilities": "",
+        "pool": {
+          "poolFeatures": "AS,COM",
+          "hasPool": "0"
+        }
+      },
+      "schoolAndNeighborhood": {
+        "school": {
+          "elementarySchool": "",
+          "elementarySchoolExtra": "",
+          "highSchool": "",
+          "highSchoolDistrict": "ONTM",
+          "middleOrJuniorSchool": "",
+          "middleOrJuniorSchoolExtra": ""
+        }
+      },
+      "assessment": {
+        "assessments": "NO",
+        "hasAssessments": "1"
+      },
+      "propertyAndLot": {
+        "lot": {
+          "lotFeatures": "D6",
+          "lotSizeUnits": "ACRS",
+          "lotSizeSource": "OTH",
+          "lotDimensionsSource": "",
+          "lotSizeDimensions": "",
+          "lotSizeArea": "3580.00",
+          "elevation": ""
+        },
+        "property": {
+          "propertyCondition": "",
+          "isPropertyAttached": "1",
+          "commonWalls": "2CW,NOA",
+          "parcelNumber": "1083442190000",
+          "hasView": "0",
+          "view": "NO",
+          "hasFence": "",
+          "Fencing": "",
+          "directions": "Exit From Fwy 60 toward South on Heaven Ave. then turn left onto Oak Cree Drive, the property is on your right the first building",
+          "zoning": "",
+          "subdivisionName": ""
+        }
+      },
+      "other": {
+        "waterfrontFeatures": "",
+        "doorFeatures": "",
+        "windowFeatures": "",
+        "roadSurfaceType": "",
+        "roadFrontageType": "",
+        "communityFeatures": "CRB",
+        "hasSprinklers": "",
+        "waterSource": "DIST",
+        "greenEnergyGeneration": "",
+        "securityFeatures": "",
+        "constructionMaterials": "",
+        "accessibilityFeatures": "",
+        "livingAreaUnits": "SQFT",
+        "livingArea": "506",
+        "entryLocation": "to second lovel",
+        "hasSeniorCommunity": "0",
+        "spaFeatures": "",
+        "hasSpa": "",
+        "architecturalStyle": "",
+        "foundationDetails": "",
+        "roof": "",
+        "levels": "A",
+        "directionFaces": "",
+        "isLandLease": "0",
+        "landLeaseAmountFrequency": ""
+      }
+    },
+    "virtualTour": {
+      "virtualTourURLBranded": "",
+      "virtualTourURLUnbranded": "",
+      "virtualTourURLUnbranded2": ""
+    },
+    "timestamps": {
+      "onMarket": "2016-12-12T19:02:08.000Z",
+      "offMarket": null,
+      "originatingSystemModificationTimestamp": "2016-12-15T05:11:21.000Z",
+      "originalEntryTimestamp": "2016-12-12T19:02:08.000Z",
+      "photosChangeTimestamp": "2016-12-09T05:48:42.000Z",
+      "modificationTimestamp": "2016-12-15T05:15:46.000Z",
+      "statusChangeTimestamp": "2016-12-12T19:02:08.000Z"
+    },
+    "specialListingConditions": "Standard",
+    "previousStandardStatus": "",
+    "status": "Active",
+    "lotSizeInSM": 0,
+    "lotSizeInSF": 155944800,
+    "lotSizeInArce": 3580,
+    "hoa": {
+      "fee": 75,
+      "frequency": "MO"
+    },
+    "propertyType": "Condominium"
+  }

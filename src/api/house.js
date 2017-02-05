@@ -1,4 +1,6 @@
 // TODO: move this back to RacAPIClient class.
+import defaultHouseJson from './defaultHouse.json';
+
 export const search = (searchTerms) => {
   console.log(searchTerms);
   return new Promise((fulfill) => {
@@ -671,54 +673,4 @@ export const favorite = id => search(id);
 
 export const recentViewed = id => search(id);
 
-export const defaultHouse = {
-  address: {
-    streetName: '-',
-    streetNumber: '-',
-    streetSuffix: '',
-    stateOrProvince: '-',
-    city: '-',
-    county: '-',
-    country: '-',
-    postalCode: '-',
-  },
-  pics: [],
-  description: '-',
-  status: '-',
-  likes: 0,
-  views: 0,
-  propertyType: '-',
-  hoa: 0,
-  built: '-',
-  yearRenovated: '-',
-  feature: [],
-  location: {
-    type: 'Point',
-    coordinates: [32.8357239, -117.1939502],
-  },
-  city: '-',
-  state: '-',
-  beds: 0,
-  baths: 0,
-  floors: 0,
-  sizeInSF: 0,
-  sizeInSM: 0,
-  lotSizeInSF: 0,
-  lotSizeInSM: 0,
-  lotSizeInArce: 0,
-  APN: '-',
-  price: 0,
-  unitPriceInSF: 0,
-  unitPriceInSM: 0,
-  estimatePrice: 0,
-  title: '-',
-  postDate: '-',
-  tags: [],
-  visits: 0,
-  googleLocation: {
-    location: {
-      lat: 0,
-      lng: 0,
-    },
-  },
-};
+export const defaultHouse = defaultHouseJson;

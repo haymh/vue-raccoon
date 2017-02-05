@@ -9,7 +9,8 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 // const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
-const baseURL = 'http://localhost:3000';
+// const baseURL = 'http://localhost:3000';
+const baseURL = 'http://104.196.242.243:3000';
 
 class RacAPIClient {
   constructor() {
@@ -46,7 +47,8 @@ class RacAPIClient {
   getAutoComplete(qs) {
     return this.client.get('/autocomplete',
       {
-        params: { types: '(cities)', q: qs },
+        // params: { types: '(cities)', q: qs },
+        params: { q: qs },
       })
     .then(response => response.data);
   }
@@ -72,7 +74,7 @@ class RacAPIClient {
       },
     ).then((response) => {
       if (byGeo) {
-        return { houses: response.data.map(result => ({ ...result.obj, dist: result.dist })) };
+        return response.data.map(result => ({ ...result.obj, dist: result.dist }));
       }
       return response.data;
     });

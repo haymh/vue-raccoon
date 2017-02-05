@@ -5,7 +5,6 @@ import * as filterSchema from '../../components/filter/filter-schema';
 // initial state
 const state = {
   all: [],
-  center: null,
   filterResults: [],
   lastFilter: [],
   selected: null,
@@ -136,11 +135,6 @@ const mutations = {
   [types.SELECT_HOUSE](_state, { house }) {
     console.log('Select house -> ', house);
     _state.selected = house;
-  },
-
-  [types.SET_CENTER](_state, { center }) {
-    console.log('Setting center for map -> ', center);
-    _state.center = center.results[0].geometry.location;
   },
 };
 /* eslint-enable no-param-reassign */

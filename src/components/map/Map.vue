@@ -8,25 +8,19 @@
   import PriceOverlayClassGenerator from './PriceOverlay';
   import MarkerClusterer from './markerclusterer';
 
-  export default {
-    props: ['houses', 'mapCenterChanged', 'center'],
-    data() {
-      return {};
-    },
+  const CLUSTER_LEVEL = 11;
 
+  export default {
+    props: ['houses', 'searchByGeo'],
     watch: {
       houses: {
-        handler() {
+        handler(newValues, oldValues) {
           if (this.mapReady) {
-            this.resetMarkers();
+            this.updateMarkers(newValues, oldValues);
+            this.updateMap();
           }
         },
         deep: true,
-      },
-      center(newCenter) {
-        this.map.setZoom(12);
-        console.log('getting new center -> ', newCenter);
-        this.map.setCenter(new google.maps.LatLng(newCenter.lat, newCenter.lng));
       },
     },
 
@@ -59,13 +53,12 @@
 
     methods: {
       googleMapLoaded() {
-        let center = this.center || { lat: 32.856385, lng: -117.202936 };
+        let center = { lat: 32.856385, lng: -117.202936 };
         if (this.houses.length === 1) {
           const { lat, lng } = this.houses[0].googleLocation.location;
           center = { lat, lng };
         }
 
-        this.mapReady = true;
         this.map = new google.maps.Map(this.$el, {
           center,
           zoom: 13,
@@ -73,41 +66,38 @@
 
         this.HouseMarker = HouseMarkerClassGenerator();
         this.PriceOverlay = PriceOverlayClassGenerator();
+        this.markers = [];
 
+        // Add idle listener
         google.maps.event.addListener(this.map, 'idle', () => {
-          this.markersFromHouses();
-          this.showMarkersInView();
-          this.applyMarkerClickHandler();
+          if (!this.mapReady) {
+            this.buildMarkersAndCluster();
+            this.applyMarkerClickHandler();
+          }
+          this.mapReady = true;
 
-          if (this.mapCenterChanged) {
+          console.log('Map is idle');
+          if (this.shouldSearchByGeo && this.searchByGeo) {
+            console.log('searching by geo');
             const lat = this.map.getCenter().lat();
             const lng = this.map.getCenter().lng();
-            this.mapCenterChanged(lat, lng);
+            this.searchByGeo(lat, lng);
+            this.shouldSearchByGeo = false;
+            this.searchingByGeo = true;
           }
         });
 
-        // this.map.addListener('center_changed', this.mapCenterChanged);
-
+        // Add zoom listener
         this.map.addListener('zoom_changed', () => {
-          if (this.map.getZoom() <= 12 && !this.markerCluster) {
-            if (this.activeMarker) {
-              this.activeMarker.overlay.toggleDOM();
-              this.activeMarker = null;
-            }
-            this.markerCluster = new MarkerClusterer(
-              this.map,
-              this.markers,
-              {
-                imagePath: './static/m',
-              },
-            );
-          } else if (this.map.getZoom() > 12) {
-            if (this.markerCluster) {
-              this.markerCluster.clearMarkers();
-              this.markerCluster = null;
-            }
-            this.showMarkersInView();
-          }
+          console.log('zoom changed');
+          if (!this.fittingBounds) {
+            this.shouldSearchByGeo = true;
+          } else { this.fittingBounds = false; }
+        });
+
+        this.map.addListener('dragend', () => {
+          console.log('User stop dragging');
+          this.shouldSearchByGeo = true;
         });
 
         this.map.addListener('click', () => {
@@ -118,32 +108,95 @@
         });
       },
 
-      showMarkersInView() {
-        if (this.map.getBounds() && this.map.getZoom() > 12) {
-          this.markers.filter(
-            marker => !marker.getMap() &&
-                      this.map.getBounds().contains(marker.getPosition()))
-                      .forEach(marker => marker.setMap(this.map));
+      updateMap() {
+        if (this.map.getZoom() > CLUSTER_LEVEL) {
+          if (this.markerCluster) {
+            this.markerCluster.clearMarkers();
+            this.markerCluster = null;
+            this.showMarkersInView();
+          }
+          this.applyMarkerClickHandler();
+        } else if (!this.markerCluster) {
+          if (this.activeMarker) {
+            this.activeMarker.overlay.toggleDOM();
+            this.activeMarker = null;
+          }
 
-          this.markers.filter(
-            marker => marker.getMap() &&
-                      !this.map.getBounds().contains(marker.getPosition()))
-                      .forEach(marker => marker.setMap(null));
+          this.markerCluster = new MarkerClusterer(
+            this.map,
+            this.markers,
+            {
+              imagePath: './static/m',
+            },
+          );
+          console.log('created new cluster');
         }
       },
 
-      resetMarkers() {
-        // remove all markers
-        if (this.markers) {
-          this.markers.forEach((marker) => {
-            marker.setMap(null);
+      buildMarkersAndCluster() {
+        this.marksers = this.houses.map((house) => {
+          const { lat, lng } = house.googleLocation.location;
+          const marker = new google.maps.Marker({
+            position: { lat, lng },
+            icon: '/static/small_house.png',
           });
-        }
+          marker.house = house;
+          return marker;
+        });
 
-        this.markersFromHouses();
-        this.showMarkersInView();
+        this.markerCluster = new MarkerClusterer(
+          this.map,
+          this.markers,
+          {
+            imagePath: './static/m',
+          },
+        );
+      },
 
-        this.applyMarkerClickHandler();
+      updateMarkers(newHouses, oldHouses) {
+        const added = newHouses.filter(
+          newHouse => oldHouses.every(house => house._id !== newHouse._id),
+        );
+        console.log('added: -> ', added);
+
+        const removed = oldHouses.filter(
+          house => newHouses.every(newHouse => newHouse._id !== house._id),
+        );
+        console.log('removed: -> ', removed);
+
+        this.markers = this.markers.concat(
+          added.map((house) => {
+            const { lat, lng } = house.googleLocation.location;
+            const marker = new google.maps.Marker({
+              position: { lat, lng },
+              icon: '/static/small_house.png',
+            });
+            marker.house = house;
+            marker.setMap(this.map);
+            if (this.markerCluster) this.markerCluster.addMarker(marker);
+            return marker;
+          }),
+        );
+
+        removed.forEach((house) => {
+          const matchedIndex = this.markers.findIndex(
+            marker => (marker.house._id === house._id),
+          );
+          const marker = this.markers[matchedIndex];
+          marker.setMap(null);
+          if (this.markerCluster) this.markerCluster.removeMarker(marker);
+          this.markers.splice(matchedIndex, 1);
+        });
+
+        if (!this.searchingByGeo) {
+          console.log('setting new bounds');
+          const bounds = new google.maps.LatLngBounds();
+          this.markers.forEach((marker) => {
+            bounds.extend(marker.getPosition());
+          });
+          this.fittingBounds = true;
+          this.map.fitBounds(bounds);
+        } else { this.searchingByGeo = false; }
       },
 
       applyMarkerClickHandler() {
@@ -188,16 +241,22 @@
         });
       },
 
-      markersFromHouses() {
-        this.markers = this.houses.map((house) => {
-          const { lat, lng } = house.googleLocation.location;
-          const marker = new google.maps.Marker({
-            position: { lat, lng },
-            icon: '/static/small_house.png',
+      showMarkersInView() {
+        if (this.map.getBounds() && this.map.getZoom() > CLUSTER_LEVEL) {
+          this.markers.filter(
+            marker => !marker.getMap() &&
+                      this.map.getBounds().contains(marker.getPosition()))
+                      .forEach(marker => marker.setMap(this.map));
+
+          this.markers.filter(
+            marker => marker.getMap() &&
+                      !this.map.getBounds().contains(marker.getPosition()))
+                      .forEach(marker => marker.setMap(null));
+
+          this.markers.forEach((marker) => {
+            marker.setMap(this.map);
           });
-          marker.house = house;
-          return marker;
-        });
+        }
       },
 
       createOverlayFromMarker(marker) {
