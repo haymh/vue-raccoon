@@ -13,19 +13,20 @@
           <div class="column is-5">
             <SortBar></SortBar>
           </div>
+          <a class="button is-primary" @click="scrollTo">test</a>
           <div class="column is-7">
             <Pagination
               :currentPage="currentPage"
               :pageSize="pageSize"
               :total="filterResults.length"
-              :size="10"
+              :size="5"
               :chunk="true"
               @currentChanged="changeCurrent">
             </Pagination>
           </div>
         </div>
       </header>
-      <div class="list-container">
+      <div id="list" class="list-container">
         <house-list :houseList="currentList"></house-list>
       </div>
       <div class="has-text-centered">
@@ -75,9 +76,6 @@
 .list-container::-webkit-scrollbar {
   display: none;
 }
-.box-card {
-  height: 100px;
-}
 
 </style>
 <script>
@@ -94,7 +92,8 @@ export default {
     return {
       position: 0,
       currentPage: 0,
-      pageSize: 5,
+      pageSize: 20,
+      scrollUnit: 260,
     };
   },
   components: {
@@ -117,21 +116,33 @@ export default {
     },
   },
   watch: {
-    selectedHouse: (val) => {
-      console.log('Selected house passed down');
-      console.log(val);
+    selectedHouse: {
+      handler(val) {
+        console.log('Selected house passed down');
+        console.log(val);
+        const index = this.findHouseIndex(val._id);
+        console.log('index', index);
+        this.currentPage = index.page;
+        this.scrollTo(index.index * this.scrollUnit);
+      },
     },
   },
   methods: {
-    scrollTo() {
-      /* eslint-disable no-undef */
-      document.getElementById('list').scrollTop = 20 * 100;
+    scrollTo(y) {
+      document.getElementById('list').scrollTop = y;
     },
     changeCurrent(current) {
       this.currentPage = current;
     },
     searchByGeo(lat, lng) {
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
+    },
+    getAllHouses() {
+      return this.$store.getters.allHouses;
+    },
+    findHouseIndex(id) {
+      const index = this.filterResults.findIndex(house => house._id === id);
+      return { page: Math.floor(index / this.pageSize), index: index % this.pageSize };
     },
   },
 };
