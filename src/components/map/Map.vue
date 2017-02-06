@@ -69,11 +69,18 @@
         this.map = new google.maps.Map(this.$el, {
           center,
           zoom: 13,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+            position: google.maps.ControlPosition.TOP_RIGHT,
+          },
         });
 
         this.HouseMarker = HouseMarkerClassGenerator();
         this.PriceOverlay = PriceOverlayClassGenerator();
         this.markers = [];
+
+        this.buildMapControls();
 
         // Add idle listener
         google.maps.event.addListener(this.map, 'idle', () => {
@@ -273,6 +280,18 @@
         const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
         marker.overlay = new this.HouseMarker(bounds, this.map, { house });
+      },
+
+      buildMapControls() {
+        const saveBtn = document.createElement('a');
+        saveBtn.className = 'button is-danger';
+        saveBtn.innerHTML = 'save search';
+        saveBtn.style.margin = '8px';
+        saveBtn.addEventListener('click', () => {
+          console.log('save');
+        });
+        saveBtn.index = 1;
+        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(saveBtn);
       },
     },
   };
