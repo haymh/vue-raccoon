@@ -30,6 +30,7 @@ Vue.use(VueGoogleMaps, {
     key: 'AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ',
   },
 });
+console.log('loaded', VueGoogleMaps.loaded);
 
 Vue.filter('formatNumber', (n, p, symbol) => {
   if (!isNaN(parseFloat(n)) && isFinite(n)) {
@@ -46,12 +47,18 @@ Vue.filter('formatNumber', (n, p, symbol) => {
 
 Vue.filter('formatDate', (date, formatString) => moment(date).format(formatString));
 
+Vue.filter('safe', (object) => {
+  if (object === undefined) {
+    return {};
+  }
+  return object;
+});
+
 // i18n config
 Vue.config.lang = 'zh';
 Vue.config.fallbackLang = 'en';
 
 // TODO: Set this after login
-Vue.http.headers.common['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzLCJpYXQiOjE0ODA3NDE4ODQsImV4cCI6MTQ4MDc0MzMyNH0.HR3MKIoHMhK8baiyfMjnKPnEAU8UBbLNDZbOy7Wulic';  // eslint-disable-line
 
 // set locales
 Object.keys(locales).forEach((lang) => {

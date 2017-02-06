@@ -19,13 +19,34 @@ export default {
       // this.$store.dispatch('searchHouse');
     },
     handleNewQuery(newQuery) {
-      console.log('new query', newQuery);
+      console.log('new query', newQuery.value);
+      // query value is either "San Diego, CA, United States"
+      // or "San Diego, CA 92122, United States"
       const query = newQuery.text.split(', ');
-      console.log('split', query);
-      this.$store.dispatch('searchHouse', {
-        city: query[0],
-        state: query[1],
-      });
+      const secondaryQuery = query[1].split(' ');
+      console.log('split #1', query);
+      console.log('split #2', secondaryQuery);
+      let queryObject = {};
+      if (query.length > 3) {
+        console.log('Address search: ', query);
+        queryObject = {
+          placeId: newQuery.value.place_id,
+        };
+      } else {
+        const zip = parseInt(secondaryQuery[1], 10);
+        if (zip) {
+          queryObject = {
+            zip,
+          };
+        } else {
+          queryObject = {
+            city: query[0],
+            state: query[1],
+          };
+        }
+      }
+      console.log('queryObject', queryObject);
+      this.$store.dispatch('searchHouse', queryObject);
       this.$router.push('/main');
     },
   },

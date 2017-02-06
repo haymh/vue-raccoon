@@ -3,9 +3,9 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <navbar></navbar>
 		<transition name="fade" mode="out-in">
-			<div class="main">
+			<main class="main">
 				<router-view></router-view>
-			</div>
+			</main>
 		</transition>
   </div>
 </template>
@@ -33,6 +33,7 @@ body {
 	font-size: 15px;
 	background-color: #f2f3f5;
 	margin: 0;
+  padding: 0;
 	color: #34495e;
 }
 
@@ -62,7 +63,6 @@ a {
 import firebase from 'firebase';
 import { mapGetters } from 'vuex';
 import { db, timeStamp } from './api/fire';
-import search from './components/Hello.vue';
 import Login from './components/login/Login.vue';
 import UserInfo from './components/login/UserInfo.vue';
 import navbar from './components/navbar.vue';
@@ -76,7 +76,7 @@ export default {
       needCreateUser: false,
     };
   },
-  components: { search, Login, UserInfo, navbar },
+  components: { Login, UserInfo, navbar },
   computed: mapGetters(['user']),
   created() {
     // add event listener for auth state

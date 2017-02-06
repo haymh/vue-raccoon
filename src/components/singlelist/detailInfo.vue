@@ -56,8 +56,8 @@ export default {
                       .concat(' views/')
                       .concat(this.$options.filters.formatNumber(this.listingData.likes, 0, ''))
                       .concat(' likes');
-    if (this.listingData.postDate) {
-      this.daysOnline = this.daysFromToday(this.listingData.postDate);
+    if (this.listingData.timestamps.onMarket) {
+      this.daysOnline = this.daysFromToday(this.listingData.timestamps.onMarket);
     }
     if (this.listingData.lotSizeInSF) {
       this.lot = this.$options.filters.formatNumber(this.listingData.lotSizeInSF, 0, '');
@@ -72,7 +72,7 @@ export default {
   },
   data() {
     return {
-      daysOnline: '-',
+      daysOnMarket: '-',
     };
   },
   filters: {

@@ -2,7 +2,7 @@
 <div>
   <div class="section">
     <div class="container">
-      <rac-summary :propertyDetail="currentHouse"></rac-summary>
+      <RaccoonSummary :propertyDetail="currentHouse"></RaccoonSummary>
     </div>
   </div>
   <div class="header">
@@ -13,6 +13,7 @@
           <a class="nav-item is-tab" href="#feature">Feature</a>
           <a class="nav-item is-tab" href="#map">Map</a>
           <a class="nav-item is-tab" href="#calculator">Mortgage Calculator</a>
+          <a class="nav-item is-tab" href="#detail">Property Detail</a>
         </div>
       </div>
     </nav>
@@ -23,20 +24,13 @@
       <div class="section is-paddingless">
         <!-- title, pictures and description -->
         <div class="overview section">
-          <!-- <A NAME=overview></A> -->
+          <A NAME=overview></A>
           <div class="header">
-            <section class="hero">
-              <div class="hero-body">
-                <div class="container">
-                  <h1 class="title">
-                    {{currentHouse.title}}
-                  </h1>
-                  <h2 class="subtitle">
-                    {{currentHouse.views}} views / {{currentHouse.likes}} likes
-                  </h2>
-                </div>
-              </div>
-            </section>
+            <div class="container">
+              <h2 class="subtitle">
+                {{currentHouse.views}} views / {{currentHouse.likes}} likes
+              </h2>
+            </div>
           </div>
           <div class="body">
             <thumb-slider v-if="currentHouse.pics" :images="currentHouse.pics"></thumb-slider>
@@ -58,37 +52,37 @@
             <div class="level">
               <div class="level-item has-text-centered">
                 <p class="heading">Price</p>
-                <p class="title">{{currentHouse.price}}</p>
+                <p class="subtitle">{{currentHouse.price | formatNumber(0, '$')}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Propery Type</p>
-                <p class="title">{{currentHouse.propertyType}}</p>
+                <p class="subtitle">{{currentHouse.propertyType}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Stories</p>
-                <p class="title">{{currentHouse.stories}}</p>
+                <p class="subtitle">{{currentHouse.floors || 1}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Built</p>
-                <p class="title">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
+                <p class="subtitle">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
               </div>
             </div>
             <div class="level">
               <div class="level-item has-text-centered">
                 <p class="heading">HOA Dues</p>
-                <p class="title">{{currentHouse.hoa.fee}}</p>
+                <p class="subtitle">{{currentHouse.hoa.fee}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">Community</p>
-                <p class="title">{{currentHouse.address.city}}</p>
+                <p class="subtitle">{{currentHouse.address.city}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">County</p>
-                <p class="title">{{currentHouse.address.county}}</p>
+                <p class="subtitle">{{currentHouse.county}}</p>
               </div>
               <div class="level-item has-text-centered">
                 <p class="heading">MLS #</p>
-                <p class="title">{{currentHouse.mlsNumber}}</p>
+                <p class="subtitle">{{currentHouse.mlsNumber}}</p>
               </div>
             </div>
           </div>
@@ -109,7 +103,21 @@
             <mortgage-calculator :price="parseFloat(currentHouse.price)" :hoa="parseFloat(currentHouse.hoa.fee || '0')"></mortgage-calculator>
           </div>
         </div>
-        <!-- <pre>{{ [currentHouse] }}</pre> -->
+
+        <div class="section">
+          <A NAME=detail></A>
+          <div class="panel">
+            <InteriorDetail :interior="interior" v-if="interior"></InteriorDetail>
+            <ExteriorDetail :exterior="exterior" v-if="exterior"></ExteriorDetail>
+            <SchoolNeighborhood
+              :schoolAndNeighborhood="schoolAndNeighborhood"
+              v-if="schoolAndNeighborhood">
+            </SchoolNeighborhood>
+            <Assessment :assessment="assessment" v-if="assessment"></Assessment>
+            <PropertyAndLot :propertyAndLot="propertyAndLot" v-if="propertyAndLot"></PropertyAndLot>
+          </div>
+          <pre>{{currentHouse.feature}}</pre>
+        </div>
       </div>
     </div>
   </div>
@@ -126,6 +134,11 @@ import ThumbSlider from './singlelist/ThumbSlider.vue';
 import StaticMap from './map/StaticMap.vue';
 import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
 import Summary from './detail/Summary.vue';
+import InteriorDetail from './detail/InteriorDetail.vue';
+import ExteriorDetail from './detail/ExteriorDetail.vue';
+import SchoolNeighborhood from './detail/SchoolNeighborhoodDetail.vue';
+import Assessment from './detail/AssessmentDetail.vue';
+import PropertyAndLot from './detail/PropertyAndLotDetail.vue';
 import API from '../api';
 import { defaultHouse } from '../api/house';
 
@@ -135,6 +148,14 @@ export default {
     return {
       currentHouse: defaultHouse,
     };
+  },
+  computed: {
+    interior() { return this.currentHouse.feature.interior; },
+    exterior() { return this.currentHouse.feature.exterior; },
+    schoolAndNeighborhood() { return this.currentHouse.feature.schoolAndNeighborhood; },
+    assessment() { return this.currentHouse.feature.assessment; },
+    propertyAndLot() { return this.currentHouse.feature.propertyAndLot; },
+    other() { return this.currentHouse.feature.other; },
   },
   beforeRouteEnter(to, from, next) {
     API.getHouse(to.params.id).then((h) => {
@@ -160,8 +181,21 @@ export default {
   components: {
     'thumb-slider': ThumbSlider,
     'mortgage-calculator': MortgageCalculator,
-    'rac-summary': Summary,
+    RaccoonSummary: Summary,
     StaticMap,
+    InteriorDetail,
+    ExteriorDetail,
+    SchoolNeighborhood,
+    Assessment,
+    PropertyAndLot,
+  },
+  methods: {
+    notString(s) {
+      if (s === undefined || s === '') {
+        return false;
+      }
+      return true;
+    },
   },
 };
 </script>
