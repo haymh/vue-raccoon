@@ -2,7 +2,6 @@
   <div id='gmap' class='gmap'></div>
 </template>
 
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <script>
   import { loaded } from 'vue2-google-maps';
 
@@ -27,31 +26,19 @@
     },
 
     created() {
+      this.mapScriptReady = false;
       loaded.then(() => {
         this.mapScriptReady = true;
         this.googleMapLoaded();
       });
-      // if (!document.getElementById('google-map-script')) {
-      //   this.mapScriptReady = false;
-      //   const googleMapScript = document.createElement('SCRIPT');
-      //   const baseUrl = 'https://maps.googleapis.com/maps/api/js';
-      //   const url =
-      //   `${baseUrl}?key=AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ&callback=googleMapsInit`;
-      //   window.googleMapsInit = () => {
-      //     this.mapScriptReady = true;
-      //     if (this.$el) this.googleMapLoaded();
-      //   };
-      //   googleMapScript.setAttribute('src', url);
-      //   googleMapScript.setAttribute('async', '');
-      //   googleMapScript.setAttribute('defer', '');
-      //   googleMapScript.setAttribute('id', 'google-map-script');
-      //   document.body.appendChild(googleMapScript);
-      //
-      //   const clusterScript = document.createElement('SCRIPT');
-      //   const clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
-      //   clusterScript.setAttribute('src', clusterUrl);
-      //   document.body.appendChild(clusterScript);
-      // } else this.mapScriptReady = true;
+      if (!document.getElementById('cluster-script')) {
+        this.clusterScriptReady = false;
+        const clusterScript = document.createElement('SCRIPT');
+        const clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
+        clusterScript.setAttribute('src', clusterUrl);
+        clusterScript.setAttribute('id', 'cluster-script');
+        document.body.appendChild(clusterScript);
+      } else this.clusterScriptReady = true;
     },
 
     mounted() {
