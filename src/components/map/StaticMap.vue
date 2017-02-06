@@ -1,7 +1,7 @@
 <template>
   <gmap-map style="width: 100%; height: 100%;"
     ref="map"
-    :center="center"
+    :center="house.googleLocation.location"
     :zoom="zoom"
     @bounds_changed="boundsChanged"
   >
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       center: this.house.googleLocation.location,
-      zoom: 12,
+      zoom: 18,
       bounds: null,
       pgPath: [],
       pgvisible: true,
@@ -50,10 +50,7 @@ export default {
       return '';
     },
   },
-  mounted() {
-    console.log('reset center');
-    this.center = this.house.googleLocation.location;
-  },
+  mounted() {},
   methods: {
     onclickMarker() {
       console.log('clicked marker');
