@@ -3,9 +3,9 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <navbar></navbar>
 		<transition name="fade" mode="out-in">
-			<div class="main">
+			<main class="main">
 				<router-view></router-view>
-			</div>
+			</main>
 		</transition>
   </div>
 </template>

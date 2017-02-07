@@ -2,8 +2,9 @@
   <div id='gmap' class='gmap'></div>
 </template>
 
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <script>
+  import { loaded } from 'vue2-google-maps';
+
   import HouseMarkerClassGenerator from './HouseMarker';
   import PriceOverlayClassGenerator from './PriceOverlay';
   import MarkerClusterer from './markerclusterer';
@@ -25,26 +26,19 @@
     },
 
     created() {
-      if (!document.getElementById('google-map-script')) {
-        this.mapScriptReady = false;
-        const googleMapScript = document.createElement('SCRIPT');
-        const baseUrl = 'https://maps.googleapis.com/maps/api/js';
-        const url = `${baseUrl}?key=AIzaSyDnhNujTGx-stPRmfg7H1uIL7upFvhMXvQ&callback=googleMapsInit`;
-        window.googleMapsInit = () => {
-          this.mapScriptReady = true;
-          if (this.$el) this.googleMapLoaded();
-        };
-        googleMapScript.setAttribute('src', url);
-        googleMapScript.setAttribute('async', '');
-        googleMapScript.setAttribute('defer', '');
-        googleMapScript.setAttribute('id', 'google-map-script');
-        document.body.appendChild(googleMapScript);
-
+      this.mapScriptReady = false;
+      loaded.then(() => {
+        this.mapScriptReady = true;
+        this.googleMapLoaded();
+      });
+      if (!document.getElementById('cluster-script')) {
+        this.clusterScriptReady = false;
         const clusterScript = document.createElement('SCRIPT');
         const clusterUrl = 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js';
         clusterScript.setAttribute('src', clusterUrl);
+        clusterScript.setAttribute('id', 'cluster-script');
         document.body.appendChild(clusterScript);
-      } else this.mapScriptReady = true;
+      } else this.clusterScriptReady = true;
     },
 
     mounted() {
@@ -62,11 +56,18 @@
         this.map = new google.maps.Map(this.$el, {
           center,
           zoom: 13,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+            position: google.maps.ControlPosition.TOP_RIGHT,
+          },
         });
 
         this.HouseMarker = HouseMarkerClassGenerator();
         this.PriceOverlay = PriceOverlayClassGenerator();
         this.markers = [];
+
+        this.buildMapControls();
 
         // Add idle listener
         google.maps.event.addListener(this.map, 'idle', () => {
@@ -266,6 +267,18 @@
         const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
         marker.overlay = new this.HouseMarker(bounds, this.map, { house });
+      },
+
+      buildMapControls() {
+        const saveBtn = document.createElement('a');
+        saveBtn.className = 'button is-danger';
+        saveBtn.innerHTML = 'save search';
+        saveBtn.style.margin = '8px';
+        saveBtn.addEventListener('click', () => {
+          console.log('save');
+        });
+        saveBtn.index = 1;
+        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(saveBtn);
       },
     },
   };

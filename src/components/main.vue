@@ -1,7 +1,6 @@
 <template>
   <div class="columns is-gapless is-mobile content-container">
     <div class="column map-container">
-        <a class="button is-danger save-button">Save Search</a>
         <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo">
         </RaccoonMap>
     </div>

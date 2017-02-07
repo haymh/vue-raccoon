@@ -83,6 +83,12 @@ class RacAPIClient {
   getHouse(houseId) {
     return this.client.get(`/house/${houseId}`).then(response => response.data);
   }
+
+  getSchool(urlValue) {
+    return this.client.get('/house/school', {
+      params: { box: urlValue },
+    }).then(response => response.data);
+  }
 }
 
 const instance = new RacAPIClient();
