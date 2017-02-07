@@ -1,15 +1,15 @@
 <template>
 <nav class="pagination">
-  <ul>
+  <ul class="pagination-list">
     <li>
-      <a class="button" v-if="chunk" @click="previousChunk">
+      <a class="pagination-link" v-if="chunk" @click="previousChunk">
         <span class="icon">
           <i class="fa fa-angle-double-left"></i>
         </span>
       </a>
     </li>
     <li>
-      <a class="button" @click="previous">
+      <a class="pagination-link" @click="previous">
         <span class="icon">
           <i class="fa fa-angle-left"></i>
         </span>
@@ -19,14 +19,14 @@
       <a :class="selected(number + first - 1)" @click="select(number + first - 1)">{{first + number}}</a>
     </li>
     <li>
-      <a class="button" @click="next">
+      <a class="pagination-link" @click="next">
         <span class="icon">
           <i class="fa fa-angle-right"></i>
         </span>
       </a>
     </li>
     <li>
-      <a class="button"  v-if="chunk" @click="nextChunk">
+      <a class="pagination-link"  v-if="chunk" @click="nextChunk">
         <span class="icon">
           <i class="fa fa-angle-double-right"></i>
         </span>

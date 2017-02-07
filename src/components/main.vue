@@ -12,7 +12,6 @@
           <div class="column is-5">
             <SortBar></SortBar>
           </div>
-          <a class="button is-primary" @click="scrollTo">test</a>
           <div class="column is-7">
             <Pagination
               :currentPage="currentPage"
@@ -70,11 +69,9 @@
   padding-top: 5px;
   height: calc(100% - 106px);
   position: relative;
-  overflow: scroll;
+  overflow-y: scroll;
 }
-.list-container::-webkit-scrollbar {
-  display: none;
-}
+
 
 </style>
 <script>

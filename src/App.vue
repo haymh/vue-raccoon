@@ -26,7 +26,7 @@ html, body, #app, .main {
 }
 .main {
   height: calc(100vh - 50px);
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 body {
