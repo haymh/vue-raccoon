@@ -73,7 +73,7 @@
         google.maps.event.addListener(this.map, 'idle', () => {
           if (!this.mapReady) {
             this.buildMarkersAndCluster();
-            this.applyMarkerClickHandler();
+            this.applyMarkerClickHandler(this.markers);
           }
           this.mapReady = true;
 
@@ -116,7 +116,6 @@
             this.markerCluster = null;
             this.showMarkersInView();
           }
-          this.applyMarkerClickHandler();
         } else if (!this.markerCluster) {
           if (this.activeMarker) {
             this.activeMarker.overlay.toggleDOM();
@@ -165,19 +164,19 @@
         );
         console.log('removed: -> ', removed);
 
-        this.markers = this.markers.concat(
-          added.map((house) => {
-            const { lat, lng } = house.googleLocation.location;
-            const marker = new google.maps.Marker({
-              position: { lat, lng },
-              icon: '/static/small_house.png',
-            });
-            marker.house = house;
-            marker.setMap(this.map);
-            if (this.markerCluster) this.markerCluster.addMarker(marker);
-            return marker;
-          }),
-        );
+        const addedMarkers = added.map((house) => {
+          const { lat, lng } = house.googleLocation.location;
+          const marker = new google.maps.Marker({
+            position: { lat, lng },
+            icon: '/static/small_house.png',
+          });
+          marker.house = house;
+          marker.setMap(this.map);
+          if (this.markerCluster) this.markerCluster.addMarker(marker);
+          return marker;
+        });
+
+        this.markers = this.markers.concat(addedMarkers);
 
         removed.forEach((house) => {
           const matchedIndex = this.markers.findIndex(
@@ -188,6 +187,8 @@
           if (this.markerCluster) this.markerCluster.removeMarker(marker);
           this.markers.splice(matchedIndex, 1);
         });
+
+        if (addedMarkers.length) this.applyMarkerClickHandler(addedMarkers);
 
         if (!this.searchingByGeo) {
           console.log('setting new bounds');
@@ -200,8 +201,8 @@
         } else { this.searchingByGeo = false; }
       },
 
-      applyMarkerClickHandler() {
-        this.markers.forEach((marker) => {
+      applyMarkerClickHandler(markers) {
+        markers.forEach((marker) => {
           marker.addListener('click', () => {
             if (this.activePriceOverlay &&
                 this.activePriceOverlay.marker === marker) {
