@@ -32,7 +32,7 @@
               </h2>
             </div>
           </div>
-          <div class="body">
+          <div class="body has-text-centered">
             <thumb-slider v-if="currentHouse.pics" :images="currentHouse.pics"></thumb-slider>
           </div>
           <footer class="footer">

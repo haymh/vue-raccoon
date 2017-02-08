@@ -33,7 +33,7 @@
 </style>
 
 <template>
-  <div style="height:500px">
+  <div style="height:500px;max-width:750px;margin: auto">
     <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
       <swiper-slide v-for="url in images">
         <img v-lazy="url"/>
