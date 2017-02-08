@@ -1,8 +1,10 @@
 <template>
   <div>
-    <p class="panel-heading">
-      Exterior Features
-    </p>
+    <div class="level">
+      <div class="level-left">
+        <p class="title is-4">Exterior Features</p>
+      </div>
+    </div>
     <div class="columns is-multiline">
       <div class="column is-6" v-if="parking && parking.hasParking === '1'">
         <p class="subtitle is-6">

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <p class="panel-heading">
-      Property And Lot
-    </p>
+    <div class="level">
+      <div class="level-left">
+        <p class="title is-4">Property And Lot</p>
+      </div>
+    </div>
     <div class="columns is-multiline">
       <div class="column is-6" v-if="lot">
         <p class="subtitle is-6">

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <p class="panel-heading">
-      Interior Features
-    </p>
+    <div class="level">
+      <div class="level-left">
+        <p class="title is-4">Interior Features</p>
+      </div>
+    </div>
     <div class="columns is-multiline">
       <div class="column is-6" v-if="bath">
         <p class="subtitle is-6">

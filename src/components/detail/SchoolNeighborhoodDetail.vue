@@ -1,8 +1,10 @@
 <template>
   <div>
-    <p class="panel-heading">
-      School And Neighborhood
-    </p>
+    <div class="level">
+      <div class="level-left">
+        <p class="title is-4">School And Neighborhood</p>
+      </div>
+    </div>
     <div class="columns is-multiline">
       <div class="column is-6" v-if="elementarySchool">
         <ul>

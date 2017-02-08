@@ -122,14 +122,18 @@
 
         <div class="section">
           <A NAME=detail></A>
-          <div class="panel">
+          <div class="box">
             <InteriorDetail :interior="interior" v-if="interior"></InteriorDetail>
+            <hr />
             <ExteriorDetail :exterior="exterior" v-if="exterior"></ExteriorDetail>
+            <hr />
             <SchoolNeighborhood
               :schoolAndNeighborhood="schoolAndNeighborhood"
               v-if="schoolAndNeighborhood">
             </SchoolNeighborhood>
+            <hr />
             <Assessment :assessment="assessment" v-if="assessment"></Assessment>
+            <hr />
             <PropertyAndLot :propertyAndLot="propertyAndLot" v-if="propertyAndLot"></PropertyAndLot>
           </div>
           <pre>{{currentHouse.feature}}</pre>
