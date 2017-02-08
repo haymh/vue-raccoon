@@ -51,38 +51,54 @@
           <div class="container">
             <div class="level">
               <div class="level-item has-text-centered">
-                <p class="heading">Price</p>
-                <p class="subtitle">{{currentHouse.price | formatNumber(0, '$')}}</p>
+                <div>
+                  <p class="heading">Price</p>
+                  <p class="subtitle">{{currentHouse.price | formatNumber(0, '$')}}</p>
+                </div>
               </div>
               <div class="level-item has-text-centered">
-                <p class="heading">Propery Type</p>
-                <p class="subtitle">{{currentHouse.propertyType}}</p>
+                <div>
+                  <p class="heading">Propery Type</p>
+                  <p class="subtitle">{{currentHouse.propertyType}}</p>
+                </div>
               </div>
               <div class="level-item has-text-centered">
-                <p class="heading">Stories</p>
-                <p class="subtitle">{{currentHouse.floors || 1}}</p>
+                <div>
+                  <p class="heading">Stories</p>
+                  <p class="subtitle">{{currentHouse.floors || 1}}</p>
+                </div>
               </div>
               <div class="level-item has-text-centered">
-                <p class="heading">Built</p>
-                <p class="subtitle">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
+                <div>
+                  <p class="heading">Built</p>
+                  <p class="subtitle">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
+                </div>
               </div>
             </div>
             <div class="level">
               <div class="level-item has-text-centered">
-                <p class="heading">HOA Dues</p>
-                <p class="subtitle">{{currentHouse.hoa.fee}}</p>
+                <div>
+                  <p class="heading">HOA Dues</p>
+                  <p class="subtitle">{{currentHouse.hoa.fee}}</p>
+                </div>
               </div>
               <div class="level-item has-text-centered">
-                <p class="heading">Community</p>
-                <p class="subtitle">{{currentHouse.address.city}}</p>
+                <div>
+                  <p class="heading">Community</p>
+                  <p class="subtitle">{{currentHouse.address.city}}</p>
+                </div>
               </div>
               <div class="level-item has-text-centered">
-                <p class="heading">County</p>
-                <p class="subtitle">{{currentHouse.county}}</p>
+                <div>
+                  <p class="heading">County</p>
+                  <p class="subtitle">{{currentHouse.county}}</p>
+                </div>
               </div>
               <div class="level-item has-text-centered">
-                <p class="heading">MLS #</p>
-                <p class="subtitle">{{currentHouse.mlsNumber}}</p>
+                <div>
+                  <p class="heading">MLS #</p>
+                  <p class="subtitle">{{currentHouse.mlsNumber}}</p>
+                </div>
               </div>
             </div>
           </div>
