@@ -1,6 +1,8 @@
 .DS_Store
 node_modules/
 dist/
+dist-client/
+dist-agent/
 npm-debug.log
 test/unit/coverage
 test/e2e/reports

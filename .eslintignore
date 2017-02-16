@@ -1,3 +1,5 @@
-build/*.js
-config/*.js
+agent-build/*.js
+client-build/*.js
+agent-config/*.js
+client-config/*.js
 src/components/map/markerclusterer.js

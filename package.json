@@ -5,8 +5,10 @@
   "author": "heng meng <hengmeng2009@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "client": "node client-build/dev-server.js",
+    "build-client": "node client-build/build.js",
+    "agent": "node agent-build/dev-server.js",
+    "build-agent": "node agent-build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",

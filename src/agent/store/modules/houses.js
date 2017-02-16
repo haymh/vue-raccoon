@@ -1,5 +1,5 @@
 import * as types from '../mutation-types';
-import * as filterSchema from '../../components/filter/filter-schema';
+import * as filterSchema from '../../../components/filter/filter-schema';
 
 
 // initial state

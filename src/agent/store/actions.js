@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
-import raccoonAPI from '../api';
+import raccoonAPI from '../../api';
 
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
