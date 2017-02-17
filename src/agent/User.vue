@@ -201,7 +201,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import API from '../api';
-import SingleList from './singlelist/singlelisting.vue';
+import SingleList from '../components/singlelist/singlelisting.vue';
 
 export default {
   name: 'UserPage',

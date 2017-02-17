@@ -76,11 +76,11 @@
 </style>
 <script>
 import { mapGetters } from 'vuex';
-import list from './list/list.vue';
-import SortBar from './list/SortBar.vue';
-import Pagination from './list/Pagination.vue';
-import FilterBar from './filter/Filter-element.vue';
-import Map from './map/Map.vue';
+import list from '../components/list/list.vue';
+import SortBar from '../components/list/SortBar.vue';
+import Pagination from '../components/list/Pagination.vue';
+import FilterBar from '../components/filter/Filter-element.vue';
+import Map from '../components/map/Map.vue';
 
 export default {
   name: 'main',

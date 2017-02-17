@@ -65,7 +65,7 @@ import { mapGetters } from 'vuex';
 import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
-import navbar from '../components/navbar.vue';
+import navbar from './navbar.vue';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */

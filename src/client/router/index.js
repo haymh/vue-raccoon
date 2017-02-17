@@ -1,13 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import View1 from '../../components/view1.vue';
+import View1 from '../view1.vue';
 import ChatView from '../../components/chat/Chat.vue';
-import Main from '../../components/main.vue';
+import Main from '../main.vue';
 import SingleListing from '../../components/singlelist/singlelisting.vue';
-import Detail from '../../components/Detail.vue';
-import UserPage from '../../components/User.vue';
-import ErrorPage from '../../components/Error.vue';
+import Detail from '../Detail.vue';
+import UserPage from '../User.vue';
+import ErrorPage from '../Error.vue';
 
 Vue.use(Router);
 

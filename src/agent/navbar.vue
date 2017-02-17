@@ -59,9 +59,9 @@
 
 <script>
   import { mapGetters } from 'vuex';
-  import Login from './login/Login.vue';
-  import UserInfo from './login/UserInfo.vue';
-  import HouseSearchBar from './search/HouseSearchBar.vue';
+  import Login from '../components/login/Login.vue';
+  import UserInfo from '../components/login/UserInfo.vue';
+  import HouseSearchBar from '../components/search/HouseSearchBar.vue';
 
   export default {
     name: 'navbar',

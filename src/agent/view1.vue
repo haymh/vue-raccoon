@@ -33,10 +33,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import FilterElement from './filter/Filter-element.vue';
-import ChatBar from './chat/ChatBar.vue';
-import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
-import Pagination from './list/Pagination.vue';
+import FilterElement from '../components/filter/Filter-element.vue';
+import ChatBar from '../components/chat/ChatBar.vue';
+import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
+import Pagination from '../components/list/Pagination.vue';
 
 export default {
   name: 'view1',

@@ -150,15 +150,15 @@
 }
 </style>
 <script>
-import ThumbSlider from './singlelist/ThumbSlider.vue';
-import StaticMap from './map/StaticMap.vue';
-import MortgageCalculator from './mortgage_calculator/MortgageCalculator.vue';
-import Summary from './detail/Summary.vue';
-import InteriorDetail from './detail/InteriorDetail.vue';
-import ExteriorDetail from './detail/ExteriorDetail.vue';
-import SchoolNeighborhood from './detail/SchoolNeighborhoodDetail.vue';
-import Assessment from './detail/AssessmentDetail.vue';
-import PropertyAndLot from './detail/PropertyAndLotDetail.vue';
+import ThumbSlider from '../components/singlelist/ThumbSlider.vue';
+import StaticMap from '../components/map/StaticMap.vue';
+import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
+import Summary from '../components/detail/Summary.vue';
+import InteriorDetail from '../components/detail/InteriorDetail.vue';
+import ExteriorDetail from '../components/detail/ExteriorDetail.vue';
+import SchoolNeighborhood from '../components/detail/SchoolNeighborhoodDetail.vue';
+import Assessment from '../components/detail/AssessmentDetail.vue';
+import PropertyAndLot from '../components/detail/PropertyAndLotDetail.vue';
 import API from '../api';
 import { defaultHouse } from '../api/house';
 
