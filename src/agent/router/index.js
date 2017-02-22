@@ -24,6 +24,6 @@ export default new Router({
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
     { path: '/error/:msg', component: ErrorPage },
-    { path: '*', redirect: '/main' },
+    { path: '*', redirect: '/view1' },
   ],
 });

@@ -59,3 +59,7 @@ export const setUserRooms = ({ commit }, { userRooms }) => {
 export const upsertRoom = ({ commit }, room) => {
   commit(types.UPSERT_ROOM, room);
 };
+
+export const toggleSideBar = ({ commit }) => {
+  commit(types.TOGGLE_SIDEBAR);
+};

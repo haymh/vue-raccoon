@@ -1,10 +1,12 @@
 <template>
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <navbar></navbar>
+    <NavBar></NavBar>
+    <SideBar v-show="showSideBar"></SideBar>
 		<transition name="fade" mode="out-in">
-			<main class="main">
+			<main class="main" :style="{'margin-left': sideBarWidth + 'px'}">
 				<router-view></router-view>
+        <AppFooter></AppFooter>
 			</main>
 		</transition>
   </div>
@@ -27,6 +29,7 @@ html, body, #app, .main {
 .main {
   height: calc(100vh - 50px);
   overflow-y: auto;
+  margin-left: 180px;
 }
 
 body {
@@ -65,7 +68,7 @@ import { mapGetters } from 'vuex';
 import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
-import navbar from './navbar.vue';
+import { NavBar, SideBar, AppFooter } from './components/layout';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */
@@ -76,8 +79,16 @@ export default {
       needCreateUser: false,
     };
   },
-  components: { Login, UserInfo, navbar },
-  computed: mapGetters(['user']),
+  components: { Login, UserInfo, NavBar, SideBar, AppFooter },
+  computed: {
+    ...mapGetters(['user', 'showSideBar']),
+    sideBarWidth() {
+      if (this.showSideBar) {
+        return 180;
+      }
+      return 0;
+    },
+  },
   created() {
     // add event listener for auth state
     firebase.auth().onAuthStateChanged((user) => {

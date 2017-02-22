@@ -21,12 +21,12 @@
       @currentChanged="changeCurrent">
     </Pagination>
     <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
-    <h1>User</h1>
+    <!-- <h1>User</h1>
     <pre>{{ user }}</pre>
     <h1>All Houses</h1>
     <pre>{{ allHouses }}</pre>
     <h1>Filter Results</h1>
-    <pre>{{ filterResults }}</pre>
+    <pre>{{ filterResults }}</pre> -->
 
     <ChatBar></ChatBar>
   </div>
