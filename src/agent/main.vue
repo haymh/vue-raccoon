@@ -1,10 +1,6 @@
 <template>
   <div class="columns is-gapless is-mobile content-container">
-    <div class="column map-container">
-        <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo">
-        </RaccoonMap>
-    </div>
-    <div class="column is-narrow right-container">
+    <div class="column is-narrow left-container">
       <header class="toolbar-container">
         <FilterBar>
         </FilterBar>
@@ -12,7 +8,7 @@
           <div class="column is-5">
             <SortBar></SortBar>
           </div>
-          <div class="column is-7">
+          <div class="column is-5" v-show="showList">
             <Pagination
               :currentPage="currentPage"
               :pageSize="pageSize"
@@ -22,12 +18,24 @@
               @currentChanged="changeCurrent">
             </Pagination>
           </div>
+          <div class="column is-2">
+            <select v-model="selectedView">
+              <option
+                v-for="item in viewMode"
+                :label="item"
+                :value="item">
+              </option>
+            </select>
+          </div>
         </div>
       </header>
-      <div id="list" class="list-container">
+      <div id="list" class="list-container" v-show="showList">
         <house-list :houseList="currentList"></house-list>
       </div>
-      <div class="has-text-centered">
+      <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
+      </RaccoonMap>
+
+      <div class="has-text-centered" v-show="showList">
         <Pagination
           :currentPage="currentPage"
           :pageSize="pageSize"
@@ -38,30 +46,33 @@
         </Pagination>
       </div>
     </div>
+    <div class="column right-container">
+      <ShareList class="share-list" title="预定分享" :plus="true" :removable="true" :editable="true"></ShareList>
+      <ShareList class="share-list"title="历史分享"></ShareList>
+    </div>
   </div>
 </template>
 <style>
 .content-container {
   height: 100%;
 }
-.right-container {
+.left-container {
   height: 100%;
 }
-.right-container .toolbar-container {
+.left-container .toolbar-container {
   height: 74px;
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
-.right-container .toolbar-container .toolbar {
+.left-container .toolbar-container .toolbar {
   padding: 0 5px;
 }
-.map-container .save-button {
-  position: absolute;
-  z-index: 1;
-  margin-top: 10px;
-}
-.map-container {
+.right-container {
   height: 100%;
+}
+.right-container .share-list {
+  height: 50%;
+  margin: 10px;
 }
 .map-container .map {
 }
@@ -81,6 +92,7 @@ import SortBar from '../components/list/SortBar.vue';
 import Pagination from '../components/list/Pagination.vue';
 import FilterBar from '../components/filter/Filter-element.vue';
 import Map from '../components/map/Map.vue';
+import ShareList from './components/share/ShareList.vue';
 
 export default {
   name: 'main',
@@ -90,6 +102,8 @@ export default {
       currentPage: 0,
       pageSize: 20,
       scrollUnit: 260,
+      viewMode: ['map', 'cards', 'table'],
+      selectedView: 'map',
     };
   },
   components: {
@@ -98,6 +112,7 @@ export default {
     SortBar,
     RaccoonMap: Map,
     Pagination,
+    ShareList,
   },
   computed: {
     ...mapGetters([
@@ -109,6 +124,12 @@ export default {
       const begin = this.currentPage * this.pageSize;
       const end = begin + this.pageSize;
       return this.filterResults.slice(begin, end);
+    },
+    showMap() {
+      return this.selectedView === this.viewMode[0];
+    },
+    showList() {
+      return this.selectedView !== this.viewMode[0];
     },
   },
   watch: {

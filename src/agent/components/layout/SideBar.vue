@@ -7,7 +7,7 @@
       <ul class="menu-list">
         <li><a>Dashboard</a></li>
         <li><a>Customers</a></li>
-        <li><a>Share</a></li>
+        <li><router-link to="/main">House</router-link></li>
         <li><router-link to="/view1">View1</router-link></li>
         <li><router-link to="/chat">{{ $t('nav.chat') }}</router-link></li>
       </ul>
