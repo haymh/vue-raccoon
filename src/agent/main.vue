@@ -19,13 +19,15 @@
             </Pagination>
           </div>
           <div class="column is-2">
-            <select v-model="selectedView">
-              <option
-                v-for="item in viewMode"
-                :label="item"
-                :value="item">
-              </option>
-            </select>
+            <span class="select">
+              <select v-model="selectedView">
+                <option
+                  v-for="item in viewMode"
+                  :label="item"
+                  :value="item">
+                </option>
+              </select>
+            </span>
           </div>
         </div>
       </header>
@@ -47,8 +49,8 @@
       </div>
     </div>
     <div class="column right-container">
-      <ShareList class="share-list" title="预定分享" :plus="true" :removable="true" :editable="true"></ShareList>
-      <ShareList class="share-list"title="历史分享"></ShareList>
+      <ShareList class="share-list" title="预定分享" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
+      <ShareList class="share-list"title="历史分享" :list="list"></ShareList>
     </div>
   </div>
 </template>
@@ -73,6 +75,7 @@
 .right-container .share-list {
   height: 50%;
   margin: 10px;
+  padding: 10px;
 }
 .map-container .map {
 }
@@ -104,6 +107,80 @@ export default {
       scrollUnit: 260,
       viewMode: ['map', 'cards', 'table'],
       selectedView: 'map',
+      list: [
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+      ],
     };
   },
   components: {

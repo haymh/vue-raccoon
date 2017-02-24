@@ -10,7 +10,21 @@
         </span>
       </a>
     </header>
-    <div class="table-view">
+    <div class="card-header">
+      <p class="control has-addons">
+        <span class="label">Sort:</span>
+        <span class="select">
+          <select v-model="selectedOrder">
+            <option
+              v-for="item in order"
+              :label="item"
+              :value="item">
+            </option>
+          </select>
+        </span>
+      </p>
+    </div>
+    <div class="card-content table-view">
       <table class="table is-striped is-narrow">
         <tr v-for="shareRecord in list">
             <td>{{shareRecord.shareTime}}</td>
@@ -37,8 +51,8 @@
   display: block;
   width: 100%;
   min-height: .01%;
+  height: 75%;
   overflow-x: auto;
-  overflow-y: scroll;
 }
 </style>
 <script>
@@ -46,84 +60,13 @@ export default {
   name: 'ShareList',
   data() {
     return {
-      list: [
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-      ],
+      order: ['time', 'customer'],
+      selectedOrder: 'time',
     };
   },
   props: {
     title: String,
+    list: Array,
     plus: {
       type: Boolean,
       default: false,
