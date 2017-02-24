@@ -214,7 +214,7 @@
               if (this.activeMarker) this.activeMarker.overlay.toggleDOM();
               this.activeMarker = marker;
               this.$store.dispatch({
-                type: 'selectHouse',
+                type: 'hoverHouse',
                 house: marker.house,
               });
               this.createOverlayFromMarker(marker);

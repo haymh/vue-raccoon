@@ -7,7 +7,8 @@ const state = {
   all: [],
   filterResults: [],
   lastFilter: [],
-  selected: null,
+  selectedHouses: [],
+  hovered: null,
   sort: null,
 };
 
@@ -132,9 +133,14 @@ const mutations = {
     sorting();
   },
 
+  [types.HOVER_HOUSE](_state, { house }) {
+    console.log('Hover house -> ', house);
+    _state.hovered = house;
+  },
+
   [types.SELECT_HOUSE](_state, { house }) {
-    console.log('Select house -> ', house);
-    _state.selected = house;
+    console.log('Adding house to selected houses -> ', house);
+    _state.selectedHouses.push(house);
   },
 };
 /* eslint-enable no-param-reassign */

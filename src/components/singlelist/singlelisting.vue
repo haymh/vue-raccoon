@@ -12,8 +12,14 @@
           </span>
         </a>
       </div>
-      <div class="column is-half right-column">
-        <list-detail-info v-bind:listingData="singleListingData"></list-detail-info>
+      <div class="column is-half right-column" @click="selectCard">
+        <list-detail-info v-bind:listingData="singleListingData">
+          <a v-bind:style="{color: cardSelected? '#1B998B':'grey'}">
+            <span class="icon is-medium">
+              <i class="fa fa-check"></i>
+            </span>
+          </a>
+        </list-detail-info>
         <footer class="card-footer actions">
           <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
         </footer>
@@ -49,6 +55,7 @@ export default {
   },
   data() {
     return {
+      cardSelected: false,
     };
   },
   created() {
@@ -71,6 +78,20 @@ export default {
     },
     select() {
       console.log(`select this guy ${this.singleListingData._id}`);
+    },
+    selectCard() {
+      this.cardSelected = !this.cardSelected;
+      if (this.cardSelected) {
+        this.$store.dispatch({
+          type: 'selectHouse',
+          house: this.singleListingData,
+        });
+      } else {
+        this.$store.dispatch({
+          type: 'unselectHouse',
+          house: this.singleListingData,
+        });
+      }
     },
   },
 };

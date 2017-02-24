@@ -11,4 +11,5 @@ export const RECEIVE_HOUSES = 'RECEIVE_HOUSES';
 export const TAG_FAVORITE = 'TAG_FAVORITE';
 export const FILTER_HOUSE = 'FILTER_HOUSE';
 export const SELECT_HOUSE = 'SELECT_HOUSE';
+export const HOVER_HOUSE = 'HOVER_HOUSE';
 export const SET_SORT = 'SET_SORT';

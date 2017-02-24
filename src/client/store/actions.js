@@ -23,8 +23,8 @@ export function fetchHouses({ commit }) {
     });
 }
 
-export function selectHouse({ commit }, { house }) {
-  commit(types.SELECT_HOUSE, { house });
+export function hoverHouse({ commit }, { house }) {
+  commit(types.HOVER_HOUSE, { house });
 }
 
 export const filterHouses = ({ commit }, { filter, isDelta }) => {

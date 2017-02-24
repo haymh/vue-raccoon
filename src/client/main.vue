@@ -102,7 +102,7 @@ export default {
   computed: {
     ...mapGetters([
       'allHouses',
-      'selectedHouse',
+      'hoveredHouse',
       'filterResults',
     ]),
     currentList() {
@@ -112,9 +112,9 @@ export default {
     },
   },
   watch: {
-    selectedHouse: {
+    hoveredHouse: {
       handler(val) {
-        console.log('Selected house passed down');
+        console.log('Hovered house passed down');
         console.log(val);
         const index = this.findHouseIndex(val._id);
         console.log('index', index);

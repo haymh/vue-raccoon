@@ -31,8 +31,14 @@
           </div>
         </div>
       </header>
+      <div class="tabs" v-show="showList">
+        <ul>
+          <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Search Results</a></li>
+          <li v-bind:class="{'is-active': showSelected}"><a @click="setShowSelected(true)">Selected Houses</a></li>
+        </ul>
+      </div>
       <div id="list" class="list-container" v-show="showList">
-        <house-list :houseList="currentList"></house-list>
+        <house-list :houseList="showSelected ? currentSelected : currentList"></house-list>
       </div>
       <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
       </RaccoonMap>
@@ -107,6 +113,7 @@ export default {
       scrollUnit: 260,
       viewMode: ['map', 'cards', 'table'],
       selectedView: 'map',
+      showSelected: false,
       list: [
         {
           shareTime: 'Every week',
@@ -194,13 +201,19 @@ export default {
   computed: {
     ...mapGetters([
       'allHouses',
-      'selectedHouse',
+      'hoveredHouse',
       'filterResults',
+      'selectedHouses',
     ]),
     currentList() {
       const begin = this.currentPage * this.pageSize;
       const end = begin + this.pageSize;
       return this.filterResults.slice(begin, end);
+    },
+    currentSelected() {
+      const begin = this.currentPage * this.pageSize;
+      const end = begin + this.pageSize;
+      return this.selectedHouses.slice(begin, end);
     },
     showMap() {
       return this.selectedView === this.viewMode[0];
@@ -210,9 +223,9 @@ export default {
     },
   },
   watch: {
-    selectedHouse: {
+    hoveredHouse: {
       handler(val) {
-        console.log('Selected house passed down');
+        console.log('hovered house passed down');
         console.log(val);
         const index = this.findHouseIndex(val._id);
         console.log('index', index);
@@ -237,6 +250,9 @@ export default {
     findHouseIndex(id) {
       const index = this.filterResults.findIndex(house => house._id === id);
       return { page: Math.floor(index / this.pageSize), index: index % this.pageSize };
+    },
+    setShowSelected(showSelected) {
+      this.showSelected = showSelected;
     },
   },
 };
