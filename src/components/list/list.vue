@@ -28,7 +28,8 @@
    min-width: 300px;
    padding: 0px;
    position: relative;
-   margin: 0px !important;
+   /*margin: 0px !important;*/
+   margin: auto;
  }
  .singlelist .list .actions {
    position: absolute;

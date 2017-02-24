@@ -1,10 +1,10 @@
 <template>
   <div class="columns is-gapless is-mobile content-container">
-    <div class="column is-narrow left-container">
+    <div class="column is-half left-container">
       <header class="toolbar-container">
         <FilterBar>
         </FilterBar>
-        <div class="columns is-narrow is-gapless toolbar">
+        <div class="columns is-multiline is-gapless toolbar">
           <div class="column is-5">
             <SortBar></SortBar>
           </div>
@@ -29,14 +29,24 @@
               </select>
             </span>
           </div>
+          <div class="column is-12">
+            <div class="columns">
+              <div class="column is-6">
+                <div class="tabs">
+                  <ul v-show="showList">
+                    <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Search Results</a></li>
+                    <li v-bind:class="{'is-active': showSelected}"><a @click="setShowSelected(true)">Selected Houses</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="column is-offset-4 is-2">
+                <a class="button is-primary" @click="share">Share</a>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
-      <div class="tabs" v-show="showList">
-        <ul>
-          <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Search Results</a></li>
-          <li v-bind:class="{'is-active': showSelected}"><a @click="setShowSelected(true)">Selected Houses</a></li>
-        </ul>
-      </div>
+
       <div id="list" class="list-container" v-show="showList">
         <house-list :houseList="showSelected ? currentSelected : currentList"></house-list>
       </div>
@@ -68,7 +78,7 @@
   height: 100%;
 }
 .left-container .toolbar-container {
-  height: 74px;
+  height: auto;
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
@@ -112,7 +122,7 @@ export default {
       pageSize: 20,
       scrollUnit: 260,
       viewMode: ['map', 'cards', 'table'],
-      selectedView: 'map',
+      selectedView: 'cards',
       showSelected: false,
       list: [
         {
@@ -253,6 +263,10 @@ export default {
     },
     setShowSelected(showSelected) {
       this.showSelected = showSelected;
+    },
+    share() {
+      // TODO: implement
+      console.log('share');
     },
   },
 };
