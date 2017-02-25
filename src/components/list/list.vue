@@ -1,13 +1,14 @@
 <template>
   <div>
     <div class="singlelist" v-for="item in houseList" :key="item._id">
-      <single-list v-bind:singleListingData="item"></single-list>
+      <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
     </div>
   </div>
 </template>
 <style>
  .singlelist {
-   margin-bottom: 10px;
+   margin-bottom: 4px;
+   max-width: 650px;
  }
  @media (max-width: 979px) {
   .singlelist .list {
@@ -24,8 +25,9 @@
    }
  }
  .singlelist .list {
-   max-width: 650px;
-   min-width: 300px;
+   /*max-width: 650px;*/
+   /*min-width: 300px;*/
+   overflow: hidden;
    padding: 0px;
    position: relative;
    /*margin: 0px !important;*/
@@ -55,7 +57,13 @@ import SingleList from '../singlelist/singlelisting.vue';
 
 export default {
   name: 'List',
-  props: ['houseList'],
+  props: {
+    houseList: Array,
+    selectedOnly: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     'single-list': SingleList,
   },

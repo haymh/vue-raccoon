@@ -45,6 +45,8 @@ Vue.filter('formatNumber', (n, p, symbol) => {
   return n;
 });
 
+Vue.filter('formatAddress', address => `${address.city}, ${address.stateOrProvince} ${address.postalCode}`);
+
 Vue.filter('formatDate', (date, formatString) => moment(date).format(formatString));
 
 Vue.filter('safe', (object) => {

@@ -84,7 +84,7 @@ export default {
     ...mapGetters(['user', 'showSideBar']),
     sideBarWidth() {
       if (this.showSideBar) {
-        return 180;
+        return 166;
       }
       return 0;
     },

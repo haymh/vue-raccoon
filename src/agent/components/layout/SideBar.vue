@@ -31,9 +31,6 @@
             <li><a>Add a member</a></li>
           </ul>
         </li>
-        <li><a>Invitations</a></li>
-        <li><a>Cloud Storage Environment Settings</a></li>
-        <li><a>Authentication</a></li>
       </ul>
     </aside>
   </div>
@@ -45,7 +42,7 @@
   left: 0;
   bottom: 0;
   padding: 20px 0 50px;
-  width: 180px;
+  width: 166px;
   min-width: 45px;
   max-height: 100vh;
   height: calc(100% - 50px);

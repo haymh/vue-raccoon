@@ -14,6 +14,7 @@ export const user = (state) => {
 
 export const allHouses = state => state.houses.all;
 export const hoveredHouse = state => state.houses.hovered;
+export const selectedHouses = state => state.houses.selectedHouses;
 export const filterResults = state => state.houses.filterResults;
 export const lastFilter = state => state.houses.lastFilter;
 export const userId = state => state.user.id;

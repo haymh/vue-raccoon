@@ -138,14 +138,14 @@ const mutations = {
     _state.hovered = house;
   },
 
-  [types.SELECT_HOUSE](_state, { house }) {
-    console.log('Adding house to selected houses -> ', house);
-    _state.selectedHouses.push(house);
+  [types.SELECT_HOUSE](_state, { id }) {
+    console.log('Adding house to selected houses -> ', id);
+    _state.selectedHouses.push(id);
   },
 
-  [types.UNSELECT_HOUSE](_state, { house }) {
-    console.log('Removing house from selected houses -> ', house);
-    const index = _state.selectedHouses.indexOf(house);
+  [types.UNSELECT_HOUSE](_state, { id }) {
+    console.log('Removing house from selected houses -> ', id);
+    const index = _state.selectedHouses.indexOf(id);
     if (index > -1) {
       _state.selectedHouses.splice(index, 1);
     }
