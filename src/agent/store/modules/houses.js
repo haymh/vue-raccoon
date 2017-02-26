@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as types from '../mutation-types';
 import * as filterSchema from '../../../components/filter/filter-schema';
 
@@ -149,6 +150,18 @@ const mutations = {
     if (index > -1) {
       _state.selectedHouses.splice(index, 1);
     }
+  },
+
+  [types.SELECT_HOUSES](_state, { ids }) {
+    _state.selectedHouses = _.union(_state.selectedHouses, ids);
+  },
+
+  [types.UNSELECT_HOUSES](_state, { ids }) {
+    _state.selectedHouses = _.difference(_state.selectedHouses, ids);
+  },
+
+  [types.UNSELECT_ALL_HOUSES](_state) {
+    _state.selectedHouses = [];
   },
 };
 /* eslint-enable no-param-reassign */

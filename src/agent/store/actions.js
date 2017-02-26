@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
 import raccoonAPI from '../../api';
 
+// house
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
     commit(types.RECEIVE_HOUSES, { houses });
@@ -43,6 +44,20 @@ export const setSort = ({ commit }, { key, asc }) => {
   commit(types.SET_SORT, { sort: { key, asc } });
 };
 
+export function selectHouses({ commit }, { ids }) {
+  commit(types.SELECT_HOUSES, { ids });
+}
+
+export function unselectHouses({ commit }, { ids }) {
+  commit(types.UNSELECT_HOUSES, { ids });
+}
+
+export function unselectAllHouses({ commit }) {
+  commit(types.UNSELECT_ALL_HOUSES);
+}
+
+// user
+
 export const setUser = ({ commit },
    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
   commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
@@ -68,6 +83,24 @@ export const upsertRoom = ({ commit }, room) => {
   commit(types.UPSERT_ROOM, room);
 };
 
+// app
 export const toggleSideBar = ({ commit }) => {
   commit(types.TOGGLE_SIDEBAR);
 };
+
+// share
+export function selectCustomer({ commit }, { id }) {
+  commit(types.SELECT_CUSTOMER, { id });
+}
+
+export function unselectCustomer({ commit }, { id }) {
+  commit(types.UNSELECT_CUSTOMER, { id });
+}
+
+export function selectCustomers({ commit }, { ids }) {
+  commit(types.SELECT_CUSTOMERS, { ids });
+}
+
+export function unselectCustomers({ commit }, { ids }) {
+  commit(types.UNSELECT_CUSTOMERS, { ids });
+}

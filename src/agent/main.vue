@@ -31,7 +31,7 @@
             </div>
             <div class="column is-12">
               <div class="columns">
-                <div class="column is-8">
+                <div class="column is-6">
                   <div class="tabs">
                     <ul v-show="showList || showTable">
                       <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Search Results</a></li>
@@ -39,8 +39,20 @@
                     </ul>
                   </div>
                 </div>
-                <div class="column is-offset-2 is-2">
-                  <a class="button is-primary" @click="share">Share</a>
+                <div class="column is-2">
+                  <p class="control" v-show="!showSelected && (showList || showTable)">
+                    <label class="checkbox">
+                      <input type="checkbox" v-model="selectAll">
+                      This Page
+                    </label>
+                  </p>
+                </div>
+
+                <div class="column is-4">
+                  <p class="control has-addons">
+                    <a class="button is-primary" @click="share">{{shareButtonText}}</a>
+                    <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
+                  </p>
                 </div>
               </div>
             </div>
@@ -140,6 +152,7 @@ export default {
       viewMode: ['map', 'cards', 'table'],
       selectedView: 'cards',
       showSelected: false,
+      selectAll: false,
       list: [
         {
           shareTime: 'Every week',
@@ -254,6 +267,12 @@ export default {
       }
       return 0;
     },
+    shareButtonText() {
+      if (this.selectedHouses.length === 0) {
+        return 'Share All';
+      }
+      return `Share ${this.selectedHouses.length}`;
+    },
   },
   watch: {
     hoveredHouse: {
@@ -264,6 +283,22 @@ export default {
         console.log('index', index);
         this.currentPage = index.page;
         this.scrollTo(index.index * this.scrollUnit);
+      },
+    },
+    selectAll: {
+      handler() {
+        // adds all houses in currect page into selected house list
+        if (this.selectAll) {
+          this.$store.dispatch({
+            type: 'selectHouses',
+            ids: this.currentList.map(h => h._id),
+          });
+        } else {
+          this.$store.dispatch({
+            type: 'unselectHouses',
+            ids: this.currentList.map(h => h._id),
+          });
+        }
       },
     },
   },
@@ -288,8 +323,20 @@ export default {
       this.showSelected = showSelected;
     },
     share() {
-      // TODO: implement
-      console.log('share');
+      if (this.filterResults.length === 0) {
+        console.log('nothing to share');
+        return;
+      }
+      if (this.selectedHouses.length === 0) {
+        this.$router.push('/shareSetting/true');
+        return;
+      }
+      this.$router.push('/shareSetting/false');
+    },
+    clearSelectedHouse() {
+      this.$store.dispatch({
+        type: 'unselectAllHouses',
+      });
     },
   },
 };
