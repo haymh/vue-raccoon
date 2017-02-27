@@ -5,7 +5,7 @@
         Select Time And Customers
       </h1>
       <div class="section">
-        <ShareSummary :shareObject="shareSetting"></ShareSummary>
+        <ShareSummary :shareObject="shareObject"></ShareSummary>
       </div>
       <div class="section">
         <p class="control">
@@ -13,33 +13,33 @@
             <input type="radio"
                   name="question"
                   :value="shareScheduleOptions.NOW"
-                  v-model="shareScheduleType">
+                  v-model="shareObject.shareScheduleType">
             Share Once Now
           </label>
           <label class="radio">
             <input type="radio"
                   name="question"
                   :value="shareScheduleOptions.DATE"
-                  v-model="shareScheduleType">
+                  v-model="shareObject.shareScheduleType">
             Share Once in Future
           </label>
           <label class="radio" v-show="byFilter">
             <input type="radio"
                   name="question"
                   :value="shareScheduleOptions.PERIODICAL"
-                  v-model="shareScheduleType">
+                  v-model="shareObject.shareScheduleType">
             Share every
           </label>
           <a class="button is-primary">Ok</a>
           <a class="button is-danger">Back</a>
         </p>
         <div class="datepicker" v-show="showOptions.showDatepicker">
-          <Datepicker v-model="shareOnceOn"
+          <Datepicker v-model="shareObject.shareOn"
                       :disabled="disableShareDate"></Datepicker>
         </div>
         <div v-show="showOptions.showFrequencyPicker">
           <span class="select">
-            <select v-model="selectedShareFrequency">
+            <select v-model="shareObject.frequency">
               <option
                 v-for="item in frequencyOptions"
                 :label="item"
@@ -83,11 +83,10 @@
 }
 </style>
 <script>
-import { mapGetters } from 'vuex';
 import Datepicker from 'vuejs-datepicker';
 import CustomerList from './components/customer/CustomerList.vue';
 import ShareSummary from './components/share/ShareSummary.vue';
-import { PERIODICAL_OPTIONS, SHARE_SCHEDULE_TYPES, Share, SHARE_HOUSE_TYPE } from './components/share/shareSchema';
+import { PERIODICAL_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
 
 const today = new Date();
 const yesterday = new Date();
@@ -98,19 +97,26 @@ export default {
   data() {
     return {
       byFilter: this.$route.params.byFilter === 'true',
-      shareOnceOn: today,
       disableShareDate: {
         to: yesterday,
       },
-      shareScheduleType: SHARE_SCHEDULE_TYPES.NOW,
+      shareObject: new Share({
+        shareScheduleType: SHARE_SCHEDULE_TYPES.SHARE_NOW,
+        shareOn: today,
+        frequency: PERIODICAL_OPTIONS.NOW,
+        byFilter: this.byFilter,
+      }),
       shareScheduleOptions: SHARE_SCHEDULE_TYPES,
+      showOptions: {
+        showDatepicker: false,
+        showFrequencyPicker: false,
+      },
       frequencyOptions: [
         PERIODICAL_OPTIONS.DAILY,
         PERIODICAL_OPTIONS.WEEKLY,
         PERIODICAL_OPTIONS.BI_WEEKLY,
         PERIODICAL_OPTIONS.MONTHILY,
       ],
-      selectedShareFrequency: PERIODICAL_OPTIONS.DAILY,
       selectedGroup: 'all customers',
       groups: [
         'all customers',
@@ -167,6 +173,7 @@ export default {
   },
   created() {
     console.log('by filter', this.byFilter, typeof this.byFilter);
+    console.log('shareObject', this.shareObject);
   },
   components: {
     Datepicker,
@@ -178,61 +185,25 @@ export default {
       this.showSelected = showSelected;
     },
   },
-  computed: {
-    ...mapGetters([
-      'selectedHouses',
-      'lastFilter',
-      'selectedCustomers',
-    ]),
-    showOptions() {
-      let showDatepicker = false;
-      let showFrequencyPicker = false;
-      switch (this.shareScheduleType) {
-        case SHARE_SCHEDULE_TYPES.DATE:
-          showDatepicker = true;
-          break;
-        case SHARE_SCHEDULE_TYPES.PERIODICAL:
-          showFrequencyPicker = true;
-          break;
-        case SHARE_SCHEDULE_TYPES.NOW:
-        default:
-          break;
-      }
-      return {
-        showDatepicker,
-        showFrequencyPicker,
-      };
-    },
-    shareSetting() {
-      const shareObject = new Share();
-      switch (this.shareScheduleType) {
-        case SHARE_SCHEDULE_TYPES.DATE:
-          shareObject.shareSchedule = {
-            type: SHARE_SCHEDULE_TYPES.DATE,
-            on: this.shareOnceOn,
-          };
-          break;
-        case SHARE_SCHEDULE_TYPES.PERIODICAL:
-          shareObject.shareSchedule = {
-            type: this.selectedShareFrequency,
-          };
-          break;
-        case SHARE_SCHEDULE_TYPES.NOW:
-          shareObject.shareSchedule = {
-            type: SHARE_SCHEDULE_TYPES.NOW,
-          };
-          break;
-        default:
-          break;
-      }
-      shareObject.houses = {
-        type: this.byFilter ? SHARE_HOUSE_TYPE.BY_FILTER : SHARE_HOUSE_TYPE.LIST,
-        filter: this.byFilter ? this.lastFilter : null,
-        list: this.selectedHouses,
-      };
-      shareObject.customers = this.selectedCustomers;
-      console.log(shareObject);
-      return shareObject;
+  watch: {
+    shareObject: {
+      handler() {
+        console.log(this.shareObject);
+        switch (this.shareObject.shareScheduleType) {
+          case SHARE_SCHEDULE_TYPES.DATE:
+            this.showOptions.showDatepicker = true;
+            this.showOptions.showFrequencyPicker = false;
+            break;
+          case SHARE_SCHEDULE_TYPES.PERIODICAL:
+            this.showOptions.showDatepicker = false;
+            this.showOptions.showFrequencyPicker = true;
+            break;
+          case SHARE_SCHEDULE_TYPES.NOW:
+          default:
+            break;
+        }
+      },
+      deep: true,
     },
   },
 };
