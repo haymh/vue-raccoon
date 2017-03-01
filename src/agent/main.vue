@@ -4,21 +4,11 @@
         <header class="toolbar-container">
           <div class="columns is-multiline is-gapless toolbar">
             <div class="column is-5">
-                <a class="button is-primary" @click="showFilter">show full filter</a>
+                <a class="button is-primary" @click="toggleFilter">show full filter</a>
             </div>
             <div class="column is-5">
               <SortBar></SortBar>
             </div>
-            <!-- <div class="column is-5" v-show="showList || showTable">
-              <Pagination
-                :currentPage="currentPage"
-                :pageSize="pageSize"
-                :total="filterResults.length"
-                :size="5"
-                :chunk="true"
-                @currentChanged="changeCurrent">
-              </Pagination>
-            </div> -->
             <div class="column is-2">
               <span class="select">
                 <select v-model="selectedView">
@@ -65,25 +55,19 @@
           </div>
         </header>
 
-        <div id="list" class="list-container" v-show="showList">
-          <house-list :houseList="currentList" :selectedOnly="showSelected"></house-list>
-        </div>
-        <div class="table-container" v-show="showTable">
-          <TableList :houseList="currentList" :selectedOnly="showSelected"></TableList>
-        </div>
+        <house-list class="list-container"
+                v-show="showList"
+                :houseList="showSelected? selectedHouses : filterResults"
+                :selectedOnly="showSelected"
+                :selectAll="selectAll">
+        </house-list>
+        <TableList class="table-container"
+                  :houseList="showSelected? selectedHouses : filterResults"
+                  :selectedOnly="showSelected"
+                  v-show="showTable">
+        </TableList>
         <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
         </RaccoonMap>
-
-        <div class="has-text-centered" v-show="showList || showTable">
-          <Pagination
-            :currentPage="currentPage"
-            :pageSize="pageSize"
-            :total="filterResults.length"
-            :size="10"
-            :chunk="true"
-            @currentChanged="changeCurrent">
-          </Pagination>
-        </div>
       </div>
       <div class="column right-container">
         <ShareList class="share-list" title="预定分享" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
@@ -126,13 +110,12 @@
 }
 .list-container {
   padding-top: 5px;
-  height: calc(100% - 113.5px);
+  height: calc(100% - 74px);
   position: relative;
-  overflow-y: scroll;
 }
 .table-container {
   padding-top: 5px;
-  height: calc(100% - 106px);
+  height: calc(100% - 74px);
   position: relative;
 }
 .filter-dropdown {
@@ -152,7 +135,6 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import list from '../components/list/list.vue';
 import SortBar from '../components/list/SortBar.vue';
-import Pagination from '../components/list/Pagination.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
@@ -163,9 +145,6 @@ export default {
   mixins: [clickaway],
   data() {
     return {
-      position: 0,
-      currentPage: 0,
-      scrollUnit: 260,
       viewMode: ['map', 'cards', 'table'],
       selectedView: 'cards',
       showSelected: false,
@@ -252,22 +231,15 @@ export default {
     'house-list': list,
     SortBar,
     RaccoonMap: Map,
-    Pagination,
     ShareList,
     TableList,
   },
   computed: {
     ...mapGetters([
       'allHouses',
-      'hoveredHouse',
       'filterResults',
       'selectedHouses',
     ]),
-    currentList() {
-      const begin = this.currentPage * this.pageSize;
-      const end = begin + this.pageSize;
-      return this.filterResults.slice(begin, end);
-    },
     showMap() {
       return this.selectedView === this.viewMode[0];
     },
@@ -292,41 +264,7 @@ export default {
       return `Share ${this.selectedHouses.length}`;
     },
   },
-  watch: {
-    hoveredHouse: {
-      handler(val) {
-        console.log('hovered house passed down');
-        console.log(val);
-        const index = this.findHouseIndex(val._id);
-        console.log('index', index);
-        this.currentPage = index.page;
-        this.scrollTo(index.index * this.scrollUnit);
-      },
-    },
-    selectAll: {
-      handler() {
-        // adds all houses in currect page into selected house list
-        if (this.selectAll) {
-          this.$store.dispatch({
-            type: 'selectHouses',
-            ids: this.currentList.map(h => h._id),
-          });
-        } else {
-          this.$store.dispatch({
-            type: 'unselectHouses',
-            ids: this.currentList.map(h => h._id),
-          });
-        }
-      },
-    },
-  },
   methods: {
-    scrollTo(y) {
-      document.getElementById('list').scrollTop = y;
-    },
-    changeCurrent(current) {
-      this.currentPage = current;
-    },
     searchByGeo(lat, lng) {
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
     },
@@ -340,9 +278,9 @@ export default {
     setShowSelected(showSelected) {
       this.showSelected = showSelected;
     },
-    showFilter(event) {
+    toggleFilter(event) {
       console.log('show filter');
-      this.showFullFilter = true;
+      this.showFullFilter = !this.showFullFilter;
       event.stopPropagation();
     },
     hideFilter() {

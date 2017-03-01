@@ -52,7 +52,7 @@ export default {
       return this.favorite.createdAt !== undefined;
     },
     itemSelected() {
-      return this.selectedHouses.indexOf(this.house._id) !== -1;
+      return this.selectedHouses.indexOf(this.house) !== -1;
     },
     show() {
       if (this.showOnlyWhenSelected) {
@@ -75,12 +75,12 @@ export default {
       if (!this.itemSelected) {
         this.$store.dispatch({
           type: 'selectHouse',
-          id: this.house._id,
+          house: this.house,
         });
       } else {
         this.$store.dispatch({
           type: 'unselectHouse',
-          id: this.house._id,
+          house: this.house,
         });
       }
     },

@@ -104,7 +104,7 @@ export const cleanCopyCondition = (condition) => {
 export const schema = {
   conditions: {
     price: {
-      key: 'price',
+      key: ['price'],
       ...betweenType,
       minChoices: [NO_MIN, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
         80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
@@ -112,47 +112,47 @@ export const schema = {
         80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
     },
     beds: {
-      key: 'beds',
+      key: ['beds'],
       ...betweenType,
       minChoices: [NO_MIN, 1, 2, 3, 4, 5],
       maxChoices: [NO_MAX, 1, 2, 3, 4, 5],
     },
     baths: {
-      key: 'baths',
+      key: ['baths'],
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4, 5],
     },
     sizeInSF: {
-      key: 'sizeInSF',
+      key: ['sizeInSF'],
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     lotSizeInSF: {
-      key: 'lotSizeInSF',
+      key: ['lotSizeInSF'],
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     parking: {
-      key: 'parking',
+      key: ['parking'],
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4],
     },
     hoa: {
-      key: 'hoa.fee',
+      key: ['hoa', 'fee'],
       type: LESS,
       max: NO_MAX,
       maxChoices: [NO_MAX, 0, 25, 50, 100, 200, 300],
     },
     built: {
-      key: 'built',
+      key: ['built'],
       ...betweenType,
       minChoices: [NO_MIN, 2016, 2015, 2014, 2000, 1990],
       maxChoices: [NO_MAX, 2016, 2015, 2014, 2000, 1990],
     },
     propertyType: {
-      key: 'propertyType',
+      key: ['propertyType'],
       type: ONEOF,
       choices: [
         { value: 'SingleFamilyResidence', checked: true },
@@ -162,7 +162,7 @@ export const schema = {
       ],
     },
     status: {
-      key: 'status',
+      key: ['status'],
       type: ONEOF,
       choices: [
         { value: 'Active', checked: true },

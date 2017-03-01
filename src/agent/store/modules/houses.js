@@ -110,8 +110,7 @@ const mutations = {
     _state.filterResults = toFilter.filter((house) => {
       for (let i = 0; i < filter.length; i += 1) {
         const condition = filter[i];
-        const keys = condition.key.split('.');
-        const value = getValue(house, keys);
+        const value = getValue(house, condition.key);
         switch (condition.type) {
           case filterSchema.BETWEEN:
             if (value < condition.min || value > condition.max) {
@@ -151,25 +150,25 @@ const mutations = {
     _state.hovered = house;
   },
 
-  [types.SELECT_HOUSE](_state, { id }) {
-    console.log('Adding house to selected houses -> ', id);
-    _state.selectedHouses.push(id);
+  [types.SELECT_HOUSE](_state, { house }) {
+    console.log('Adding house to selected houses -> ', house._id);
+    _state.selectedHouses.push(house);
   },
 
-  [types.UNSELECT_HOUSE](_state, { id }) {
-    console.log('Removing house from selected houses -> ', id);
-    const index = _state.selectedHouses.indexOf(id);
+  [types.UNSELECT_HOUSE](_state, { house }) {
+    console.log('Removing house from selected houses -> ', house._id);
+    const index = _state.selectedHouses.indexOf(house);
     if (index > -1) {
       _state.selectedHouses.splice(index, 1);
     }
   },
 
-  [types.SELECT_HOUSES](_state, { ids }) {
-    _state.selectedHouses = _.union(_state.selectedHouses, ids);
+  [types.SELECT_HOUSES](_state, { houses }) {
+    _state.selectedHouses = _.union(_state.selectedHouses, houses);
   },
 
-  [types.UNSELECT_HOUSES](_state, { ids }) {
-    _state.selectedHouses = _.difference(_state.selectedHouses, ids);
+  [types.UNSELECT_HOUSES](_state, { houses }) {
+    _state.selectedHouses = _.difference(_state.selectedHouses, houses);
   },
 
   [types.UNSELECT_ALL_HOUSES](_state) {

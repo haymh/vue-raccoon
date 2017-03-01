@@ -28,12 +28,12 @@ export function hoverHouse({ commit }, { house }) {
   commit(types.HOVER_HOUSE, { house });
 }
 
-export function selectHouse({ commit }, { id }) {
-  commit(types.SELECT_HOUSE, { id });
+export function selectHouse({ commit }, { house }) {
+  commit(types.SELECT_HOUSE, { house });
 }
 
-export function unselectHouse({ commit }, { id }) {
-  commit(types.UNSELECT_HOUSE, { id });
+export function unselectHouse({ commit }, { house }) {
+  commit(types.UNSELECT_HOUSE, { house });
 }
 
 export const filterHouses = ({ commit }, { filter, isDelta }) => {
@@ -44,12 +44,12 @@ export const setSort = ({ commit }, { key, asc }) => {
   commit(types.SET_SORT, { sort: { key, asc } });
 };
 
-export function selectHouses({ commit }, { ids }) {
-  commit(types.SELECT_HOUSES, { ids });
+export function selectHouses({ commit }, { houses }) {
+  commit(types.SELECT_HOUSES, { houses });
 }
 
-export function unselectHouses({ commit }, { ids }) {
-  commit(types.UNSELECT_HOUSES, { ids });
+export function unselectHouses({ commit }, { houses }) {
+  commit(types.UNSELECT_HOUSES, { houses });
 }
 
 export function unselectAllHouses({ commit }) {

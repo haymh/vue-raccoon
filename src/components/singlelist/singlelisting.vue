@@ -59,7 +59,7 @@ export default {
       return this.favorite.createdAt !== undefined;
     },
     cardSelected() {
-      return this.selectedHouses.indexOf(this.singleListingData._id) !== -1;
+      return this.selectedHouses.indexOf(this.singleListingData) !== -1;
     },
     show() {
       if (this.showOnlyWhenSelected) {
@@ -98,12 +98,12 @@ export default {
       if (!this.cardSelected) {
         this.$store.dispatch({
           type: 'selectHouse',
-          id: this.singleListingData._id,
+          house: this.singleListingData,
         });
       } else {
         this.$store.dispatch({
           type: 'unselectHouse',
-          id: this.singleListingData._id,
+          house: this.singleListingData,
         });
       }
     },
