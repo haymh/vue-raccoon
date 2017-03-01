@@ -43,6 +43,16 @@ const sorting = () => {
   }
 };
 
+const getValue = (object, keys) => {
+  let i = 1;
+  let value = object[keys[0]];
+  while (i < keys.length) {
+    value = value[keys[i]];
+    i += 1;
+  }
+  return value;
+};
+
 // mutations
 /* eslint-disable no-param-reassign */
 const mutations = {
@@ -100,25 +110,27 @@ const mutations = {
     _state.filterResults = toFilter.filter((house) => {
       for (let i = 0; i < filter.length; i += 1) {
         const condition = filter[i];
+        const keys = condition.key.split('.');
+        const value = getValue(house, keys);
         switch (condition.type) {
           case filterSchema.BETWEEN:
-            if (house[condition.key] < condition.min || house[condition.key] > condition.max) {
+            if (value < condition.min || value > condition.max) {
               return false;
             }
             break;
           case filterSchema.GREATER:
-            if (house[condition.key] < condition.min) {
+            if (value < condition.min) {
               return false;
             }
             break;
           case filterSchema.LESS:
-            if (house[condition.key] > condition.max) {
+            if (value > condition.max) {
               return false;
             }
             break;
           case filterSchema.ONEOF:
             for (let j = 0; j < condition.choices.length; j += 1) {
-              if (condition.choices[j].value === house[condition.key]) {
+              if (condition.choices[j].value === value) {
                 if (!condition.choices[j].checked) {
                   return false;
                 }

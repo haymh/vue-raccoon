@@ -2,7 +2,7 @@
 <div class="columns">
   <div class="column is-4">
     <pre v-show="shareObject.byFilter">
-      {{lastFilter}}
+      Filter: {{lastFilter}}
     </pre>
     <a v-show="!shareObject.byFilter">{{selectedHouses.length}} houses</a>
   </div>

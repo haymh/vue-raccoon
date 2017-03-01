@@ -2,13 +2,14 @@
   <div class="columns content-container">
       <div class="column is-half left-container">
         <header class="toolbar-container">
-          <FilterBar>
-          </FilterBar>
           <div class="columns is-multiline is-gapless toolbar">
+            <div class="column is-5">
+                <a class="button is-primary" @click="showFilter">show full filter</a>
+            </div>
             <div class="column is-5">
               <SortBar></SortBar>
             </div>
-            <div class="column is-5" v-show="showList || showTable">
+            <!-- <div class="column is-5" v-show="showList || showTable">
               <Pagination
                 :currentPage="currentPage"
                 :pageSize="pageSize"
@@ -17,7 +18,7 @@
                 :chunk="true"
                 @currentChanged="changeCurrent">
               </Pagination>
-            </div>
+            </div> -->
             <div class="column is-2">
               <span class="select">
                 <select v-model="selectedView">
@@ -28,6 +29,11 @@
                   </option>
                 </select>
               </span>
+            </div>
+            <div class="column is-12 filter-dropdown">
+              <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
+                <FilterFullSize></FilterFullSize>
+              </div>
             </div>
             <div class="column is-12">
               <div class="columns">
@@ -129,21 +135,32 @@
   height: calc(100% - 106px);
   position: relative;
 }
-
+.filter-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.filter {
+  position: absolute;
+  z-index: 100;
+  left: 0px;
+}
 
 </style>
 <script>
 import { mapGetters } from 'vuex';
+import { mixin as clickaway } from 'vue-clickaway';
 import list from '../components/list/list.vue';
 import SortBar from '../components/list/SortBar.vue';
 import Pagination from '../components/list/Pagination.vue';
-import FilterBar from '../components/filter/Filter-element.vue';
+import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
 import TableList from '../components/list/TableList.vue';
 
 export default {
   name: 'main',
+  mixins: [clickaway],
   data() {
     return {
       position: 0,
@@ -153,6 +170,7 @@ export default {
       selectedView: 'cards',
       showSelected: false,
       selectAll: false,
+      showFullFilter: false,
       list: [
         {
           shareTime: 'Every week',
@@ -230,7 +248,7 @@ export default {
     };
   },
   components: {
-    FilterBar,
+    FilterFullSize,
     'house-list': list,
     SortBar,
     RaccoonMap: Map,
@@ -321,6 +339,15 @@ export default {
     },
     setShowSelected(showSelected) {
       this.showSelected = showSelected;
+    },
+    showFilter(event) {
+      console.log('show filter');
+      this.showFullFilter = true;
+      event.stopPropagation();
+    },
+    hideFilter() {
+      console.log('hide filter');
+      this.showFullFilter = false;
     },
     share() {
       if (this.filterResults.length === 0) {

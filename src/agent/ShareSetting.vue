@@ -23,7 +23,7 @@
                   v-model="shareObject.shareScheduleType">
             Share Once in Future
           </label>
-          <label class="radio" v-show="byFilter">
+          <label class="radio" v-show="shareObject.byFilter">
             <input type="radio"
                   name="question"
                   :value="shareScheduleOptions.PERIODICAL"
@@ -96,7 +96,6 @@ export default {
   name: 'ErrorPage',
   data() {
     return {
-      byFilter: this.$route.params.byFilter === 'true',
       disableShareDate: {
         to: yesterday,
       },
@@ -104,7 +103,7 @@ export default {
         shareScheduleType: SHARE_SCHEDULE_TYPES.SHARE_NOW,
         shareOn: today,
         frequency: PERIODICAL_OPTIONS.NOW,
-        byFilter: this.byFilter,
+        byFilter: this.$route.params.byFilter === 'true',
       }),
       shareScheduleOptions: SHARE_SCHEDULE_TYPES,
       showOptions: {
@@ -172,7 +171,6 @@ export default {
     };
   },
   created() {
-    console.log('by filter', this.byFilter, typeof this.byFilter);
     console.log('shareObject', this.shareObject);
   },
   components: {
