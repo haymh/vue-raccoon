@@ -26,30 +26,6 @@
         </span>
       </p>
     </div>
-    <div class="column is-6">
-      <label class="label bed-filter">Bed:</label>
-      <p class="control has-addons">
-        <span class="select bed-filter">
-          <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', true, 'min')">
-            <option
-              v-for="item in schema.conditions.beds.minChoices"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-        <label class="label bed-filter">to</label>
-        <span class="select bed-filter">
-          <select v-model="schema.conditions.beds.max" @change="changeFilter('beds', true, 'max')">
-              <option
-              v-for="item in schema.conditions.beds.maxChoices"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-      </p>
-    </div>
 
     <div class="column is-6">
       <label class="label">Beds:</label>
@@ -77,7 +53,7 @@
     </div>
 
     <div class="column is-6">
-      <div class="label">Bath</div>
+      <div class="label">Baths</div>
       <span class="select">
         <select v-model="schema.conditions.baths.min" @change="changeFilter('baths', false)">
           <option
