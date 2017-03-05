@@ -6,10 +6,11 @@
 
 ``` bash
 # install dependencies
-npm install
+yarn
 
 # serve with hot reload at localhost:8080
-npm run dev
+yarn client
+yarn agent
 
 # run unit tests
 npm run unit
@@ -18,7 +19,7 @@ npm run unit
 npm run e2e
 
 # run all tests
-npm test
+yarn test
 ```
 
 ## Deploy
@@ -26,8 +27,9 @@ require [firebase-cli](https://github.com/firebase/firebase-tools)
 
 ``` bash
 # build for production with minification
-npm run build
-# deploy firebase
+yarn build:agent
+yarn build:client
+# deploy firebase for client
 firebase deploy
 ```
 
