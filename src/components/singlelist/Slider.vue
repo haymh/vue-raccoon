@@ -31,7 +31,7 @@
 <template>
   <div class="swiper-container">
     <swiper class="gallery-top" :options="swiperOptionTop">
-      <swiper-slide v-for="url in images">
+      <swiper-slide v-for="url in images" :key="index">
         <img v-lazy="url" @click="clickHandler" />
       </swiper-slide>
       <div class="swiper-button-next swiper-button-white" slot="button-next"></div>

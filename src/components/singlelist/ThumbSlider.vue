@@ -35,7 +35,7 @@
 <template>
   <div style="height:500px;max-width:750px;margin: auto">
     <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-      <swiper-slide v-for="url in images">
+      <swiper-slide v-for="url in images" :key="index">
         <img v-lazy="url"/>
       </swiper-slide>
       <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -43,7 +43,7 @@
       <div class="swiper-pagination"  slot="pagination"></div>
     </swiper>
     <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-      <swiper-slide v-for="url in images">
+      <swiper-slide v-for="url in images" :key="index">
         <img v-lazy="url"/>
       </swiper-slide>
     </swiper>
