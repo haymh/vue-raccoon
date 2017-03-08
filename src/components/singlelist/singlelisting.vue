@@ -1,5 +1,5 @@
 <template>
-  <div class="box list" @mouseover="select">
+  <div class="box list" @mouseover="select" v-show="show">
     <div class="columns is-gapless is-mobile">
       <div class="column is-half left-column">
         <!-- <list-gallery :images="singleListingData.pics"></list-gallery> -->
@@ -13,7 +13,13 @@
         </a>
       </div>
       <div class="column is-half right-column">
-        <list-detail-info v-bind:listingData="singleListingData"></list-detail-info>
+        <list-detail-info v-bind:listingData="singleListingData">
+          <a v-bind:style="{color: cardSelected? '#1B998B':'grey'}">
+            <span class="icon is-medium" v-on:click="selectCard">
+              <i class="fa fa-check"></i>
+            </span>
+          </a>
+        </list-detail-info>
         <footer class="card-footer actions">
           <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
         </footer>
@@ -32,7 +38,13 @@ import { db, timeStamp } from '../../api/fire';
 
 export default {
   name: 'SingleList',
-  props: ['singleListingData'],
+  props: {
+    singleListingData: Object,
+    showOnlyWhenSelected: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     'list-gallery': Gallery,
     'list-basic-info': BasicInfo,
@@ -41,10 +53,19 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'userId',
+      'userId', 'selectedHouses',
     ]),
     like() {
       return this.favorite.createdAt !== undefined;
+    },
+    cardSelected() {
+      return this.selectedHouses.indexOf(this.singleListingData) !== -1;
+    },
+    show() {
+      if (this.showOnlyWhenSelected) {
+        return this.cardSelected;
+      }
+      return true;
     },
   },
   data() {
@@ -72,6 +93,26 @@ export default {
     select() {
       console.log(`select this guy ${this.singleListingData._id}`);
     },
+    selectCard() {
+      console.log('hey', this.singleListingData._id);
+      if (!this.cardSelected) {
+        this.$store.dispatch({
+          type: 'selectHouse',
+          house: this.singleListingData,
+        });
+      } else {
+        this.$store.dispatch({
+          type: 'unselectHouse',
+          house: this.singleListingData,
+        });
+      }
+    },
   },
 };
 </script>
+
+<style scoped>
+Slider {
+max-width: 325px;
+}
+</style>

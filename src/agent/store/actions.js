@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
 import raccoonAPI from '../../api';
 
+// house
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
     commit(types.RECEIVE_HOUSES, { houses });
@@ -23,8 +24,16 @@ export function fetchHouses({ commit }) {
     });
 }
 
+export function hoverHouse({ commit }, { house }) {
+  commit(types.HOVER_HOUSE, { house });
+}
+
 export function selectHouse({ commit }, { house }) {
   commit(types.SELECT_HOUSE, { house });
+}
+
+export function unselectHouse({ commit }, { house }) {
+  commit(types.UNSELECT_HOUSE, { house });
 }
 
 export const filterHouses = ({ commit }, { filter, isDelta }) => {
@@ -34,6 +43,20 @@ export const filterHouses = ({ commit }, { filter, isDelta }) => {
 export const setSort = ({ commit }, { key, asc }) => {
   commit(types.SET_SORT, { sort: { key, asc } });
 };
+
+export function selectHouses({ commit }, { houses }) {
+  commit(types.SELECT_HOUSES, { houses });
+}
+
+export function unselectHouses({ commit }, { houses }) {
+  commit(types.UNSELECT_HOUSES, { houses });
+}
+
+export function unselectAllHouses({ commit }) {
+  commit(types.UNSELECT_ALL_HOUSES);
+}
+
+// user
 
 export const setUser = ({ commit },
    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
@@ -59,3 +82,25 @@ export const setUserRooms = ({ commit }, { userRooms }) => {
 export const upsertRoom = ({ commit }, room) => {
   commit(types.UPSERT_ROOM, room);
 };
+
+// app
+export const toggleSideBar = ({ commit }) => {
+  commit(types.TOGGLE_SIDEBAR);
+};
+
+// share
+export function selectCustomer({ commit }, { id }) {
+  commit(types.SELECT_CUSTOMER, { id });
+}
+
+export function unselectCustomer({ commit }, { id }) {
+  commit(types.UNSELECT_CUSTOMER, { id });
+}
+
+export function selectCustomers({ commit }, { ids }) {
+  commit(types.SELECT_CUSTOMERS, { ids });
+}
+
+export function unselectCustomers({ commit }, { ids }) {
+  commit(types.UNSELECT_CUSTOMERS, { ids });
+}

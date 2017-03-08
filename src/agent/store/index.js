@@ -4,6 +4,8 @@ import * as actions from './actions';
 import * as getters from './getters';
 import user from './modules/user';
 import houses from './modules/houses';
+import app from './modules/app';
+import share from './modules/share';
 
 Vue.use(Vuex);
 
@@ -15,6 +17,8 @@ export default new Vuex.Store({
   modules: {
     user,
     houses,
+    app,
+    share,
   },
   strict: debug,
 });

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as types from '../mutation-types';
 import * as filterSchema from '../../../components/filter/filter-schema';
 
@@ -7,7 +8,8 @@ const state = {
   all: [],
   filterResults: [],
   lastFilter: [],
-  selected: null,
+  selectedHouses: [],
+  hovered: null,
   sort: null,
 };
 
@@ -39,6 +41,16 @@ const sorting = () => {
     });
     state.filterResults = toSort.concat(notSort);
   }
+};
+
+const getValue = (object, keys) => {
+  let i = 1;
+  let value = object[keys[0]];
+  while (i < keys.length) {
+    value = value[keys[i]];
+    i += 1;
+  }
+  return value;
 };
 
 // mutations
@@ -98,25 +110,26 @@ const mutations = {
     _state.filterResults = toFilter.filter((house) => {
       for (let i = 0; i < filter.length; i += 1) {
         const condition = filter[i];
+        const value = getValue(house, condition.key);
         switch (condition.type) {
           case filterSchema.BETWEEN:
-            if (house[condition.key] < condition.min || house[condition.key] > condition.max) {
+            if (value < condition.min || value > condition.max) {
               return false;
             }
             break;
           case filterSchema.GREATER:
-            if (house[condition.key] < condition.min) {
+            if (value < condition.min) {
               return false;
             }
             break;
           case filterSchema.LESS:
-            if (house[condition.key] > condition.max) {
+            if (value > condition.max) {
               return false;
             }
             break;
           case filterSchema.ONEOF:
             for (let j = 0; j < condition.choices.length; j += 1) {
-              if (condition.choices[j].value === house[condition.key]) {
+              if (condition.choices[j].value === value) {
                 if (!condition.choices[j].checked) {
                   return false;
                 }
@@ -132,9 +145,34 @@ const mutations = {
     sorting();
   },
 
+  [types.HOVER_HOUSE](_state, { house }) {
+    console.log('Hover house -> ', house);
+    _state.hovered = house;
+  },
+
   [types.SELECT_HOUSE](_state, { house }) {
-    console.log('Select house -> ', house);
-    _state.selected = house;
+    console.log('Adding house to selected houses -> ', house._id);
+    _state.selectedHouses.push(house);
+  },
+
+  [types.UNSELECT_HOUSE](_state, { house }) {
+    console.log('Removing house from selected houses -> ', house._id);
+    const index = _state.selectedHouses.indexOf(house);
+    if (index > -1) {
+      _state.selectedHouses.splice(index, 1);
+    }
+  },
+
+  [types.SELECT_HOUSES](_state, { houses }) {
+    _state.selectedHouses = _.union(_state.selectedHouses, houses);
+  },
+
+  [types.UNSELECT_HOUSES](_state, { houses }) {
+    _state.selectedHouses = _.difference(_state.selectedHouses, houses);
+  },
+
+  [types.UNSELECT_ALL_HOUSES](_state) {
+    _state.selectedHouses = [];
   },
 };
 /* eslint-enable no-param-reassign */

@@ -8,6 +8,7 @@ import SingleListing from '../../components/singlelist/singlelisting.vue';
 import Detail from '../Detail.vue';
 import UserPage from '../User.vue';
 import ErrorPage from '../Error.vue';
+import ShareSetting from '../ShareSetting.vue';
 
 Vue.use(Router);
 
@@ -20,10 +21,11 @@ export default new Router({
     { path: '/view1', component: View1 },
     { path: '/chat', component: ChatView },
     { path: '/main', component: Main },
+    { path: '/shareSetting/:byFilter', component: ShareSetting },
     { path: '/listing', component: SingleListing },
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
     { path: '/error/:msg', component: ErrorPage },
-    { path: '*', redirect: '/main' },
+    { path: '*', redirect: '/view1' },
   ],
 });

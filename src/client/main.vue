@@ -12,31 +12,9 @@
           <div class="column is-5">
             <SortBar></SortBar>
           </div>
-          <div class="column is-7">
-            <Pagination
-              :currentPage="currentPage"
-              :pageSize="pageSize"
-              :total="filterResults.length"
-              :size="5"
-              :chunk="true"
-              @currentChanged="changeCurrent">
-            </Pagination>
-          </div>
         </div>
       </header>
-      <div id="list" class="list-container">
-        <house-list :houseList="currentList"></house-list>
-      </div>
-      <div class="has-text-centered">
-        <Pagination
-          :currentPage="currentPage"
-          :pageSize="pageSize"
-          :total="filterResults.length"
-          :size="10"
-          :chunk="true"
-          @currentChanged="changeCurrent">
-        </Pagination>
-      </div>
+      <house-list :houseList="filterResults" class="list-container"></house-list>
     </div>
   </div>
 </template>
@@ -67,7 +45,7 @@
 }
 .list-container {
   padding-top: 5px;
-  height: calc(100% - 106px);
+  height: calc(100% - 74px);
   position: relative;
   overflow-y: scroll;
 }
@@ -78,7 +56,6 @@
 import { mapGetters } from 'vuex';
 import list from '../components/list/list.vue';
 import SortBar from '../components/list/SortBar.vue';
-import Pagination from '../components/list/Pagination.vue';
 import FilterBar from '../components/filter/Filter-element.vue';
 import Map from '../components/map/Map.vue';
 
@@ -86,10 +63,6 @@ export default {
   name: 'main',
   data() {
     return {
-      position: 0,
-      currentPage: 0,
-      pageSize: 20,
-      scrollUnit: 260,
     };
   },
   components: {
@@ -97,39 +70,14 @@ export default {
     'house-list': list,
     SortBar,
     RaccoonMap: Map,
-    Pagination,
   },
   computed: {
     ...mapGetters([
       'allHouses',
-      'selectedHouse',
       'filterResults',
     ]),
-    currentList() {
-      const begin = this.currentPage * this.pageSize;
-      const end = begin + this.pageSize;
-      return this.filterResults.slice(begin, end);
-    },
-  },
-  watch: {
-    selectedHouse: {
-      handler(val) {
-        console.log('Selected house passed down');
-        console.log(val);
-        const index = this.findHouseIndex(val._id);
-        console.log('index', index);
-        this.currentPage = index.page;
-        this.scrollTo(index.index * this.scrollUnit);
-      },
-    },
   },
   methods: {
-    scrollTo(y) {
-      document.getElementById('list').scrollTop = y;
-    },
-    changeCurrent(current) {
-      this.currentPage = current;
-    },
     searchByGeo(lat, lng) {
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
     },

@@ -17,7 +17,7 @@ class RacAPIClient {
     console.log('RacAPIClient Initiated');
     this.client = axios.create({
       baseURL,
-      timeout: 1000,
+      timeout: 5000,
     });
     this.client.defaults.headers.post['Content-Type'] = 'application/json';
     this.houseAPI = houseAPI;

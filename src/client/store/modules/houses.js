@@ -7,7 +7,8 @@ const state = {
   all: [],
   filterResults: [],
   lastFilter: [],
-  selected: null,
+  selectedHouses: [],
+  hovered: null,
   sort: null,
 };
 
@@ -132,9 +133,22 @@ const mutations = {
     sorting();
   },
 
-  [types.SELECT_HOUSE](_state, { house }) {
-    console.log('Select house -> ', house);
-    _state.selected = house;
+  [types.HOVER_HOUSE](_state, { house }) {
+    console.log('Hover house -> ', house);
+    _state.hovered = house;
+  },
+
+  [types.SELECT_HOUSE](_state, { id }) {
+    console.log('Adding house to selected houses -> ', id);
+    _state.selectedHouses.push(id);
+  },
+
+  [types.UNSELECT_HOUSE](_state, { id }) {
+    console.log('Removing house from selected houses -> ', id);
+    const index = _state.selectedHouses.indexOf(id);
+    if (index > -1) {
+      _state.selectedHouses.splice(index, 1);
+    }
   },
 };
 /* eslint-enable no-param-reassign */

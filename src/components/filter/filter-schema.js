@@ -104,70 +104,69 @@ export const cleanCopyCondition = (condition) => {
 export const schema = {
   conditions: {
     price: {
-      key: 'price',
+      key: ['price'],
       ...betweenType,
       minChoices: [NO_MIN, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
         80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
       maxChoices: [NO_MAX, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
         80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
     },
-    bed: {
-      key: 'bed',
+    beds: {
+      key: ['beds'],
       ...betweenType,
       minChoices: [NO_MIN, 1, 2, 3, 4, 5],
       maxChoices: [NO_MAX, 1, 2, 3, 4, 5],
     },
-    bath: {
-      key: 'bath',
+    baths: {
+      key: ['baths'],
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4, 5],
     },
-    size: {
-      key: 'size',
+    sizeInSF: {
+      key: ['sizeInSF'],
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
-    lotSize: {
-      key: 'lotSize',
+    lotSizeInSF: {
+      key: ['lotSizeInSF'],
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     parking: {
-      key: 'parking',
+      key: ['parking'],
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4],
     },
     hoa: {
-      key: 'hoa',
+      key: ['hoa', 'fee'],
       type: LESS,
       max: NO_MAX,
       maxChoices: [NO_MAX, 0, 25, 50, 100, 200, 300],
     },
-    builtYear: {
-      key: 'builtYear',
+    built: {
+      key: ['built'],
       ...betweenType,
       minChoices: [NO_MIN, 2016, 2015, 2014, 2000, 1990],
       maxChoices: [NO_MAX, 2016, 2015, 2014, 2000, 1990],
     },
     propertyType: {
-      key: 'propertyType',
+      key: ['propertyType'],
       type: ONEOF,
       choices: [
-        { value: 'Single_Family', checked: true },
+        { value: 'SingleFamilyResidence', checked: true },
         { value: 'Townhouse', checked: true },
         { value: 'Apartment', checked: true },
-        { value: 'Condo', checked: true },
+        { value: 'Condominium', checked: true },
       ],
     },
-    listingType: {
-      key: 'listingType',
+    status: {
+      key: ['status'],
       type: ONEOF,
       choices: [
         { value: 'Active', checked: true },
         { value: 'Backup_Offers', checked: false },
-        { value: 'Contingent', checked: false },
         { value: 'Hold', checked: false },
         { value: 'Pending', checked: false },
       ],
