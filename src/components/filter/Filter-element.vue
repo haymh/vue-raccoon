@@ -3,40 +3,40 @@
   <div class="level simple-filter is-mobile">
     <label class="label">Price:</label>
     <span class="select">
-      <select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
+      <select v-model="schema.conditions.price.min" @change="changeFilter(['price'], true, 'min')">
         <option
           v-for="item in schema.conditions.price.minChoices"
-          :label="item"
+          :label="item | formatChoice(true, BETWEEN)"
           :value="item">
         </option>
       </select>
     </span>
     <label class="label">to</label>
     <span class="select">
-      <select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
+      <select v-model="schema.conditions.price.max" @change="changeFilter(['price'], true, 'max')">
         <option
           v-for="item in schema.conditions.price.maxChoices"
-          :label="item"
+          :label="item | formatChoice(true, BETWEEN)"
           :value="item">
         </option>
       </select>
     </span>
     <label class="label bed-filter">Bed:</label>
     <span class="select bed-filter">
-      <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', true, 'min')">
+      <select v-model="schema.conditions.beds.min" @change="changeFilter(['beds'], true, 'min')">
         <option
           v-for="item in schema.conditions.beds.minChoices"
-          :label="item"
+          :label="item | formatChoice(false, BETWEEN)"
           :value="item">
         </option>
       </select>
     </span>
     <label class="label bed-filter">to</label>
     <span class="select bed-filter">
-      <select v-model="schema.conditions.beds.max" @change="changeFilter('beds', true, 'max')">
+      <select v-model="schema.conditions.beds.max" @change="changeFilter(['beds'], true, 'max')">
           <option
           v-for="item in schema.conditions.beds.maxChoices"
-          :label="item"
+          :label="item | formatChoice(false, BETWEEN)"
           :value="item">
         </option>
       </select>
@@ -52,20 +52,20 @@
         <div class="bed-filter-min">
           <label class="label">Beds:</label>
           <span class="select">
-            <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', true, 'min')">
+            <select v-model="schema.conditions.beds.min" @change="changeFilter(['beds'], true, 'min')">
               <option
                 v-for="item in schema.conditions.beds.minChoices"
-                :label="item"
+                :label="item | formatChoice(false, BETWEEN)"
                 :value="item">
               </option>
             </select>
           </span>
           <label class="label">to</label>
           <span class="select">
-              <select v-model="schema.conditions.beds.max" @change="changeFilter('beds', true, 'max')">
+              <select v-model="schema.conditions.beds.max" @change="changeFilter(['beds'], true, 'max')">
                 <option
                 v-for="item in schema.conditions.beds.maxChoices"
-                :label="item"
+                :label="item | formatChoice(false, BETWEEN)"
                 :value="item">
               </option>
             </select>
@@ -73,21 +73,21 @@
         </div>
         <div class="label">Bath</div>
         <span class="select">
-          <select v-model="schema.conditions.baths.min" @change="changeFilter('baths', false)">
+          <select v-model="schema.conditions.baths.min" @change="changeFilter(['baths'], false)">
             <option
               v-for="item in schema.conditions.baths.minChoices"
-              :label="item+'+'"
+              :label="item | formatChoice(false, GREATER)"
               :value="item">
             </option>
           </select>
         </span>
         <div class="label">Property Types</div>
         <div v-for="choice in schema.conditions.propertyType.choices">
-          <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', false)">{{ choice.value }}</input>
+          <input type="checkbox" v-model="choice.checked" @change="changeFilter(['propertyType'], false)">{{ choice.value }}</input>
         </div>
         <div class="label">Listing Types</div>
         <div v-for="choice in schema.conditions.status.choices">
-          <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', false)">{{ choice.value }}</input>
+          <input type="checkbox" v-model="choice.checked"  @change="changeFilter(['listingType'], false)">{{ choice.value }}</input>
         </div>
       </div>
     </div>
@@ -134,6 +134,10 @@ export default {
     return {
       showFilter: false,
       schema: filterSchema.schema,
+      BETWEEN: filterSchema.BETWEEN,
+      LESS: filterSchema.LESS,
+      GREATER: filterSchema.GREATER,
+      ONEOF: filterSchema.ONEOF,
     };
   },
   watch: {

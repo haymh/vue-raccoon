@@ -6,20 +6,20 @@
       <label class="label">Price:</label>
       <p class="control has-addons">
         <span class="select">
-          <select v-model="schema.conditions.price.min" @change="changeFilter('price', true, 'min')">
+          <select v-model="schema.conditions.price.min" @change="changeFilter(['price'], true, 'min')">
             <option
               v-for="item in schema.conditions.price.minChoices"
-              :label="item"
+              :label="item | formatChoice(true, BETWEEN)"
               :value="item">
             </option>
           </select>
         </span>
         <label class="label">to</label>
         <span class="select">
-          <select v-model="schema.conditions.price.max" @change="changeFilter('price', true, 'max')">
+          <select v-model="schema.conditions.price.max" @change="changeFilter(['price'], true, 'max')">
             <option
               v-for="item in schema.conditions.price.maxChoices"
-              :label="item"
+              :label="item | formatChoice(true, BETWEEN)"
               :value="item">
             </option>
           </select>
@@ -31,20 +31,20 @@
       <label class="label">Beds:</label>
       <p class="control has-addons">
         <span class="select">
-          <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', true, 'min')">
+          <select v-model="schema.conditions.beds.min" @change="changeFilter(['beds'], true, 'min')">
             <option
               v-for="item in schema.conditions.beds.minChoices"
-              :label="item"
+              :label="item | formatChoice(false, BETWEEN)"
               :value="item">
             </option>
           </select>
         </span>
         <label class="label">to</label>
         <span class="select">
-            <select v-model="schema.conditions.beds.max" @change="changeFilter('beds', true, 'max')">
+            <select v-model="schema.conditions.beds.max" @change="changeFilter(['beds'], true, 'max')">
               <option
               v-for="item in schema.conditions.beds.maxChoices"
-              :label="item"
+              :label="item | formatChoice(false, BETWEEN)"
               :value="item">
             </option>
           </select>
@@ -55,10 +55,10 @@
     <div class="column is-6">
       <div class="label">Baths</div>
       <span class="select">
-        <select v-model="schema.conditions.baths.min" @change="changeFilter('baths', false)">
+        <select v-model="schema.conditions.baths.min" @change="changeFilter(['baths'], false)">
           <option
             v-for="item in schema.conditions.baths.minChoices"
-            :label="item+'+'"
+            :label="item | formatChoice(false, GREATER)"
             :value="item">
           </option>
         </select>
@@ -68,14 +68,14 @@
     <div class="column is-6">
       <div class="label">Property Types</div>
       <div v-for="choice in schema.conditions.propertyType.choices">
-        <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', false)">{{ choice.value }}</input>
+        <input type="checkbox" v-model="choice.checked" @change="changeFilter(['propertyType'], false)">{{ choice.value }}</input>
       </div>
     </div>
 
     <div class="column is-6">
       <div class="label">Listing Types</div>
       <div v-for="choice in schema.conditions.status.choices">
-        <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', false)">{{ choice.value }}</input>
+        <input type="checkbox" v-model="choice.checked"  @change="changeFilter(['listingType'], false)">{{ choice.value }}</input>
       </div>
     </div>
   </div>
@@ -90,6 +90,10 @@ export default {
   data() {
     return {
       schema: filterSchema.schema,
+      BETWEEN: filterSchema.BETWEEN,
+      LESS: filterSchema.LESS,
+      GREATER: filterSchema.GREATER,
+      ONEOF: filterSchema.ONEOF,
     };
   },
   computed: mapGetters([
@@ -113,9 +117,11 @@ export default {
       if (needValidation) {
         this.validateMinMax(key, changed);
       }
-      const oldConditionIndex = this.lastFilter.findIndex(condition => condition.key === key);
+      const oldConditionIndex = this.lastFilter.findIndex(condition =>
+        JSON.stringify(condition.key) === JSON.stringify(key));
       const newCondition = filterSchema.cleanCopyCondition(this.schema.conditions[key]);
       const oldCondition = filterSchema.cleanCopyCondition(this.lastFilter[oldConditionIndex]);
+      console.log(key, this.lastFilter, oldConditionIndex);
       if (oldCondition === undefined) {
         // the condition is new
         if (!filterSchema.shouldRemoveCondition(newCondition)) {

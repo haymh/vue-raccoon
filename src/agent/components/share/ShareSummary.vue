@@ -2,7 +2,8 @@
 <div class="columns">
   <div class="column is-4">
     <pre v-show="shareObject.byFilter">
-      Filter: {{lastFilter}}
+      query: {{query}}
+      filter: {{lastFilter}}
     </pre>
     <a v-show="!shareObject.byFilter">{{selectedHouses.length}} houses</a>
   </div>
@@ -18,6 +19,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { generateQuery } from '../../../components/filter/filter-schema';
 
 export default {
   name: 'ShareSummary',
@@ -30,6 +32,9 @@ export default {
       'lastFilter',
       'selectedCustomers',
     ]),
+    query() {
+      return generateQuery(this.lastFilter);
+    },
   },
 };
 </script>

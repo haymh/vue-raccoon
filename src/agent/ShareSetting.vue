@@ -33,11 +33,11 @@
           <a class="button is-primary">Ok</a>
           <a class="button is-danger">Back</a>
         </p>
-        <div class="datepicker" v-show="showOptions.showDatepicker">
+        <div class="datepicker" v-show="shareObject.shareScheduleType === shareScheduleOptions.DATE">
           <Datepicker v-model="shareObject.shareOn"
                       :disabled="disableShareDate"></Datepicker>
         </div>
-        <div v-show="showOptions.showFrequencyPicker">
+        <div v-show="shareObject.shareScheduleType === shareScheduleOptions.PERIODICAL">
           <span class="select">
             <select v-model="shareObject.frequency">
               <option
@@ -106,10 +106,6 @@ export default {
         byFilter: this.$route.params.byFilter === 'true',
       }),
       shareScheduleOptions: SHARE_SCHEDULE_TYPES,
-      showOptions: {
-        showDatepicker: false,
-        showFrequencyPicker: false,
-      },
       frequencyOptions: [
         PERIODICAL_OPTIONS.DAILY,
         PERIODICAL_OPTIONS.WEEKLY,
@@ -181,27 +177,6 @@ export default {
   methods: {
     setShowSelected(showSelected) {
       this.showSelected = showSelected;
-    },
-  },
-  watch: {
-    shareObject: {
-      handler() {
-        console.log(this.shareObject);
-        switch (this.shareObject.shareScheduleType) {
-          case SHARE_SCHEDULE_TYPES.DATE:
-            this.showOptions.showDatepicker = true;
-            this.showOptions.showFrequencyPicker = false;
-            break;
-          case SHARE_SCHEDULE_TYPES.PERIODICAL:
-            this.showOptions.showDatepicker = false;
-            this.showOptions.showFrequencyPicker = true;
-            break;
-          case SHARE_SCHEDULE_TYPES.NOW:
-          default:
-            break;
-        }
-      },
-      deep: true,
     },
   },
 };
