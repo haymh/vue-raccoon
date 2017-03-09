@@ -16,7 +16,7 @@ import store from './store';
 
 import locales from './locales';
 
-import { NO_MIN, NO_MAX, BETWEEN, LESS, GREATER } from '../components/filter/filter-schema';
+import { NO_MIN, NO_MAX } from '../components/filter/filter-schema';
 
 Vue.use(Element);
 Vue.use(VueResource);
@@ -51,7 +51,7 @@ Vue.filter('formatAddress', address => `${address.city}, ${address.stateOrProvin
 
 Vue.filter('formatDate', (date, formatString) => moment(date).format(formatString));
 
-Vue.filter('formatChoice', (choice, isMoney, type) => {
+Vue.filter('formatChoice', (choice, isMoney = false, prefix = '', suffix = '') => {
   let res = '';
   if (choice === NO_MIN) {
     return 'No min';
@@ -68,15 +68,7 @@ Vue.filter('formatChoice', (choice, isMoney, type) => {
   } else {
     res = choice;
   }
-  switch (type) {
-    case LESS:
-      return `< ${res}`;
-    case GREATER:
-      return `${res}+`;
-    case BETWEEN:
-    default:
-      return res;
-  }
+  return `${prefix}${res}${suffix}`;
 });
 
 Vue.filter('safe', (object) => {

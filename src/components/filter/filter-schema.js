@@ -15,7 +15,7 @@ const betweenType = {
 
 const greaterType = {
   type: GREATER,
-  min: 0,
+  min: NO_MIN,
 };
 
 const queryBuilderHelper = (keys, where) => {
@@ -199,7 +199,7 @@ export const schema = {
       key: ['hoa', 'fee'],
       type: LESS,
       max: NO_MAX,
-      maxChoices: [NO_MAX, 0, 25, 50, 100, 200, 300],
+      maxChoices: [NO_MAX, 25, 50, 100, 200, 300, 400, 500],
     },
     built: {
       key: ['built'],
