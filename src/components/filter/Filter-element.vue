@@ -1,7 +1,7 @@
 <template>
 <div class="wrapper">
   <div class="level simple-filter is-mobile">
-    <label class="label">Price:</label>
+    <label class="label">{{$t('filter.price')}}</label>
     <span class="select">
       <select v-model="schema.conditions.price.min" @change="changeFilter('price', ['price'], true, 'min')">
         <option
@@ -21,7 +21,7 @@
         </option>
       </select>
     </span>
-    <label class="label bed-filter">Bed:</label>
+    <label class="label bed-filter">{{$t('filter.beds')}}</label>
     <span class="select bed-filter">
       <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', ['beds'], true, 'min')">
         <option
@@ -50,7 +50,7 @@
       </a>
       <div class="box dropdown-content" v-bind:style="{display: showFilter? 'inline-block':'none'}">
         <div class="bed-filter-min">
-          <label class="label">Beds:</label>
+          <label class="label">{{$t('filter.beds')}}</label>
           <span class="select">
             <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', ['beds'], true, 'min')">
               <option
@@ -71,7 +71,7 @@
             </select>
           </span>
         </div>
-        <div class="label">Baths</div>
+        <div class="label">{{$t('filter.baths')}}</div>
         <span class="select">
           <select v-model="schema.conditions.baths.min" @change="changeFilter('baths', ['baths'], false)">
             <option
@@ -81,11 +81,11 @@
             </option>
           </select>
         </span>
-        <div class="label">Property Types</div>
+        <div class="label">{{$t('filter.propertyType')}}</div>
         <div v-for="choice in schema.conditions.propertyType.choices">
           <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', ['propertyType'], false)">{{ choice.value }}</input>
         </div>
-        <div class="label">Listing Types</div>
+        <div class="label">{{$t('filter.status')}}</div>
         <div v-for="choice in schema.conditions.status.choices">
           <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', ['listingType'], false)">{{ choice.value }}</input>
         </div>

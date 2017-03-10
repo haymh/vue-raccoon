@@ -3,7 +3,7 @@
   <div class="columns is-multiline is-mobile">
     <div class="column is-6">
 
-      <label class="label">Price:</label>
+      <label class="label">{{$t('filter.price')}}</label>
       <p class="control has-addons">
         <span class="select">
           <select v-model="schema.conditions.price.min" @change="changeFilter('price', ['price'], true, 'min')">
@@ -28,7 +28,7 @@
     </div>
 
     <div class="column is-6">
-      <label class="label">Beds:</label>
+      <label class="label">{{$t('filter.beds')}}</label>
       <p class="control has-addons">
         <span class="select">
           <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', ['beds'], true, 'min')">
@@ -53,7 +53,7 @@
     </div>
 
     <div class="column is-6">
-      <div class="label">Baths</div>
+      <div class="label">{{$t('filter.baths')}}</div>
       <span class="select">
         <select v-model="schema.conditions.baths.min" @change="changeFilter('baths', ['baths'], false)">
           <option
@@ -66,7 +66,7 @@
     </div>
 
     <div class="column is-6">
-      <div class="label">Max HOA</div>
+      <div class="label">{{$t('filter.hoa')}}</div>
       <span class="select">
         <select v-model="schema.conditions.hoa.max" @change="changeFilter('hoa', ['hoa', 'fee'], false)">
           <option
@@ -79,14 +79,14 @@
     </div>
 
     <div class="column is-6">
-      <div class="label">Property Types</div>
+      <div class="label">{{$t('filter.propertyType')}}</div>
       <div v-for="choice in schema.conditions.propertyType.choices">
         <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', ['propertyType'], false)">{{ choice.value }}</input>
       </div>
     </div>
 
     <div class="column is-6">
-      <div class="label">Listing Types</div>
+      <div class="label">{{$t('filter.status')}}</div>
       <div v-for="choice in schema.conditions.status.choices">
         <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', ['listingType'], false)">{{ choice.value }}</input>
       </div>

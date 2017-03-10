@@ -114,6 +114,7 @@ export const cleanCopyCondition = (condition) => {
   const common = {
     key: condition.key,
     type: condition.type,
+    name: condition.name,
   };
   switch (condition.type) {
     case BETWEEN:
@@ -149,6 +150,7 @@ export const schema = {
   conditions: {
     price: {
       key: ['price'],
+      name: 'price',
       ...betweenType,
       minChoices: [NO_MIN, 50000, 75000, 100000, 125000, 150000, 175000, 200000,
         225000, 250000, 275000, 300000, 325000, 350000, 375000, 400000,
@@ -169,46 +171,54 @@ export const schema = {
     },
     beds: {
       key: ['beds'],
+      name: 'beds',
       ...betweenType,
       minChoices: [NO_MIN, 1, 2, 3, 4, 5],
       maxChoices: [NO_MAX, 1, 2, 3, 4, 5],
     },
     baths: {
       key: ['baths'],
+      name: 'baths',
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4, 5],
     },
     sizeInSF: {
       key: ['sizeInSF'],
+      name: 'sizeInSF',
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     lotSizeInSF: {
       key: ['lotSizeInSF'],
+      name: 'lotSizeInSF',
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     parking: {
       key: ['parking'],
+      name: 'parking',
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4],
     },
     hoa: {
       key: ['hoa', 'fee'],
+      name: 'hoa',
       type: LESS,
       max: NO_MAX,
       maxChoices: [NO_MAX, 25, 50, 100, 200, 300, 400, 500],
     },
     built: {
       key: ['built'],
+      name: 'built',
       ...betweenType,
       minChoices: [NO_MIN, 2016, 2015, 2014, 2000, 1990],
       maxChoices: [NO_MAX, 2016, 2015, 2014, 2000, 1990],
     },
     propertyType: {
       key: ['propertyType'],
+      name: 'propertyType',
       type: ONEOF,
       choices: [
         { value: 'SingleFamilyResidence', checked: true },
@@ -219,6 +229,7 @@ export const schema = {
     },
     status: {
       key: ['status'],
+      name: 'status',
       type: ONEOF,
       choices: [
         { value: 'Active', checked: true },
