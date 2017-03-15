@@ -11,6 +11,7 @@ const state = {
   selectedHouses: [],
   hovered: null,
   sort: null,
+  searchTerms: null,
 };
 
 const sorting = () => {
@@ -173,6 +174,10 @@ const mutations = {
 
   [types.UNSELECT_ALL_HOUSES](_state) {
     _state.selectedHouses = [];
+  },
+
+  [types.ADD_SEARCH_TERMS](_state, { searchTerms }) {
+    _state.searchTerms = searchTerms;
   },
 };
 /* eslint-enable no-param-reassign */

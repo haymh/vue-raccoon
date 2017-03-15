@@ -4,6 +4,9 @@
     <div v-for="c in lastFilter">
       <FilterTag :filterCondition="c"></FilterTag>
     </div>
+    <pre>
+      {{shareToSend}}
+    </pre>
     <a v-show="!shareObject.byFilter">{{selectedHouses.length}} houses</a>
   </div>
   <div class="column is-6">
@@ -60,9 +63,20 @@ export default {
       'lastFilter',
       'selectedCustomers',
       'filterResults',
+      'searchTerms',
     ]),
     query() {
-      return generateQuery(this.lastFilter);
+      const query = generateQuery(this.lastFilter);
+      if (this.searchTerms && this.searchTerms.state) {
+        query['address.stateOrProvince'] = (new RegExp(`^${this.searchTerms.state}$`, 'i')).toString();
+        if (this.searchTerms.county) {
+          query.county = (new RegExp(`^${this.searchTerms.county}$`, 'i')).toString();
+        } else {
+          query.city = (new RegExp(`^${this.searchTerms.city}$`, 'i')).toString();
+        }
+      }
+      console.log('QUERY', query);
+      return query;
     },
     numberOfHouse() {
       if (this.shareObject.byFilter) {
@@ -83,6 +97,20 @@ export default {
         default:
           return '';
       }
+    },
+    shareToSend() {
+      const obj = {};
+      obj.query = this.query;
+      obj.shareTo = {
+        groupId: this.shareObject.groupId,
+        customers: this.selectedCustomers,
+      };
+      obj.shareMethod = {
+        shareOn: this.shareObject.shareOn,
+        shareScheduleType: this.shareObject.shareScheduleType,
+        frequency: this.shareObject.frequency,
+      };
+      return obj;
     },
   },
 };

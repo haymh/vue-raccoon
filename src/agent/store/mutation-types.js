@@ -19,6 +19,7 @@ export const SELECT_HOUSES = 'SELECT_HOUSES';
 export const UNSELECT_HOUSES = 'UNSELECT_HOUSES';
 export const HOVER_HOUSE = 'HOVER_HOUSE';
 export const SET_SORT = 'SET_SORT';
+export const ADD_SEARCH_TERMS = 'ADD_SEARCH_TERMS';
 
 // app
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
