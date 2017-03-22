@@ -1,47 +1,68 @@
 <template>
-<div class="columns">
-  <div class="column is-6">
-    <div v-for="c in lastFilter">
-      <FilterTag :filterCondition="c"></FilterTag>
+<div>
+  <div :class="['modal', showModal ? 'is-active':'']">
+    <div class="modal-background" @click="toggleModal"></div>
+    <div class="modal-card" v-if="showModal">
+      <section class="modal-card-body">
+        <div v-html="email"></div>
+      </section>
     </div>
-    <pre>
-      {{shareToSend}}
-    </pre>
-    <a v-show="!shareObject.byFilter">{{selectedHouses.length}} houses</a>
   </div>
-  <div class="column is-6">
-    <div class="content" v-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW">
-      <p>
-        You are going to send <a href="#">{{numberOfHouse}} houses
-        <span class="icon"><i class="fa fa-home"></i></span></a>
-         to <a href="#">{{selectedCustomers.length}} customers
-         <span class="icon"><i class="fa fa-users"></i></span></a> <strong>now</strong>.
-      </p>
+  <div class="columns">
+    <div class="column is-5">
+      <div v-for="c in lastFilter">
+        <FilterTag :filterCondition="c"></FilterTag>
+      </div>
+      <a v-show="!shareObject.byFilter">{{selectedHouses.length}} houses</a>
     </div>
-    <div class="content" v-else-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
-      <p>
-        You are going to send <a href="#">{{numberOfHouse}} houses
-        <span class="icon"><i class="fa fa-home"></i></span></a>
-         to <a href="#">{{selectedCustomers.length}} customers
-         <span class="icon"><i class="fa fa-users"></i></span></a> on <strong>{{shareObject.shareOn}}</strong>
-      </p>
+    <div class="column is-5">
+      <div class="content" v-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW">
+        <p>
+          You are going to send <a href="#">{{numberOfHouse}} houses
+          <span class="icon"><i class="fa fa-home"></i></span></a>
+           to <a href="#">{{selectedCustomers.length}} customers
+           <span class="icon"><i class="fa fa-users"></i></span></a> <strong>now</strong>.
+        </p>
+      </div>
+      <div class="content" v-else-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
+        <p>
+          You are going to send <a href="#">{{numberOfHouse}} houses
+          <span class="icon"><i class="fa fa-home"></i></span></a>
+           to <a href="#">{{selectedCustomers.length}} customers
+           <span class="icon"><i class="fa fa-users"></i></span></a> on <strong>{{shareObject.shareOn}}</strong>
+        </p>
+      </div>
+      <div class="content" v-else-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+        <p>
+          You are going to send <a href="#">{{numberOfHouse}} houses
+          <span class="icon"><i class="fa fa-home"></i></span></a>
+           to <a href="#">{{selectedCustomers.length}} customers
+           <span class="icon"><i class="fa fa-users"></i></span></a> <strong>{{frequency}}</strong>
+        </p>
+      </div>
     </div>
-    <div class="content" v-else-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
-      <p>
-        You are going to send <a href="#">{{numberOfHouse}} houses
-        <span class="icon"><i class="fa fa-home"></i></span></a>
-         to <a href="#">{{selectedCustomers.length}} customers
-         <span class="icon"><i class="fa fa-users"></i></span></a> <strong>{{frequency}}</strong>
-      </p>
+    <div class="column is-2">
+      <a class="button is-primary" @click="toggleModal">preview</a>
     </div>
   </div>
 </div>
 </template>
+<style scoped>
+.preview {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
 <script>
 import { mapGetters } from 'vuex';
 import { generateQuery } from '../../../components/filter/filter-schema';
 import FilterTag from '../../../components/filter/FilterTag.vue';
 import { PERIODICAL_OPTIONS, SHARE_SCHEDULE_TYPES } from './shareSchema';
+// import singleHouseTemplate from '../../email-templates/single-house.hbs';
+// import singleHouseSchema from '../../email-templates/singleHouseSchema';
+import multipleHouseTemplate from '../../email-templates/multiple-house.hbs';
+import multipleHouseSchema from '../../email-templates/multipleHouseSchema';
 
 export default {
   name: 'ShareSummary',
@@ -49,6 +70,7 @@ export default {
     return {
       SHARE_SCHEDULE_TYPES,
       PERIODICAL_OPTIONS,
+      showModal: false,
     };
   },
   props: {
@@ -56,6 +78,11 @@ export default {
   },
   components: {
     FilterTag,
+  },
+  methods: {
+    toggleModal() {
+      this.showModal = !this.showModal;
+    },
   },
   computed: {
     ...mapGetters([
@@ -65,6 +92,9 @@ export default {
       'filterResults',
       'searchTerms',
     ]),
+    email() {
+      return multipleHouseTemplate(multipleHouseSchema);
+    },
     query() {
       const query = generateQuery(this.lastFilter);
       if (this.searchTerms && this.searchTerms.state) {
