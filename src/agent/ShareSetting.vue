@@ -30,8 +30,6 @@
                   v-model="shareObject.shareScheduleType">
             Share every
           </label>
-          <a class="button is-primary">Ok</a>
-          <a class="button is-danger">Back</a>
         </p>
         <div class="datepicker" v-show="shareObject.shareScheduleType === shareScheduleOptions.DATE">
           <Datepicker v-model="shareObject.shareOn"

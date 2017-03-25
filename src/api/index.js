@@ -9,8 +9,8 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 // const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
-// const baseURL = 'http://localhost:3000';
-const baseURL = 'http://104.196.242.243:3000';
+const baseURL = 'http://localhost:3000';
+// const baseURL = 'http://104.196.242.243:3000';
 
 class RacAPIClient {
   constructor() {
@@ -88,6 +88,10 @@ class RacAPIClient {
     return this.client.get('/house/school', {
       params: { box: urlValue },
     }).then(response => response.data);
+  }
+
+  createShare(share) {
+    return this.client.post('/share', share).then(response => response.data);
   }
 }
 

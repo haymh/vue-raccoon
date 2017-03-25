@@ -9,7 +9,7 @@
     </div>
   </div>
   <div class="columns">
-    <div class="column is-5">
+    <div class="column is-3">
       <div v-for="c in lastFilter">
         <FilterTag :filterCondition="c"></FilterTag>
       </div>
@@ -44,6 +44,9 @@
     <div class="column is-2">
       <a class="button is-primary" @click="toggleModal">preview</a>
     </div>
+    <div class="column is-2">
+      <a class="button is-primary" @click="sendShare">create</a>
+    </div>
   </div>
 </div>
 </template>
@@ -63,6 +66,7 @@ import { PERIODICAL_OPTIONS, SHARE_SCHEDULE_TYPES } from './shareSchema';
 // import singleHouseSchema from '../../email-templates/singleHouseSchema';
 import multipleHouseTemplate from '../../email-templates/multiple-house.hbs';
 import multipleHouseSchema from '../../email-templates/multipleHouseSchema';
+import API from '../../../api';
 
 export default {
   name: 'ShareSummary',
@@ -83,6 +87,29 @@ export default {
     toggleModal() {
       this.showModal = !this.showModal;
     },
+    sendShare() {
+      const obj = {
+        uid: this.userId,
+        sharedObject: {
+          query: this.query,
+          emailFrom: 'jeremynangjizi@redoujiang.com',
+          shareTo: {
+            groupId: this.shareObject.groupId,
+            customers: this.selectedCustomers,
+          },
+          shareMethod: {
+            shareOn: this.shareObject.shareOn.toString(),
+            shareScheduleType: this.shareObject.shareScheduleType,
+            frequency: this.shareObject.frequency,
+            emailContent: this.email,
+          },
+        },
+      };
+      console.log(JSON.stringify(obj));
+      API.createShare(obj).then((data) => {
+        console.log(data);
+      });
+    },
   },
   computed: {
     ...mapGetters([
@@ -91,6 +118,7 @@ export default {
       'selectedCustomers',
       'filterResults',
       'searchTerms',
+      'userId',
     ]),
     email() {
       return multipleHouseTemplate(multipleHouseSchema);
@@ -127,20 +155,6 @@ export default {
         default:
           return '';
       }
-    },
-    shareToSend() {
-      const obj = {};
-      obj.query = this.query;
-      obj.shareTo = {
-        groupId: this.shareObject.groupId,
-        customers: this.selectedCustomers,
-      };
-      obj.shareMethod = {
-        shareOn: this.shareObject.shareOn,
-        shareScheduleType: this.shareObject.shareScheduleType,
-        frequency: this.shareObject.frequency,
-      };
-      return obj;
     },
   },
 };
