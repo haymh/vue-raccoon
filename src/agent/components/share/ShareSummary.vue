@@ -45,7 +45,7 @@
       <a class="button is-primary" @click="toggleModal">preview</a>
     </div>
     <div class="column is-2">
-      <a class="button is-primary" @click="sendShare">create</a>
+      <a class="button is-danger" @click="sendShare">create</a>
     </div>
   </div>
 </div>
@@ -105,7 +105,7 @@ export default {
           },
         },
       };
-      console.log(JSON.stringify(obj));
+      console.log(obj);
       API.createShare(obj).then((data) => {
         console.log(data);
       });
