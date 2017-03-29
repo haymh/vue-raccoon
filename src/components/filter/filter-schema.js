@@ -1,5 +1,5 @@
-export const NO_MIN = 'No Min';
-export const NO_MAX = 'No Max';
+export const NO_MIN = 0;
+export const NO_MAX = Number.MAX_SAFE_INTEGER;
 
 // condition types
 export const BETWEEN = 'BETWEEN';
@@ -15,7 +15,51 @@ const betweenType = {
 
 const greaterType = {
   type: GREATER,
-  min: 0,
+  min: NO_MIN,
+};
+
+const queryBuilderHelper = (keys, where) => {
+  const query = {};
+  query[keys[keys.length - 1]] = where;
+  for (let i = keys.length - 1; i > 1; i -= 1) {
+    query[keys[i - 1]] = query;
+  }
+  return query;
+};
+
+export const generateQuery = (conditions) => {
+  const query = {};
+  conditions.forEach((c) => {
+    switch (c.type) {
+      case BETWEEN:
+        Object.assign(query, queryBuilderHelper(c.key, {
+          $gte: c.min,
+          $lte: c.max,
+        }));
+        break;
+      case LESS:
+        Object.assign(query, queryBuilderHelper(c.key, {
+          $lte: c.max,
+        }));
+        break;
+      case GREATER:
+        Object.assign(query, queryBuilderHelper(c.key, {
+          $gte: c.min,
+        }));
+        break;
+      case ONEOF:
+        Object.assign(query, queryBuilderHelper(c.key, {
+          $in: c.choices
+                .filter(choice => choice.checked)
+                .map(choice => choice.value),
+        }));
+        break;
+      default:
+        break;
+    }
+  });
+  console.log('query', query);
+  return query;
 };
 
 export const isNewResultSubset = (oldCondition, newCondition) => {
@@ -70,6 +114,7 @@ export const cleanCopyCondition = (condition) => {
   const common = {
     key: condition.key,
     type: condition.type,
+    name: condition.name,
   };
   switch (condition.type) {
     case BETWEEN:
@@ -105,54 +150,75 @@ export const schema = {
   conditions: {
     price: {
       key: ['price'],
+      name: 'price',
       ...betweenType,
-      minChoices: [NO_MIN, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
-        80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
-      maxChoices: [NO_MAX, 10000, 20000, 30000, 40000, 50000, 60000, 70000,
-        80000, 90000, 100000, 120000, 140000, 160000, 180000, 200000],
+      minChoices: [NO_MIN, 50000, 75000, 100000, 125000, 150000, 175000, 200000,
+        225000, 250000, 275000, 300000, 325000, 350000, 375000, 400000,
+        425000, 450000, 475000, 500000, 525000, 550000, 575000, 600000,
+        625000, 650000, 675000, 700000, 725000, 750000, 775000, 800000,
+        825000, 850000, 875000, 900000, 925000, 950000, 975000, 1000000,
+        1250000, 1500000, 1750000, 2000000, 2250000, 2500000, 2750000,
+        3000000, 3250000, 3500000, 3750000, 4000000, 4250000, 4500000,
+        4750000, 5000000, 6000000, 7000000, 8000000, 9000000, 10000000],
+      maxChoices: [NO_MAX, 50000, 75000, 100000, 125000, 150000, 175000, 200000,
+        225000, 250000, 275000, 300000, 325000, 350000, 375000, 400000,
+        425000, 450000, 475000, 500000, 525000, 550000, 575000, 600000,
+        625000, 650000, 675000, 700000, 725000, 750000, 775000, 800000,
+        825000, 850000, 875000, 900000, 925000, 950000, 975000, 1000000,
+        1250000, 1500000, 1750000, 2000000, 2250000, 2500000, 2750000,
+        3000000, 3250000, 3500000, 3750000, 4000000, 4250000, 4500000,
+        4750000, 5000000, 6000000, 7000000, 8000000, 9000000, 10000000],
     },
     beds: {
       key: ['beds'],
+      name: 'beds',
       ...betweenType,
       minChoices: [NO_MIN, 1, 2, 3, 4, 5],
       maxChoices: [NO_MAX, 1, 2, 3, 4, 5],
     },
     baths: {
       key: ['baths'],
+      name: 'baths',
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4, 5],
     },
     sizeInSF: {
       key: ['sizeInSF'],
+      name: 'sizeInSF',
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     lotSizeInSF: {
       key: ['lotSizeInSF'],
+      name: 'lotSizeInSF',
       ...betweenType,
       minChoices: [NO_MIN, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
       maxChoices: [NO_MAX, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000],
     },
     parking: {
       key: ['parking'],
+      name: 'parking',
       ...greaterType,
       minChoices: [0, 1, 2, 3, 4],
     },
     hoa: {
       key: ['hoa', 'fee'],
+      name: 'hoa',
       type: LESS,
       max: NO_MAX,
-      maxChoices: [NO_MAX, 0, 25, 50, 100, 200, 300],
+      maxChoices: [NO_MAX, 25, 50, 100, 200, 300, 400, 500],
     },
     built: {
       key: ['built'],
+      name: 'built',
       ...betweenType,
       minChoices: [NO_MIN, 2016, 2015, 2014, 2000, 1990],
       maxChoices: [NO_MAX, 2016, 2015, 2014, 2000, 1990],
     },
     propertyType: {
       key: ['propertyType'],
+      name: 'propertyType',
       type: ONEOF,
       choices: [
         { value: 'SingleFamilyResidence', checked: true },
@@ -163,6 +229,7 @@ export const schema = {
     },
     status: {
       key: ['status'],
+      name: 'status',
       type: ONEOF,
       choices: [
         { value: 'Active', checked: true },

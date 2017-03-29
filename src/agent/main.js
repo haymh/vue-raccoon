@@ -16,6 +16,8 @@ import store from './store';
 
 import locales from './locales';
 
+import { NO_MIN, NO_MAX } from '../components/filter/filter-schema';
+
 Vue.use(Element);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
@@ -48,6 +50,26 @@ Vue.filter('formatNumber', (n, p, symbol) => {
 Vue.filter('formatAddress', address => `${address.city}, ${address.stateOrProvince} ${address.postalCode}`);
 
 Vue.filter('formatDate', (date, formatString) => moment(date).format(formatString));
+
+Vue.filter('formatChoice', (choice, isMoney = false, prefix = '', suffix = '') => {
+  let res = '';
+  if (choice === NO_MIN) {
+    return 'No min';
+  }
+  if (choice === NO_MAX) {
+    return 'No max';
+  }
+  if (isMoney) {
+    if (choice < 1000000) {
+      res = `$${choice / 1000}K`;
+    } else {
+      res = `$${choice / 1000000}M`;
+    }
+  } else {
+    res = choice;
+  }
+  return `${prefix}${res}${suffix}`;
+});
 
 Vue.filter('safe', (object) => {
   if (object === undefined) {

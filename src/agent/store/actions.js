@@ -5,6 +5,7 @@ import raccoonAPI from '../../api';
 // house
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
+    commit(types.ADD_SEARCH_TERMS, { searchTerms });
     commit(types.RECEIVE_HOUSES, { houses });
     // TODO: tag favorite houses
     commit(types.TAG_FAVORITE, { favoriteHouses: rootState.user.favoriteHouses });
