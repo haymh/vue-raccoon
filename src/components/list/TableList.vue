@@ -6,14 +6,15 @@
     :total="houseList.length"
     :size="10"
     :chunk="true"
-    @currentChanged="changeCurrent">
+    @currentChanged="changeCurrent"
+    v-show="!empty">
   </Pagination>
-  <div class="singlelist">
+  <div class="singlelist" v-show="!empty">
     <single-list :singleListingData="hoveredHouse"
                 v-if="hoveredHouse !== undefined && hoveredHouse !== null">
     </single-list>
   </div>
-  <div class="scrollable">
+  <div class="scrollable" v-show="!empty">
     <table class="table is-striped is-narrow">
       <thead>
         <tr>
@@ -27,23 +28,11 @@
           <th></th>
         </tr>
       </thead>
-      <TableItem v-for="house in houseList"
+      <TableItem  v-for="house in houseList"
                 :house="house"
                 :showOnlyWhenSelected="selectedOnly"
                 v-on:hoverHouse="select">
       </TableItem>
-      <tfoot>
-        <tr>
-          <th>Address</th>
-          <th>Price</th>
-          <th>Beds</th>
-          <th>Baths</th>
-          <th>Sq.Ft.</th>
-          <th>$/Sq.Ft.</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </tfoot>
     </table>
   </div>
 </div>
@@ -92,6 +81,9 @@ export default {
       const begin = this.currentPage * this.pageSize;
       const end = begin + this.pageSize;
       return this.houseList.slice(begin, end);
+    },
+    empty() {
+      return this.houseList === null || this.houseList.length === 0;
     },
   },
   methods: {

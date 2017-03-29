@@ -1,6 +1,9 @@
 <template>
 <div class="box">
   <div class="columns is-multiline is-mobile">
+    <div class="column is-12">
+      <SortBar></SortBar>
+    </div>
     <div class="column is-6">
 
       <label class="label">{{$t('filter.price')}}</label>
@@ -97,6 +100,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import * as filterSchema from './filter-schema';
+import SortBar from '../list/SortBar.vue';
 
 export default {
   name: 'FilterBar',
@@ -108,6 +112,9 @@ export default {
       GREATER: filterSchema.GREATER,
       ONEOF: filterSchema.ONEOF,
     };
+  },
+  components: {
+    SortBar,
   },
   computed: mapGetters([
     'lastFilter',

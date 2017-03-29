@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div id="list" class="scrollable-list">
+      <div class="singlelist" v-for="item in currentList" :key="item._id">
+        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
+      </div>
+    </div>
     <Pagination
       :currentPage="currentPage"
       :pageSize="pageSize"
@@ -8,11 +13,6 @@
       :chunk="true"
       @currentChanged="changeCurrent">
     </Pagination>
-    <div id="list" class="scrollable-list">
-      <div class="singlelist" v-for="item in currentList" :key="item._id">
-        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
-      </div>
-    </div>
   </div>
 </template>
 <style>

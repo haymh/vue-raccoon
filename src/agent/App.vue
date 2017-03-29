@@ -6,7 +6,6 @@
 		<transition name="fade" mode="out-in">
 			<main class="main" :style="{'margin-left': sideBarWidth + 'px'}">
 				<router-view></router-view>
-        <AppFooter></AppFooter>
 			</main>
 		</transition>
   </div>

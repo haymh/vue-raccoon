@@ -1,48 +1,53 @@
 <template>
-  <div class="columns content-container">
+  <div>
+    <div class="columns content-container">
       <div class="column is-half left-container">
         <header class="toolbar-container">
           <div class="columns is-multiline is-gapless toolbar">
-            <div class="column is-5">
+            <div class="column is-3">
                 <a class="button is-primary" @click="toggleFilter">show full filter</a>
             </div>
-            <div class="column is-5">
-              <SortBar></SortBar>
-            </div>
             <div class="column is-2">
-              <span class="select">
-                <select v-model="selectedView">
-                  <option
-                    v-for="item in viewMode"
-                    :label="item"
-                    :value="item">
-                  </option>
-                </select>
-              </span>
+              <p class="control" v-show="showList || showTable">
+                <label class="checkbox">
+                  <input type="checkbox" v-model="selectAll">
+                  This Page
+                </label>
+              </p>
+            </div>
+            <div class="column is-12">
+              <div class="tabs">
+                <ul>
+                  <li v-for="item in viewMode" v-bind:class="isTabActive(item) ? 'is-active' : ''">
+                    <a @click="changeView(item)">{{item}}</a>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="column is-12 filter-dropdown">
               <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
                 <FilterFullSize></FilterFullSize>
               </div>
             </div>
+          </div>
+        </header>
+        <house-list class="list-container"
+                v-show="showList"
+                :houseList="filterResults"
+                :selectAll="selectAll">
+        </house-list>
+        <TableList class="table-container"
+                  :houseList="filterResults"
+                  v-show="showTable">
+        </TableList>
+        <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
+        </RaccoonMap>
+      </div>
+      <div class="column is-half right-container">
+        <header class="toolbar-container">
+          <div class="columns is-multiline is-gapless toolbar">
             <div class="column is-12">
               <div class="columns">
-                <div class="column is-6">
-                  <div class="tabs">
-                    <ul v-show="showList || showTable">
-                      <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Search Results</a></li>
-                      <li v-bind:class="{'is-active': showSelected}"><a @click="setShowSelected(true)">Selected Houses</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="column is-2">
-                  <p class="control" v-show="!showSelected && (showList || showTable)">
-                    <label class="checkbox">
-                      <input type="checkbox" v-model="selectAll">
-                      This Page
-                    </label>
-                  </p>
-                </div>
 
                 <div class="column is-4">
                   <p class="control has-addons">
@@ -54,26 +59,13 @@
             </div>
           </div>
         </header>
-
-        <house-list class="list-container"
-                v-show="showList"
-                :houseList="showSelected? selectedHouses : filterResults"
-                :selectedOnly="showSelected"
-                :selectAll="selectAll">
-        </house-list>
         <TableList class="table-container"
-                  :houseList="showSelected? selectedHouses : filterResults"
-                  :selectedOnly="showSelected"
-                  v-show="showTable">
+                  :houseList="selectedHouses"
+                  :selectedOnly="true">
         </TableList>
-        <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
-        </RaccoonMap>
-      </div>
-      <div class="column right-container">
-        <ShareList class="share-list" title="预定分享" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
-        <ShareList class="share-list"title="历史分享" :list="list"></ShareList>
       </div>
     </div>
+  </div>
 </template>
 <style>
 .content-container {
@@ -86,17 +78,20 @@
   margin-left: 4px;
   padding: 0;
 }
-.left-container .toolbar-container {
+.toolbar-container {
   margin-top: 4px;
   height: auto;
+  width: 100%;
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
-.left-container .toolbar-container .toolbar {
+.toolbar-container .toolbar {
   padding: 0 5px;
 }
 .right-container {
   height: 100%;
+  margin-left: 4px;
+  margin-right: 4px;
   padding: 0;
 }
 .right-container .share-list {
@@ -105,8 +100,6 @@
   margin-right: 4px;
   margin-top: 4px;
   padding: 10px;
-}
-.map-container .map {
 }
 .list-container {
   padding-top: 5px;
@@ -134,7 +127,6 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import list from '../components/list/list.vue';
-import SortBar from '../components/list/SortBar.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
@@ -145,9 +137,8 @@ export default {
   mixins: [clickaway],
   data() {
     return {
-      viewMode: ['map', 'cards', 'table'],
+      viewMode: ['cards', 'map', 'table'],
       selectedView: 'cards',
-      showSelected: false,
       selectAll: false,
       showFullFilter: false,
       list: [
@@ -229,7 +220,6 @@ export default {
   components: {
     FilterFullSize,
     'house-list': list,
-    SortBar,
     RaccoonMap: Map,
     ShareList,
     TableList,
@@ -241,10 +231,10 @@ export default {
       'selectedHouses',
     ]),
     showMap() {
-      return this.selectedView === this.viewMode[0];
+      return this.selectedView === this.viewMode[1];
     },
     showList() {
-      return this.selectedView === this.viewMode[1];
+      return this.selectedView === this.viewMode[0];
     },
     showTable() {
       return this.selectedView === this.viewMode[2];
@@ -265,6 +255,12 @@ export default {
     },
   },
   methods: {
+    changeView(view) {
+      this.selectedView = view;
+    },
+    isTabActive(view) {
+      return this.selectedView === view;
+    },
     searchByGeo(lat, lng) {
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
     },
@@ -274,9 +270,6 @@ export default {
     findHouseIndex(id) {
       const index = this.filterResults.findIndex(house => house._id === id);
       return { page: Math.floor(index / this.pageSize), index: index % this.pageSize };
-    },
-    setShowSelected(showSelected) {
-      this.showSelected = showSelected;
     },
     toggleFilter(event) {
       console.log('show filter');
