@@ -1,82 +1,91 @@
 <template>
   <div>
-    <div class="columns content-container">
-      <div class="column is-half left-container">
-        <header class="toolbar-container">
-          <div class="columns is-multiline is-gapless toolbar">
-            <div class="column is-6">
-                <a class="button is-primary" @click="toggleFilter">show full filter</a>
-            </div>
-            <div class="column is-2">
-              <p class="control" v-show="showList || showTable">
-                <label class="checkbox">
-                  <input type="checkbox" v-model="selectAll">
-                  This Page
-                </label>
-              </p>
-            </div>
-            <div class="column is-4">
-              <p class="control has-addons">
-                <a class="button is-primary" @click="share">{{shareButtonText}}</a>
-                <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
-              </p>
-            </div>
-            <div class="column is-12 filter-dropdown">
-              <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
-                <FilterFullSize></FilterFullSize>
+    <div>
+      <div class="columns is-marginless toolbar-container">
+        <div class="column is-6 is-paddingless">
+          <header>
+            <div class="columns is-multiline is-gapless toolbar">
+              <div class="column is-4 has-text-centered">
+                  <a class="button is-primary" @click="toggleFilter">show full filter</a>
+              </div>
+              <div class="column is-4">
+                <p class="control" v-show="showList || showTable">
+                  <label class="checkbox">
+                    <input type="checkbox" v-model="selectAll">
+                    This Page
+                  </label>
+                </p>
+              </div>
+              <div class="column is-4">
+                <p class="control has-addons">
+                  <a class="button is-primary" @click="share">{{shareButtonText}}</a>
+                  <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
+                </p>
+              </div>
+              <div class="column is-12 filter-dropdown">
+                <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
+                  <FilterFullSize></FilterFullSize>
+                </div>
+              </div>
+              <div class="column is-5">
+                <p class="has-text-centered">Found {{filterResults.length}} houses</p>
+              </div>
+              <div class="column is-3 filter-dropdown">
+                <SortBar></SortBar>
+              </div>
+              <div class="column is-4">
+                <div class="tabs is-fullwidth">
+                  <ul>
+                    <li v-for="item in viewMode" v-bind:class="isTabActive(item) ? 'is-active' : ''">
+                      <a @click="changeView(item)">{{item}}</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
-            <div class="column is-3">
-              <p>Found {{filterResults.length}} houses</p>
-            </div>
-            <div class="column is-3 filter-dropdown">
-              <SortBar></SortBar>
-            </div>
-            <div class="column is-6">
-              <div class="tabs">
-                <ul>
-                  <li v-for="item in viewMode" v-bind:class="isTabActive(item) ? 'is-active' : ''">
-                    <a @click="changeView(item)">{{item}}</a>
-                  </li>
-                </ul>
+          </header>
+        </div>
+        <div class="column is-6 is-paddingless">
+          <header>
+            <div class="columns is-multiline is-gapless toolbar">
+              <div class="column is-12">
+                <h1 class="title has-text-centered">Selected House</h1>
+              </div>
+              <div class="column is-12">
+                <h2 class="subtitle has-text-centered">You have selected {{selectedHouses.length}} houses</h2>
               </div>
             </div>
-          </div>
-        </header>
-        <house-list class="list-container"
-                v-show="showList"
-                :houseList="filterResults"
-                :selectAll="selectAll">
-        </house-list>
-        <TableList class="table-container"
-                  :houseList="filterResults"
-                  v-show="showTable">
-        </TableList>
-        <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
-        </RaccoonMap>
+          </header>
+        </div>
       </div>
-      <div class="column is-half right-container">
-        <header class="toolbar-container">
-          <div class="columns is-multiline is-gapless toolbar">
-            <div class="column is-12">
-              <h1 class="title has-text-centered">Selected House</h1>
-            </div>
-            <div class="column is-12">
-              <h2 class="subtitle has-text-centered">You have selected {{selectedHouses.length}} houses</h2>
-            </div>
-          </div>
-        </header>
-        <TableList class="table-container"
-                  :houseList="selectedHouses"
-                  :selectedOnly="true">
-        </TableList>
+      <div class="columns content-container">
+        <div class="column is-half left-container">
+          <house-list class="list-container"
+                  v-show="showList"
+                  :houseList="filterResults"
+                  :selectAll="selectAll">
+          </house-list>
+          <TableList class="table-container"
+                    :houseList="filterResults"
+                    v-show="showTable">
+          </TableList>
+          <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
+          </RaccoonMap>
+        </div>
+        <div class="column is-half right-container">
+          
+          <TableList class="table-container"
+                    :houseList="selectedHouses"
+                    :selectedOnly="true">
+          </TableList>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style>
 .content-container {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 120px);
   max-width: 1300px;
   margin: auto;
 }
@@ -87,8 +96,6 @@
 }
 .toolbar-container {
   margin-top: 4px;
-  height: auto;
-  width: 100%;
   background-color: white;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
@@ -110,12 +117,12 @@
 }
 .list-container {
   padding-top: 5px;
-  height: calc(100% - 74px);
+  height: 100%;
   position: relative;
 }
 .table-container {
   padding-top: 5px;
-  height: calc(100% - 74px);
+  height: 100%;
   position: relative;
 }
 .filter-dropdown {
