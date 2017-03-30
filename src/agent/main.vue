@@ -5,7 +5,7 @@
         <div class="column is-6 is-paddingless">
           <header>
             <div class="columns is-multiline is-gapless toolbar">
-              <div class="column is-4 has-text-centered">
+              <div class="column is-4">
                   <a class="button is-primary" @click="toggleFilter">show full filter</a>
               </div>
               <div class="column is-4">
@@ -27,13 +27,13 @@
                   <FilterFullSize></FilterFullSize>
                 </div>
               </div>
-              <div class="column is-5">
-                <p class="has-text-centered">Found {{filterResults.length}} houses</p>
-              </div>
-              <div class="column is-3 filter-dropdown">
+              <div class="column is-2 filter-dropdown">
                 <SortBar></SortBar>
               </div>
-              <div class="column is-4">
+              <div class="column is-5">
+                <p>Found <i>{{filterResults.length}}</i> houses in <strong>{{searchTerms.city}}, {{searchTerms.state}}</strong></p>
+              </div>
+              <div class="column is-5">
                 <div class="tabs is-fullwidth">
                   <ul>
                     <li v-for="item in viewMode" v-bind:class="isTabActive(item) ? 'is-active' : ''">
@@ -245,6 +245,7 @@ export default {
       'allHouses',
       'filterResults',
       'selectedHouses',
+      'searchTerms',
     ]),
     showMap() {
       return this.selectedView === this.viewMode[1];
