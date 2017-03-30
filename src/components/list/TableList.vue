@@ -1,14 +1,5 @@
 <template>
 <div>
-  <Pagination
-    :currentPage="currentPage"
-    :pageSize="pageSize"
-    :total="houseList.length"
-    :size="10"
-    :chunk="true"
-    @currentChanged="changeCurrent"
-    v-show="!empty">
-  </Pagination>
   <div class="singlelist" v-show="!empty">
     <single-list :singleListingData="hoveredHouse"
                 v-if="hoveredHouse !== undefined && hoveredHouse !== null">
@@ -35,6 +26,15 @@
       </TableItem>
     </table>
   </div>
+  <Pagination
+    :currentPage="currentPage"
+    :pageSize="pageSize"
+    :total="houseList.length"
+    :size="10"
+    :chunk="true"
+    @currentChanged="changeCurrent"
+    v-show="!empty">
+  </Pagination>
 </div>
 </template>
 <style>

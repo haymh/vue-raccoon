@@ -7,7 +7,7 @@
             <div class="column is-6">
                 <a class="button is-primary" @click="toggleFilter">show full filter</a>
             </div>
-            <div class="column is-6">
+            <div class="column is-2">
               <p class="control" v-show="showList || showTable">
                 <label class="checkbox">
                   <input type="checkbox" v-model="selectAll">
@@ -15,12 +15,21 @@
                 </label>
               </p>
             </div>
+            <div class="column is-4">
+              <p class="control has-addons">
+                <a class="button is-primary" @click="share">{{shareButtonText}}</a>
+                <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
+              </p>
+            </div>
             <div class="column is-12 filter-dropdown">
               <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
                 <FilterFullSize></FilterFullSize>
               </div>
             </div>
-            <div class="column is-6 filter-dropdown">
+            <div class="column is-3">
+              <p>Found {{filterResults.length}} houses</p>
+            </div>
+            <div class="column is-3 filter-dropdown">
               <SortBar></SortBar>
             </div>
             <div class="column is-6">
@@ -50,15 +59,10 @@
         <header class="toolbar-container">
           <div class="columns is-multiline is-gapless toolbar">
             <div class="column is-12">
-              <div class="columns">
-
-                <div class="column is-4">
-                  <p class="control has-addons">
-                    <a class="button is-primary" @click="share">{{shareButtonText}}</a>
-                    <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
-                  </p>
-                </div>
-              </div>
+              <h1 class="title has-text-centered">Selected House</h1>
+            </div>
+            <div class="column is-12">
+              <h2 class="subtitle has-text-centered">You have selected {{selectedHouses.length}} houses</h2>
             </div>
           </div>
         </header>
