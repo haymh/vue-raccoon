@@ -4,10 +4,10 @@
       <div class="column is-half left-container">
         <header class="toolbar-container">
           <div class="columns is-multiline is-gapless toolbar">
-            <div class="column is-3">
+            <div class="column is-6">
                 <a class="button is-primary" @click="toggleFilter">show full filter</a>
             </div>
-            <div class="column is-2">
+            <div class="column is-6">
               <p class="control" v-show="showList || showTable">
                 <label class="checkbox">
                   <input type="checkbox" v-model="selectAll">
@@ -15,18 +15,21 @@
                 </label>
               </p>
             </div>
-            <div class="column is-12">
+            <div class="column is-12 filter-dropdown">
+              <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
+                <FilterFullSize></FilterFullSize>
+              </div>
+            </div>
+            <div class="column is-6 filter-dropdown">
+              <SortBar></SortBar>
+            </div>
+            <div class="column is-6">
               <div class="tabs">
                 <ul>
                   <li v-for="item in viewMode" v-bind:class="isTabActive(item) ? 'is-active' : ''">
                     <a @click="changeView(item)">{{item}}</a>
                   </li>
                 </ul>
-              </div>
-            </div>
-            <div class="column is-12 filter-dropdown">
-              <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
-                <FilterFullSize></FilterFullSize>
               </div>
             </div>
           </div>
@@ -128,6 +131,7 @@ import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import list from '../components/list/list.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
+import SortBar from '../components/list/SortBar.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
 import TableList from '../components/list/TableList.vue';
@@ -223,6 +227,7 @@ export default {
     RaccoonMap: Map,
     ShareList,
     TableList,
+    SortBar,
   },
   computed: {
     ...mapGetters([
