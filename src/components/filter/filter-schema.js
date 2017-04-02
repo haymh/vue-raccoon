@@ -27,35 +27,35 @@ const greaterType = {
 //   return query;
 // };
 function queryBuilder(key, value) {
-  return {
-    key,
-    value,
-  };
+  return key.map((k) => {
+    console.debug(k);
+    return { key: k, value };
+  });
 }
 
 export const generateQuery = (conditions) => {
-  const query = [];
+  let query = [];
   conditions.forEach((c) => {
+    console.debug('condition:', c);
     switch (c.type) {
       case BETWEEN:
-        query.push(queryBuilder(c.key, {
+        query = query.concat(queryBuilder(c.key, {
           $gte: c.min,
           $lte: c.max,
         }));
         break;
       case LESS:
-
-        query.push(queryBuilder(c.key), {
+        query = query.concat(queryBuilder(c.key, {
           $lte: c.max,
-        });
+        }));
         break;
       case GREATER:
-        query.push(queryBuilder(c.key, {
+        query = query.concat(queryBuilder(c.key, {
           $gte: c.min,
         }));
         break;
       case ONEOF:
-        query.push(queryBuilder(c.key, {
+        query = query.concat(queryBuilder(c.key, {
           $in: c.choices
                 .filter(choice => choice.checked)
                 .map(choice => choice.value),
