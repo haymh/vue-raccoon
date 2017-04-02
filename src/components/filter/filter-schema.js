@@ -18,37 +18,44 @@ const greaterType = {
   min: NO_MIN,
 };
 
-const queryBuilderHelper = (keys, where) => {
-  const query = {};
-  query[keys[keys.length - 1]] = where;
-  for (let i = keys.length - 1; i > 1; i -= 1) {
-    query[keys[i - 1]] = query;
-  }
-  return query;
-};
+// const queryBuilderHelper = (keys, where) => {
+//   const query = {};
+//   query[keys[keys.length - 1]] = where;
+//   for (let i = keys.length - 1; i > 1; i -= 1) {
+//     query[keys[i - 1]] = query;
+//   }
+//   return query;
+// };
+function queryBuilder(key, value) {
+  return {
+    key,
+    value,
+  };
+}
 
 export const generateQuery = (conditions) => {
-  const query = {};
+  const query = [];
   conditions.forEach((c) => {
     switch (c.type) {
       case BETWEEN:
-        Object.assign(query, queryBuilderHelper(c.key, {
+        query.push(queryBuilder(c.key, {
           $gte: c.min,
           $lte: c.max,
         }));
         break;
       case LESS:
-        Object.assign(query, queryBuilderHelper(c.key, {
+
+        query.push(queryBuilder(c.key), {
           $lte: c.max,
-        }));
+        });
         break;
       case GREATER:
-        Object.assign(query, queryBuilderHelper(c.key, {
+        query.push(queryBuilder(c.key, {
           $gte: c.min,
         }));
         break;
       case ONEOF:
-        Object.assign(query, queryBuilderHelper(c.key, {
+        query.push(queryBuilder(c.key, {
           $in: c.choices
                 .filter(choice => choice.checked)
                 .map(choice => choice.value),
