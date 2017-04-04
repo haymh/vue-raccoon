@@ -19,7 +19,8 @@
           <th></th>
         </tr>
       </thead>
-      <TableItem  v-for="house in houseList"
+      <TableItem v-for="house in houseList"
+                :key="house._id"
                 :house="house"
                 :showOnlyWhenSelected="selectedOnly"
                 v-on:hoverHouse="select">
