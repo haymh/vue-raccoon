@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as types from '../mutation-types';
 import * as filterSchema from '../../../components/filter/filter-schema';
 
@@ -8,7 +7,6 @@ const state = {
   all: [],
   filterResults: [],
   lastFilter: [],
-  selectedHouses: [],
   hovered: null,
   sort: null,
   searchTerms: null,
@@ -149,31 +147,6 @@ const mutations = {
   [types.HOVER_HOUSE](_state, { house }) {
     console.log('Hover house -> ', house);
     _state.hovered = house;
-  },
-
-  [types.SELECT_HOUSE](_state, { house }) {
-    console.log('Adding house to selected houses -> ', house._id);
-    _state.selectedHouses.push(house);
-  },
-
-  [types.UNSELECT_HOUSE](_state, { house }) {
-    console.log('Removing house from selected houses -> ', house._id);
-    const index = _state.selectedHouses.indexOf(house);
-    if (index > -1) {
-      _state.selectedHouses.splice(index, 1);
-    }
-  },
-
-  [types.SELECT_HOUSES](_state, { houses }) {
-    _state.selectedHouses = _.union(_state.selectedHouses, houses);
-  },
-
-  [types.UNSELECT_HOUSES](_state, { houses }) {
-    _state.selectedHouses = _.difference(_state.selectedHouses, houses);
-  },
-
-  [types.UNSELECT_ALL_HOUSES](_state) {
-    _state.selectedHouses = [];
   },
 
   [types.ADD_SEARCH_TERMS](_state, { searchTerms }) {

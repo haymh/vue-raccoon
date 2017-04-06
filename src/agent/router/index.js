@@ -9,6 +9,7 @@ import Detail from '../Detail.vue';
 import UserPage from '../User.vue';
 import ErrorPage from '../Error.vue';
 import ShareSetting from '../ShareSetting.vue';
+import EditShareInfo from '../EditShareInfo.vue';
 
 Vue.use(Router);
 
@@ -22,6 +23,7 @@ export default new Router({
     { path: '/chat', component: ChatView },
     { path: '/main', component: Main },
     { path: '/shareSetting/:byFilter', component: ShareSetting },
+    { path: '/editShareInfo', component: EditShareInfo },
     { path: '/listing', component: SingleListing },
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },

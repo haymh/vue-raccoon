@@ -41,8 +41,6 @@
 .map-container {
   height: 100%;
 }
-.map-container .map {
-}
 .list-container {
   padding-top: 5px;
   height: calc(100% - 74px);

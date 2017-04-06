@@ -27,11 +27,11 @@
                   <FilterFullSize></FilterFullSize>
                 </div>
               </div>
-              <div class="column is-2 filter-dropdown">
-                <SortBar></SortBar>
+              <div class="column is-2">
+                <SortBar class="sort-bar"></SortBar>
               </div>
               <div class="column is-5">
-                <p>Found <i>{{filterResults.length}}</i> houses in <strong>{{searchTerms.city}}, {{searchTerms.state}}</strong></p>
+                <div v-html="searchResultSummary"></div>
               </div>
               <div class="column is-5">
                 <div class="tabs is-fullwidth">
@@ -49,10 +49,20 @@
           <header>
             <div class="columns is-multiline is-gapless toolbar">
               <div class="column is-12">
-                <h1 class="title has-text-centered">Selected House</h1>
+                <h1 class="title">Selected House</h1>
+              </div>
+              <div class="column is-6">
+                <h2 class="subtitle">You have selected {{selectedHouses.length}} houses</h2>
+              </div>
+              <div class="column is-6">
+                <a :class="[ isLoading ? 'is-loading' : '', 'button', 'is-danger']" @click="generateLink">QR Code</a>
               </div>
               <div class="column is-12">
-                <h2 class="subtitle has-text-centered">You have selected {{selectedHouses.length}} houses</h2>
+                <div class="box qr-code" v-show="showQrcode" v-on-clickaway="hideQrcode">
+                  <p v-show="link === ''">Please Search House First</p>
+                  <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
+                  <p><a :href="link" target="_blank">{{link}}</a></p>
+                </div>
               </div>
             </div>
           </header>
@@ -130,9 +140,20 @@
   display: inline-block;
   width: 100%;
 }
+.sort-bar {
+  position: absolute;
+  z-index: 2;
+  display: inline-block;
+}
+.qr-code {
+  position: absolute;
+  z-index: 2;
+  display: inline-block;
+  width: 50%;
+}
 .filter {
   position: absolute;
-  z-index: 100;
+  z-index: 3;
   left: 0px;
 }
 
@@ -140,12 +161,16 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
+import qrcode from 'v-qrcode';
 import list from '../components/list/list.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import SortBar from '../components/list/SortBar.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
 import TableList from '../components/list/TableList.vue';
+import API from '../api';
+import { generateQuery } from '../components/filter/filter-schema';
+
 
 export default {
   name: 'main',
@@ -156,6 +181,9 @@ export default {
       selectedView: 'cards',
       selectAll: false,
       showFullFilter: false,
+      isLoading: false,
+      showQrcode: false,
+      queryChanged: false,
       list: [
         {
           shareTime: 'Every week',
@@ -239,6 +267,7 @@ export default {
     ShareList,
     TableList,
     SortBar,
+    qrcode,
   },
   computed: {
     ...mapGetters([
@@ -246,6 +275,9 @@ export default {
       'filterResults',
       'selectedHouses',
       'searchTerms',
+      'lastFilter',
+      'userId',
+      'shareId',
     ]),
     showMap() {
       return this.selectedView === this.viewMode[1];
@@ -269,6 +301,47 @@ export default {
         return 'Share All';
       }
       return `Share ${this.selectedHouses.length}`;
+    },
+    searchResultSummary() {
+      if (this.searchTerms && this.filterResults) {
+        return `<p>Found <i>${this.filterResults.length}</i> houses in <strong>${this.searchTerms.city}, ${this.searchTerms.state}</strong></p>`;
+      }
+      return '';
+    },
+    link() {
+      if (this.shareId && this.shareId !== '') {
+        return `www.zhaofangabc.com/share/${this.shareId}`;
+      }
+      return '';
+    },
+    query() {
+      const query = generateQuery(this.lastFilter);
+      if (this.searchTerms && this.searchTerms.state) {
+        query.push({
+          key: 'address.stateOrProvince',
+          value: (new RegExp(`^${this.searchTerms.state}$`, 'i')).toString(),
+        });
+        if (this.searchTerms.county) {
+          query.push({
+            key: 'county',
+            value: (new RegExp(`^${this.searchTerms.county}$`, 'i')).toString(),
+          });
+        } else {
+          query.push({
+            key: 'city',
+            value: (new RegExp(`^${this.searchTerms.city}$`, 'i')).toString(),
+          });
+        }
+      }
+      console.log('QUERY', query);
+      return query;
+    },
+  },
+  watch: {
+    query: {
+      handler() {
+        this.queryChanged = true;
+      },
     },
   },
   methods: {
@@ -297,20 +370,53 @@ export default {
       console.log('hide filter');
       this.showFullFilter = false;
     },
+    hideQrcode() {
+      console.log('hide qrcode');
+      this.showQrcode = false;
+    },
     share() {
       if (this.filterResults.length === 0) {
         console.log('nothing to share');
         return;
       }
       if (this.selectedHouses.length === 0) {
-        this.$router.push('/shareSetting/true');
+        this.$store.dispatch('setByFilter', true);
+        this.$router.push('/editShareInfo');
         return;
       }
-      this.$router.push('/shareSetting/false');
+      this.$store.dispatch('setByFilter', false);
+      this.$router.push('/editShareInfo');
     },
     clearSelectedHouse() {
       this.$store.dispatch({
         type: 'unselectAllHouses',
+      });
+    },
+    generateLink(event) {
+      event.stopPropagation();
+      if (this.showQrcode) {
+        this.showQrcode = false;
+        return;
+      }
+      if (!this.queryChanged) {
+        // link hasn't changed, no new request
+        this.showQrcode = true;
+        return;
+      }
+      this.isLoading = true;
+      const obj = {
+        uid: this.userId,
+        sharedObject: {
+          query: this.query,
+          emailFrom: 'jeremynangjizi@redoujiang.com',
+        },
+      };
+      API.createShare(obj).then((data) => {
+        console.log(data);
+        this.$store.dispatch('setShareId', data);
+        this.queryChanged = false;
+        this.isLoading = false;
+        this.showQrcode = true;
       });
     },
   },

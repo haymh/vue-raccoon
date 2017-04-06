@@ -28,6 +28,7 @@
     "marked": "^0.3.6",
     "marker-clusterer-plus": "^2.1.4",
     "moment": "^2.17.1",
+    "v-qrcode": "^1.0.3",
     "vue": "^2.2.2",
     "vue-awesome-swiper": "^2.3.2",
     "vue-clickaway": "^2.1.0",

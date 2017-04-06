@@ -7,7 +7,7 @@
         </span>
       </a>
     </div>
-    <div class="box sort-body" v-show="showSortPanel"  v-on-clickaway="hide">
+    <div class="box" v-show="showSortPanel"  v-on-clickaway="hide">
       <div class="columns is-multiline">
         <div class="column is-12">
           <div class="tabs is-fullwidth">
@@ -36,13 +36,6 @@
   </div>
   
 </template>
-<style>
-.sort-body {
-  position: absolute;
-  z-index: 100;
-  left: 0px;
-}
-</style>
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 
