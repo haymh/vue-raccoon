@@ -60,8 +60,17 @@
               <div class="column is-12">
                 <div class="box qr-code" v-show="showQrcode" v-on-clickaway="hideQrcode">
                   <p v-show="link === ''">Please Search House First</p>
-                  <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
-                  <p><a :href="link" target="_blank">{{link}}</a></p>
+                  <div class="has-text-centered">
+                    <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
+                  </div>
+                  <div class="has-addons" v-show="link !== ''">
+                    <p class="control">
+                      <input class="input" v-model="link" type="text">
+                    </p>
+                    <p class="control">
+                      <button v-clipboard="link" class="button is-info">Copy</button>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -149,7 +158,6 @@
   position: absolute;
   z-index: 2;
   display: inline-block;
-  width: 50%;
 }
 .filter {
   position: absolute;
