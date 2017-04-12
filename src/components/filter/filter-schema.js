@@ -26,6 +26,7 @@ const greaterType = {
 //   }
 //   return query;
 // };
+
 function queryBuilder(key, value) {
   return key.map((k) => {
     console.debug(k);
@@ -39,27 +40,29 @@ export const generateQuery = (conditions) => {
     console.debug('condition:', c);
     switch (c.type) {
       case BETWEEN:
-        query = query.concat(queryBuilder(c.key, {
-          $gte: c.min,
-          $lte: c.max,
-        }));
+        query = query.concat(queryBuilder(c.key, [
+          { key: '$gte', value: c.min },
+          { key: '$lte', value: c.max },
+        ]));
         break;
       case LESS:
-        query = query.concat(queryBuilder(c.key, {
-          $lte: c.max,
-        }));
+        query = query.concat(queryBuilder(c.key, [
+          { key: '$lte', value: c.max },
+        ]));
         break;
       case GREATER:
-        query = query.concat(queryBuilder(c.key, {
-          $gte: c.min,
-        }));
+        query = query.concat(queryBuilder(c.key, [
+          { key: '$gte', value: c.min },
+        ]));
         break;
       case ONEOF:
-        query = query.concat(queryBuilder(c.key, {
-          $in: c.choices
+        query = query.concat(queryBuilder(c.key, [
+          { key: '$in',
+            value: c.choices
                 .filter(choice => choice.checked)
                 .map(choice => choice.value),
-        }));
+          },
+        ]));
         break;
       default:
         break;
