@@ -31,3 +31,4 @@ export const selectedCustomers = state => state.share.selectedCustomers;
 export const selectedHouses = state => state.share.selectedHouses;
 export const byFilter = state => state.share.byFilter;
 export const shareId = state => state.share.uid;
+export const shareEmail = state => state.share.email;

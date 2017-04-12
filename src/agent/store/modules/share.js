@@ -7,6 +7,7 @@ const state = {
   selectedCustomers: [],
   selectedHouses: [],
   byFilter: false,
+  email: null,
   uid: null,
 };
 
@@ -61,6 +62,10 @@ const mutations = {
 
   [types.SET_SHARE_ID](_state, { uid }) {
     _state.uid = uid;
+  },
+
+  [types.SET_SHARE_EMAIL](_state, { email }) {
+    _state.email = email;
   },
 };
 

@@ -192,80 +192,6 @@ export default {
       isLoading: false,
       showQrcode: false,
       queryChanged: false,
-      list: [
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-      ],
     };
   },
   components: {
@@ -389,11 +315,11 @@ export default {
       }
       if (this.selectedHouses.length === 0) {
         this.$store.dispatch('setByFilter', true);
-        this.$router.push('/editShareInfo');
+        this.$router.push('/editShareEmail');
         return;
       }
       this.$store.dispatch('setByFilter', false);
-      this.$router.push('/editShareInfo');
+      this.$router.push('/editShareEmail');
     },
     clearSelectedHouse() {
       this.$store.dispatch({

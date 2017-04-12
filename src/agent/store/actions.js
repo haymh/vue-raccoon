@@ -113,3 +113,7 @@ export function setByFilter({ commit }, byFilter) {
 export function setShareId({ commit }, uid) {
   commit(types.SET_SHARE_ID, { uid });
 }
+
+export function setShareEmail({ commit }, email) {
+  commit(types.SET_SHARE_EMAIL, { email });
+}

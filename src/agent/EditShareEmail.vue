@@ -65,7 +65,7 @@
           <div class="field">
             <div class="control">
               <button class="button is-primary" @click="toggleModal">Email Preview</button>
-              <button class="button is-danger">Next Step</button>
+              <button class="button is-danger" @click="nextStep">Next Step</button>
             </div>
           </div>
         </div>
@@ -114,6 +114,13 @@ export default {
   methods: {
     toggleModal() {
       this.showModal = !this.showModal;
+    },
+    nextStep() {
+      this.$store.dispatch('setShareEmail', {
+        subject: this.emailSubject,
+        content: this.email,
+      });
+      this.$router.push('/shareSetting');
     },
   },
   computed: {
