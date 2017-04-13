@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import View1 from '../view1.vue';
+import Article from '../article.vue';
 import ChatView from '../../components/chat/Chat.vue';
 import Main from '../main.vue';
 import SingleListing from '../../components/singlelist/singlelisting.vue';
@@ -19,6 +20,7 @@ export default new Router({
     // Just use them normally in the route config
     /* eslint-disable global-require */
     { path: '/view1', component: View1 },
+    { path: '/article', component: Article },
     { path: '/chat', component: ChatView },
     { path: '/main', component: Main },
     { path: '/shareSetting/:byFilter', component: ShareSetting },
