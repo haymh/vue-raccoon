@@ -12,7 +12,7 @@
             </div>
           </div>
           <div class="column is-5">
-            <div class="content" v-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW">
+            <div class="content" v-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW">
               <p>
                 You are going to send <a href="#">{{numberOfHouse}}
                 <span class="icon"><i class="fa fa-home"></i></span></a>
@@ -20,15 +20,15 @@
                 <span class="icon"><i class="fa fa-users"></i></span></a> <strong>now</strong>.
               </p>
             </div>
-            <div class="content" v-else-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
+            <div class="content" v-else-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
               <p>
                 You are going to send <a href="#">{{numberOfHouse}} houses
                 <span class="icon"><i class="fa fa-home"></i></span></a>
                 to <a href="#">{{selectedCustomers.length}} customers
-                <span class="icon"><i class="fa fa-users"></i></span></a> on <strong>{{shareObject.shareOn}}</strong>
+                <span class="icon"><i class="fa fa-users"></i></span></a> on <strong>{{shareObject.shareMethod.shareOn}}</strong>
               </p>
             </div>
-            <div class="content" v-else-if="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+            <div class="content" v-else-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
               <p>
                 You are going to send <a href="#">{{numberOfHouse}} houses
                 <span class="icon"><i class="fa fa-home"></i></span></a>
@@ -48,35 +48,46 @@
             <input type="radio"
                   name="question"
                   :value="SHARE_SCHEDULE_TYPES.NOW"
-                  v-model="shareObject.shareScheduleType">
+                  v-model="shareObject.shareMethod.shareScheduleType">
             Share Once Now
           </label>
           <label class="radio">
             <input type="radio"
                   name="question"
                   :value="SHARE_SCHEDULE_TYPES.DATE"
-                  v-model="shareObject.shareScheduleType">
+                  v-model="shareObject.shareMethod.shareScheduleType">
             Share Once in Future
           </label>
           <label class="radio" v-show="byFilter">
             <input type="radio"
                   name="question"
                   :value="SHARE_SCHEDULE_TYPES.PERIODICAL"
-                  v-model="shareObject.shareScheduleType">
+                  v-model="shareObject.shareMethod.shareScheduleType">
             Share every
           </label>
         </p>
-        <div class="datepicker" v-show="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
-          <Datepicker v-model="shareObject.shareOn"
+        <div class="datepicker" v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
+          <Datepicker v-model="shareObject.shareMethod.shareOn"
                       :disabled="disableShareDate"></Datepicker>
         </div>
-        <div v-show="shareObject.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+        <div v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
           <span class="select">
-            <select v-model="shareObject.frequency">
+            <select v-model="shareObject.shareMethod.frequency">
               <option
                 v-for="item in frequencyOptions"
                 :label="item"
                 :value="item">
+              </option>
+            </select>
+          </span>
+        </div>
+        <div v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE || shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+          <span class="select">
+            <select v-model="shareObject.shareMethod.time">
+              <option
+                      v-for="item in timeOptions"
+                      :label="item"
+                      :value="item">
               </option>
             </select>
           </span>
@@ -121,7 +132,7 @@ import Datepicker from 'vuejs-datepicker';
 import { generateQuery } from '../components/filter/filter-schema';
 import FilterTag from '../components/filter/FilterTag.vue';
 import CustomerList from './components/customer/CustomerList.vue';
-import { PERIODICAL_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
+import { PERIODICAL_OPTIONS, TIME_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
 import API from '../api';
 
 const today = new Date();
@@ -129,23 +140,48 @@ const yesterday = new Date();
 
 yesterday.setDate(today.getDate() - 1);
 export default {
-  name: 'ErrorPage',
+  name: 'ShareSetting',
+  created() {
+    this.shareObject.subject = this.shareEmail.subject;
+    this.shareObject.emailContent = this.shareEmail.content;
+    this.shareObject.createdBy = this.userId;
+    this.shareObject.query = this.query;
+    console.log('shareObject', this.shareObject);
+  },
+  watch: {
+    shareObject: {
+      handler() {
+        console.log('shareObject changed', this.shareObject);
+      },
+    },
+  },
   data() {
     return {
       disableShareDate: {
         to: yesterday,
       },
       shareObject: new Share({
-        shareScheduleType: SHARE_SCHEDULE_TYPES.SHARE_NOW,
+        uid: this.userId,
+        query: this.query,
+        // subject: this.shareEmail.subject,
+        emailFrom: 'jeremynangjizi@redoujiang.com',
+        // emailContent: this.shareEmail.content,
+        shareScheduleType: SHARE_SCHEDULE_TYPES.NOW,
         shareOn: today,
-        frequency: PERIODICAL_OPTIONS.NOW,
+        frequency: PERIODICAL_OPTIONS.WEEKLY,
+        time: TIME_OPTIONS.EVENING,
       }),
       SHARE_SCHEDULE_TYPES,
       frequencyOptions: [
         PERIODICAL_OPTIONS.DAILY,
         PERIODICAL_OPTIONS.WEEKLY,
         PERIODICAL_OPTIONS.BI_WEEKLY,
-        PERIODICAL_OPTIONS.MONTHILY,
+        PERIODICAL_OPTIONS.MONTHLY,
+      ],
+      timeOptions: [
+        TIME_OPTIONS.MORNING,
+        TIME_OPTIONS.AFTERNOON,
+        TIME_OPTIONS.EVENING,
       ],
       selectedGroup: 'all customers',
       groups: [
@@ -221,7 +257,7 @@ export default {
       return `${this.selectedHouses.length} houses`;
     },
     frequency() {
-      switch (this.shareObject.frequency) {
+      switch (this.shareObject.shareMethod.frequency) {
         case PERIODICAL_OPTIONS.DAILY:
           return 'every day';
         case PERIODICAL_OPTIONS.WEEKLY:
@@ -248,9 +284,6 @@ export default {
       return query;
     },
   },
-  created() {
-    console.log('shareObject', this.shareObject);
-  },
   components: {
     Datepicker,
     CustomerList,
@@ -261,26 +294,9 @@ export default {
       this.showSelected = showSelected;
     },
     sendShare() {
-      const obj = {
-        uid: this.userId,
-        sharedObject: {
-          query: this.query,
-          subject: this.shareEmail.subject,
-          emailFrom: 'jeremynangjizi@redoujiang.com',
-          shareTo: {
-            groupId: this.shareObject.groupId,
-            customers: this.selectedCustomers,
-          },
-          shareMethod: {
-            shareOn: this.shareObject.shareOn.toString(),
-            shareScheduleType: this.shareObject.shareScheduleType,
-            frequency: this.shareObject.frequency,
-            emailContent: this.shareEmail.content,
-          },
-        },
-      };
-      console.log(obj);
-      API.createShare(obj).then((data) => {
+      const share = this.shareObject.createShare();
+      console.log(share);
+      API.createShare(share).then((data) => {
         console.log(data);
       });
     },
