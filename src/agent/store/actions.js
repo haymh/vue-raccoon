@@ -117,3 +117,7 @@ export function setShareId({ commit }, uid) {
 export function setShareEmail({ commit }, email) {
   commit(types.SET_SHARE_EMAIL, { email });
 }
+
+export function setQuery({ commit }, query) {
+  commit(types.SET_QUERY, { query });
+}

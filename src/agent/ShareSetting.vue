@@ -129,7 +129,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import Datepicker from 'vuejs-datepicker';
-import { generateQuery } from '../components/filter/filter-schema';
 import FilterTag from '../components/filter/FilterTag.vue';
 import CustomerList from './components/customer/CustomerList.vue';
 import { PERIODICAL_OPTIONS, TIME_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
@@ -162,7 +161,6 @@ export default {
       },
       shareObject: new Share({
         uid: this.userId,
-        query: this.query,
         // subject: this.shareEmail.subject,
         emailFrom: 'jeremynangjizi@redoujiang.com',
         // emailContent: this.shareEmail.content,
@@ -248,6 +246,7 @@ export default {
       'shareId',
       'byFilter',
       'shareEmail',
+      'query',
     ]),
     numberOfHouse() {
       if (this.byFilter) {
@@ -269,19 +268,6 @@ export default {
         default:
           return '';
       }
-    },
-    query() {
-      const query = generateQuery(this.lastFilter);
-      if (this.searchTerms && this.searchTerms.state) {
-        query['address.stateOrProvince'] = (new RegExp(`^${this.searchTerms.state}$`, 'i')).toString();
-        if (this.searchTerms.county) {
-          query.county = (new RegExp(`^${this.searchTerms.county}$`, 'i')).toString();
-        } else {
-          query.city = (new RegExp(`^${this.searchTerms.city}$`, 'i')).toString();
-        }
-      }
-      console.log('QUERY', query);
-      return query;
     },
   },
   components: {

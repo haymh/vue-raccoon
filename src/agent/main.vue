@@ -251,20 +251,20 @@ export default {
     query() {
       const query = generateQuery(this.lastFilter);
       if (this.searchTerms && this.searchTerms.state) {
-        query.push({
+        query.push([{
           key: 'address.stateOrProvince',
           value: (new RegExp(`^${this.searchTerms.state}$`, 'i')).toString(),
-        });
+        }]);
         if (this.searchTerms.county) {
-          query.push({
+          query.push([{
             key: 'county',
             value: (new RegExp(`^${this.searchTerms.county}$`, 'i')).toString(),
-          });
+          }]);
         } else {
-          query.push({
+          query.push([{
             key: 'city',
             value: (new RegExp(`^${this.searchTerms.city}$`, 'i')).toString(),
-          });
+          }]);
         }
       }
       console.log('QUERY', query);
@@ -313,6 +313,7 @@ export default {
         console.log('nothing to share');
         return;
       }
+      this.$store.dispatch('setQuery', this.query);
       if (this.selectedHouses.length === 0) {
         this.$store.dispatch('setByFilter', true);
         this.$router.push('/editShareEmail');

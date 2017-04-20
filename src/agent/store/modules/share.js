@@ -9,6 +9,7 @@ const state = {
   byFilter: false,
   email: null,
   uid: null,
+  query: null,
 };
 
 const mutations = {
@@ -66,6 +67,10 @@ const mutations = {
 
   [types.SET_SHARE_EMAIL](_state, { email }) {
     _state.email = email;
+  },
+
+  [types.SET_QUERY](_state, { query }) {
+    _state.query = query;
   },
 };
 
