@@ -83,7 +83,7 @@
         </div>
         <div v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE || shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
           <span class="select">
-            <select v-model="shareObject.shareMethod.time">
+            <select v-model="shareObject.time">
               <option
                       v-for="item in timeOptions"
                       :label="item"

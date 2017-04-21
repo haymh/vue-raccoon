@@ -10,6 +10,7 @@ export const TIME_OPTIONS = {
   EVENING: 'EVENING',
 };
 export const SHARE_SCHEDULE_TYPES = {
+  ONCE: 'ONCE',
   NOW: 'NOW',
   DATE: 'DATE',
   PERIODICAL: 'PERIODICAL',
@@ -45,8 +46,8 @@ export class Share {
       shareOn,
       shareScheduleType,
       frequency,
-      time,
     };
+    this.time = time;
     this.byFilter = byFilter;
     this.shareTo = {
       groupId,
@@ -56,7 +57,7 @@ export class Share {
   }
 
   createShare() {
-    return {
+    const obj = {
       createdBy: this.createdBy,
       query: this.query,
       contentType: this.contentType,
@@ -64,7 +65,16 @@ export class Share {
       emailFrom: this.emailFrom,
       emailContent: this.emailContent,
       shareTo: this.shareTo,
-      shareMethod: this.shareMethod,
     };
+    if (this.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW
+    || this.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE) {
+      obj.shareMethod = {
+        shareScheduleType: SHARE_SCHEDULE_TYPES.ONCE,
+        shareOn: this.shareMethod.shareOn,
+      };
+    } else {
+      obj.shareMethod = this.shareMethod;
+    }
+    return obj;
   }
 }
