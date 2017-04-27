@@ -84,6 +84,14 @@ class RacAPIClient {
     return this.client.get(`/house/${houseId}`).then(response => response.data);
   }
 
+  getShare(shareId) {
+    return this.client.get(`/share/${shareId}`)
+      .then((response) => {
+        console.log('shareObject', response.data);
+        return this.client.post('/house/search', response.data.query);
+      });
+  }
+
   getSchool(urlValue) {
     return this.client.get('/house/school', {
       params: { box: urlValue },

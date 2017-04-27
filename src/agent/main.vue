@@ -251,20 +251,47 @@ export default {
     query() {
       const query = generateQuery(this.lastFilter);
       if (this.searchTerms && this.searchTerms.state) {
-        query.push([{
+        query.push({
           key: 'address.stateOrProvince',
-          value: (new RegExp(`^${this.searchTerms.state}$`, 'i')).toString(),
-        }]);
+          value: [
+            {
+              key: '$regex',
+              value: `^${this.searchTerms.state}$`,
+            },
+            {
+              key: '$options',
+              value: 'i',
+            },
+          ],
+        });
         if (this.searchTerms.county) {
-          query.push([{
+          query.push({
             key: 'county',
-            value: (new RegExp(`^${this.searchTerms.county}$`, 'i')).toString(),
-          }]);
+            value: [
+              {
+                key: '$regex',
+                value: `^${this.searchTerms.county}$`,
+              },
+              {
+                key: '$options',
+                value: 'i',
+              },
+            ],
+          });
         } else {
-          query.push([{
+          query.push({
             key: 'city',
-            value: (new RegExp(`^${this.searchTerms.city}$`, 'i')).toString(),
-          }]);
+            value: [
+              {
+                key: '$regex',
+                value: `^${this.searchTerms.city}$`,
+              },
+              {
+                key: '$options',
+                value: 'i',
+              },
+            ],
+          });
         }
       }
       console.log('QUERY', query);
