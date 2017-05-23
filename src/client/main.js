@@ -79,15 +79,13 @@ Vue.filter('safe', (object) => {
 });
 
 // i18n config
-Vue.config.lang = 'zh';
-Vue.config.fallbackLang = 'en';
+const i18n = new VueI18n({
+  locale: 'zh',
+  messages: locales,
+});
 
 // TODO: Set this after login
 
-// set locales
-Object.keys(locales).forEach((lang) => {
-  Vue.locale(lang, locales[lang]);
-});
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
 
@@ -103,6 +101,7 @@ Object.keys(locales).forEach((lang) => {
 
 /* eslint-disable no-new */
 new Vue({
+  i18n,
   router,
   store,
   el: '#app',
