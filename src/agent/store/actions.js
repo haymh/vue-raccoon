@@ -105,3 +105,19 @@ export function selectCustomers({ commit }, { ids }) {
 export function unselectCustomers({ commit }, { ids }) {
   commit(types.UNSELECT_CUSTOMERS, { ids });
 }
+
+export function setByFilter({ commit }, byFilter) {
+  commit(types.SET_BY_FILTER, { byFilter });
+}
+
+export function setShareId({ commit }, uid) {
+  commit(types.SET_SHARE_ID, { uid });
+}
+
+export function setShareEmail({ commit }, email) {
+  commit(types.SET_SHARE_EMAIL, { email });
+}
+
+export function setQuery({ commit }, query) {
+  commit(types.SET_QUERY, { query });
+}

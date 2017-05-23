@@ -14,7 +14,6 @@ export const user = (state) => {
 // house
 export const allHouses = state => state.houses.all;
 export const hoveredHouse = state => state.houses.hovered;
-export const selectedHouses = state => state.houses.selectedHouses;
 export const filterResults = state => state.houses.filterResults;
 export const lastFilter = state => state.houses.lastFilter;
 export const searchTerms = state => state.houses.searchTerms;
@@ -29,3 +28,8 @@ export const showSideBar = state => state.app.showSideBar;
 
 // share
 export const selectedCustomers = state => state.share.selectedCustomers;
+export const selectedHouses = state => state.share.selectedHouses;
+export const byFilter = state => state.share.byFilter;
+export const shareId = state => state.share.uid;
+export const shareEmail = state => state.share.email;
+export const query = state => state.share.query;

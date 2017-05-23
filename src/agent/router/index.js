@@ -9,6 +9,9 @@ import Detail from '../Detail.vue';
 import UserPage from '../User.vue';
 import ErrorPage from '../Error.vue';
 import ShareSetting from '../ShareSetting.vue';
+import EditShareEmail from '../EditShareEmail.vue';
+import Dashboard from '../Dashboard.vue';
+import ViewSHareHouse from '../ViewShareHouse.vue';
 
 Vue.use(Router);
 
@@ -18,13 +21,16 @@ export default new Router({
   routes: [
     // Just use them normally in the route config
     /* eslint-disable global-require */
-    { path: '/view1', component: View1 },
+    { path: '/view1', component: View1, meta: { breadcrumb: 'Home Page' } },
     { path: '/chat', component: ChatView },
-    { path: '/main', component: Main },
-    { path: '/shareSetting/:byFilter', component: ShareSetting },
+    { path: '/main', component: Main, meta: { breadcrumb: 'Search Houses' } },
+    { path: '/dashboard', component: Dashboard },
+    { path: '/shareSetting', component: ShareSetting, meta: { breadcrumb: 'Schedule and Customers' } },
+    { path: '/editShareEmail', component: EditShareEmail, meta: { breadcrumb: 'Edit Share Email' } },
     { path: '/listing', component: SingleListing },
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
+    { path: '/viewShareHouse/:id', component: ViewSHareHouse },
     { path: '/error/:msg', component: ErrorPage },
     { path: '*', redirect: '/view1' },
   ],
