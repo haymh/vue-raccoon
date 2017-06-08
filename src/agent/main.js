@@ -28,6 +28,12 @@ Vue.use(VueLazyload, {
   attempt: 2,
 });
 Vue.use(VueI18n);
+// Create VueI18n instance with options
+const i18n = new VueI18n({
+  locale: 'zh', // set locale
+  fallbackLocale: 'en',
+  messages: locales, // set locale messages
+});
 Vue.use(VueFire);
 Vue.use(VueGoogleMaps, {
   load: {
@@ -80,16 +86,8 @@ Vue.filter('safe', (object) => {
   return object;
 });
 
-// i18n config
-Vue.config.lang = 'zh';
-Vue.config.fallbackLang = 'en';
-
 // TODO: Set this after login
 
-// set locales
-Object.keys(locales).forEach((lang) => {
-  Vue.locale(lang, locales[lang]);
-});
 
 // const Hello = r => resolve => require(['./components/Hello.vue'], resolve);
 
@@ -105,6 +103,7 @@ Object.keys(locales).forEach((lang) => {
 
 /* eslint-disable no-new */
 new Vue({
+  i18n,
   router,
   store,
   el: '#app',

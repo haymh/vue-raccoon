@@ -1,12 +1,12 @@
 <template>
   <gmap-map style="width: 100%; height: 100%;"
     ref="map"
-    :center="house.googleLocation.location"
+    :center="center"
     :zoom="zoom"
     @bounds_changed="boundsChanged"
   >
     <gmap-marker
-      :position="house.googleLocation.location"
+      :position="center"
       :clickable="true"
       :draggable="false"
       @click="onclickMarker"
@@ -50,7 +50,7 @@ export default {
       return '';
     },
   },
-  mounted() {},
+  mounted() { console.log(this.house.googleLocation.location); },
   methods: {
     onclickMarker() {
       console.log('clicked marker');
