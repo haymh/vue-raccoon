@@ -101,10 +101,10 @@ class RacAPIClient {
   createShare(share) {
     console.log(this);
     return this.client.post('/share', share).then(response => response.data);
-    // console.log('sending ', share);
-    // return new Promise((fulfill) => {
-    //   setTimeout(() => fulfill('123123123123123123123123123123123123123123123123123'), 1000);
-    // });
+  }
+
+  update(share) {
+    return this.client.put('/share', share).then(response => response.data);
   }
 }
 

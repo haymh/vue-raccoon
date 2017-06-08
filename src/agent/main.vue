@@ -150,7 +150,7 @@
   width: 100%;
 }
 .sort-bar {
-  position: absolute;
+  position: relative;
   z-index: 2;
   display: inline-block;
 }
@@ -367,15 +367,13 @@ export default {
       }
       this.isLoading = true;
       const obj = {
-        uid: this.userId,
-        sharedObject: {
-          query: this.query,
-          emailFrom: 'jeremynangjizi@redoujiang.com',
-        },
+        query: this.query,
+        createdBy: this.userId,
       };
+      console.log('QR code');
       API.createShare(obj).then((data) => {
         console.log(data);
-        this.$store.dispatch('setShareId', data);
+        this.$store.dispatch('setShareId', data._id);
         this.queryChanged = false;
         this.isLoading = false;
         this.showQrcode = true;

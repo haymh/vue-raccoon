@@ -36,6 +36,13 @@
   </div>
   
 </template>
+
+<style scoped>
+.box {
+  position: absolute;
+  z-index: 2;
+}
+</style>
 <script>
 import { mixin as clickaway } from 'vue-clickaway';
 
