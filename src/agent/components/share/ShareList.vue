@@ -1,84 +1,220 @@
 <template>
-  <div class="card">
-    <header class="card-header">
-      <p class="card-header-title">
-        {{title}}
-      </p>
-      <a class="card-header-icon" v-if="plus">
-        <span class="icon">
-          <i class="fa fa-plus"></i>
-        </span>
-      </a>
-    </header>
-    <div class="card-header">
-      <p class="control has-addons">
-        <span class="label">Sort:</span>
-        <span class="select">
-          <select v-model="selectedOrder">
-            <option
-              v-for="item in order"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-      </p>
-    </div>
-    <div class="card-content table-view">
-      <table class="table is-striped is-narrow">
-        <tr v-for="shareRecord in list">
-            <td>{{shareRecord.shareTime}}</td>
-            <td>{{shareRecord.createdAt}}</td>
-            <td>{{shareRecord.title}}</td>
-            <td>{{shareRecord.customer}}</td>
-            <td class="is-icon" v-if="editable">
-              <a href="#">
-                <i class="fa fa-pencil"></i>
-              </a>
-            </td>
-            <td class="is-icon" v-if="removable">
-              <a href="#">
-                <i class="fa fa-trash"></i>
-              </a>
-            </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+<v-data-table
+    v-bind:headers="headers"
+    v-bind:items="items"
+    v-bind:search="search"
+    v-model="selected"
+    selected-key="name"
+    select-all
+    class="elevation-1"
+  >
+    <template slot="headers" scope="props">
+      <span v-tooltip:bottom="{ 'html': props.item.text }">
+        {{ props.item.text }}
+      </span>
+    </template>
+    <template slot="items" scope="props">
+      <td>
+        <v-checkbox
+          primary
+          hide-details
+          v-model="props.selected"
+        ></v-checkbox>
+      </td>
+      <td>{{ props.item.name }}</td>
+      <td  class="text-xs-right">{{ props.item.calories }}</td>
+      <td  class="text-xs-right">{{ props.item.fat }}</td>
+      <td  class="text-xs-right">{{ props.item.carbs }}</td>
+      <td  class="text-xs-right">{{ props.item.protein }}</td>
+      <td  class="text-xs-right">{{ props.item.sodium }}</td>
+      <td  class="text-xs-right">{{ props.item.calcium }}</td>
+      <td  class="text-xs-right">{{ props.item.iron }}</td>
+    </template>
+  </v-data-table>
+  <!--<v-data-table
+    v-bind:headers="headers"
+    v-bind:items="list"
+    v-bind:search="search"
+    v-model="selected"
+    selected-key="title"
+    select-all
+    class="elevation-1"
+  >
+    <template slot="headers" scope="props">
+      <span v-tooltip:bottom="{ 'html': props.item.text }">
+        {{ props.item.text }}
+      </span>
+    </template>
+    <template slot="items" scope="props">
+      <td>
+        <v-checkbox
+          primary
+          hide-details
+          v-model="props.selected"
+        ></v-checkbox>
+      </td>
+      <td  class="text-xs-right">{{ props.item.shareTime }}</td>
+      <td  class="text-xs-right">{{ props.item.createdAt }}</td>
+      <td  class="text-xs-right">{{ props.item.title }}</td>
+      <td  class="text-xs-right">{{ props.item.customer }}</td>
+    </template>
+  </v-data-table>-->
 </template>
-<style>
-.table-view {
-  display: block;
-  width: 100%;
-  min-height: .01%;
-  height: 75%;
-  overflow-x: auto;
-}
-</style>
 <script>
 export default {
-  name: 'ShareList',
   data() {
     return {
-      order: ['time', 'customer'],
-      selectedOrder: 'time',
+      search: '',
+      selected: [],
+      headers: [
+        {
+          text: 'Dessert (100g serving)',
+        },
+        { text: 'Calories', value: 'calories' },
+
+      ],
+      items: [
+        {
+          value: false,
+          name: 'Frozen Yogurt',
+          calories: 159,
+          fat: 6.0,
+          carbs: 24,
+          protein: 4.0,
+          sodium: 87,
+          calcium: '14%',
+          iron: '1%',
+        },
+        {
+          value: false,
+          name: 'Ice cream sandwich',
+          calories: 237,
+          fat: 9.0,
+          carbs: 37,
+          protein: 4.3,
+          sodium: 129,
+          calcium: '8%',
+          iron: '1%',
+        },
+        {
+          value: false,
+          name: 'Eclair',
+          calories: 262,
+          fat: 16.0,
+          carbs: 23,
+          protein: 6.0,
+          sodium: 337,
+          calcium: '6%',
+          iron: '7%',
+        },
+        {
+          value: false,
+          name: 'Cupcake',
+          calories: 305,
+          fat: 3.7,
+          carbs: 67,
+          protein: 4.3,
+          sodium: 413,
+          calcium: '3%',
+          iron: '8%',
+        },
+        {
+          value: false,
+          name: 'Gingerbread',
+          calories: 356,
+          fat: 16.0,
+          carbs: 49,
+          protein: 3.9,
+          sodium: 327,
+          calcium: '7%',
+          iron: '16%',
+        },
+        {
+          value: false,
+          name: 'Jelly bean',
+          calories: 375,
+          fat: 0.0,
+          carbs: 94,
+          protein: 0.0,
+          sodium: 50,
+          calcium: '0%',
+          iron: '0%',
+        },
+        {
+          value: false,
+          name: 'Lollipop',
+          calories: 392,
+          fat: 0.2,
+          carbs: 98,
+          protein: 0,
+          sodium: 38,
+          calcium: '0%',
+          iron: '2%',
+        },
+        {
+          value: false,
+          name: 'Honeycomb',
+          calories: 408,
+          fat: 3.2,
+          carbs: 87,
+          protein: 6.5,
+          sodium: 562,
+          calcium: '0%',
+          iron: '45%',
+        },
+        {
+          value: false,
+          name: 'Donut',
+          calories: 452,
+          fat: 25.0,
+          carbs: 51,
+          protein: 4.9,
+          sodium: 326,
+          calcium: '2%',
+          iron: '22%',
+        },
+        {
+          value: false,
+          name: 'KitKat',
+          calories: 518,
+          fat: 26.0,
+          carbs: 65,
+          protein: 7,
+          sodium: 54,
+          calcium: '12%',
+          iron: '6%',
+        },
+      ],
     };
   },
-  props: {
-    title: String,
-    list: Array,
-    plus: {
-      type: Boolean,
-      default: false,
-    },
-    editable: {
-      type: Boolean,
-      default: false,
-    },
-    removable: {
-      type: Boolean,
-      default: false,
-    },
-  },
 };
+// export default {
+//   name: 'ShareList',
+//   data() {
+//     return {
+//       order: ['time', 'customer'],
+//       selectedOrder: 'time',
+//       search: '',
+//       selected: [],
+//     };
+//   },
+//   props: {
+//     title: String,
+//     headers: Array,
+//     list: Array,
+//     plus: {
+//       type: Boolean,
+//       default: false,
+//     },
+//     editable: {
+//       type: Boolean,
+//       default: false,
+//     },
+//     removable: {
+//       type: Boolean,
+//       default: false,
+//     },
+//   },
+// };
 </script>
+

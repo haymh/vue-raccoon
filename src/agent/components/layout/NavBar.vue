@@ -1,28 +1,25 @@
 <template>
-  <nav class="nav-global nav is-default has-shadow" id="top">
-      <div class="nav-left">
-        <div class="nav-item">
-          <span class="icon is-medium">
-            <i v-bind:class="[showSideBar ? 'fa-angle-left':'fa-bars', 'fa']"
-              @click="$store.dispatch('toggleSideBar')"></i>
-          </span>
-        </div>
-        <router-link class="nav-item is-brand" to="/" exact>
-          <img src="../../../../static/logo.png">
-        </router-link>
-      </div>
-      <div class="nav-center">
-        <div class="nav-item">
-          <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
-        </div>
-      </div>
+  <v-toolbar class="white">
+    <v-toolbar-side-icon v-on:click.native.stop="toggleSideBar"></v-toolbar-side-icon>
+    <v-toolbar-title>
+      <router-link to="/" exact>
+        <img src="../../../../static/logo.png">
+      </router-link>
+    </v-toolbar-title>
+    <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
+    <v-toolbar-items>
+      <v-toolbar-item>
+        <Login v-show="user.isTemp" />
+      </v-toolbar-item>
+      <v-toolbar-item>
+        <UserInfo v-show="!user.isTemp" :user="user" />
+      </v-toolbar-item>
+      <v-toolbar-item>
+        <router-link to="/user/123">Profile</router-link>
+      </v-toolbar-item>
+    </v-toolbar-items>
+  </v-toolbar>
 
-      <div class="nav-right nav-menu">
-        <Login class="nav-item" v-show="user.isTemp" />
-        <UserInfo class="nav-item" v-show="!user.isTemp" :user="user" />
-        <router-link class="nav-item is-tab" to="/user/123">Profile</router-link>
-      </div>
-  </nav>
 </template>
 
 <style>
@@ -63,5 +60,11 @@
     name: 'navbar',
     components: { Login, UserInfo, HouseSearchBar },
     computed: mapGetters(['user', 'showSideBar']),
+    methods: {
+      toggleSideBar() {
+        console.log('setting show side bar', !this.showSideBar);
+        this.$store.dispatch('toggleSideBar', !this.showSideBar);
+      },
+    },
   };
 </script>

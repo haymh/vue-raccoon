@@ -92,6 +92,17 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      headers: [
+        {
+          text: 'Share Schedule',
+          left: true,
+          sortable: false,
+          value: 'Schedule',
+        },
+        { text: 'Created At', value: 'Created' },
+        { text: 'Share Title', value: 'Title' },
+        { text: 'Customer Group', value: 'Customers' },
+      ],
       list: [
         {
           shareTime: 'Every week',

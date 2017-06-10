@@ -40,6 +40,7 @@
     "vue2-google-maps": "^0.7.7",
     "vuefire": "^1.4.3",
     "vuejs-datepicker": "^0.7.14",
+    "vuetify": "^0.12.7",
     "vuex": "^2.3.1"
   },
   "devDependencies": {

@@ -11,7 +11,7 @@
     </div>
 
 
-    <Pagination
+    <!--<Pagination
       :currentPage="current"
       :pageSize="10"
       :total="1000"
@@ -27,7 +27,7 @@
       :chunkSize="6"
       :chunk="true"
       @currentChanged="changeCurrent">
-    </Pagination>
+    </Pagination>-->
     <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
     <!-- <h1>User</h1>
     <pre>{{ user }}</pre>
@@ -37,6 +37,7 @@
     <pre>{{ filterResults }}</pre> -->
 
     <ChatBar></ChatBar>
+    <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
   </div>
 </template>
 <style>
@@ -60,6 +61,7 @@ import ChatBar from '../components/chat/ChatBar.vue';
 import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
 import Pagination from '../components/list/Pagination.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
+import ShareList from '../agent/components/share/ShareList.vue';
 
 
 export default {
@@ -70,6 +72,91 @@ export default {
       hoa: 300,
       current: 0,
       showFullFilter: false,
+      headers: [
+        {
+          text: 'Share Schedule',
+          left: true,
+          sortable: false,
+          value: 'Schedule',
+        },
+        { text: 'Created At', value: 'Created' },
+        { text: 'Share Title', value: 'Title' },
+        { text: 'Customer Group', value: 'Customers' },
+      ],
+      list: [
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+        {
+          shareTime: 'Every week',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group A',
+        },
+        {
+          shareTime: 'Every day',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Group B',
+        },
+        {
+          shareTime: '2017/03/23',
+          createdAt: '2017/02/22',
+          title: 'New houses',
+          customer: 'Jeremy',
+        },
+      ],
     };
   },
   mixins: [clickaway],
@@ -84,6 +171,7 @@ export default {
     MortgageCalculator,
     Pagination,
     FilterFullSize,
+    ShareList,
   },
   methods: {
     searchHouse() {

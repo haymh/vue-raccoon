@@ -1,13 +1,18 @@
 <template>
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <NavBar></NavBar>
-    <SideBar v-show="showSideBar"></SideBar>
-		<transition name="fade" mode="out-in">
-			<main class="main" :style="{'margin-left': sideBarWidth + 'px'}">
-				<router-view></router-view>
-			</main>
-		</transition>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+    <v-app>
+      <SideBar></SideBar>
+      <NavBar></NavBar>
+      <transition name="fade" mode="out-in">
+        <main class="main">
+          <router-view></router-view>
+        </main>
+      </transition>
+    </v-app>
+    
   </div>
 </template>
 <style lang="scss">
@@ -28,7 +33,7 @@ html, body, #app, .main {
 .main {
   height: calc(100vh - 50px);
   overflow-y: auto;
-  margin-left: 180px;
+  margin: auto;
 }
 
 body {
@@ -80,13 +85,7 @@ export default {
   },
   components: { Login, UserInfo, NavBar, SideBar, AppFooter },
   computed: {
-    ...mapGetters(['user', 'showSideBar']),
-    sideBarWidth() {
-      if (this.showSideBar) {
-        return 166;
-      }
-      return 0;
-    },
+    ...mapGetters(['user']),
   },
   created() {
     // add event listener for auth state
