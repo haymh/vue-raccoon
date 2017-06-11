@@ -1,28 +1,24 @@
 <template>
-  <div class="box">
-    <div class="level">
-      <div class="level-left">
-        <h1 class="title is-3">Mortgage Calculator</h1>
-      </div>
-      <div class="level-right">
-        <a class="button">
-          <span>save</span>
-          <span class="icon">
-            <i class="fa fa-bookmark"></i>
-          </span>
-        </a>
-      </div>
-    </div>
-    <hr>
-    <div>
-      <div class="columns is-multiline">
-        <div class="column is-12">
-          <h2 class="title is-4">Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</h2>
-        </div>
-        <div class="column is-offset-1 is-4">
+<div>
+  <v-card>
+    <v-card-row class="blue-grey darken-1">
+      <v-card-title>
+        <span class="white--text">Mortgage Calculator</span>
+        <v-spacer></v-spacer>
+        <v-btn icon="icon" slot="activator" class="white--text">
+          <v-icon>bookmark</v-icon>
+        </v-btn>
+      </v-card-title>
+    </v-card-row>
+    <v-card-row>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <h4>Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</h4>
+        </v-flex>
+        <v-flex offset-xs2 xs4 offset-md2 md4>
           <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
-        </div>
-        <div class="column is-offset-1 is-5">
+        </v-flex>
+        <v-flex xs12 offset-md1 md5>
           <ul v-for="(label, index) in chartData.labels">
             <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
               {{label}}
@@ -31,115 +27,91 @@
               </span>
             </li>
           </ul>
-        </div>
-      </div>
-      <div class="columns is-multiline">
-        <div class="column is-6">
-          <div class="columns is-multiline is-gapless">
-            <p class="heading column is-12">Price</p>
-            <div class="column is-12">
-              <FormatableNumberInput :value="newPrice" :formatMethod="formatCurrency" v-on:valuechange="enterPrice"></FormatableNumberInput>
-            </div>
-            <!-- <el-slider class="column is-12" :min="minPrice" :max="maxPrice" :step="1000" v-model="newPrice"></el-slider> -->
-            <div class="column is-12">
-              <input type="range" style="display:table-cell; width:100%" :min="minPrice" :max="maxPrice" :step="1000" v-model.number="newPrice">
-            </div>
-          </div>
-        </div>
-        <div class="column is-6">
-          <div class="columns is-multiline is-gapless">
-            <p class="heading column is-12">Down Payment</p>
-            <div class="column is-12">
-              <div class="columns is-mobile is-gapless">
-                <FormatableNumberInput class="column is-8" :value="downPayment" :formatMethod="formatCurrency" v-on:valuechange="enterDownPayment"></FormatableNumberInput>
-                <FormatableNumberInput class="column is-4" :value="downPaymentRate" :formatMethod="formatPercentage" v-on:valuechange="dataChange('downPaymentRate', $event)"></FormatableNumberInput>
-              </div>
-            </div>
-            <input type="range" style="display:table-cell; width:100%" min="0" max="100" step="1" v-model.number="downPaymentRate">
-          </div>
-        </div>
-
-        <div class="column is-6">
-          <div class="columns">
-            <div class="column is-6">
-              <div class="columns is-multiline is-gapless">
-                <p class="heading column is-12">Loan Type</p>
-                <div class="column is-12">
-                  <span class="select" v-on:change="loanTypeChanged">
-                    <select v-model="selectedLoanType">
-                      <option v-for="(type, index) in loanTypes" v-bind:value="index">
-                        {{ type.text }}
-                      </option>
-                    </select>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="column is-6">
-              <div class="columns is-multiline is-gapless">
-                <p class="heading column is-12">Interest Rate</p>
-                <div class="column is-12">
-                  <FormatableNumberInput :value="interestRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('interestRate', $event / 100)"></FormatableNumberInput>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="column is-6">
-          <div class="columns is-multiline is-gapless">
-            <p class="heading column is-12">Property Tax</p>
-            <div class="column is-12">
-              <div class="columns is-mobile is-gapless">
-                <FormatableNumberInput class="column is-8" :value="propertyTax * 12" :formatMethod="formatCurrency" v-on:valuechange="enterPropertyTax"></FormatableNumberInput>
-                <FormatableNumberInput class="column is-4" :value="propertyTaxRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('propertyTaxRate', $event / 100)"></FormatableNumberInput>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-6">
-          <div class="columns is-multiline is-gapless">
-            <p class="heading column is-12">HOA Dues</p>
-            <div class="column is-12">
-              <FormatableNumberInput :value="newHoa" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newHoa', $event)"></FormatableNumberInput>
-            </div>
-          </div>
-        </div>
-        <div class="column is-6">
-          <div class="columns is-multiline is-gapless">
-            <p class="heading column is-12">Home Insurance</p>
-            <div class="column is-12">
-              <div class="columns is-mobile is-gapless">
-                <FormatableNumberInput class="column is-8" :value="insurance" :formatMethod="formatCurrency" v-on:valuechange="enterInsurance"></FormatableNumberInput>
-                <FormatableNumberInput class="is-4" :value="insuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('insuranceRate', $event / 100)"></FormatableNumberInput>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="column is-6" v-bind:style="mortgageInsuranceStyle">
-          <div class="columns is-multiline is-gapless">
-            <p class="heading column is-12">Mortgage Insurance</p>
-            <div class="column is-12">
-              <div class="columns is-mobile is-gapless">
-                <FormatableNumberInput class="column is-8" :value="mortgageInsurance" :formatMethod="formatCurrency" v-on:valuechange="enterMortgageInsurance"></FormatableNumberInput>
-                <FormatableNumberInput class="column is-4" :value="mortgageInsuranceRate * 100" :formatMethod="formatPercentage" v-on:valuechange="dataChange('mortgageInsuranceRate', $event / 100)"></FormatableNumberInput>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
+        </v-flex>
+      </v-layout>
+    </v-card-row>
+    <v-card-row>
+      <v-layout row wrap>
+        <v-flex xs12 md6>
+          <v-text-field label="Price" :value="newPrice" prefix="$" v-on:input="enterPrice"></v-text-field>
+          <v-slider  v-model.number="newPrice" dark :min="minPrice" :max="maxPrice" :step="1000"></v-slider>
+        </v-flex>
+        <v-flex xs12 md6>
+          <v-layout row wrap>
+          <v-flex xs6 md6>
+            <v-text-field label="Down Payment Amount" :value="downPayment" prefix="$" v-on:input="enterDownPayment"></v-text-field>
+          </v-flex>
+          <v-flex xs6 md6>
+            <v-text-field label="Down Payment Percentage" :value="downPaymentRate" suffix="%" v-on:input="dataChange('downPaymentRate', $event)"></v-text-field>
+          </v-flex>
+          <v-flex xs12 md12>
+            <v-slider  v-model.number="downPaymentRate" dark :min="0" :max="100" :step="1000"></v-slider>
+          </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 md6>
+          <v-layout row wrap>
+            <v-flex xs6 md6>
+              <v-select
+                v-on:input="loanTypeChanged"
+                v-bind:items="loanTypes"
+                v-model="selectedLoanType"
+                label="Loan Type"
+                dark
+                auto
+                item-text="text"
+                item-value="index"
+              ></v-select>
+            </v-flex>
+            <v-flex xs6 md6>
+              <v-text-field label="Interest Rate" :value="interestRate * 100" suffix="%" v-on:input="dataChange('interestRate', $event / 100)"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 md6>
+          <v-layout row wrap>
+            <v-flex xs6 md6>
+              <v-text-field label="Property Tax Amount" :value="propertyTax * 12" prefix="$" v-on:input="enterPropertyTax"></v-text-field>
+            </v-flex>
+            <v-flex xs6 md6>
+              <v-text-field label="Property Tax Percentage" :value="propertyTaxRate * 100" suffix="%" v-on:input="dataChange('propertyTaxRate', $event / 100)"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 md6>
+          <!--<FormatableNumberInput :value="newHoa" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newHoa', $event)"></FormatableNumberInput>-->
+          <v-text-field label="HOA Dues" :value="newHoa" prefix="$" v-on:input="dataChange('newHoa', parseFloat($event))"></v-text-field>
+        </v-flex>
+        <v-flex xs12 md6>
+          <v-layout row wrap>
+            <v-flex xs6 md6>
+              <v-text-field label="Home Insurance Amount" :value="insurance" prefix="$" v-on:input="enterInsurance"></v-text-field>
+            </v-flex>
+            <v-flex xs6 md6>
+              <v-text-field label="Home Insurance Percentage" :value="insuranceRate * 100" suffix="%" v-on:input="dataChange('insuranceRate', $event / 100)"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 md6 v-bind:style="mortgageInsuranceStyle">
+          <v-layout row wrap>
+            <v-flex xs6 md6>
+              <v-text-field label="Mortgage Insurance Amount" :value="mortgageInsurance" prefix="$" v-on:input="enterMortgageInsurance"></v-text-field>
+            </v-flex>
+            <v-flex xs6 md6>
+              <v-text-field label="Mortgage Insurance Percentage" :value="mortgageInsuranceRate * 100" suffix="%" v-on:input="dataChange('mortgageInsuranceRate', $event / 100)"></v-text-field>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-card-row>
+  </v-card>
+</div>
 </template>
 <style>
 </style>
 <script>
 /* eslint-disable import/extensions */
 import VueChart from '../chartjs_wrapper/VueChart.vue';
-import FormatableNumberInput from './FormatableNumberInput.vue';
-
 
 export default {
   name: 'MortgageCalculator',
@@ -159,11 +131,13 @@ export default {
           text: '30 Yr. Fixed',
           value: 0.03875,
           year: 30,
+          index: 0,
         },
         {
           text: '15 Yr. Fixed',
           value: 0.0325,
           year: 15,
+          index: 1,
         },
       ],
       selectedLoanType: 0,
@@ -252,8 +226,11 @@ export default {
       },
     },
   },
-  components: { VueChart, FormatableNumberInput },
+  components: { VueChart },
   methods: {
+    test(value) {
+      console.log('changed', value);
+    },
     enterPrice(value) {
       this.newPrice = value;
       this.maxPrice = value * 1.2;
