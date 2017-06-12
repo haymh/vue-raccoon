@@ -1,21 +1,46 @@
 <template>
   <v-toolbar class="white">
     <v-toolbar-side-icon v-on:click.native.stop="toggleSideBar"></v-toolbar-side-icon>
-    <v-toolbar-title>
+    <v-toolbar-title class="hidden-sm-and-down">
       <router-link to="/" exact>
         <img src="../../../../static/logo.png">
       </router-link>
     </v-toolbar-title>
-    <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
     <v-toolbar-items>
-      <v-toolbar-item>
+      <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
+      <v-toolbar-item class="hidden-xs-only">
         <Login v-show="user.isTemp" />
       </v-toolbar-item>
-      <v-toolbar-item>
+      <v-toolbar-item class="hidden-xs-only">
         <UserInfo v-show="!user.isTemp" :user="user" />
       </v-toolbar-item>
-      <v-toolbar-item>
+      <v-toolbar-item class="hidden-xs-only">
         <router-link to="/user/123">Profile</router-link>
+      </v-toolbar-item>
+      <v-toolbar-item class="hidden-sm-and-up">
+        <v-menu bottom left offset-y origin="top right" transition="v-scale-transition">
+          <v-btn dark icon slot="activator">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-item>
+              <UserInfo v-show="!user.isTemp" :user="user" />
+              <v-list-tile>
+                <UserInfo v-show="!user.isTemp" :user="user" />
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>
+                  <UserInfo v-show="!user.isTemp" :user="user" />
+                </v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>
+                  <router-link to="/user/123">Profile</router-link>
+                </v-list-tile-title>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-toolbar-item>
     </v-toolbar-items>
   </v-toolbar>
