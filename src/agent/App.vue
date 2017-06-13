@@ -4,15 +4,13 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
     <v-app>
-      <SideBar></SideBar>
-      <NavBar></NavBar>
-      <transition name="fade" mode="out-in">
-        <main class="main">
-          <router-view></router-view>
-        </main>
-      </transition>
+      <SideBar class="hidden-xs-only"></SideBar>
+      <NavBar class="hidden-xs-only"></NavBar>
+      <main class="main">
+        <router-view></router-view>
+      </main>
+      <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
     </v-app>
-    
   </div>
 </template>
 <style lang="scss">
@@ -31,9 +29,10 @@ html, body, #app, .main {
   height: 100%;
 }
 .main {
-  height: calc(100vh - 50px);
+  /*height: calc(100vh - 50px);*/
   overflow-y: auto;
   margin: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -73,6 +72,7 @@ import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
 import { NavBar, SideBar, AppFooter } from './components/layout';
+import BottomNav from '../components/nav/BottomNav.vue';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */
@@ -81,9 +81,27 @@ export default {
   data() {
     return {
       needCreateUser: false,
+      e2: 3,
+      navs: [
+        {
+          text: 'Dashboard',
+          icon: 'dashboard',
+          page: '/dashboard',
+        },
+        {
+          text: 'Chat',
+          icon: 'chat',
+          page: '/chat',
+        },
+        {
+          text: 'Settings',
+          icon: 'settings',
+          page: '/view1',
+        },
+      ],
     };
   },
-  components: { Login, UserInfo, NavBar, SideBar, AppFooter },
+  components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav },
   computed: {
     ...mapGetters(['user']),
   },

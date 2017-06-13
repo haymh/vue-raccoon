@@ -1,97 +1,150 @@
 <template>
-<div class="box">
-  <div class="columns is-multiline is-mobile">
-    <div class="column is-6">
+<div>
+  <v-layout row wrap>
+    <v-flex xs6 md6>
+      <v-select
+        v-on:input="changeFilter('price', ['price'], true, 'min')"
+        v-bind:items="schema.conditions.price.minChoices"
+        v-model="schema.conditions.price.min"
+        label="Min Price"
+        dark
+      >
+        <template slot="selection" scope="data">
+          <v-list-tile-content :key="data.item">
+              {{data.item | formatChoice(true)}}
+          </v-list-tile-content>
+        </template>
+        <template slot="item" scope="data">
+          <v-list-tile-content>
+              {{data.item | formatChoice(true)}}
+          </v-list-tile-content>
+        </template>
+      </v-select>
+    </v-flex>
 
-      <label class="label">{{$t('filter.price')}}</label>
-      <p class="control has-addons">
-        <span class="select">
-          <select v-model="schema.conditions.price.min" @change="changeFilter('price', ['price'], true, 'min')">
-            <option
-              v-for="item in schema.conditions.price.minChoices"
-              :label="item | formatChoice(true)"
-              :value="item">
-            </option>
-          </select>
-        </span>
-        <label class="label">to</label>
-        <span class="select">
-          <select v-model="schema.conditions.price.max" @change="changeFilter('price', ['price'], true, 'max')">
-            <option
-              v-for="item in schema.conditions.price.maxChoices"
-              :label="item | formatChoice(true)"
-              :value="item">
-            </option>
-          </select>
-        </span>
-      </p>
-    </div>
+    <v-flex xs6 md6>
+      <v-select
+        v-on:input="changeFilter('price', ['price'], true, 'max')"
+        v-bind:items="schema.conditions.price.maxChoices"
+        v-model="schema.conditions.price.max"
+        label="Max Price"
+        dark
+      >
+        <template slot="selection" scope="data">
+          <v-list-tile-content :key="data.item">
+              {{data.item | formatChoice(true)}}
+          </v-list-tile-content>
+        </template>
+        <template slot="item" scope="data">
+          <v-list-tile-content>
+              {{data.item | formatChoice(true)}}
+          </v-list-tile-content>
+        </template>
+      </v-select>
+    </v-flex>
 
-    <div class="column is-6">
-      <label class="label">{{$t('filter.beds')}}</label>
-      <p class="control has-addons">
-        <span class="select">
-          <select v-model="schema.conditions.beds.min" @change="changeFilter('beds', ['beds'], true, 'min')">
-            <option
-              v-for="item in schema.conditions.beds.minChoices"
-              :label="item | formatChoice(false)"
-              :value="item">
-            </option>
-          </select>
-        </span>
-        <label class="label">to</label>
-        <span class="select">
-            <select v-model="schema.conditions.beds.max" @change="changeFilter('beds', ['beds'], true, 'max')">
-              <option
-              v-for="item in schema.conditions.beds.maxChoices"
-              :label="item | formatChoice(false)"
-              :value="item">
-            </option>
-          </select>
-        </span>
-      </p>
-    </div>
+    <v-flex xs6 md6>
+      <v-select
+        v-on:input="changeFilter('beds', ['beds'], true, 'min')"
+        v-bind:items="schema.conditions.beds.minChoices"
+        v-model="schema.conditions.beds.min"
+        label="Min Beds"
+        dark
+      >
+        <template slot="selection" scope="data">
+          <v-list-tile-content :key="data.item">
+              {{data.item | formatChoice(false)}}
+          </v-list-tile-content>
+        </template>
+        <template slot="item" scope="data">
+          <v-list-tile-content>
+              {{data.item | formatChoice(false)}}
+          </v-list-tile-content>
+        </template>
+      </v-select>
+    </v-flex>
 
-    <div class="column is-6">
-      <div class="label">{{$t('filter.baths')}}</div>
-      <span class="select">
-        <select v-model="schema.conditions.baths.min" @change="changeFilter('baths', ['baths'], false)">
-          <option
-            v-for="item in schema.conditions.baths.minChoices"
-            :label="item | formatChoice(false, '', '+')"
-            :value="item">
-          </option>
-        </select>
-      </span>
-    </div>
+    <v-flex xs6 md6>
+      <v-select
+        v-on:input="changeFilter('beds', ['beds'], true, 'max')"
+        v-bind:items="schema.conditions.beds.maxChoices"
+        v-model="schema.conditions.beds.max"
+        label="Max Beds"
+        dark
+      >
+        <template slot="selection" scope="data">
+          <v-list-tile-content :key="data.item">
+              {{data.item | formatChoice(false)}}
+          </v-list-tile-content>
+        </template>
+        <template slot="item" scope="data">
+          <v-list-tile-content>
+              {{data.item | formatChoice(false)}}
+          </v-list-tile-content>
+        </template>
+      </v-select>
+    </v-flex>
 
-    <div class="column is-6">
-      <div class="label">{{$t('filter.hoa')}}</div>
-      <span class="select">
-        <select v-model="schema.conditions.hoa.max" @change="changeFilter('hoa', ['hoa', 'fee'], false)">
-          <option
-            v-for="item in schema.conditions.hoa.maxChoices"
-            :label="item | formatChoice(false, '< ', '$/month')"
-            :value="item">
-          </option>
-        </select>
-      </span>
-    </div>
+    <v-flex xs6 md6>
+      <v-select
+        v-on:input="changeFilter('baths', ['baths'], false)"
+        v-bind:items="schema.conditions.baths.minChoices"
+        v-model="schema.conditions.baths.min"
+        label="Min Baths"
+        dark
+      >
+        <template slot="selection" scope="data">
+          <v-list-tile-content :key="data.item">
+              {{data.item | formatChoice(false, '', '+')}}
+          </v-list-tile-content>
+        </template>
+        <template slot="item" scope="data">
+          <v-list-tile-content>
+              {{data.item | formatChoice(false, '', '+')}}
+          </v-list-tile-content>
+        </template>
+      </v-select>
+    </v-flex>
 
-    <div class="column is-6">
-      <div class="label">{{$t('filter.propertyType')}}</div>
-      <div v-for="choice in schema.conditions.propertyType.choices">
-        <input type="checkbox" v-model="choice.checked" @change="changeFilter('propertyType', ['propertyType'], false)">{{ choice.value }}</input>
-      </div>
-    </div>
+    <v-flex xs6 md6>
+      <v-select
+        v-on:input="changeFilter('hoa', ['hoa', 'fee'], false)"
+        v-bind:items="schema.conditions.hoa.maxChoices"
+        v-model="schema.conditions.hoa.max"
+        label="Max HOA"
+        dark
+      >
+        <template slot="selection" scope="data">
+          <v-list-tile-content :key="data.item">
+              {{data.item | formatChoice(false, '< ', '$/month')}}
+          </v-list-tile-content>
+        </template>
+        <template slot="item" scope="data">
+          <v-list-tile-content>
+              {{data.item | formatChoice(false, '< ', '$/month')}}
+          </v-list-tile-content>
+        </template>
+      </v-select>
+    </v-flex>
 
-    <div class="column is-6">
-      <div class="label">{{$t('filter.status')}}</div>
-      <div v-for="choice in schema.conditions.status.choices">
-        <input type="checkbox" v-model="choice.checked"  @change="changeFilter('listingType', ['listingType'], false)">{{ choice.value }}</input>
-      </div>
-    </div>
-  </div>
+    <v-flex xs6 md6>
+      <v-subheader>{{$t('filter.propertyType')}}</v-subheader>
+      <v-checkbox v-for="choice in schema.conditions.propertyType.choices" v-model="choice.checked"
+              @input="changeFilter('propertyType', ['propertyType'], false)"
+              :label="choice.value"
+              hide-details>
+      </v-checkbox>
+    </v-flex>
+
+    <v-flex xs6 md6>
+      <v-subheader>{{$t('filter.status')}}</v-subheader>
+      <v-checkbox v-for="choice in schema.conditions.status.choices" v-model="choice.checked"
+              @input="changeFilter('listingType', ['listingType'], false)"
+              :label="choice.value"
+              hide-details>
+      </v-checkbox>
+    </v-flex>
+  </v-layout>
 </div>
 </template>
 <script>
@@ -182,6 +235,9 @@ export default {
         }
       }
       console.log('conditions', this.lastFilter);
+    },
+    test(input) {
+      return `${input}nangjizi`;
     },
   },
 };

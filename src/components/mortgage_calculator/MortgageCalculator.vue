@@ -10,7 +10,7 @@
         </v-btn>
       </v-card-title>
     </v-card-row>
-    <v-card-row>
+    <v-card-row class="ma-2">
       <v-layout row wrap>
         <v-flex xs12>
           <h4>Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</h4>
@@ -30,7 +30,7 @@
         </v-flex>
       </v-layout>
     </v-card-row>
-    <v-card-row>
+    <v-card-row class="ma-2">
       <v-layout row wrap>
         <v-flex xs12 md6>
           <v-text-field label="Price" :value="newPrice" prefix="$" v-on:input="enterPrice"></v-text-field>

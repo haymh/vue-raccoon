@@ -1,43 +1,65 @@
 <template>
   <div>
-    <a class="button" @click="readUserLocally">load user from local storage</a>
-    <a class="button" @click="searchHouse">search house</a>
-    <FilterElement></FilterElement>
-    <div class="dropdown">
-      <a class="button is-primary" @click="showFilter">show full filter</a>
-      <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
-        <FilterFullSize></FilterFullSize>
-      </div>
-    </div>
+      <v-toolbar fixed class="white hidden-sm-and-up">
+        <v-btn icon light>
+          <v-icon class="grey--text text--darken-2">list</v-icon>
+        </v-btn>
+        <v-toolbar-title class="grey--text text--darken-4">
+          <v-text-field
+              name="input-1"
+              prepend-icon="search"
+              id="testing"
+              class="ma-0"
+            ></v-text-field>
+        </v-toolbar-title>
+        <v-btn icon light>
+          <v-icon class="grey--text text--darken-2">filter</v-icon>
+        </v-btn>
+      </v-toolbar>
+      <!--<v-layout row wrap>
+        <v-flex xs3 class="text-xs-center pa-0">
+          <v-btn small dark flat>List</v-btn>
+        </v-flex>
+        <v-flex xs6 class="pa-0">
+          <v-text-field
+              name="input-1"
+              prepend-icon="search"
+              id="testing"
+              class="ma-0"
+            ></v-text-field>
+        </v-flex>
+        <v-flex xs3 class="text-xs-center pa-0">
+          <v-btn small dark flat>Filter</v-btn>
+        </v-flex>
+      </v-layout>-->
+    <main>
+      <a class="button" @click="readUserLocally">load user from local storage</a>
+      <a class="button" @click="searchHouse">search house</a>
+      <FilterElement></FilterElement>
+      <!--<div class="dropdown">
+        <a class="button is-primary" @click="showFilter">show full filter</a>
+        <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
+          <FilterFullSize></FilterFullSize>
+        </div>
+      </div>-->
+      <v-expansion-panel>
+        <v-expansion-panel-content>
+          <div slot="header">Filter</div>
+          <FilterFullSize></FilterFullSize>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
+      <!-- <h1>User</h1>
+      <pre>{{ user }}</pre>
+      <h1>All Houses</h1>
+      <pre>{{ allHouses }}</pre>
+      <h1>Filter Results</h1>
+      <pre>{{ filterResults }}</pre> -->
 
-
-    <!--<Pagination
-      :currentPage="current"
-      :pageSize="10"
-      :total="1000"
-      :size="6"
-      :chunk="true"
-      @currentChanged="changeCurrent">
-    </Pagination>
-    <Pagination
-      :currentPage="current"
-      :pageSize="10"
-      :total="1000"
-      :size="9"
-      :chunkSize="6"
-      :chunk="true"
-      @currentChanged="changeCurrent">
-    </Pagination>-->
-    <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
-    <!-- <h1>User</h1>
-    <pre>{{ user }}</pre>
-    <h1>All Houses</h1>
-    <pre>{{ allHouses }}</pre>
-    <h1>Filter Results</h1>
-    <pre>{{ filterResults }}</pre> -->
-
-    <ChatBar></ChatBar>
-    <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
+      <ChatBar></ChatBar>
+      <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
+    </main>
+    
   </div>
 </template>
 <style>
@@ -51,6 +73,10 @@
   position: absolute;
   z-index: 100;
   left: 0px;
+}
+.toolbar {
+  position: fixed;
+  top:0;
 }
 </style>
 <script>
