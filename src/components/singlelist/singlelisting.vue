@@ -1,18 +1,16 @@
 <template>
-  <div class="box list" @mouseover="select" v-show="show">
-    <div class="columns is-gapless is-mobile">
-      <div class="column is-half left-column">
-        <!-- <list-gallery :images="singleListingData.pics"></list-gallery> -->
+  <v-card class="box list" @mouseover="select" v-show="show" hover>
+    <v-layout row>
+      <v-flex xs12 sm12 md6>
         <Slider :images="singleListingData.pics" :clickHandler="onClickHandler"></Slider>
         <list-basic-info class="basic-info" v-bind:listingData="singleListingData"></list-basic-info>
-
-        <a class="like" v-bind:style="{color: like? '#ff3860':'white'}">
+                <a class="like" v-bind:style="{color: like? '#ff3860':'white'}">
           <span class="icon is-medium" v-on:click="likeListing">
             <i v-bind:class="['fa',like ? 'fa-heart' : 'fa-heart-o']"></i>
           </span>
         </a>
-      </div>
-      <div class="column is-half right-column">
+      </v-flex>
+      <v-flex md6 class="hidden-sm-and-down">
         <list-detail-info v-bind:listingData="singleListingData">
           <a v-bind:style="{color: cardSelected? '#1B998B':'grey'}">
             <span class="icon is-medium" v-on:click="selectCard">
@@ -23,9 +21,9 @@
         <footer class="card-footer actions">
           <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
         </footer>
-      </div>
-    </div>
-  </div>
+      </v-flex>
+    </v-layout>
+  </v-card>
 </template>
 
 <script>

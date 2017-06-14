@@ -1,117 +1,114 @@
 <template>
-  <div>
-    <div>
-      <div class="columns is-marginless toolbar-container">
-        <div class="column is-6 is-paddingless">
-          <header>
-            <div class="columns is-multiline is-gapless toolbar">
-              <div class="column is-4">
-                  <a class="button is-primary" @click="toggleFilter">show full filter</a>
+  <div class="content-container">
+    <v-layout row>
+      <v-flex md6 class="pa-0">
+          <v-tabs id="mobile-tabs-2" grow light style="height:100%">
+            <v-card class="primary white--text">
+              <div>
+                <v-card-row>
+                  <v-btn dark  @click="toggleFilter">full filter</v-btn>
+                  <v-spacer></v-spacer>
+                  <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
+                  <v-btn class="" @click="share">{{shareButtonText}}</v-btn>
+                  <v-btn class="" @click="clearSelectedHouse">Clear All</v-btn>
+                </v-card-row>
+                <!--<v-card-row v-show="searchResultSummary !== ''">
+                  <div v-html="searchResultSummary"></div>
+                </v-card-row>-->
               </div>
-              <div class="column is-4">
-                <p class="control" v-show="showList || showTable">
-                  <label class="checkbox">
-                    <input type="checkbox" v-model="selectAll">
-                    This Page
-                  </label>
-                </p>
+            </v-card>
+            <v-tabs-bar slot="activators">
+              <v-tabs-slider></v-tabs-slider>
+              <v-tabs-item v-for="(item, i) in viewMode"
+                :key="i"
+                :href="'#mobile-tabs-2-' + item"
+              >
+                {{item}}
+              </v-tabs-item>
+            </v-tabs-bar>
+
+            <v-tabs-content id="mobile-tabs-2-cards">
+              <div style="height:696px; overflow-y:scroll;">
+              <house-list class="list-container"
+                          v-show="showList"
+                          :houseList="filterResults"
+                          :selectAll="selectAll">
+                  </house-list>
               </div>
-              <div class="column is-4">
-                <p class="control has-addons">
-                  <a class="button is-primary" @click="share">{{shareButtonText}}</a>
-                  <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
-                </p>
-              </div>
-              <div class="column is-12 filter-dropdown">
+            </v-tabs-content>
+
+             <v-tabs-content id="mobile-tabs-2-map">
+              <v-card flat>
+                <v-card-text>
+                  <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo"></RaccoonMap>
+                </v-card-text>
+              </v-card>
+            </v-tabs-content>
+
+            <v-tabs-content id="mobile-tabs-2-table">
+              <TableList class="table-container" :houseList="filterResults"></TableList>
+            </v-tabs-content>
+          </v-tabs>
+        </v-flex>
+
+      
+
+              <!--<v-toolbar-item class="column is-12 filter-dropdown">
                 <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
                   <FilterFullSize></FilterFullSize>
                 </div>
-              </div>
-              <div class="column is-2">
+              </v-toolbar-item>-->
+              <!--<v-toolbar-item class="column is-2">
                 <SortBar class="sort-bar"></SortBar>
-              </div>
-              <div class="column is-5">
-                <div v-html="searchResultSummary"></div>
-              </div>
-              <div class="column is-5">
-                <div class="tabs is-fullwidth">
-                  <ul>
-                    <li v-for="item in viewMode" v-bind:class="isTabActive(item) ? 'is-active' : ''">
-                      <a @click="changeView(item)">{{item}}</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </header>
-        </div>
-        <div class="column is-6 is-paddingless">
-          <header>
-            <div class="columns is-multiline is-gapless toolbar">
-              <div class="column is-12">
-                <h1 class="title">Selected House</h1>
-              </div>
-              <div class="column is-6">
-                <h2 class="subtitle">You have selected {{selectedHouses.length}} houses</h2>
-              </div>
-              <div class="column is-6">
-                <a :class="[ isLoading ? 'is-loading' : '', 'button', 'is-danger']" @click="generateLink">QR Code</a>
-              </div>
-              <div class="column is-12">
-                <div class="box qr-code" v-show="showQrcode" v-on-clickaway="hideQrcode">
-                  <p v-show="link === ''">Please Search House First</p>
-                  <div class="has-text-centered">
-                    <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
-                  </div>
-                  <div class="has-addons" v-show="link !== ''">
-                    <p class="control">
-                      <input class="input" v-model="link" type="text">
-                    </p>
-                    <p class="control">
-                      <button v-clipboard="link" class="button is-info">Copy</button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </header>
-        </div>
-      </div>
-      <div class="columns content-container">
-        <div class="column is-half left-container">
-          <house-list class="list-container"
-                  v-show="showList"
-                  :houseList="filterResults"
-                  :selectAll="selectAll">
-          </house-list>
-          <TableList class="table-container"
-                    :houseList="filterResults"
-                    v-show="showTable">
-          </TableList>
-          <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
-          </RaccoonMap>
-        </div>
-        <div class="column is-half right-container">
+              </v-toolbar-item>-->
+      
+
+ 
+        <v-flex md6 class="pa-0">
           
           <TableList class="table-container"
                     :houseList="selectedHouses"
                     :selectedOnly="true">
           </TableList>
-        </div>
-      </div>
-    </div>
+          <v-toolbar>
+            <v-toolbar-title>Selected House</v-toolbar-title>
+            <v-toolbar-items>
+              <v-toolbar-item>You have selected {{selectedHouses.length}} houses
+              </v-toolbar-item>
+              <v-toolbar-item>
+                <v-dialog v-model="showQrcode">
+                  <v-btn primary light slot="activator" :loading="isLoading" @click.native="generateLink">Open Dialog</v-btn>
+                  <v-card>
+                    <v-card-row>
+                      <v-card-title v-show="link === ''">Please Search House First</v-card-title>
+                    </v-card-row>
+                    <v-card-row>
+                      <v-card-text>
+                        <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
+                      </v-card-text>
+                    </v-card-row>
+                    <v-card-row>
+                      <input class="input" v-model="link" type="text">
+                      <v-btn class="green--text darken-1" flat="flat" v-clipboard="link">Copy</v-btn>
+                    </v-card-row>
+                  </v-card>
+                </v-dialog>
+              </v-toolbar-item>
+            </v-toolbar-items>
+          </v-toolbar>
+        </v-flex>
+      </v-layout>
   </div>
 </template>
-<style>
+<style scoped>
 .content-container {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 56px);
   max-width: 1300px;
   margin: auto;
 }
 .left-container {
-  height: 100%;
-  margin-left: 4px;
-  padding: 0;
+  overflow-y: scroll;
+  height: calc(100vh - 182px);
 }
 .toolbar-container {
   margin-top: 4px;
@@ -355,6 +352,7 @@ export default {
       });
     },
     generateLink(event) {
+      console.log('generate link');
       event.stopPropagation();
       if (this.showQrcode) {
         this.showQrcode = false;

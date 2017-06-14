@@ -1,7 +1,7 @@
 <template>
   <div>
       <v-toolbar fixed class="white hidden-sm-and-up">
-        <v-btn icon light>
+        <v-btn icon light slot="activator">
           <v-icon class="grey--text text--darken-2">list</v-icon>
         </v-btn>
         <v-toolbar-title class="grey--text text--darken-4">
@@ -31,7 +31,7 @@
         <v-flex xs3 class="text-xs-center pa-0">
           <v-btn small dark flat>Filter</v-btn>
         </v-flex>
-      </v-layout>-->
+      </v-layout>
     <main>
       <a class="button" @click="readUserLocally">load user from local storage</a>
       <a class="button" @click="searchHouse">search house</a>
@@ -42,6 +42,10 @@
           <FilterFullSize></FilterFullSize>
         </div>
       </div>-->
+    
+    <!--This is hacking for toolbar in both mobile and desktop-->
+    <main class="hidden-sm-and-up"></main>
+    <div>
       <v-expansion-panel>
         <v-expansion-panel-content>
           <div slot="header">Filter</div>
@@ -58,7 +62,7 @@
 
       <ChatBar></ChatBar>
       <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
-    </main>
+    </div>
     
   </div>
 </template>
@@ -98,6 +102,7 @@ export default {
       hoa: 300,
       current: 0,
       showFullFilter: false,
+      dialog: false,
       headers: [
         {
           text: 'Share Schedule',

@@ -3,7 +3,7 @@
     <v-toolbar-side-icon v-on:click.native.stop="toggleSideBar"></v-toolbar-side-icon>
     <v-toolbar-title class="hidden-sm-and-down">
       <router-link to="/" exact>
-        <img src="../../../../static/logo.png">
+        <img style="height:24px;" src="../../../../static/logo.png">
       </router-link>
     </v-toolbar-title>
     <v-toolbar-items>

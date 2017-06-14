@@ -18,7 +18,7 @@ $blue: #72d0eb;
 $family-serif: "Lato", serif; // Add a serif family
 $primary: $blue;
 $family-primary: $family-serif; // Use the new serif family
-@import "~bulma";
+// @import "~bulma";
 </style>
 
 

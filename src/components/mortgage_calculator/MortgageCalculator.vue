@@ -30,6 +30,8 @@
         </v-flex>
       </v-layout>
     </v-card-row>
+  </v-card>
+  <v-card>
     <v-card-row class="ma-2">
       <v-layout row wrap>
         <v-flex xs12 md6>
