@@ -22,7 +22,7 @@
    margin-bottom: 4px;
    max-width: 650px;
  }
- @media (max-width: 979px) {
+ @media (max-width: 992px) {
   .singlelist .list {
      width: 380px;
    }
@@ -42,8 +42,6 @@
    overflow: hidden;
    padding: 0px;
    position: relative;
-   /*margin: 0px !important;*/
-   margin: auto;
  }
  .singlelist .list .actions {
    position: absolute;

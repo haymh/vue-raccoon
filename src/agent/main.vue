@@ -28,7 +28,7 @@
             </v-tabs-bar>
 
             <v-tabs-content id="mobile-tabs-2-cards">
-              <div class="left-container">
+              <div class="left-container mr-1 ml-1">
                 <house-list
                         :houseList="filterResults"
                         :selectAll="selectAll">
@@ -63,7 +63,7 @@
       
 
  
-        <v-flex md6 class="pa-0">
+        <v-flex md6 class="pa-0 hidden-xs-only">
           
           <TableList
                     :houseList="selectedHouses"
@@ -110,7 +110,6 @@
   height: calc(100vh - 182px);
 }
 .right-container {
-  overflow-y: scroll;
   height: calc(100vh - 122px);
 }
 .filter-dropdown {

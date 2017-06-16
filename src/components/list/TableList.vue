@@ -4,7 +4,7 @@
     <single-list :singleListingData="hoveredHouse">
     </single-list>
   </div>
-  <div class="scrollable mb-1" v-show="!empty">
+  <div class="scrollable mb-1 ma-1 pa-1" v-show="!empty">
     <!--<table class="table is-striped is-narrow">
       <thead>
         <tr>
@@ -55,7 +55,7 @@
 </template>
 <style>
 .scrollable {
-  height: calc(100% - 290px);
+  height: calc(100% - 296px);
   padding: 0px;
   overflow-y: scroll;
   margin-top: 4px;
