@@ -82,13 +82,15 @@
                       <v-card-title v-show="link === ''">Please Search House First</v-card-title>
                     </v-card-row>
                     <v-card-row>
-                      <v-card-text>
+                      <v-card-text class="text-md-center">
                         <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
                       </v-card-text>
                     </v-card-row>
                     <v-card-row>
-                      <input class="input" v-model="link" type="text">
-                      <v-btn class="green--text darken-1" flat="flat" v-clipboard="link">Copy</v-btn>
+                      <v-text-field :value="link" multi-line disabled></v-text-field>
+                    </v-card-row>
+                    <v-card-row>
+                      <v-btn class="green--text darken-1" v-clipboard="link">Copy</v-btn>
                     </v-card-row>
                   </v-card>
                 </v-dialog>
