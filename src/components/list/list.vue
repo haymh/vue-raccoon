@@ -6,11 +6,9 @@
       </div>
     </div>
     <Pagination
-      :currentPage="currentPage"
+      v-model="currentPage"
       :pageSize="pageSize"
       :total="houseList.length"
-      :size="10"
-      :chunk="true"
       @currentChanged="changeCurrent">
     </Pagination>
   </div>
@@ -77,7 +75,7 @@ export default {
   data() {
     return {
       position: 0,
-      currentPage: 0,
+      currentPage: 1,
       scrollUnit: 260,
       pageSize: 20,
     };
@@ -102,7 +100,7 @@ export default {
       'hoveredHouse',
     ]),
     currentList() {
-      const begin = this.currentPage * this.pageSize;
+      const begin = (this.currentPage - 1) * this.pageSize;
       const end = begin + this.pageSize;
       return this.houseList.slice(begin, end);
     },
@@ -132,6 +130,12 @@ export default {
             houses: this.currentList,
           });
         }
+      },
+    },
+    currentPage: {
+      handler() {
+        console.log('currentPage', this.currentPage);
+        this.scrollTo(0);
       },
     },
   },

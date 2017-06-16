@@ -1,12 +1,11 @@
 <template>
 <div>
-  <div class="singlelist" v-show="!empty">
-    <single-list :singleListingData="hoveredHouse"
-                v-if="hoveredHouse !== undefined && hoveredHouse !== null">
+  <div class="singlelist" v-show="!empty" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
+    <single-list :singleListingData="hoveredHouse">
     </single-list>
   </div>
-  <div class="scrollable" v-show="!empty">
-    <table class="table is-striped is-narrow">
+  <div class="scrollable mb-1" v-show="!empty">
+    <!--<table class="table is-striped is-narrow">
       <thead>
         <tr>
           <th>Address</th>
@@ -23,9 +22,25 @@
                 :key="house._id"
                 :house="house"
                 :showOnlyWhenSelected="selectedOnly"
-                v-on:hoverHouse="select">
+                @mouseover.native="select(house)">
       </TableItem>
-    </table>
+    </table>-->
+    <ShortCardItem v-for="(house, index) in houseList"
+              :key="house._id"
+              :house="house"
+              :showOnlyWhenSelected="selectedOnly"
+              :divider="index + 1 < houseList.length"
+              @mouseover.native="select(house)">
+    </ShortCardItem>
+    <!--<v-list three-line>
+      <ShortItem v-for="(house, index) in houseList"
+                :key="house._id"
+                :house="house"
+                :showOnlyWhenSelected="selectedOnly"
+                :divider="index + 1 < houseList.length"
+                @mouseover.native="select(house)">
+      </ShortItem>
+    </v-list>-->
   </div>
   <Pagination
     :currentPage="currentPage"
@@ -40,7 +55,7 @@
 </template>
 <style>
 .scrollable {
-  height: calc(100% - 282px);
+  height: calc(100% - 290px);
   padding: 0px;
   overflow-y: scroll;
   margin-top: 4px;
@@ -49,6 +64,8 @@
 </style>
 <script>
 import TableItem from './TableItem.vue';
+import ShortItem from './ShortItem.vue';
+import ShortCardItem from './ShortCardItem.vue';
 import SingleList from '../singlelist/singlelisting.vue';
 import Pagination from './Pagination.vue';
 
@@ -59,6 +76,14 @@ export default {
       currentPage: 0,
       pageSize: 50,
       hoveredHouse: null,
+      headers: [
+        { text: 'Address', value: 'address', sortable: false },
+        { text: 'Price', value: 'price' },
+        { text: 'Beds', value: 'beds' },
+        { text: 'Baths', value: 'baths' },
+        { text: 'Sq.Ft.', value: 'sizeInSF' },
+        { text: '$/Sq.Ft.', value: 'unitPriceInSF' },
+      ],
     };
   },
   props: {
@@ -76,6 +101,8 @@ export default {
     TableItem,
     SingleList,
     Pagination,
+    ShortItem,
+    ShortCardItem,
   },
   computed: {
     currentList() {

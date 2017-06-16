@@ -1,33 +1,41 @@
 <template>
-  <tr class="" v-show="show">
-      <td>{{house.address | formatAddress}}</td>
-      <td>{{house.price | formatNumber(0, '$')}}</td>
-      <td>{{house.beds}}</td>
-      <td>{{house.baths}}</td>
-      <td>{{house.sizeInSF}}</td>
-      <td>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></td>
-      <td>
-        <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
-          <v-icon>favorite</v-icon>
-        </v-btn>
-      </td>
-      <td>
-        <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
-          <v-icon>done</v-icon>
-        </v-btn>
-      </td>
-  </tr>
+  <v-card hover raised horizontal v-show="show" @mouseover="hover" class="mt-1">
+    <v-card-row>
+      <v-card-text>
+        <strong>{{house.address | formatAddress}}</strong>
+        <div>{{house.price | formatNumber(0, '$')}}</div>
+      </v-card-text>
+    </v-card-row>
+    <v-card-row>
+      <v-card-text>
+        <div>{{house.beds}} Beds</div>
+        <div>{{house.baths}} Baths</div>
+      </v-card-text>
+    </v-card-row>
+    <v-card-row>
+      <v-card-text>
+        <div>{{house.sizeInSF}} Sq. Ft.</div>
+        <div>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></div>
+      </v-card-text>
+    </v-card-row>
+    <v-card-row actions>
+      <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+        <v-icon>favorite</v-icon>
+      </v-btn>
+      <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
+        <v-icon>done</v-icon>
+      </v-btn>
+    </v-card-row>
+  </v-card>
 </template>
 <script>
 import { mapGetters } from 'vuex';
 import { db, timeStamp } from '../../api/fire';
 
 export default {
-  name: 'TableItem',
+  name: 'ShortCardItem',
   data() {
-    return {
-      elevation: 1,
-    };
+    return {};
   },
   props: {
     house: Object,
@@ -35,9 +43,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    divider: {
+      type: Boolean,
+      default: false,
+    },
   },
   created() {
-    console.log('LIST ITEM', this.house);
+    console.log('SHORT ITEM', this.house);
     console.log(this.userId);
     this.$bindAsObject('favorite', db.ref(`buyerData/${this.userId}/favoriteHouses/${this.house._id}`));
   },
@@ -56,6 +68,12 @@ export default {
         return this.itemSelected;
       }
       return true;
+    },
+    address() {
+      return this.$options.filters.formatAddress(this.house.address);
+    },
+    price() {
+      return this.$options.filters.formatNumber(this.house.price, 0, '$');
     },
   },
   methods: {
@@ -82,8 +100,6 @@ export default {
       }
     },
     hover() {
-      console.log('e');
-      this.elevation = 5;
       this.$emit('hoverHouse', this.house);
     },
   },

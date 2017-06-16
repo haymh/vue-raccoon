@@ -6,11 +6,11 @@
             <v-card class="primary white--text">
               <div>
                 <v-card-row>
-                  <v-btn dark  @click="toggleFilter">full filter</v-btn>
-                  <v-spacer></v-spacer>
+                  <v-btn small dark  @click="toggleFilter">full filter</v-btn>
+                  <!--<v-spacer></v-spacer>-->
                   <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
-                  <v-btn class="" @click="share">{{shareButtonText}}</v-btn>
-                  <v-btn class="" @click="clearSelectedHouse">Clear All</v-btn>
+                  <v-btn small @click.native="share">{{shareButtonText}}</v-btn>
+                  <v-btn small @click.native="clearSelectedHouse">Clear All</v-btn>
                 </v-card-row>
                 <!--<v-card-row v-show="searchResultSummary !== ''">
                   <div v-html="searchResultSummary"></div>
@@ -28,12 +28,11 @@
             </v-tabs-bar>
 
             <v-tabs-content id="mobile-tabs-2-cards">
-              <div style="height:696px; overflow-y:scroll;">
-              <house-list class="list-container"
-                          v-show="showList"
-                          :houseList="filterResults"
-                          :selectAll="selectAll">
-                  </house-list>
+              <div class="left-container">
+                <house-list
+                        :houseList="filterResults"
+                        :selectAll="selectAll">
+                </house-list>
               </div>
             </v-tabs-content>
 
@@ -46,7 +45,7 @@
             </v-tabs-content>
 
             <v-tabs-content id="mobile-tabs-2-table">
-              <TableList class="table-container" :houseList="filterResults"></TableList>
+              <TableList :houseList="filterResults"></TableList>
             </v-tabs-content>
           </v-tabs>
         </v-flex>
@@ -66,18 +65,18 @@
  
         <v-flex md6 class="pa-0">
           
-          <TableList class="table-container"
+          <TableList
                     :houseList="selectedHouses"
-                    :selectedOnly="true">
+                    :selectedOnly="true"
+                    class="right-container">
           </TableList>
           <v-toolbar>
-            <v-toolbar-title>Selected House</v-toolbar-title>
             <v-toolbar-items>
               <v-toolbar-item>You have selected {{selectedHouses.length}} houses
               </v-toolbar-item>
               <v-toolbar-item>
                 <v-dialog v-model="showQrcode">
-                  <v-btn primary light slot="activator" :loading="isLoading" @click.native="generateLink">Open Dialog</v-btn>
+                  <v-btn small primary light slot="activator" :loading="isLoading" @click.native="generateLink">Generate QR Code</v-btn>
                   <v-card>
                     <v-card-row>
                       <v-card-title v-show="link === ''">Please Search House First</v-card-title>
@@ -110,36 +109,9 @@
   overflow-y: scroll;
   height: calc(100vh - 182px);
 }
-.toolbar-container {
-  margin-top: 4px;
-  background-color: white;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-}
-.toolbar-container .toolbar {
-  padding: 0 5px;
-}
 .right-container {
-  height: 100%;
-  margin-left: 4px;
-  margin-right: 4px;
-  padding: 0;
-}
-.right-container .share-list {
-  height: calc(50% - 4px);
-  margin-left: 4px;
-  margin-right: 4px;
-  margin-top: 4px;
-  padding: 10px;
-}
-.list-container {
-  padding-top: 5px;
-  height: 100%;
-  position: relative;
-}
-.table-container {
-  padding-top: 5px;
-  height: 100%;
-  position: relative;
+  overflow-y: scroll;
+  height: calc(100vh - 122px);
 }
 .filter-dropdown {
   position: relative;
@@ -148,11 +120,6 @@
 }
 .sort-bar {
   position: relative;
-  z-index: 2;
-  display: inline-block;
-}
-.qr-code {
-  position: absolute;
   z-index: 2;
   display: inline-block;
 }
