@@ -4,19 +4,18 @@
       <v-flex xs12 sm12 md6>
         <Slider :images="singleListingData.pics" :clickHandler="onClickHandler"></Slider>
         <list-basic-info class="basic-info" v-bind:listingData="singleListingData"></list-basic-info>
-                <a class="like" v-bind:style="{color: like? '#ff3860':'white'}">
-          <span class="icon is-medium" v-on:click="likeListing">
-            <i v-bind:class="['fa',like ? 'fa-heart' : 'fa-heart-o']"></i>
-          </span>
-        </a>
+        <v-btn class="like" icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+          <v-icon>favorite</v-icon>
+        </v-btn>
+        <v-btn icon outline floating v-bind:class="[cardSelected ? 'green--text' : 'grey--text', 'check', 'hidden-md-and-up']" @click.native="selectCard">
+          <v-icon>done</v-icon>
+        </v-btn>
       </v-flex>
       <v-flex md6 class="hidden-sm-and-down">
         <list-detail-info v-bind:listingData="singleListingData">
-          <a v-bind:style="{color: cardSelected? '#1B998B':'grey'}">
-            <span class="icon is-medium" v-on:click="selectCard">
-              <i class="fa fa-check"></i>
-            </span>
-          </a>
+          <v-btn icon v-bind:class="[cardSelected ? 'green--text' : 'grey--text']" @click.native="selectCard">
+            <v-icon>done</v-icon>
+          </v-btn>
         </list-detail-info>
         <footer class="card-footer actions">
           <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
@@ -25,6 +24,36 @@
     </v-layout>
   </v-card>
 </template>
+<style>
+.list .like {
+   z-index: 1;
+   position: absolute;
+   top: 0px;
+   padding: 5px;
+   margin: 10px;
+ }
+ .list .check {
+   z-index: 1;
+   position: absolute;
+   float: right;
+   top: 0px;
+   right: 0px;
+   padding: 5px;
+   margin: 10px;
+ }
+
+ .list .actions {
+   position: absolute;
+   width: 50%;
+   bottom: 0px;
+ }
+ .list .basic-info {
+   z-index: 1;
+   position: absolute;
+   width: 50%;
+   bottom: 0px;
+ }
+</style>
 
 <script>
 import { mapGetters } from 'vuex';
