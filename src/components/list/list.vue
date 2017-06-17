@@ -1,7 +1,8 @@
 <template>
   <div>
     <div id="list" class="scrollable-list">
-      <div class="singlelist" v-for="item in currentList" :key="item._id">
+      <div v-html="searchResultSummary"></div>
+      <div class="singlelist mr-1 ml-1" v-for="item in currentList" :key="item._id">
         <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
       </div>
     </div>
@@ -96,11 +97,18 @@ export default {
   computed: {
     ...mapGetters([
       'hoveredHouse',
+      'searchTerms',
     ]),
     currentList() {
       const begin = (this.currentPage - 1) * this.pageSize;
       const end = begin + this.pageSize;
       return this.houseList.slice(begin, end);
+    },
+    searchResultSummary() {
+      if (this.searchTerms && this.houseList) {
+        return `<p>Found <i>${this.houseList.length}</i> houses in <strong>${this.searchTerms.city}, ${this.searchTerms.state}</strong></p>`;
+      }
+      return '';
     },
   },
   watch: {

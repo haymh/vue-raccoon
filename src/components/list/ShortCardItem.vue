@@ -1,5 +1,5 @@
 <template>
-  <v-card hover raised horizontal v-show="show" @mouseover="hover" class="mt-1">
+  <v-card hover horizontal v-show="show" @mouseover="hover" class="mt-1">
     <v-card-row>
       <v-card-text>
         <strong>{{house.address | formatAddress}}</strong>

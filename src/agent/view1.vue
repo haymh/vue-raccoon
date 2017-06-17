@@ -5,12 +5,13 @@
           <v-icon class="grey--text text--darken-2">list</v-icon>
         </v-btn>
         <v-toolbar-title class="grey--text text--darken-4">
-          <v-text-field
+          <!--<v-text-field
               name="input-1"
               prepend-icon="search"
               id="testing"
               class="ma-0"
-            ></v-text-field>
+            ></v-text-field>-->
+            <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
         </v-toolbar-title>
         <v-btn icon light>
           <v-icon class="grey--text text--darken-2">filter</v-icon>
@@ -92,6 +93,7 @@ import MortgageCalculator from '../components/mortgage_calculator/MortgageCalcul
 import Pagination from '../components/list/Pagination.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import ShareList from '../agent/components/share/ShareList.vue';
+import HouseSearchBar from '../components/search/HouseSearchBar.vue';
 
 
 export default {
@@ -203,6 +205,7 @@ export default {
     Pagination,
     FilterFullSize,
     ShareList,
+    HouseSearchBar,
   },
   methods: {
     searchHouse() {

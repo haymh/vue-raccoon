@@ -1,8 +1,8 @@
 <template>
   <div class="content-container">
-    <v-layout row>
+    <v-layout row class="hidden-xs-only">
       <v-flex md6 class="pa-0">
-          <v-tabs id="mobile-tabs-2" grow light style="height:100%">
+          <v-tabs id="left-desktop-tabs" grow light>
             <v-card class="primary white--text">
               <div>
                 <v-card-row>
@@ -21,14 +21,14 @@
               <v-tabs-slider></v-tabs-slider>
               <v-tabs-item v-for="(item, i) in viewMode"
                 :key="i"
-                :href="'#mobile-tabs-2-' + item"
+                :href="'#left-desktop-tabs-' + item"
               >
                 {{item}}
               </v-tabs-item>
             </v-tabs-bar>
 
-            <v-tabs-content id="mobile-tabs-2-cards">
-              <div class="left-container mr-1 ml-1">
+            <v-tabs-content id="left-desktop-tabs-cards">
+              <div class="cardlist-container mr-1 ml-1">
                 <house-list
                         :houseList="filterResults"
                         :selectAll="selectAll">
@@ -36,7 +36,7 @@
               </div>
             </v-tabs-content>
 
-             <v-tabs-content id="mobile-tabs-2-map">
+             <v-tabs-content id="left-desktop-tabs-map">
               <v-card flat>
                 <v-card-text>
                   <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo"></RaccoonMap>
@@ -44,8 +44,8 @@
               </v-card>
             </v-tabs-content>
 
-            <v-tabs-content id="mobile-tabs-2-table">
-              <TableList :houseList="filterResults"></TableList>
+            <v-tabs-content id="left-desktop-tabs-table">
+              <TableList class="tablelist-container" :houseList="filterResults"></TableList>
             </v-tabs-content>
           </v-tabs>
         </v-flex>
@@ -63,12 +63,12 @@
       
 
  
-        <v-flex md6 class="pa-0 hidden-xs-only">
+        <v-flex md6 class="pa-0">
           
           <TableList
                     :houseList="selectedHouses"
                     :selectedOnly="true"
-                    class="right-container">
+                    class="tablelist-container">
           </TableList>
           <v-toolbar>
             <v-toolbar-items>
@@ -89,8 +89,9 @@
                     <v-card-row>
                       <v-text-field :value="link" multi-line disabled></v-text-field>
                     </v-card-row>
-                    <v-card-row>
-                      <v-btn class="green--text darken-1" v-clipboard="link">Copy</v-btn>
+                    <v-card-row actions>
+                      <v-btn class="green--text darken-1" flat="flat" v-clipboard="link">Copy</v-btn>
+                      <v-btn class="red--text darken-1" flat="flat" @click.native="showQrcode = !showQrcode">Close</v-btn>
                     </v-card-row>
                   </v-card>
                 </v-dialog>
@@ -99,6 +100,63 @@
           </v-toolbar>
         </v-flex>
       </v-layout>
+
+      <v-tabs id="mobile-tabs" grow light class="hidden-sm-and-up" v-model="mobileSelectedView">
+        <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Search Results'">
+          <div>
+            <v-card-row>
+              <v-btn small light flat @click="toggleFilter">full filter</v-btn>
+              <!--<v-spacer></v-spacer>-->
+              <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
+              <v-btn small light flat @click.native="share">{{shareButtonText}}</v-btn>
+            </v-card-row>
+            <!--<v-card-row v-show="searchResultSummary !== ''">
+              <div v-html="searchResultSummary"></div>
+            </v-card-row>-->
+          </div>
+        </v-card>
+        <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Selected Houses'">
+          <div>
+            <v-card-row>
+              <v-btn small light flat @click.native="clearSelectedHouse">Clear All</v-btn>
+            </v-card-row>
+            <!--<v-card-row v-show="searchResultSummary !== ''">
+              <div v-html="searchResultSummary"></div>
+            </v-card-row>-->
+          </div>
+        </v-card>
+        <v-tabs-bar slot="activators">
+          <v-tabs-slider></v-tabs-slider>
+          <v-tabs-item
+            :key="0"
+            :href="'#mobile-tabs-' + mobileViewMode[0]"
+          >
+            {{mobileViewMode[0]}}
+          </v-tabs-item>
+          <v-tabs-item
+            :key="1"
+            :href="'#mobile-tabs-' + mobileViewMode[1]"
+          >
+            {{mobileViewMode[1]}} {{this.selectedHouses.length}}
+          </v-tabs-item>
+        </v-tabs-bar>
+        <v-tabs-content id="mobile-tabs-Search Results">
+          <div class="cardlist-container mr-1 ml-1">
+            <house-list
+                    :houseList="filterResults"
+                    :selectAll="selectAll">
+            </house-list>
+          </div>
+          <!--<TableList class="tablelist-container" :houseList="filterResults"></TableList>-->
+        </v-tabs-content>
+        <v-tabs-content id="mobile-tabs-Selected Houses">
+          <TableList
+                    :houseList="selectedHouses"
+                    :selectedOnly="true"
+                    class="tablelist-container">
+          </TableList>
+        </v-tabs-content>
+      </v-tabs>
   </div>
 </template>
 <style scoped>
@@ -107,11 +165,11 @@
   max-width: 1300px;
   margin: auto;
 }
-.left-container {
+.cardlist-container {
   overflow-y: scroll;
   height: calc(100vh - 182px);
 }
-.right-container {
+.tablelist-container {
   height: calc(100vh - 122px);
 }
 .filter-dropdown {
@@ -151,6 +209,8 @@ export default {
   data() {
     return {
       viewMode: ['cards', 'map', 'table'],
+      mobileViewMode: ['Search Results', 'Selected Houses'],
+      mobileSelectedView: 'mobile-tabs-Search Results',
       selectedView: 'cards',
       selectAll: false,
       showFullFilter: false,
