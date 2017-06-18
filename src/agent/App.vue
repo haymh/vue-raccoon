@@ -29,7 +29,7 @@ html, body, #app, .main {
   height: 100%;
 }
 .main {
-  /*height: calc(100vh - 50px);*/
+  height: calc(100vh - 56px);
   overflow-y: auto;
   margin: auto;
   -webkit-overflow-scrolling: touch;

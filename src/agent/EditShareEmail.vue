@@ -1,5 +1,90 @@
 <template>
-<div class="section">
+<div>
+  <v-toolbar fixed class="white hidden-sm-and-up">
+    <v-dialog fullscreen v-model="showModal">
+      <v-btn class="grey--text text--darken-2" slot="activator">Email Preview</v-btn>
+      <v-card>
+        <v-card-row>
+          <v-card-title>Email Preview</v-card-title>
+        </v-card-row>
+        <v-card-row>
+          <v-card-text class="text-md-center">
+            <div v-if="showModal" v-html="email"></div>
+          </v-card-text>
+        </v-card-row>
+        <v-card-row actions>
+          <v-btn class="green--text darken-1" flat @click.native="nextStep">Continue Share Schedule Setup</v-btn>
+          <v-btn class="red--text darken-1" flat @click.native="showModal = false">Close</v-btn>
+        </v-card-row>
+      </v-card>
+    </v-dialog>
+    <v-spacer></v-spacer>
+    <v-btn warning @click.native="nextStep">Next Step</v-btn>
+  </v-toolbar>
+  <v-card>
+    <v-card-row>
+      <v-card-title>
+        Edit Your Share
+      </v-card-title>
+    </v-card-row>
+    <v-card-row>
+      <v-card-text>
+        <v-subheader class="grey--text text--lighten-1">Email Subject</v-subheader>
+        <v-text-field
+          multi-line
+          value=""
+          label="e.g. Check out those hot homes!"
+          v-model="emailSubject"
+        ></v-text-field>
+      </v-card-text>
+    </v-card-row>
+    <v-card-row>
+      <v-card-text>
+        <v-subheader class="grey--text text--lighten-1">Summary for those properties</v-subheader>
+        <v-text-field
+          multi-line
+          value=""
+          label="e.g. Check out those hot homes!"
+          v-model="shareTitle"
+        ></v-text-field>
+      </v-card-text>
+    </v-card-row>
+    <v-card-row>
+      <v-card-text>
+        <v-subheader class="grey--text text--lighten-1">Things you want to tell your customers</v-subheader>
+        <v-text-field
+          multi-line
+          value=""
+          label="Something nice to say about those properties"
+          v-model="shareTitle"
+        ></v-text-field>
+      </v-card-text>
+    </v-card-row>
+    <v-card-row actions class="hidden-xs-only">
+      <v-btn class="green--text darken-1" flat="flat" @click.native="nextStep">Continue Share Schedule Setup</v-btn>
+      <v-dialog fullscreen v-model="showModal">
+        <v-btn class="grey--text text--darken-2" slot="activator">Email Preview</v-btn>
+        <v-card>
+          <v-card-row>
+            <v-card-title>Email Preview</v-card-title>
+          </v-card-row>
+          <v-card-row>
+            <v-card-text class="text-md-center">
+              <div v-if="showModal" v-html="email"></div>
+            </v-card-text>
+          </v-card-row>
+          <v-card-row actions>
+            <v-btn class="green--text darken-1" flat="flat" @click.native="nextStep">Continue Share Schedule Setup</v-btn>
+            <v-btn class="red--text darken-1" flat="flat" @click.native="showModal = false">Close</v-btn>
+          </v-card-row>
+        </v-card>
+      </v-dialog>
+    </v-card-row>
+  </v-card>
+</div>
+
+
+<!--<div class="section">
   <div class="container">
     <div class="heading has-text-centered">
       <h1 class="title">Edit Your Share</h1>
@@ -59,7 +144,7 @@
       </div>
       <div class="field is-horizontal">
         <div class="field-label">
-          <!-- Left empty for spacing -->
+          
         </div>
         <div class="field-body">
           <div class="field">
@@ -72,21 +157,11 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 </template>
-<style scoped>
-.preview {
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.textarea {
-  height: 40vh;
-}
-</style>
 <script>
 import { mapGetters } from 'vuex';
-import FilterTag from '../components/filter/FilterTag.vue';
+// import FilterTag from '../components/filter/FilterTag.vue';
 // import singleHouseTemplate from '../../email-templates/single-house.hbs';
 // import singleHouseSchema from '../../email-templates/singleHouseSchema';
 import multipleHouseTemplate from './email-templates/multiple-house.hbs';
@@ -109,12 +184,9 @@ export default {
     this.shareDescription = 'Hi,\nI hope all is well with you and you are seeing a few homes that peak your interest on the site. In case anything has changed, you can easily update your preferences in order to receive properties better catered to your search. Please reply to this email if you would like to be removed from e-Alerts, please reply to this email and I can do that for you!';
   },
   components: {
-    FilterTag,
+    // FilterTag,
   },
   methods: {
-    toggleModal() {
-      this.showModal = !this.showModal;
-    },
     nextStep() {
       this.$store.dispatch('setShareEmail', {
         subject: this.emailSubject,

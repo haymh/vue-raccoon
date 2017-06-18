@@ -75,26 +75,12 @@
               <v-toolbar-item>You have selected {{selectedHouses.length}} houses
               </v-toolbar-item>
               <v-toolbar-item>
-                <v-dialog v-model="showQrcode">
-                  <v-btn small primary light slot="activator" :loading="isLoading" @click.native="generateLink">Generate QR Code</v-btn>
-                  <v-card>
-                    <v-card-row>
-                      <v-card-title v-show="link === ''">Please Search House First</v-card-title>
-                    </v-card-row>
-                    <v-card-row>
-                      <v-card-text class="text-md-center">
-                        <qrcode :value="link" :size="150" v-show="link && link !== ''"></qrcode>
-                      </v-card-text>
-                    </v-card-row>
-                    <v-card-row>
-                      <v-text-field :value="link" multi-line disabled></v-text-field>
-                    </v-card-row>
-                    <v-card-row actions>
-                      <v-btn class="green--text darken-1" flat="flat" v-clipboard="link">Copy</v-btn>
-                      <v-btn class="red--text darken-1" flat="flat" @click.native="showQrcode = !showQrcode">Close</v-btn>
-                    </v-card-row>
-                  </v-card>
-                </v-dialog>
+                <QrcodeDialog v-model="showQrcode"
+                  :generateLink="generateLink"
+                  :isloading="isLoading"
+                  :link="link"
+                  @next="share">
+                </QrcodeDialog>
               </v-toolbar-item>
             </v-toolbar-items>
           </v-toolbar>
@@ -106,24 +92,27 @@
           <div>
             <v-card-row>
               <v-btn small light flat @click="toggleFilter">full filter</v-btn>
-              <!--<v-spacer></v-spacer>-->
               <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
-              <v-btn small light flat @click.native="share">{{shareButtonText}}</v-btn>
+              <v-btn small light flat @click.native="share">
+                {{shareButtonText}}
+                <v-icon>share</v-icon>
+              </v-btn>
             </v-card-row>
             <!--<v-card-row v-show="searchResultSummary !== ''">
               <div v-html="searchResultSummary"></div>
             </v-card-row>-->
           </div>
         </v-card>
-        <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Selected Houses'">
-          <div>
-            <v-card-row>
-              <v-btn small light flat @click.native="clearSelectedHouse">Clear All</v-btn>
-            </v-card-row>
-            <!--<v-card-row v-show="searchResultSummary !== ''">
-              <div v-html="searchResultSummary"></div>
-            </v-card-row>-->
-          </div>
+        <v-card horizontal class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Selected Houses'">
+          <v-card-column>
+            <v-btn small flat light @click.native="clearSelectedHouse">Clear All</v-btn>
+          </v-card-column>
+          <v-card-column>
+            <v-btn flat small light @click.native="share">
+              {{shareButtonText}}
+              <v-icon>share</v-icon>
+            </v-btn>
+          </v-card-column>
         </v-card>
         <v-tabs-bar slot="activators">
           <v-tabs-slider></v-tabs-slider>
@@ -199,6 +188,7 @@ import SortBar from '../components/list/SortBar.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
 import TableList from '../components/list/TableList.vue';
+import QrcodeDialog from './components/share/QrcodeDialog.vue';
 import API from '../api';
 import { generateQuery } from '../components/filter/filter-schema';
 
@@ -227,6 +217,7 @@ export default {
     TableList,
     SortBar,
     qrcode,
+    QrcodeDialog,
   },
   computed: {
     ...mapGetters([
@@ -361,6 +352,7 @@ export default {
       this.showQrcode = false;
     },
     share() {
+      this.showQrcode = false;
       if (this.filterResults.length === 0) {
         console.log('nothing to share');
         return;
