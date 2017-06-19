@@ -129,19 +129,23 @@
 
     <v-flex xs6 md6>
       <v-subheader>{{$t('filter.propertyType')}}</v-subheader>
-      <v-checkbox v-for="choice in schema.conditions.propertyType.choices" v-model="choice.checked"
-              @input="changeFilter('propertyType', ['propertyType'], false)"
-              :label="choice.value"
-              hide-details>
+      <v-checkbox v-for="(choice, index) in schema.conditions.propertyType.choices"
+        :key="index"
+        v-model="choice.checked"
+        @input="changeFilter('propertyType', ['propertyType'], false)"
+        :label="choice.value"
+        hide-details>
       </v-checkbox>
     </v-flex>
 
     <v-flex xs6 md6>
       <v-subheader>{{$t('filter.status')}}</v-subheader>
-      <v-checkbox v-for="choice in schema.conditions.status.choices" v-model="choice.checked"
-              @input="changeFilter('listingType', ['listingType'], false)"
-              :label="choice.value"
-              hide-details>
+      <v-checkbox v-for="(choice, index) in schema.conditions.status.choices"
+        :key="index"
+        v-model="choice.checked"
+        @input="changeFilter('listingType', ['listingType'], false)"
+        :label="choice.value"
+        hide-details>
       </v-checkbox>
     </v-flex>
   </v-layout>

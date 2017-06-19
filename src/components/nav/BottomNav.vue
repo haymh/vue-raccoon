@@ -4,7 +4,10 @@
     value="true"
     class="blue-grey"
   >
-    <v-btn flat light v-for="(n, i) in navs" @click.native="select(i)" :value="selected === i">
+    <v-btn flat light v-for="(n, i) in navs"
+      :key="i"
+      @click.native="select(i)"
+      :value="selected === i">
       <span>{{n.text}}</span>
       <v-icon>{{n.icon}}</v-icon>
     </v-btn>
