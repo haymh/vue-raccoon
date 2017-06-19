@@ -28,6 +28,9 @@ html, body, #app, .main {
   overflow: hidden;
   height: 100%;
 }
+html {
+  padding: 0 !important;
+}
 .main {
   height: calc(100vh - 56px);
   overflow-y: auto;
