@@ -7,6 +7,7 @@
       </div>
     </div>
     <Pagination
+      v-show="houseList !== null && houseList.length !== 0"
       v-model="currentPage"
       :pageSize="pageSize"
       :total="houseList.length"

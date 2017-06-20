@@ -1,37 +1,18 @@
 <template>
-  <div class="card" v-on:click="selectCard" v-show="show">
-    <header class="card-header">
-      <p class="card-header-title">
-        {{customer.name}}
-      </p>
-      <a class="card-header-icon" v-bind:style="{color: cardSelected? '#1B998B':'grey'}">
-        <span class="icon">
-          <i class="fa fa-check"></i>
-        </span>
-      </a>
-    </header>
-    <div class="card-content">
-      <div class="media">
-        <div class="media-left">
-          <figure class="image" style="height: 40px; width: 40px;">
-            <img src="http://bulma.io/images/placeholders/96x96.png" alt="Image">
-          </figure>
-        </div>
-        <div class="media-content">
-          <p class="title is-4">John Smith</p>
-          <p class="subtitle is-6">@johnsmith</p>
-        </div>
-      </div>
-
-      <div class="content">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-        <a>#css</a> <a>#responsive</a>
-        <br>
-        <small>11:09 PM - 1 Jan 2016</small>
-      </div>
-    </div>
-  </div>
+  <v-card raised horizontal>
+    <v-card-row img="http://bulma.io/images/placeholders/96x96.png"></v-card-row>
+    <v-card-column>
+      <v-card-row class="brown white--text">
+        <v-card-text>
+          <strong>{{customer.name}}</strong>
+          <div>Feb 23, 7:00pm</div>
+        </v-card-text>
+      </v-card-row>
+      <v-card-row actions class="brown darken-2">
+        <v-checkbox label="select" v-model="cardSelected" dark></v-checkbox>
+      </v-card-row>
+    </v-card-column>
+  </v-card>
 </template>
 <script>
 import { mapGetters } from 'vuex';
@@ -49,8 +30,23 @@ export default {
     ...mapGetters([
       'selectedCustomers',
     ]),
-    cardSelected() {
-      return this.selectedCustomers.indexOf(this.customer.id) !== -1;
+    cardSelected: {
+      set() {
+        if (!this.cardSelected) {
+          this.$store.dispatch({
+            type: 'selectCustomer',
+            id: this.customer.id,
+          });
+        } else {
+          this.$store.dispatch({
+            type: 'unselectCustomer',
+            id: this.customer.id,
+          });
+        }
+      },
+      get() {
+        return this.selectedCustomers.indexOf(this.customer.id) !== -1;
+      },
     },
     show() {
       if (this.showOnlyWhenSelected) {
