@@ -1,5 +1,13 @@
 <template>
   <div>
+    <v-toolbar fixed class="white hidden-sm-and-up">
+      <v-btn icon @click.native="$router.back">
+        <v-icon class="grey--text text--darken-2">keyboard_arrow_left</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn @click="sendShare">create</v-btn>
+    </v-toolbar>
+    <main></main>
     <v-container fluid>
       <v-subheader>
         Select Time And Customers
@@ -36,7 +44,7 @@
             </p>
           </div>
         </v-flex>
-        <v-flex xs12>
+        <v-flex xs12 class="hidden-xs-only">
           <v-btn @click="sendShare">create</v-btn>
         </v-flex>
         <v-flex xs12>
@@ -62,13 +70,26 @@
           </v-layout>
         </v-flex>
         <v-flex xs12 md6 v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
-          <v-date-picker
-            class="mt-3 mr-1 ml-1"
-            v-model="shareObject.shareMethod.shareOn"
-            :allowed-dates="allowedDates"
-          ></v-date-picker>
-          <!--<Datepicker v-model="shareObject.shareMethod.shareOn"
-                      :disabled="disableShareDate"></Datepicker>-->
+          <v-dialog
+            persistent
+            v-model="showTimePicker"
+            lazy
+          >
+            <v-text-field
+              slot="activator"
+              label="Click to select different date"
+              v-model="shareObject.shareMethod.shareOn"
+              prepend-icon="event"
+              readonly
+            ></v-text-field>
+            <v-date-picker v-model="shareObject.shareMethod.shareOn" scrollable :allowed-dates="allowedDates">
+              <template scope="{ cancel }">
+                <v-card-row actions>
+                  <v-btn flat primary @click.native="showTimePicker = false">Cancel</v-btn>
+                </v-card-row>
+              </template>
+            </v-date-picker>
+          </v-dialog>
         </v-flex>
         <v-flex xs6 v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
           <v-select
@@ -131,7 +152,6 @@
 </style>
 <script>
 import { mapGetters } from 'vuex';
-import Datepicker from 'vuejs-datepicker';
 import FilterTag from '../components/filter/FilterTag.vue';
 import CustomerList from './components/customer/CustomerList.vue';
 import { PERIODICAL_OPTIONS, TIME_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
@@ -165,6 +185,7 @@ export default {
       allowedDates: function (date) {
         return date > yesterday;
       },
+      showTimePicker: false,
       shareObject: new Share({
         uid: this.userId,
         // subject: this.shareEmail.subject,
@@ -270,7 +291,6 @@ export default {
     },
   },
   components: {
-    Datepicker,
     CustomerList,
     FilterTag,
   },

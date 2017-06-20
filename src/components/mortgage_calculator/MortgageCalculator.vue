@@ -1,112 +1,118 @@
 <template>
 <div>
-  <v-card>
-    <v-card-row class="blue-grey darken-1">
-      <v-card-title>
-        <span class="white--text">Mortgage Calculator</span>
-        <v-spacer></v-spacer>
-        <v-btn icon="icon" slot="activator" class="white--text">
-          <v-icon>bookmark</v-icon>
-        </v-btn>
-      </v-card-title>
-    </v-card-row>
-    <v-card-row class="ma-2">
-      <v-layout row wrap>
-        <v-flex xs12>
-          <h4>Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</h4>
-        </v-flex>
-        <v-flex offset-xs2 xs4 offset-md2 md4>
-          <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
-        </v-flex>
-        <v-flex xs12 offset-md1 md5>
-          <ul v-for="(label, index) in chartData.labels">
-            <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
-              {{label}}
-              <span class="subtitle is-5" style="float:right">
-                {{chartData.datasets[0].data[index] | formatNumber(0, '$')}}
-              </span>
-            </li>
-          </ul>
-        </v-flex>
-      </v-layout>
-    </v-card-row>
-  </v-card>
-  <v-card>
-    <v-card-row class="ma-2">
-      <v-layout row wrap>
-        <v-flex xs12 md6>
-          <v-text-field label="Price" :value="newPrice" prefix="$" v-on:input="enterPrice"></v-text-field>
-          <v-slider  v-model.number="newPrice" dark :min="minPrice" :max="maxPrice" :step="1000"></v-slider>
-        </v-flex>
-        <v-flex xs12 md6>
+  <v-expansion-panel :expand="expand">
+    <v-expansion-panel-content v-model="isExpanded">
+      <div slot="header">Mortgage Calculator 
+        <span v-show="!isExpanded">
+          &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }} / Month
+        </span>
+      </div>
+      <v-card>
+        <v-card-row class="blue-grey darken-1">
+          <v-card-title>
+            <span class="white--text">Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</span>
+            <v-spacer></v-spacer>
+            <v-btn icon="icon" slot="activator" class="white--text">
+              <v-icon>bookmark</v-icon>
+            </v-btn>
+          </v-card-title>
+        </v-card-row>
+        <v-card-row class="ma-2">
           <v-layout row wrap>
-          <v-flex xs6 md6>
-            <v-text-field label="Down Payment Amount" :value="downPayment" prefix="$" v-on:input="enterDownPayment"></v-text-field>
-          </v-flex>
-          <v-flex xs6 md6>
-            <v-text-field label="Down Payment Percentage" :value="downPaymentRate" suffix="%" v-on:input="dataChange('downPaymentRate', $event)"></v-text-field>
-          </v-flex>
-          <v-flex xs12 md12>
-            <v-slider  v-model.number="downPaymentRate" dark :min="0" :max="100" :step="1000"></v-slider>
-          </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 md6>
-          <v-layout row wrap>
-            <v-flex xs6 md6>
-              <v-select
-                v-on:input="loanTypeChanged"
-                v-bind:items="loanTypes"
-                v-model="selectedLoanType"
-                label="Loan Type"
-                dark
-                auto
-                item-text="text"
-                item-value="index"
-              ></v-select>
+            <v-flex offset-xs2 xs4 offset-md2 md4>
+              <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
             </v-flex>
-            <v-flex xs6 md6>
-              <v-text-field label="Interest Rate" :value="interestRate * 100" suffix="%" v-on:input="dataChange('interestRate', $event / 100)"></v-text-field>
+            <v-flex xs12 offset-md1 md5>
+              <ul v-for="(label, index) in chartData.labels">
+                <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
+                  {{label}}
+                  <span class="subtitle is-5" style="float:right">
+                    {{chartData.datasets[0].data[index] | formatNumber(0, '$')}}
+                  </span>
+                </li>
+              </ul>
             </v-flex>
           </v-layout>
-        </v-flex>
-        <v-flex xs12 md6>
+        </v-card-row>
+      </v-card>
+      <v-card>
+        <v-card-row class="ma-2">
           <v-layout row wrap>
-            <v-flex xs6 md6>
-              <v-text-field label="Property Tax Amount" :value="propertyTax * 12" prefix="$" v-on:input="enterPropertyTax"></v-text-field>
+            <v-flex xs12 md6>
+              <v-text-field label="Price" :value="newPrice" prefix="$" v-on:input="enterPrice"></v-text-field>
+              <v-slider  v-model.number="newPrice" dark :min="minPrice" :max="maxPrice" :step="1000"></v-slider>
             </v-flex>
-            <v-flex xs6 md6>
-              <v-text-field label="Property Tax Percentage" :value="propertyTaxRate * 100" suffix="%" v-on:input="dataChange('propertyTaxRate', $event / 100)"></v-text-field>
+            <v-flex xs12 md6>
+              <v-layout row wrap>
+              <v-flex xs6 md6>
+                <v-text-field label="Down Payment Amount" :value="downPayment" prefix="$" v-on:input="enterDownPayment"></v-text-field>
+              </v-flex>
+              <v-flex xs6 md6>
+                <v-text-field label="Down Payment Percentage" :value="downPaymentRate" suffix="%" v-on:input="dataChange('downPaymentRate', $event)"></v-text-field>
+              </v-flex>
+              <v-flex xs12 md12>
+                <v-slider  v-model.number="downPaymentRate" dark :min="0" :max="100" :step="1000"></v-slider>
+              </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+              <v-layout row wrap>
+                <v-flex xs6 md6>
+                  <v-select
+                    v-on:input="loanTypeChanged"
+                    v-bind:items="loanTypes"
+                    v-model="selectedLoanType"
+                    label="Loan Type"
+                    dark
+                    auto
+                    item-text="text"
+                    item-value="index"
+                  ></v-select>
+                </v-flex>
+                <v-flex xs6 md6>
+                  <v-text-field label="Interest Rate" :value="interestRate * 100" suffix="%" v-on:input="dataChange('interestRate', $event / 100)"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+              <v-layout row wrap>
+                <v-flex xs6 md6>
+                  <v-text-field label="Property Tax Amount" :value="propertyTax * 12" prefix="$" v-on:input="enterPropertyTax"></v-text-field>
+                </v-flex>
+                <v-flex xs6 md6>
+                  <v-text-field label="Property Tax Percentage" :value="propertyTaxRate * 100" suffix="%" v-on:input="dataChange('propertyTaxRate', $event / 100)"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 md6>
+              <!--<FormatableNumberInput :value="newHoa" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newHoa', $event)"></FormatableNumberInput>-->
+              <v-text-field label="HOA Dues" :value="newHoa" prefix="$" v-on:input="dataChange('newHoa', parseFloat($event))"></v-text-field>
+            </v-flex>
+            <v-flex xs12 md6>
+              <v-layout row wrap>
+                <v-flex xs6 md6>
+                  <v-text-field label="Home Insurance Amount" :value="insurance" prefix="$" v-on:input="enterInsurance"></v-text-field>
+                </v-flex>
+                <v-flex xs6 md6>
+                  <v-text-field label="Home Insurance Percentage" :value="insuranceRate * 100" suffix="%" v-on:input="dataChange('insuranceRate', $event / 100)"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 md6 v-bind:style="mortgageInsuranceStyle">
+              <v-layout row wrap>
+                <v-flex xs6 md6>
+                  <v-text-field label="Mortgage Insurance Amount" :value="mortgageInsurance" prefix="$" v-on:input="enterMortgageInsurance"></v-text-field>
+                </v-flex>
+                <v-flex xs6 md6>
+                  <v-text-field label="Mortgage Insurance Percentage" :value="mortgageInsuranceRate * 100" suffix="%" v-on:input="dataChange('mortgageInsuranceRate', $event / 100)"></v-text-field>
+                </v-flex>
+              </v-layout>
             </v-flex>
           </v-layout>
-        </v-flex>
-        <v-flex xs12 md6>
-          <!--<FormatableNumberInput :value="newHoa" :formatMethod="formatCurrency" v-on:valuechange="dataChange('newHoa', $event)"></FormatableNumberInput>-->
-          <v-text-field label="HOA Dues" :value="newHoa" prefix="$" v-on:input="dataChange('newHoa', parseFloat($event))"></v-text-field>
-        </v-flex>
-        <v-flex xs12 md6>
-          <v-layout row wrap>
-            <v-flex xs6 md6>
-              <v-text-field label="Home Insurance Amount" :value="insurance" prefix="$" v-on:input="enterInsurance"></v-text-field>
-            </v-flex>
-            <v-flex xs6 md6>
-              <v-text-field label="Home Insurance Percentage" :value="insuranceRate * 100" suffix="%" v-on:input="dataChange('insuranceRate', $event / 100)"></v-text-field>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-        <v-flex xs12 md6 v-bind:style="mortgageInsuranceStyle">
-          <v-layout row wrap>
-            <v-flex xs6 md6>
-              <v-text-field label="Mortgage Insurance Amount" :value="mortgageInsurance" prefix="$" v-on:input="enterMortgageInsurance"></v-text-field>
-            </v-flex>
-            <v-flex xs6 md6>
-              <v-text-field label="Mortgage Insurance Percentage" :value="mortgageInsuranceRate * 100" suffix="%" v-on:input="dataChange('mortgageInsuranceRate', $event / 100)"></v-text-field>
-            </v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
-    </v-card-row>
-  </v-card>
+        </v-card-row>
+      </v-card>
+    </v-expansion-panel-content>
+  </v-expansion-panel>
 </div>
 </template>
 <style>
@@ -120,6 +126,10 @@ export default {
   props: {
     price: Number,
     hoa: Number,
+    expand: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -127,6 +137,7 @@ export default {
       maxPrice: this.price * 1.2,
       minPrice: this.price * 0.8,
       newHoa: this.hoa,
+      isExpanded: this.expand,
       downPaymentRate: 20,
       loanTypes: [
         {

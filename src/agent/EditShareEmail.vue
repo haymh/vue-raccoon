@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-toolbar fixed class="white hidden-sm-and-up">
+  <v-toolbar v-show="!showModal" fixed class="white hidden-sm-and-up">
     <v-dialog fullscreen v-model="showModal">
       <v-btn class="grey--text text--darken-2" slot="activator">Email Preview</v-btn>
       <v-card>
@@ -21,6 +21,7 @@
     <v-spacer></v-spacer>
     <v-btn warning @click.native="nextStep">Next Step</v-btn>
   </v-toolbar>
+  <main></main>
   <v-card>
     <v-card-row>
       <v-card-title>
