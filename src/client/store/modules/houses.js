@@ -10,6 +10,7 @@ const state = {
   selectedHouses: [],
   hovered: null,
   sort: null,
+  searchTerms: null,
 };
 
 const sorting = () => {
@@ -149,6 +150,9 @@ const mutations = {
     if (index > -1) {
       _state.selectedHouses.splice(index, 1);
     }
+  },
+  [types.ADD_SEARCH_TERMS](_state, { searchTerms }) {
+    _state.searchTerms = searchTerms;
   },
 };
 /* eslint-enable no-param-reassign */

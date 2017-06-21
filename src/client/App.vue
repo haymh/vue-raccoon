@@ -1,12 +1,14 @@
 <template>
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <navbar></navbar>
-		<transition name="fade" mode="out-in">
-			<main class="main">
-				<router-view></router-view>
-			</main>
-		</transition>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+    <v-app>
+      <navbar class="hidden-xs-only"></navbar>
+      <main>
+        <router-view class="main"></router-view>
+      </main>
+    </v-app>
   </div>
 </template>
 <style lang="scss">
@@ -14,7 +16,7 @@ $blue: #72d0eb;
 $family-serif: "Lato", serif; // Add a serif family
 $primary: $blue;
 $family-primary: $family-serif; // Use the new serif family
-@import "~bulma";
+// @import "~bulma";
 </style>
 
 
@@ -25,7 +27,7 @@ html, body, #app, .main {
   height: 100%;
 }
 .main {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 56px);
   overflow-y: auto;
 }
 

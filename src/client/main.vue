@@ -1,22 +1,24 @@
 <template>
-  <div class="columns is-gapless is-mobile content-container">
-    <div class="column map-container">
-        <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo">
+  <v-layout row>
+    <v-flex xs6 class="pa-0">
+      <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo">
         </RaccoonMap>
-    </div>
-    <div class="column is-narrow right-container">
-      <header class="toolbar-container">
-        <FilterBar>
-        </FilterBar>
-        <div class="columns is-narrow is-gapless toolbar">
-          <div class="column is-5">
+    </v-flex>
+    <v-flex xs6 class="pa-0">
+      <div class="elevation-2">
+        <v-layout row wrap>
+          <v-flex xs1>
             <SortBar></SortBar>
-          </div>
-        </div>
-      </header>
+          </v-flex>
+          <v-flex xs11>
+            <FilterCondensed>
+            </FilterCondensed>
+          </v-flex>
+        </v-layout>
+      </div>
       <house-list :houseList="filterResults" class="list-container"></house-list>
-    </div>
-  </div>
+    </v-flex>
+  </v-layout>
 </template>
 <style>
 .content-container {
@@ -43,7 +45,8 @@
 }
 .list-container {
   padding-top: 5px;
-  height: calc(100% - 74px);
+  /*height: 100%;*/
+  height: calc(100% - 88px);
   position: relative;
   overflow-y: scroll;
 }
@@ -54,7 +57,7 @@
 import { mapGetters } from 'vuex';
 import list from '../components/list/list.vue';
 import SortBar from '../components/list/SortBar.vue';
-import FilterBar from '../components/filter/Filter-element.vue';
+import FilterCondensed from '../components/filter/FilterCondensed.vue';
 import Map from '../components/map/Map.vue';
 
 export default {
@@ -64,7 +67,7 @@ export default {
     };
   },
   components: {
-    FilterBar,
+    FilterCondensed,
     'house-list': list,
     SortBar,
     RaccoonMap: Map,
