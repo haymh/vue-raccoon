@@ -77,7 +77,7 @@
               <v-toolbar-item>
                 <QrcodeDialog v-model="showQrcode"
                   :generateLink="generateLink"
-                  :isloading="isLoading"
+                  :isLoading="isLoading"
                   :link="link"
                   @next="share">
                 </QrcodeDialog>
@@ -181,7 +181,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import qrcode from 'v-qrcode';
 import list from '../components/list/list.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import SortBar from '../components/list/SortBar.vue';
@@ -216,7 +215,6 @@ export default {
     ShareList,
     TableList,
     SortBar,
-    qrcode,
     QrcodeDialog,
   },
   computed: {
@@ -346,10 +344,6 @@ export default {
     hideFilter() {
       console.log('hide filter');
       this.showFullFilter = false;
-    },
-    hideQrcode() {
-      console.log('hide qrcode');
-      this.showQrcode = false;
     },
     share() {
       this.showQrcode = false;
