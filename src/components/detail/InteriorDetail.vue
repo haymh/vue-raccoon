@@ -1,88 +1,84 @@
 <template>
   <div>
-    <div class="level">
-      <div class="level-left">
-        <p class="title is-4">Interior Features</p>
-      </div>
-    </div>
-    <div class="columns is-multiline">
-      <div class="column is-6" v-if="bath">
-        <p class="subtitle is-6">
+    <p class="title">Interior Features</p>
+    <v-layout row wrap>
+      <v-flex xs12 md6 lg4 v-if="bath">
+        <v-subheader>
           Bathroom Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-show="bath.bathroomsFull">Full Bath: {{bath.bathroomsFull}}</li>
           <li v-show="bath.bathroomsThreeQuarter">3/4 Bath: {{bath.bathroomsFull}}</li>
           <li v-show="bath.bathroomsHalf">Half Bath: {{bath.bathroomsFull}}</li>
           <li v-show="bath.bathroomsOneQuarter">1/4 Bath: {{bath.bathroomsFull}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="laundry && laundry.hasLaundry === '1'">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="laundry && laundry.laundryFeatures">
+        <v-subheader>
           Laundry Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in laundry.laundryFeatures">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="cooling && cooling.hasCooling === '1'">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="cooling && cooling.coolingType">
+        <v-subheader>
           Cooling Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in cooling.coolingType">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="heating && cooling.hasHeating === '1'">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="heating && heating.heatingType">
+        <v-subheader>
           Heating Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in heating.heatingType">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="roomInfo">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="roomInfo">
+        <v-subheader>
           Room Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in roomInfo">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="fireplace && fireplace.hasFireplace === '1'">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="fireplace && fireplace.fireplaceFeatures">
+        <v-subheader>
           Fireplace Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in fireplace.fireplaceFeatures">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="appliances && appliances.hasAppliances === '1'">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="appliances && appliances.appliancesType">
+        <v-subheader>
           Appliances Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in appliances.appliancesType">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="interiorFeatures">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="interiorFeatures">
+        <v-subheader>
           Interior Information
-        </p>
+        </v-subheader>
         <ul>
           <li v-for="item in interiorFeatures">{{item}}</li>
         </ul>
-      </div>
-      <div class="column is-6" v-if="other">
-        <p class="subtitle is-6">
+      </v-flex>
+      <v-flex xs12 md6 lg4 v-if="other && other.flooring">
+        <v-subheader>
           Other Information
-        </p>
+        </v-subheader>
         <ul>
           <li class="heading" v-if="other.flooring">Flooring</li>
           <li v-for="item in other.flooring">{{item}}</li>
         </ul>
-      </div>
-    </div>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 <style scoped>

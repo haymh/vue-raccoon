@@ -15,6 +15,8 @@
     <RaccoonSummary :propertyDetail="currentHouse"></RaccoonSummary>
     <v-layout row>
       <v-flex xs12 md7>
+        <!-- title, pictures and description -->
+        <A NAME=overview></A>
         <p class="title mt-4">
           {{currentHouse.views}} views / {{currentHouse.likes}} likes
         </p>
@@ -27,6 +29,8 @@
         </v-carousel>
         <p>{{currentHouse.description}}</p>
         <p class="text-xs-center"><v-icon>home</v-icon></p>
+        <!-- property features -->
+        <A NAME=feature></A>
         <v-flex xs12 md12>
           <v-layout row wrap>
             <v-flex xs6 md3>
@@ -63,79 +67,40 @@
             </v-flex>
           </v-layout>
         </v-flex>
+        <!-- map -->
+        <A NAME=map></A>
         <div class="map">
           <StaticMap :house="currentHouse"></StaticMap>
         </div>
+        <!-- mortgage calculator -->
+        <A NAME=calculator></A>
         <mortgage-calculator
           class="mt-4"
           :price="parseFloat(currentHouse.price)"
           :hoa="parseFloat(currentHouse.hoa.fee || '0')">
         </mortgage-calculator>
-        
+        <!-- detail info -->
+        <A NAME=detail></A>
+        <InteriorDetail class="mt-4" :interior="interior" v-if="interior"></InteriorDetail>
+        <v-divider></v-divider>
+        <ExteriorDetail class="mt-4" :exterior="exterior" v-if="exterior"></ExteriorDetail>
+        <v-divider></v-divider>
+        <SchoolNeighborhood
+          class="mt-4"
+          :schoolAndNeighborhood="schoolAndNeighborhood"
+          v-if="schoolAndNeighborhood">
+        </SchoolNeighborhood>
+        <v-divider></v-divider>
+        <Assessment class="mt-4" :assessment="assessment" v-if="assessment"></Assessment>
+        <v-divider></v-divider>
+        <PropertyAndLot class="mt-4" :propertyAndLot="propertyAndLot" v-if="propertyAndLot"></PropertyAndLot>
+        <v-divider></v-divider>
       </v-flex>
       <v-flex md5 class="hidden-xs-only">
+        <!--Ads-->
       </v-flex>
     </v-layout>
   </v-container>
-
-  <div class="header">
-    <nav class="nav has-shadow">
-      <div class="container">
-        <div class="nav-left">
-          <a class="nav-item is-tab is-active" href="#overview">Overview</a>
-          <a class="nav-item is-tab" href="#feature">Feature</a>
-          <a class="nav-item is-tab" href="#map">Map</a>
-          <a class="nav-item is-tab" href="#calculator">Mortgage Calculator</a>
-          <a class="nav-item is-tab" href="#detail">Property Detail</a>
-        </div>
-      </div>
-    </nav>
-  </div>
-  <div class="section columns is-paddingless">
-    <div class="column is-7 is-offset-1">
-
-      <div class="section is-paddingless">
-        <!-- title, pictures and description -->
-        <div class="overview section">
-          <A NAME=overview></A>
-        </div>
-
-        <!-- property features -->
-        <div class="section">
-          <A NAME=feature></A>
-        </div>
-
-        <!-- map -->
-        <div class="section">
-          <A NAME=map></A>
-        </div>
-
-        <!-- mortgage calculator -->
-        <div class="section">
-          <A NAME=calculator></A>
-        </div>
-
-        <div class="section">
-          <A NAME=detail></A>
-          <div class="box">
-            <InteriorDetail :interior="interior" v-if="interior"></InteriorDetail>
-            <hr />
-            <ExteriorDetail :exterior="exterior" v-if="exterior"></ExteriorDetail>
-            <hr />
-            <SchoolNeighborhood
-              :schoolAndNeighborhood="schoolAndNeighborhood"
-              v-if="schoolAndNeighborhood">
-            </SchoolNeighborhood>
-            <hr />
-            <Assessment :assessment="assessment" v-if="assessment"></Assessment>
-            <hr />
-            <PropertyAndLot :propertyAndLot="propertyAndLot" v-if="propertyAndLot"></PropertyAndLot>
-          </div>
-          <pre>{{currentHouse.feature}}</pre>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 </template>
 <style>

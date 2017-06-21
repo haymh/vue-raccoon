@@ -1,17 +1,13 @@
 <template>
   <div>
-    <div class="level">
-      <div class="level-left">
-        <p class="title is-4">Assessment</p>
-      </div>
-    </div>
-    <div class="columns is-multiline">
-      <div class="column is-6" v-if="assessment.assessments && assessment.hasAssessments === '1'">
+    <p class="title">Assessment</p>
+    <v-layout row wrap>
+      <v-flex xs12 md6 lg4 v-if="assessment.assessments && assessment.hasAssessments === '1'">
         <ul>
           <li v-for="item in assessment.assessments">{{item}}</li>
         </ul>
-      </div>
-    </div>
+      </v-flex>
+    </v-layout>
   </div>
 </template>
 <style scoped>

@@ -3,7 +3,7 @@
   <v-layout row wrap>
     <v-flex xs12 md3>
       <p class="title">{{propertyDetail.address | formatAddress}}
-      <v-btn icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+      <v-btn class="hidden-sm-and-up" icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
         <v-icon>favorite</v-icon>
       </v-btn>
       </p>

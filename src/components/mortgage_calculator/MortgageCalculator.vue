@@ -19,14 +19,14 @@
         </v-card-row>
         <v-card-row class="ma-2">
           <v-layout row wrap>
-            <v-flex offset-xs2 xs4 offset-md2 md4>
+            <v-flex offset-xs2 xs6 offset-md2 md6>
               <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
             </v-flex>
-            <v-flex xs12 offset-md1 md5>
+            <v-flex xs12 md12>
               <ul v-for="(label, index) in chartData.labels">
                 <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
                   {{label}}
-                  <span class="subtitle is-5" style="float:right">
+                  <span style="float:right">
                     {{chartData.datasets[0].data[index] | formatNumber(0, '$')}}
                   </span>
                 </li>
