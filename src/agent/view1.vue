@@ -87,7 +87,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import FilterElement from '../components/filter/Filter-element.vue';
 import ChatBar from '../components/chat/ChatBar.vue';
 import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
 import Pagination from '../components/list/Pagination.vue';
@@ -199,7 +198,6 @@ export default {
     'filterResults',
   ]),
   components: {
-    FilterElement,
     ChatBar,
     MortgageCalculator,
     Pagination,
