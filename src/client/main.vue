@@ -99,14 +99,6 @@
   position: relative;
 }
 
-/*.list-container {
-  padding-top: 5px;
-  height: 100%;
-  height: calc(100vh - 144px);
-  position: relative;
-  overflow-y: scroll;
-}*/
-
 
 </style>
 <script>
@@ -122,7 +114,7 @@ export default {
   name: 'main',
   data() {
     return {
-      showMap: true,
+      showMap: false,
     };
   },
   components: {
