@@ -5,8 +5,8 @@
     <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
     <v-app>
       <navbar class="hidden-xs-only"></navbar>
-      <main>
-        <router-view class="main"></router-view>
+      <main class="main">
+        <router-view></router-view>
       </main>
     </v-app>
   </div>
@@ -27,8 +27,10 @@ html, body, #app, .main {
   height: 100%;
 }
 .main {
-  height: calc(100vh - 56px);
+  height: 100%;
   overflow-y: auto;
+  margin: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {

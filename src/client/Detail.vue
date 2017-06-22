@@ -1,146 +1,106 @@
 <template>
 <div>
-  <div class="section">
-    <div class="container">
-      <RaccoonSummary :propertyDetail="currentHouse"></RaccoonSummary>
-    </div>
-  </div>
-  <div class="header">
-    <nav class="nav has-shadow">
-      <div class="container">
-        <div class="nav-left">
-          <a class="nav-item is-tab is-active" href="#overview">Overview</a>
-          <a class="nav-item is-tab" href="#feature">Feature</a>
-          <a class="nav-item is-tab" href="#map">Map</a>
-          <a class="nav-item is-tab" href="#calculator">Mortgage Calculator</a>
-          <a class="nav-item is-tab" href="#detail">Property Detail</a>
-        </div>
-      </div>
-    </nav>
-  </div>
-  <div class="section columns is-paddingless">
-    <div class="column is-7 is-offset-1">
-
-      <div class="section is-paddingless">
+  <v-toolbar fixed class="white hidden-sm-and-up">
+    <v-btn icon @click.native="$router.back">
+      <v-icon class="grey--text text--darken-2">keyboard_arrow_left</v-icon>
+    </v-btn>
+    <v-spacer></v-spacer>
+    <v-btn>
+      share
+      <v-icon>share</v-icon>
+    </v-btn>
+  </v-toolbar>
+  <main></main>
+  <v-container>
+    <RaccoonSummary :propertyDetail="currentHouse"></RaccoonSummary>
+    <v-layout row>
+      <v-flex xs12 md7>
         <!-- title, pictures and description -->
-        <div class="overview section">
-          <A NAME=overview></A>
-          <div class="header">
-            <div class="container">
-              <h2 class="subtitle">
-                {{currentHouse.views}} views / {{currentHouse.likes}} likes
-              </h2>
-            </div>
-          </div>
-          <div class="body has-text-centered">
-            <thumb-slider v-if="currentHouse.pics" :images="currentHouse.pics"></thumb-slider>
-          </div>
-          <footer class="footer">
-            <div class="container">
-              <div class="content has-text-centered">
-                <p>{{currentHouse.description}}</p>
-                <p><i class="fa fa-home"></i></p>
-              </div>
-            </div>
-          </footer>
-        </div>
-
+        <A NAME=overview></A>
+        <p class="title mt-4">
+          {{currentHouse.views}} views / {{currentHouse.likes}} likes
+        </p>
+        <v-carousel height="80px">
+          <v-carousel-item
+            v-for="(item,i) in currentHouse.pics"
+            :key="i"
+            :src="item"
+          ></v-carousel-item>
+        </v-carousel>
+        <p>{{currentHouse.description}}</p>
+        <p class="text-xs-center"><v-icon>home</v-icon></p>
         <!-- property features -->
-        <div class="section">
-          <A NAME=feature></A>
-          <div class="container">
-            <div class="level">
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">Price</p>
-                  <p class="subtitle">{{currentHouse.price | formatNumber(0, '$')}}</p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">Propery Type</p>
-                  <p class="subtitle">{{currentHouse.propertyType}}</p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">Stories</p>
-                  <p class="subtitle">{{currentHouse.floors || 1}}</p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">Built</p>
-                  <p class="subtitle">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
-                </div>
-              </div>
-            </div>
-            <div class="level">
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">HOA Dues</p>
-                  <p class="subtitle">{{currentHouse.hoa.fee}}</p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">Community</p>
-                  <p class="subtitle">{{currentHouse.address.city}}</p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">County</p>
-                  <p class="subtitle">{{currentHouse.county}}</p>
-                </div>
-              </div>
-              <div class="level-item has-text-centered">
-                <div>
-                  <p class="heading">MLS #</p>
-                  <p class="subtitle">{{currentHouse.mlsNumber}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <A NAME=feature></A>
+        <v-flex xs12 md12>
+          <v-layout row wrap>
+            <v-flex xs6 md3>
+              <v-subheader>Price</v-subheader>
+              <p>{{currentHouse.price | formatNumber(0, '$')}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>Propery Type</v-subheader>
+              <p>{{currentHouse.propertyType}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>Stories</v-subheader>
+              <p>{{currentHouse.floors || 1}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>Built</v-subheader>
+              <p>{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>HOA Dues</v-subheader>
+              <p>{{currentHouse.hoa.fee}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>Community</v-subheader>
+              <p>{{currentHouse.address.city}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>County</v-subheader>
+              <p>{{currentHouse.county}}</p>
+            </v-flex>
+            <v-flex xs6 md3>
+              <v-subheader>MLS #</v-subheader>
+              <p>{{currentHouse.mlsNumber}}</p>
+            </v-flex>
+          </v-layout>
+        </v-flex>
         <!-- map -->
-        <div class="section">
-          <A NAME=map></A>
-          <div class="map">
-            <StaticMap :house="currentHouse"></StaticMap>
-          </div>
+        <A NAME=map></A>
+        <div class="map">
+          <StaticMap :house="currentHouse"></StaticMap>
         </div>
-
         <!-- mortgage calculator -->
-        <div class="section">
-          <A NAME=calculator></A>
-          <div class="body">
-            <mortgage-calculator :price="parseFloat(currentHouse.price)" :hoa="parseFloat(currentHouse.hoa.fee || '0')"></mortgage-calculator>
-          </div>
-        </div>
-
-        <div class="section">
-          <A NAME=detail></A>
-          <div class="box">
-            <InteriorDetail :interior="interior" v-if="interior"></InteriorDetail>
-            <hr />
-            <ExteriorDetail :exterior="exterior" v-if="exterior"></ExteriorDetail>
-            <hr />
-            <SchoolNeighborhood
-              :schoolAndNeighborhood="schoolAndNeighborhood"
-              v-if="schoolAndNeighborhood">
-            </SchoolNeighborhood>
-            <hr />
-            <Assessment :assessment="assessment" v-if="assessment"></Assessment>
-            <hr />
-            <PropertyAndLot :propertyAndLot="propertyAndLot" v-if="propertyAndLot"></PropertyAndLot>
-          </div>
-          <pre>{{currentHouse.feature}}</pre>
-        </div>
-      </div>
-    </div>
-  </div>
+        <A NAME=calculator></A>
+        <mortgage-calculator
+          class="mt-4"
+          :price="parseFloat(currentHouse.price)"
+          :hoa="parseFloat(currentHouse.hoa.fee || '0')">
+        </mortgage-calculator>
+        <!-- detail info -->
+        <A NAME=detail></A>
+        <InteriorDetail class="mt-4" :interior="interior" v-if="interior"></InteriorDetail>
+        <v-divider></v-divider>
+        <ExteriorDetail class="mt-4" :exterior="exterior" v-if="exterior"></ExteriorDetail>
+        <v-divider></v-divider>
+        <SchoolNeighborhood
+          class="mt-4"
+          :schoolAndNeighborhood="schoolAndNeighborhood"
+          v-if="schoolAndNeighborhood">
+        </SchoolNeighborhood>
+        <v-divider></v-divider>
+        <Assessment class="mt-4" :assessment="assessment" v-if="assessment"></Assessment>
+        <v-divider></v-divider>
+        <PropertyAndLot class="mt-4" :propertyAndLot="propertyAndLot" v-if="propertyAndLot"></PropertyAndLot>
+        <v-divider></v-divider>
+      </v-flex>
+      <v-flex md5 class="hidden-xs-only">
+        <!--Ads-->
+      </v-flex>
+    </v-layout>
+  </v-container>
 </div>
 </template>
 <style>

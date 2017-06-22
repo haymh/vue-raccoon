@@ -122,7 +122,6 @@ export default {
     },
     hide() {
       this.showSortPanel = false;
-      console.log('sort bar hide');
     },
   },
 };

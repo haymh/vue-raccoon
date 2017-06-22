@@ -1,10 +1,29 @@
 <template>
-  <v-layout row>
-    <v-flex xs6 class="pa-0">
-      <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo">
-        </RaccoonMap>
+<div>
+  <v-toolbar fixed class="white hidden-sm-and-up">
+    <v-btn icon light @click.native="setShowMap(true)">
+      <v-icon class="grey--text text--darken-2">map</v-icon>
+    </v-btn>
+    <v-toolbar-title class="grey--text text--darken-4">
+      <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
+    </v-toolbar-title>
+    <v-btn icon light @click.native="setShowMap(false)">
+      <v-icon class="grey--text text--darken-2">list</v-icon>
+    </v-btn>
+  </v-toolbar>
+  <main class="hidden-sm-and-up"></main>
+  <v-layout row class="content-container">
+    <v-flex xs12 sm6>
+      <div v-bind:class="mapClasses">
+      <RaccoonMap :houses="allHouses" :searchByGeo="searchByGeo">
+      </RaccoonMap>
+      <div class="singlelist">
+        <SingleList :singleListingData="hoveredHouse" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
+        </SingleList>
+      </div>
+      </div>
     </v-flex>
-    <v-flex xs6 class="pa-0">
+    <v-flex sm6 v-bind:class="[showMap? 'hidden-xs-only' : '', 'pa-0']">
       <div class="elevation-2">
         <v-layout row wrap>
           <v-flex xs1>
@@ -19,10 +38,13 @@
       <house-list :houseList="filterResults" class="list-container"></house-list>
     </v-flex>
   </v-layout>
+</div>
 </template>
 <style>
 .content-container {
-  height: 100%;
+  height: calc(100vh - 56px);
+  max-width: 1300px;
+  margin: auto;
 }
 .right-container {
   height: 100%;
@@ -40,13 +62,13 @@
   z-index: 1;
   margin-top: 10px;
 }
-.map-container {
-  height: 100%;
+.small-map {
+  height: calc(100% - 250px);
 }
 .list-container {
   padding-top: 5px;
   /*height: 100%;*/
-  height: calc(100% - 88px);
+  height: calc(100vh - 144px);
   position: relative;
   overflow-y: scroll;
 }
@@ -58,12 +80,15 @@ import { mapGetters } from 'vuex';
 import list from '../components/list/list.vue';
 import SortBar from '../components/list/SortBar.vue';
 import FilterCondensed from '../components/filter/FilterCondensed.vue';
+import HouseSearchBar from '../components/search/HouseSearchBar.vue';
 import Map from '../components/map/Map.vue';
+import SingleList from '../components/singlelist/singlelisting.vue';
 
 export default {
   name: 'main',
   data() {
     return {
+      showMap: true,
     };
   },
   components: {
@@ -71,12 +96,22 @@ export default {
     'house-list': list,
     SortBar,
     RaccoonMap: Map,
+    HouseSearchBar,
+    SingleList,
   },
   computed: {
     ...mapGetters([
       'allHouses',
       'filterResults',
+      'hoveredHouse',
     ]),
+    mapClasses() {
+      return {
+        'hidden-xs-only': !this.showMap,
+        'small-map': this.showMap,
+        'pa-0': true,
+      };
+    },
   },
   methods: {
     searchByGeo(lat, lng) {
@@ -88,6 +123,10 @@ export default {
     findHouseIndex(id) {
       const index = this.filterResults.findIndex(house => house._id === id);
       return { page: Math.floor(index / this.pageSize), index: index % this.pageSize };
+    },
+    setShowMap(showMap) {
+      console.log('wut', showMap);
+      this.showMap = showMap;
     },
   },
 };
