@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-list">
     <div id="list" class="scrollable-list">
       <div v-html="searchResultSummary"></div>
       <div class="singlelist mr-1 ml-1" v-for="item in currentList" :key="item._id">
@@ -16,9 +16,14 @@
   </div>
 </template>
 <style>
+ .container-list {
+   height: 100%;
+   position: absolute;
+   overflow: hidden;
+ }
  .scrollable-list {
-   height: calc(100% - 32px);
-   overflow-y: scroll;
+   height: calc(100% - 50px);
+   overflow-y: auto;
  }
  .singlelist {
    margin-bottom: 4px;

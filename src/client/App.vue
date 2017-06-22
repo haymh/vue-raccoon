@@ -28,7 +28,7 @@ html, body, #app, .main {
 }
 .main {
   height: 100%;
-  overflow-y: auto;
+  overflow-y: scroll;
   margin: auto;
   -webkit-overflow-scrolling: touch;
 }

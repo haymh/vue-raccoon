@@ -1,5 +1,5 @@
 <template>
-  <div id='gmap' class='gmap'></div>
+  <div id='gmap' ></div>
 </template>
 
 <script>
@@ -12,7 +12,14 @@
   const CLUSTER_LEVEL = 11;
 
   export default {
-    props: ['houses', 'searchByGeo'],
+    props: ['houseData', 'searchByGeo'],
+    computed: {
+      houses() {
+        return this.houseData.filter(h => h.googleLocation
+        && h.googleLocation.location
+        && h.googleLocation.location.lat && h.googleLocation.location.lng);
+      },
+    },
     watch: {
       houses: {
         handler(newValues, oldValues) {

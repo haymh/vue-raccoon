@@ -12,32 +12,39 @@
     </v-btn>
   </v-toolbar>
   <main class="hidden-sm-and-up"></main>
-  <v-layout row class="content-container">
-    <v-flex xs12 sm6>
-      <div v-bind:class="mapClasses">
-      <RaccoonMap :houses="allHouses" :searchByGeo="searchByGeo">
-      </RaccoonMap>
-      <div class="singlelist">
-        <SingleList :singleListingData="hoveredHouse" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
-        </SingleList>
-      </div>
+  <div class="content-container">
+  <v-layout row style="height: 100%">
+    <v-flex xs12 sm6 v-bind:class="[!showMap? 'hidden-xs-only' : '', 'pa-0']" style="height: 100%">
+      <div class="map-container">
+        <RaccoonMap class="map" :houseData="allHouses" :searchByGeo="searchByGeo">
+        </RaccoonMap>
+        <div class="singlelist hidden-sm-and-up">
+          <SingleList :singleListingData="hoveredHouse" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
+          </SingleList>
+        </div>
       </div>
     </v-flex>
-    <v-flex sm6 v-bind:class="[showMap? 'hidden-xs-only' : '', 'pa-0']">
-      <div class="elevation-2">
-        <v-layout row wrap>
-          <v-flex xs1>
-            <SortBar></SortBar>
-          </v-flex>
-          <v-flex xs11>
-            <FilterCondensed>
-            </FilterCondensed>
-          </v-flex>
-        </v-layout>
+    <v-flex sm6 v-bind:class="[showMap? 'hidden-xs-only' : '', 'pa-0']" style="height: 100%">
+      <div class="list-container">
+        <div class="elevation-2 hidden-xs-only sort-filter">
+          <v-layout row wrap>
+            <v-flex xs1>
+              <SortBar></SortBar>
+            </v-flex>
+            <v-flex xs11>
+              <FilterCondensed>
+              </FilterCondensed>
+            </v-flex>
+          </v-layout>
+        </div>
+        <div class="list">
+          <house-list :houseList="filterResults"></house-list>
+        </div>
+        
       </div>
-      <house-list :houseList="filterResults" class="list-container"></house-list>
     </v-flex>
   </v-layout>
+  </div>
 </div>
 </template>
 <style>
@@ -46,32 +53,59 @@
   max-width: 1300px;
   margin: auto;
 }
-.right-container {
+.map-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
   height: 100%;
-}
-.right-container .toolbar-container {
-  height: 74px;
-  background-color: white;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-}
-.right-container .toolbar-container .toolbar {
-  padding: 0 5px;
 }
 .map-container .save-button {
   position: absolute;
   z-index: 1;
   margin-top: 10px;
 }
-.small-map {
-  height: calc(100% - 250px);
+.map-container .map {
+  flex: 1 0 auto;
+  /* The above is shorthand for:
+  flex-grow: 1,
+  flex-shrink: 0,
+  flex-basis: auto
+  */
+}
+.map-container .singlelist {
+  flex: 0 1 250px;
 }
 .list-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  height: 100%;
+}
+
+.list-container .filter-sort {
+  flex: 0 1 88px;
+}
+
+.list-container .list {
+  flex: 1 0 auto;
+  position: relative;
+}
+
+/*.list-container {
   padding-top: 5px;
-  /*height: 100%;*/
+  height: 100%;
   height: calc(100vh - 144px);
   position: relative;
   overflow-y: scroll;
-}
+}*/
 
 
 </style>
@@ -105,13 +139,6 @@ export default {
       'filterResults',
       'hoveredHouse',
     ]),
-    mapClasses() {
-      return {
-        'hidden-xs-only': !this.showMap,
-        'small-map': this.showMap,
-        'pa-0': true,
-      };
-    },
   },
   methods: {
     searchByGeo(lat, lng) {
