@@ -18,7 +18,6 @@
 <style>
  .container-list {
    height: 100%;
-   position: absolute;
    overflow: hidden;
  }
  .scrollable-list {

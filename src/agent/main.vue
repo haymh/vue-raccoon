@@ -1,152 +1,126 @@
 <template>
-  <div class="content-container">
-    <v-layout row class="hidden-xs-only">
-      <v-flex md6 class="pa-0">
-          <v-tabs id="left-desktop-tabs" grow light>
-            <v-card class="primary white--text">
-              <div>
-                <v-card-row>
-                  <v-btn small dark  @click="toggleFilter">full filter</v-btn>
-                  <!--<v-spacer></v-spacer>-->
-                  <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
-                  <v-btn small @click.native="share">{{shareButtonText}}</v-btn>
-                  <v-btn small @click.native="clearSelectedHouse">Clear All</v-btn>
-                </v-card-row>
-                <!--<v-card-row v-show="searchResultSummary !== ''">
+<div class="content-container">
+  <v-layout row class="hidden-xs-only">
+    <v-flex md6 class="pa-0">
+      <v-tabs id="left-desktop-tabs" grow light>
+        <v-card class="primary white--text">
+          <div>
+            <v-card-row>
+              <v-btn small dark @click="toggleFilter">full filter</v-btn>
+              <!--<v-spacer></v-spacer>-->
+              <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
+              <v-btn small @click.native="share">{{shareButtonText}}</v-btn>
+              <v-btn small @click.native="clearSelectedHouse">Clear All</v-btn>
+            </v-card-row>
+            <!--<v-card-row v-show="searchResultSummary !== ''">
                   <div v-html="searchResultSummary"></div>
                 </v-card-row>-->
-              </div>
-            </v-card>
-            <v-tabs-bar slot="activators">
-              <v-tabs-slider></v-tabs-slider>
-              <v-tabs-item v-for="(item, i) in viewMode"
-                :key="i"
-                :href="'#left-desktop-tabs-' + item"
-              >
-                {{item}}
-              </v-tabs-item>
-            </v-tabs-bar>
+          </div>
+        </v-card>
+        <v-tabs-bar slot="activators">
+          <v-tabs-slider></v-tabs-slider>
+          <v-tabs-item v-for="(item, i) in viewMode" :key="i" :href="'#left-desktop-tabs-' + item">
+            {{item}}
+          </v-tabs-item>
+        </v-tabs-bar>
 
-            <v-tabs-content id="left-desktop-tabs-cards">
-              <div class="cardlist-container mr-1 ml-1">
-                <house-list
-                        :houseList="filterResults"
-                        :selectAll="selectAll">
-                </house-list>
-              </div>
-            </v-tabs-content>
+        <v-tabs-content id="left-desktop-tabs-cards">
+          <div class="cardlist-container mr-1 ml-1">
+            <house-list :houseList="filterResults" :selectAll="selectAll">
+            </house-list>
+          </div>
+        </v-tabs-content>
 
-             <v-tabs-content id="left-desktop-tabs-map">
-              <v-card flat>
-                <v-card-text>
-                  <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo"></RaccoonMap>
-                </v-card-text>
-              </v-card>
-            </v-tabs-content>
+        <v-tabs-content id="left-desktop-tabs-map">
+          <v-card flat>
+            <v-card-text>
+              <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo"></RaccoonMap>
+            </v-card-text>
+          </v-card>
+        </v-tabs-content>
 
-            <v-tabs-content id="left-desktop-tabs-table">
-              <TableList class="tablelist-container" :houseList="filterResults"></TableList>
-            </v-tabs-content>
-          </v-tabs>
-        </v-flex>
+        <v-tabs-content id="left-desktop-tabs-table">
+          <TableList class="tablelist-container" :houseList="filterResults"></TableList>
+        </v-tabs-content>
+      </v-tabs>
+    </v-flex>
 
-      
 
-              <!--<v-toolbar-item class="column is-12 filter-dropdown">
+
+    <!--<v-toolbar-item class="column is-12 filter-dropdown">
                 <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
                   <FilterFullSize></FilterFullSize>
                 </div>
               </v-toolbar-item>-->
-              <!--<v-toolbar-item class="column is-2">
+    <!--<v-toolbar-item class="column is-2">
                 <SortBar class="sort-bar"></SortBar>
               </v-toolbar-item>-->
-      
 
- 
-        <v-flex md6 class="pa-0">
-          
-          <TableList
-                    :houseList="selectedHouses"
-                    :selectedOnly="true"
-                    class="tablelist-container">
-          </TableList>
-          <v-toolbar>
-            <v-toolbar-items>
-              <v-toolbar-item>You have selected {{selectedHouses.length}} houses
-              </v-toolbar-item>
-              <v-toolbar-item>
-                <QrcodeDialog v-model="showQrcode"
-                  :generateLink="generateLink"
-                  :isLoading="isLoading"
-                  :link="link"
-                  @next="share">
-                </QrcodeDialog>
-              </v-toolbar-item>
-            </v-toolbar-items>
-          </v-toolbar>
-        </v-flex>
-      </v-layout>
 
-      <v-tabs id="mobile-tabs" grow light class="hidden-sm-and-up" v-model="mobileSelectedView">
-        <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Search Results'">
-          <div>
-            <v-card-row>
-              <v-btn small light flat @click="toggleFilter">full filter</v-btn>
-              <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
-              <v-btn small light flat @click.native="share">
-                {{shareButtonText}}
-                <v-icon>share</v-icon>
-              </v-btn>
-            </v-card-row>
-            <!--<v-card-row v-show="searchResultSummary !== ''">
-              <div v-html="searchResultSummary"></div>
-            </v-card-row>-->
-          </div>
-        </v-card>
-        <v-card horizontal class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Selected Houses'">
-          <v-card-column>
-            <v-btn small flat light @click.native="clearSelectedHouse">Clear All</v-btn>
-          </v-card-column>
-          <v-card-column>
-            <v-btn flat small light @click.native="share">
-              {{shareButtonText}}
-              <v-icon>share</v-icon>
-            </v-btn>
-          </v-card-column>
-        </v-card>
-        <v-tabs-bar slot="activators">
-          <v-tabs-slider></v-tabs-slider>
-          <v-tabs-item
-            :key="0"
-            :href="'#mobile-tabs-' + mobileViewMode[0]"
-          >
-            {{mobileViewMode[0]}}
-          </v-tabs-item>
-          <v-tabs-item
-            :key="1"
-            :href="'#mobile-tabs-' + mobileViewMode[1]"
-          >
-            {{mobileViewMode[1]}} {{this.selectedHouses.length}}
-          </v-tabs-item>
-        </v-tabs-bar>
-        <v-tabs-content id="mobile-tabs-Search Results">
-          <div class="cardlist-container mr-1 ml-1">
-            <house-list
-                    :houseList="filterResults"
-                    :selectAll="selectAll">
-            </house-list>
-          </div>
-          <!--<TableList class="tablelist-container" :houseList="filterResults"></TableList>-->
-        </v-tabs-content>
-        <v-tabs-content id="mobile-tabs-Selected Houses">
-          <TableList
-                    :houseList="selectedHouses"
-                    :selectedOnly="true"
-                    class="tablelist-container">
-          </TableList>
-        </v-tabs-content>
-      </v-tabs>
-  </div>
+
+    <v-flex md6 class="pa-0">
+
+      <TableList :houseList="selectedHouses" :selectedOnly="true" class="tablelist-container">
+      </TableList>
+      <v-toolbar>
+        <v-toolbar-items>
+          <v-toolbar-item>You have selected {{selectedHouses.length}} houses
+          </v-toolbar-item>
+          <v-toolbar-item>
+            <QrcodeDialog v-model="showQrcode" :generateLink="generateLink" :isLoading="isLoading" :link="link" @next="share">
+            </QrcodeDialog>
+          </v-toolbar-item>
+        </v-toolbar-items>
+      </v-toolbar>
+    </v-flex>
+  </v-layout>
+
+  <v-tabs id="mobile-tabs" grow light class="hidden-sm-and-up" v-model="mobileSelectedView">
+    <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Search Results'">
+      <div>
+        <v-card-row>
+          <v-btn small light flat @click="toggleFilter">full filter</v-btn>
+          <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
+          <v-btn small light flat @click.native="share">
+            {{shareButtonText}}
+            <v-icon>share</v-icon>
+          </v-btn>
+        </v-card-row>
+      </div>
+    </v-card>
+    <v-card horizontal class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Selected Houses'">
+      <v-card-column>
+        <v-btn small flat light @click.native="clearSelectedHouse">Clear All</v-btn>
+      </v-card-column>
+      <v-card-column>
+        <v-btn flat small light @click.native="share">
+          {{shareButtonText}}
+          <v-icon>share</v-icon>
+        </v-btn>
+      </v-card-column>
+    </v-card>
+    <v-tabs-bar slot="activators">
+      <v-tabs-slider></v-tabs-slider>
+      <v-tabs-item :key="0" :href="'#mobile-tabs-' + mobileViewMode[0]">
+        {{mobileViewMode[0]}}
+      </v-tabs-item>
+      <v-tabs-item :key="1" :href="'#mobile-tabs-' + mobileViewMode[1]">
+        {{mobileViewMode[1]}} {{this.selectedHouses.length}}
+      </v-tabs-item>
+    </v-tabs-bar>
+    <v-tabs-content id="mobile-tabs-Search Results">
+      <div class="cardlist-container mr-1 ml-1">
+        <house-list :houseList="filterResults" :selectAll="selectAll">
+        </house-list>
+      </div>
+    </v-tabs-content>
+    <v-tabs-content id="mobile-tabs-Selected Houses">
+      <TableList :houseList="selectedHouses" :selectedOnly="true" class="tablelist-container">
+      </TableList>
+    </v-tabs-content>
+  </v-tabs>
+</div>
+
 </template>
 <style scoped>
 .content-container {
@@ -249,12 +223,6 @@ export default {
         return 'Share All';
       }
       return `Share ${this.selectedHouses.length}`;
-    },
-    searchResultSummary() {
-      if (this.searchTerms && this.filterResults) {
-        return `<p>Found <i>${this.filterResults.length}</i> houses in <strong>${this.searchTerms.city}, ${this.searchTerms.state}</strong></p>`;
-      }
-      return '';
     },
     link() {
       if (this.shareId && this.shareId !== '') {
