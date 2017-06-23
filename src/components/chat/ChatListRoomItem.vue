@@ -1,30 +1,19 @@
 <template>
-    <li>
-      <div class="columns is-mobile">
-        <div class="column is-3">
-          <img class="avatar" :alt="person.nickname" :src="person.avatar">
-        </div>
-        <div class="column is-6">
-          <p class="name">{{person.nickname}}</p>
-        </div>
-        <div class="column is-2">
+    <v-list-item>
+      <v-list-tile>
+        <v-list-tile-avatar>
+          <img :alt="person.nickname" :src="person.avatar">
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
+        </v-list-tile-content>
+        <!--<div class="column is-2">
           <transition name="fade">
             <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>
           </transition>
-        </div>
-        <div class="column is-1">
-          <el-dropdown>
-            <span class="el-dropdown-link">
-              <i class="el-icon-caret-bottom"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>Add</el-dropdown-item>
-              <el-dropdown-item>Block</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </div>
-    </li>
+        </div>-->
+      </v-list-tile>
+    </v-list-item>
 </template>
 
 <script>

@@ -36,7 +36,7 @@
           id="sort-bar-az"
         >
           <v-list>
-            <v-list-item v-for="item in options">
+            <v-list-item v-for="item in options" :key="item">
               <v-list-tile ripple @click.native="setSort(item)">
                 <v-list-tile-content>
                   <v-list-tile-sub-title>{{ item }}</v-list-tile-sub-title>
@@ -56,7 +56,7 @@
           id="sort-bar-za"
         >
           <v-list>
-            <v-list-item v-for="item in options">
+            <v-list-item v-for="item in options" :key="item">
               <v-list-tile ripple @click.native="setSort(item)">
                 <v-list-tile-content>
                   <v-list-tile-sub-title>{{ item }}</v-list-tile-sub-title>
