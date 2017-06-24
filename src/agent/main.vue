@@ -1,20 +1,33 @@
 <template>
 <div class="content-container">
   <v-layout row class="hidden-xs-only">
-    <v-flex md6 class="pa-0">
+    <v-flex xs6 md6 class="pa-0">
       <v-tabs id="left-desktop-tabs" grow light>
         <v-card class="primary white--text">
           <div>
             <v-card-row>
-              <v-btn small dark @click="toggleFilter">full filter</v-btn>
-              <!--<v-spacer></v-spacer>-->
+              <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+                <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
+                <v-card>
+                  <v-card-row>
+                    <v-toolbar light>
+                      <v-btn icon="icon" @click.native="showFullFilter = false" light>
+                        <v-icon>close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title>Filter</v-toolbar-title>
+                      <v-btn light flat @click.native="dialog = false">Save</v-btn>
+                    </v-toolbar>
+                    <SortBar></SortBar>
+                  </v-card-row>
+                  <v-card-text>
+                    <FilterFullSize></FilterFullSize>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
               <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
               <v-btn small @click.native="share">{{shareButtonText}}</v-btn>
               <v-btn small @click.native="clearSelectedHouse">Clear All</v-btn>
             </v-card-row>
-            <!--<v-card-row v-show="searchResultSummary !== ''">
-                  <div v-html="searchResultSummary"></div>
-                </v-card-row>-->
           </div>
         </v-card>
         <v-tabs-bar slot="activators">
@@ -45,22 +58,9 @@
       </v-tabs>
     </v-flex>
 
+    <v-flex xs6 md6 class="pa-0">
 
-
-    <!--<v-toolbar-item class="column is-12 filter-dropdown">
-                <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
-                  <FilterFullSize></FilterFullSize>
-                </div>
-              </v-toolbar-item>-->
-    <!--<v-toolbar-item class="column is-2">
-                <SortBar class="sort-bar"></SortBar>
-              </v-toolbar-item>-->
-
-
-
-    <v-flex md6 class="pa-0">
-
-      <TableList :houseList="selectedHouses" :selectedOnly="true" class="tablelist-container">
+      <TableList :houseList="selectedHouses" :selectedOnly="true" class="tablelist-container mr-3">
       </TableList>
       <v-toolbar>
         <v-toolbar-items>
@@ -79,7 +79,24 @@
     <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Search Results'">
       <div>
         <v-card-row>
-          <v-btn small light flat @click="toggleFilter">full filter</v-btn>
+          <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+            <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
+            <v-card>
+              <v-card-row>
+                <v-toolbar light>
+                  <v-btn icon="icon" @click.native="showFullFilter = false" light>
+                    <v-icon>close</v-icon>
+                  </v-btn>
+                  <v-toolbar-title>Filter</v-toolbar-title>
+                  <v-btn light flat @click.native="dialog = false">Save</v-btn>
+                </v-toolbar>
+                <SortBar></SortBar>
+              </v-card-row>
+              <v-card-text>
+                <FilterFullSize></FilterFullSize>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
           <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
           <v-btn small light flat @click.native="share">
             {{shareButtonText}}

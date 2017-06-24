@@ -12,7 +12,7 @@
       </v-btn>
     </v-toolbar>
     <main class="hidden-sm-and-up"></main>
-    <div class="content-container">
+    <div class="content-container ml-1 mr-1">
       <v-layout row style="height: 100%">
         <v-flex xs12 sm6 v-bind:class="[!showMap? 'hidden-xs-only' : '', 'pa-0']" style="height: 100%">
           <div class="map-container">
@@ -37,7 +37,7 @@
                 </v-flex>
               </v-layout>
             </div>
-            <div class="list">
+            <div class="house-list">
               <house-list :houseList="filterResults" :cardHeight="200"></house-list>
             </div>
           </div>
@@ -49,8 +49,6 @@
 <style>
   .content-container {
     height: calc(100vh - 56px);
-    /*max-width: 1300px;*/
-    margin: auto;
   }
 
   .map-container {
@@ -98,7 +96,7 @@
     flex: 0 1 88px;
   }
 
-  .list-container .list {
+  .list-container .house-list {
     flex: 1 0 auto;
     overflow-y: auto;
     height: 0px;
