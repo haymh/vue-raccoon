@@ -38,7 +38,7 @@
               </v-layout>
             </div>
             <div class="list">
-              <house-list :houseList="filterResults"></house-list>
+              <house-list :houseList="filterResults" :cardHeight="200"></house-list>
             </div>
           </div>
         </v-flex>

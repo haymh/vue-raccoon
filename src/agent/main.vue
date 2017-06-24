@@ -26,7 +26,7 @@
 
         <v-tabs-content id="left-desktop-tabs-cards">
           <div class="cardlist-container mr-1 ml-1">
-            <house-list :houseList="filterResults" :selectAll="selectAll">
+            <house-list :houseList="filterResults" :selectAll="selectAll" :cardHeight="200">
             </house-list>
           </div>
         </v-tabs-content>

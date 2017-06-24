@@ -3,7 +3,7 @@
     <div id="list" class="scrollable-list">
       <div v-html="searchResultSummary"></div>
       <div class="singlelist" v-for="item in currentList" :key="item._id">
-        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
+        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly" :height="cardHeight"></single-list>
       </div>
     </div>
     <Pagination
@@ -50,6 +50,10 @@ export default {
     selectAll: {
       type: Boolean,
       default: false,
+    },
+    cardHeight: {
+      type: Number,
+      default: 270,
     },
   },
   components: {
