@@ -125,7 +125,6 @@
 <style scoped>
 .content-container {
   height: calc(100vh - 56px);
-  max-width: 1300px;
   margin: auto;
 }
 .cardlist-container {

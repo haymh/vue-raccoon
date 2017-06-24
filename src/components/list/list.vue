@@ -2,7 +2,7 @@
   <div class="container-list">
     <div id="list" class="scrollable-list">
       <div v-html="searchResultSummary"></div>
-      <div class="singlelist mr-1 ml-1" v-for="item in currentList" :key="item._id">
+      <div class="singlelist" v-for="item in currentList" :key="item._id">
         <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
       </div>
     </div>
@@ -26,11 +26,11 @@
  }
  .singlelist {
    margin-bottom: 4px;
-   max-width: 650px;
+   /*max-width: 650px;*/
  }
  @media (max-width: 992px) {
   .singlelist .list {
-     width: 380px;
+     /*width: 380px;*/
    }
   .singlelist .list .left-column {
      width: 100% !important;

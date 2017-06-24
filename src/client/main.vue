@@ -24,8 +24,8 @@
             </div>
           </div>
         </v-flex>
-        <v-flex sm6 v-bind:class="[showMap? 'hidden-xs-only' : '', 'pa-0']" style="height: 100%">
-          <div class="list-container">
+        <v-flex xs12 sm6 v-bind:class="[showMap? 'hidden-xs-only' : '', 'pa-0']" style="height: 100%">
+          <div class="list-container ml-2 mr-2">
             <div class="elevation-2 hidden-xs-only sort-filter">
               <v-layout row wrap>
                 <v-flex xs1>

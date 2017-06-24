@@ -110,7 +110,6 @@
 }
 </style>
 <script>
-import ThumbSlider from '../components/singlelist/ThumbSlider.vue';
 import StaticMap from '../components/map/StaticMap.vue';
 import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
 import Summary from '../components/detail/Summary.vue';
@@ -159,7 +158,6 @@ export default {
     },
   },
   components: {
-    'thumb-slider': ThumbSlider,
     'mortgage-calculator': MortgageCalculator,
     RaccoonSummary: Summary,
     StaticMap,
