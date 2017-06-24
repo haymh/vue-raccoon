@@ -1,5 +1,5 @@
 <template>
-<carousel-3d :perspective="180" :controls-visible="true" :display="1" border="0">
+<carousel-3d :perspective="180" :controls-visible="true" :display="1" border="0" class="ma-0">
   <slide v-for="(url, index) in house.pics" :index="index" :key="index">
     <img v-lazy="url" @click="clickHandler">
     <div class="basic-info">

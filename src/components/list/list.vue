@@ -24,31 +24,6 @@
    height: calc(100% - 50px);
    overflow-y: auto;
  }
- .singlelist {
-   margin-bottom: 4px;
-   /*max-width: 650px;*/
- }
- @media (max-width: 992px) {
-  .singlelist .list {
-     /*width: 380px;*/
-   }
-  .singlelist .list .left-column {
-     width: 100% !important;
-   }
-  .singlelist .list .basic-info {
-     width: 100% !important;
-   }
-  .singlelist .list .right-column {
-     display: none;
-   }
- }
- .singlelist .list {
-   /*max-width: 650px;*/
-   /*min-width: 300px;*/
-   overflow: hidden;
-   padding: 0px;
-   position: relative;
- }
 </style>
 <script>
 import { mapGetters } from 'vuex';
