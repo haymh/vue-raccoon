@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-toolbar fixed class="white hidden-sm-and-up">
-    <v-btn icon @click.native="$router.back">
+    <v-btn icon>
       <v-icon class="grey--text text--darken-2">keyboard_arrow_left</v-icon>
     </v-btn>
     <v-spacer></v-spacer>
@@ -20,13 +20,11 @@
         <p class="title mt-4">
           {{currentHouse.views}} views / {{currentHouse.likes}} likes
         </p>
-        <v-carousel height="80px">
-          <v-carousel-item
-            v-for="(item,i) in currentHouse.pics"
-            :key="i"
-            :src="item"
-          ></v-carousel-item>
-        </v-carousel>
+        <carousel-3d :controls-visible="true" :display="3" border="0" :minSwipeDistance="60" class="ma-0">
+          <slide v-for="(url, index) in currentHouse.pics" :index="index" :key="index">
+            <img v-lazy="url">
+          </slide>
+        </carousel-3d>
         <p>{{currentHouse.description}}</p>
         <p class="text-xs-center"><v-icon>home</v-icon></p>
         <!-- property features -->
@@ -110,6 +108,7 @@
 }
 </style>
 <script>
+import { Carousel3d, Slide } from 'vue-carousel-3d';
 import StaticMap from '../components/map/StaticMap.vue';
 import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
 import Summary from '../components/detail/Summary.vue';
@@ -166,6 +165,8 @@ export default {
     SchoolNeighborhood,
     Assessment,
     PropertyAndLot,
+    Carousel3d,
+    Slide,
   },
   methods: {
     notString(s) {

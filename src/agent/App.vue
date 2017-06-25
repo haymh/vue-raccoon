@@ -32,7 +32,7 @@ html {
   padding: 0 !important;
 }
 .main {
-  height: calc(100vh - 56px);
+  height: calc(100% - 56px);
   overflow-y: auto;
   margin: auto;
   -webkit-overflow-scrolling: touch;
@@ -84,12 +84,16 @@ export default {
   data() {
     return {
       needCreateUser: false,
-      e2: 3,
       navs: [
         {
           text: 'Dashboard',
           icon: 'dashboard',
           page: '/dashboard',
+        },
+        {
+          text: 'Search',
+          icon: 'search',
+          page: '/search',
         },
         {
           text: 'Chat',

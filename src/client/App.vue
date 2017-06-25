@@ -8,6 +8,7 @@
       <main class="main">
         <router-view></router-view>
       </main>
+      <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
     </v-app>
   </div>
 </template>
@@ -27,7 +28,7 @@ html, body, #app, .main {
   height: 100%;
 }
 .main {
-  height: 100%;
+  height: calc(100% - 56px);
   overflow-y: scroll;
   margin: auto;
   -webkit-overflow-scrolling: touch;
@@ -70,6 +71,7 @@ import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
 import navbar from './navbar.vue';
+import BottomNav from '../components/nav/BottomNav.vue';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */
@@ -78,9 +80,26 @@ export default {
   data() {
     return {
       needCreateUser: false,
+      navs: [
+        {
+          text: 'Main',
+          icon: 'home',
+          page: '/main',
+        },
+        {
+          text: 'Chat',
+          icon: 'chat',
+          page: '/chat',
+        },
+        {
+          text: 'Settings',
+          icon: 'settings',
+          page: '/view1',
+        },
+      ],
     };
   },
-  components: { Login, UserInfo, navbar },
+  components: { Login, UserInfo, navbar, BottomNav },
   computed: mapGetters(['user']),
   created() {
     // add event listener for auth state

@@ -2,9 +2,9 @@
   <v-bottom-nav
     absolute
     value="true"
-    class="blue-grey"
+    class="transparent"
   >
-    <v-btn flat light v-for="(n, i) in navs"
+    <v-btn flat dark class="indigo--text" v-for="(n, i) in navs"
       :key="i"
       @click.native="select(i)"
       :value="selected === i">

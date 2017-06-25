@@ -14,12 +14,7 @@
         </li>
       </ul>
     </div>
-    <div class="send-text elevation-1 ma-1 pa-1">
-      <v-text-field name="input-7-2" label="Label Text" multi-line v-model="msg"></v-text-field>
-      <v-btn @click.native="sendMessage" icon>
-        <v-icon>send</v-icon>
-      </v-btn>
-    </div>
+    <ChatTextBox class="send-text" v-on:sendmessage="sendMessage"></ChatTextBox>
   </div>
 </template>
 
@@ -37,7 +32,6 @@ export default {
       members: [],
       recipientProfile: {},
       recipientUnreadCount: 0,
-      msg: '',
     };
   },
   filters: {
@@ -109,10 +103,10 @@ export default {
       }
       return false;
     },
-    sendMessage() {
-      console.log('ok', this.msg);
+    sendMessage(message) {
+      console.log('ok', message);
       const newMessage = {
-        content: this.msg,
+        content: message,
         createdAt: timeStamp,
         sentBy: this.userId,
       };
@@ -140,14 +134,33 @@ export default {
 <style>
 .chat-panel {
   height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column;
+  flex-flow: column;
 }
 
 .chat-panel .send-text {
-  height: 240px;
+  /*height: 120px;*/
+  flex: 0 1 120px;
+  position: relative;
+}
+
+.chat-panel .send-text .send-button {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  margin: 10px;
+  z-index: 1;
 }
 
 .chat-panel .message {
-  height: calc(100% - 240px);
+  /*height: calc(100% - 120px);*/
+  flex: 1 0 auto;
   overflow-y: scroll;
   overflow-x: hidden;
 }

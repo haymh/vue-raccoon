@@ -24,9 +24,14 @@
       </v-navigation-drawer>
       <v-toolbar fixed class="indigo darken-4" light>
         <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title>Chat Jiba</v-toolbar-title>
+        <v-toolbar-title>
+          {{chatTitle}}
+        </v-toolbar-title>
+        <v-avatar v-if="activeFriend">
+          <img :src="activeFriend.avatar">
+        </v-avatar>
       </v-toolbar>
-      <ChatWindow :room-id="activeRoomId" :userId="userId" :user="user" style="padding-top:56px;"></ChatWindow>
+      <ChatWindow class="chat-window" :room-id="activeRoomId" :userId="userId" :user="user"></ChatWindow>
     </v-card>
   </div>
 </template>
@@ -34,7 +39,10 @@
 
 <style scoped>
 .content-container {
-  height: calc(100% - 56px);
+  overflow: hidden;
+}
+.chat-window {
+  padding-top: 56px;
 }
 
 </style>
@@ -63,6 +71,12 @@ export default {
       'user',
       'userRooms',
     ]),
+    chatTitle() {
+      if (this.activeFriend) {
+        return this.activeFriend.nickname;
+      }
+      return 'Select a Friend Start Chat';
+    },
   },
   created() {
     this.$bindAsArray('peopleList', db.ref('/users').orderByChild('type').equalTo('agent'));

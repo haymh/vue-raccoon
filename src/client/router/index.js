@@ -2,8 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import View1 from '../view1.vue';
-import ChatView from '../../components/chat/Chat.vue';
-import ChatFrame from '../../components/chat/ChatFrame.vue';
+import ChatView from '../Chat.vue';
 import Main from '../main.vue';
 import SingleListing from '../../components/singlelist/singlelisting.vue';
 import Detail from '../Detail.vue';
@@ -20,7 +19,6 @@ export default new Router({
     /* eslint-disable global-require */
     { path: '/view1', component: View1 },
     { path: '/chat', component: ChatView },
-    { path: '/newchat', component: ChatFrame },
     { path: '/main', component: Main },
     { path: '/listing', component: SingleListing },
     { path: '/house/:id', component: Detail },
