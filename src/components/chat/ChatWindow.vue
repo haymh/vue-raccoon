@@ -141,6 +141,7 @@ export default {
   -webkit-box-direction: normal;
   -ms-flex-flow: column;
   flex-flow: column;
+  overflow: hidden;
 }
 
 .chat-panel .send-text {
@@ -159,7 +160,7 @@ export default {
 }
 
 .chat-panel .message {
-  /*height: calc(100% - 120px);*/
+  height: calc(100% - 120px);
   flex: 1 0 auto;
   overflow-y: scroll;
   overflow-x: hidden;
