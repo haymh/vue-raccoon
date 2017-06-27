@@ -31,7 +31,7 @@
           <img :src="activeFriend.avatar">
         </v-avatar>
       </v-toolbar>
-      <ChatWindow class="chat-window" :room-id="activeRoomId" :userId="userId" :user="user"></ChatWindow>
+      <ChatWindow class="chat-window" :roomId="activeRoomId" :userId="userId" :user="user"></ChatWindow>
     </v-card>
   </div>
 </template>

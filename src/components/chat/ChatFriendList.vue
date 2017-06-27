@@ -131,6 +131,7 @@ export default {
     createRoom(userId, friendId) {
       // Get a key for a new Post.
       const roomKey = roomRef.push().key;
+      console.log('createRoom, roomKey', roomKey);
 
       // Write the new post's data simultaneously in the posts list and the user's post list.
       const updates = {};
@@ -168,7 +169,7 @@ export default {
         promise
         .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
         .then(() => {
-          this.$emit('openchat', { roomKey, friend });
+          this.$emit('openchat', { roomId, friend });
         })
         .catch((e) => {
           console.log(e);

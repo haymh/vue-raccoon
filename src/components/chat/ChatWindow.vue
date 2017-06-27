@@ -56,6 +56,7 @@ export default {
       handler() {
         console.log('roomId', this.roomId);
         if (this.roomId && this.roomId !== '') {
+          console.log('A');
           this.$bindAsArray('messageList', db.ref(`/messages/${this.roomId}`));
           this.$bindAsArray('members', db.ref(`/rooms/${this.roomId}/members`));
           this.$bindAsObject('room', db.ref(`/rooms/${this.roomId}`));

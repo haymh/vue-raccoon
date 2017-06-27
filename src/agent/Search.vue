@@ -30,6 +30,7 @@
 <script>
 import HouseSearchBar from '../components/search/HouseSearchBar.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
+import SortBar from '../components/list/SortBar.vue';
 
 export default {
   name: 'Search',
@@ -41,6 +42,14 @@ export default {
   components: {
     HouseSearchBar,
     FilterFullSize,
+    SortBar,
+  },
+  methods: {
+    toggleFilter(event) {
+      console.log('show filter');
+      this.showFullFilter = !this.showFullFilter;
+      event.stopPropagation();
+    },
   },
 };
 </script>
