@@ -22,8 +22,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { db } from '../../api/fire';
-import ChatRoom from './ChatRoom.vue';
-import ChatList from './ChatList.vue';
+// import ChatRoom from './ChatRoom.vue';
+// import ChatList from './ChatList.vue';
 
 export default {
   name: 'ChatBar',
@@ -49,8 +49,8 @@ export default {
     ]),
   },
   components: {
-    ChatRoom,
-    ChatList,
+    // ChatRoom,
+    // ChatList,
   },
   methods: {
     toggleChat() {
