@@ -13,14 +13,6 @@
     </v-app>
   </div>
 </template>
-<style lang="scss">
-$blue: #72d0eb;
-$family-serif: "Lato", serif; // Add a serif family
-$primary: $blue;
-$family-primary: $family-serif; // Use the new serif family
-// @import "~bulma";
-</style>
-
 
 <style lang="css">
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
@@ -52,20 +44,6 @@ a {
 }
 .section {
   background-color: #fafafa;
-}
-/*.view {
-	margin: 0 auto;
-	position: relative;
-}*/
-
-.fade-enter-active,
-.fade-leave-active {
-	transition: all 0.2s ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-	opacity: 0;
 }
 </style>
 <script>

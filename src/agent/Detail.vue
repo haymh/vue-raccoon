@@ -20,9 +20,9 @@
         <p class="title mt-4">
           {{currentHouse.views}} views / {{currentHouse.likes}} likes
         </p>
-        <carousel-3d :controls-visible="true" :display="3" border="0" :minSwipeDistance="60" class="ma-0" style="background-color:white">
-          <slide v-for="(url, index) in currentHouse.pics" :index="index" :key="index">
-            <img v-lazy="url">
+        <carousel-3d :disable3d="true" :space="365" :controls-visible="true" :display="1" border="0" :minSwipeDistance="60" class="ma-0" :height="420" :width="660">
+          <slide v-for="(url, index) in currentHouse.pics" :index="index" :key="index" style="background-color:transparent">
+            <img v-lazy="url" style="width:auto; height:100%; margin:auto; display:block;">
           </slide>
         </carousel-3d>
         <p>{{currentHouse.description}}</p>
