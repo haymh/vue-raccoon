@@ -21,7 +21,7 @@
           {{currentHouse.views}} views / {{currentHouse.likes}} likes
         </p>
         <carousel-3d :controls-visible="true" :display="3" border="0" :minSwipeDistance="60" class="ma-0">
-          <slide v-for="(url, index) in currentHouse.pics" :index="index" :key="index">
+          <slide v-for="(url, index) in currentHouse.pics" :index="index" :key="index" style="background-color:white">
             <img v-lazy="url">
           </slide>
         </carousel-3d>

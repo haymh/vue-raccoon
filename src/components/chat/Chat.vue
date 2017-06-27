@@ -133,7 +133,7 @@ export default {
   watch: {
   },
   methods: {
-    openChat({ roomId, friend }) {
+    openChat(roomId, friend) {
       this.activeRoomId = roomId;
       this.activeFriend = friend;
     },

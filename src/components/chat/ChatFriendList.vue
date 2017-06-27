@@ -163,13 +163,13 @@ export default {
       this.activeIndex = friend['.key'];
       const roomId = this.roomId(friend);
       if (roomId) {
-        this.$emit('openchat', { roomId, friend });
+        this.$emit('openchat', roomId, friend);
       } else {
         const { promise, roomKey } = this.createRoom(this.userId, friend['.key']);
         promise
         .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
         .then(() => {
-          this.$emit('openchat', { roomId, friend });
+          this.$emit('openchat', roomKey, friend);
         })
         .catch((e) => {
           console.log(e);
@@ -179,7 +179,7 @@ export default {
     openChatByRoom(room, index) {
       console.log('open chat by room', room.roomId, index);
       this.activeIndex = room.roomId;
-      this.$emit('openchat', { roomId: room.roomId, friend: null });
+      this.$emit('openchat', room.roomId, null);
     },
     roomId(friend) {
       const res = this.userRooms.filter(room => room.members[friend['.key']] !== undefined);

@@ -72,7 +72,7 @@ export default {
         this.chatRoomDisplay = 'none';
       }
     },
-    openChat({ roomId, friend }) {
+    openChat(roomId, friend) {
       console.log('openChat');
       this.activeRoomId = roomId;
       this.activeFriend = friend;
