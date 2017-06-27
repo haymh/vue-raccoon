@@ -7,8 +7,6 @@ import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
 import VueI18n from 'vue-i18n';
 import VueFire from 'vuefire';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 import App from './App.vue';
@@ -19,7 +17,6 @@ import locales from './locales';
 
 import { NO_MIN, NO_MAX } from '../components/filter/filter-schema';
 
-Vue.use(Element);
 Vue.use(Vuetify);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
