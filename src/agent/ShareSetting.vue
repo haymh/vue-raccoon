@@ -1,121 +1,145 @@
 <template>
   <div>
-    <div class="container">
-      <h1 class="title is-4 has-text-centered">
+    <v-toolbar fixed class="white hidden-sm-and-up">
+      <v-btn icon @click.native="$router.back">
+        <v-icon class="grey--text text--darken-2">keyboard_arrow_left</v-icon>
+      </v-btn>
+      <v-spacer></v-spacer>
+      <v-btn @click="sendShare">create</v-btn>
+    </v-toolbar>
+    <main></main>
+    <v-container fluid>
+      <v-subheader>
         Select Time And Customers
-      </h1>
-      <div class="section">
-        <div class="columns">
-          <div class="column is-3">
-            <div v-for="c in lastFilter">
-              <FilterTag :filterCondition="c"></FilterTag>
-            </div>
+      </v-subheader>
+      <v-layout row wrap>
+        <v-flex xs12 md3>
+          <div v-for="c in lastFilter">
+            <FilterTag :filterCondition="c"></FilterTag>
           </div>
-          <div class="column is-5">
-            <div class="content" v-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW">
-              <p>
-                You are going to send <a href="#">{{numberOfHouse}}
-                <span class="icon"><i class="fa fa-home"></i></span></a>
-                to <a href="#">{{selectedCustomers.length}} customers
-                <span class="icon"><i class="fa fa-users"></i></span></a> <strong>now</strong>.
-              </p>
-            </div>
-            <div class="content" v-else-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
-              <p>
-                You are going to send <a href="#">{{numberOfHouse}} houses
-                <span class="icon"><i class="fa fa-home"></i></span></a>
-                to <a href="#">{{selectedCustomers.length}} customers
-                <span class="icon"><i class="fa fa-users"></i></span></a> on <strong>{{shareObject.shareMethod.shareOn}}</strong>
-              </p>
-            </div>
-            <div class="content" v-else-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
-              <p>
-                You are going to send <a href="#">{{numberOfHouse}} houses
-                <span class="icon"><i class="fa fa-home"></i></span></a>
-                to <a href="#">{{selectedCustomers.length}} customers
-                <span class="icon"><i class="fa fa-users"></i></span></a> <strong>{{frequency}}</strong>
-              </p>
-            </div>
+        </v-flex>
+        <v-flex xs12 md5>
+          <div class="content" v-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.NOW">
+            <p>
+              You are going to send <a href="#">{{numberOfHouse}}
+              <v-icon>home</v-icon></a>
+              to <a href="#">{{selectedCustomers.length}} customers
+              <v-icon>people</v-icon></a> <strong>now</strong>.
+            </p>
           </div>
-          <div class="column is-2">
-            <a class="button is-danger" @click="sendShare">create</a>
+          <div class="content" v-else-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
+            <p>
+              You are going to send <a href="#">{{numberOfHouse}} houses
+              <v-icon>home</v-icon></a>
+              to <a href="#">{{selectedCustomers.length}} customers
+              <v-icon>people</v-icon></a> on <strong>{{shareObject.shareMethod.shareOn}}</strong>
+            </p>
           </div>
-        </div>
-      </div>
-      <div class="section">
-        <p class="control">
-          <label class="radio">
-            <input type="radio"
-                  name="question"
-                  :value="SHARE_SCHEDULE_TYPES.NOW"
-                  v-model="shareObject.shareMethod.shareScheduleType">
-            Share Once Now
-          </label>
-          <label class="radio">
-            <input type="radio"
-                  name="question"
-                  :value="SHARE_SCHEDULE_TYPES.DATE"
-                  v-model="shareObject.shareMethod.shareScheduleType">
-            Share Once in Future
-          </label>
-          <label class="radio" v-show="byFilter">
-            <input type="radio"
-                  name="question"
-                  :value="SHARE_SCHEDULE_TYPES.PERIODICAL"
-                  v-model="shareObject.shareMethod.shareScheduleType">
-            Share every
-          </label>
-        </p>
-        <div class="datepicker" v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
-          <Datepicker v-model="shareObject.shareMethod.shareOn"
-                      :disabled="disableShareDate"></Datepicker>
-        </div>
-        <div v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
-          <span class="select">
-            <select v-model="shareObject.shareMethod.frequency">
-              <option
-                v-for="item in frequencyOptions"
-                :label="item"
-                :value="item">
-              </option>
-            </select>
-          </span>
-        </div>
-        <div v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE || shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
-          <span class="select">
-            <select v-model="shareObject.time">
-              <option
-                      v-for="item in timeOptions"
-                      :label="item"
-                      :value="item">
-              </option>
-            </select>
-          </span>
-        </div>
-      </div>
-      <div class="section">
-        <div class="tabs">
-          <ul>
-            <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Customer List</a></li>
-            <li v-bind:class="{'is-active': showSelected}"><a @click="setShowSelected(true)">Selected Customers</a></li>
-            <li>
-              <p class="control has-addons">
-                <label class="label">Groups</label>
-                <span class="select">
-                  <select v-model="selectedGroup">
-                    <option v-for="item in groups"
-                      :label="item"
-                      :value="item">
-                    </option>
-                  </select>
-                </span>
-              </p>
-            </li>
-          </ul>
-        </div>
-        <CustomerList :showSelected="showSelected" :customerList="customerList"></CustomerList>
-      </div>
-    </div>
+          <div class="content" v-else-if="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+            <p>
+              You are going to send <a href="#">{{numberOfHouse}} houses
+              <v-icon>home</v-icon></a>
+              to <a href="#">{{selectedCustomers.length}} customers
+              <v-icon>people</v-icon></a> <strong>{{frequency}}</strong>
+            </p>
+          </div>
+        </v-flex>
+        <v-flex xs12 class="hidden-xs-only">
+          <v-btn @click="sendShare">create</v-btn>
+        </v-flex>
+        <v-flex xs12>
+          <v-layout row wrap>
+            <v-flex xs12 md4>
+              <v-radio
+                label="Share Once Now"
+                v-model="shareObject.shareMethod.shareScheduleType"
+                :value="SHARE_SCHEDULE_TYPES.NOW" primary dark hide-details></v-radio>
+            </v-flex>
+            <v-flex xs12 md4>
+              <v-radio
+                label="Share Once in Future"
+                v-model="shareObject.shareMethod.shareScheduleType"
+                :value="SHARE_SCHEDULE_TYPES.DATE" primary dark hide-details></v-radio>
+            </v-flex>
+            <v-flex xs12 md4>
+              <v-radio
+                label="Share every"
+                v-model="shareObject.shareMethod.shareScheduleType"
+                :value="SHARE_SCHEDULE_TYPES.PERIODICAL" primary dark hide-details></v-radio>
+            </v-flex>
+          </v-layout>
+        </v-flex>
+        <v-flex xs12 md6 v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE">
+          <v-dialog
+            persistent
+            v-model="showTimePicker"
+            lazy
+          >
+            <v-text-field
+              slot="activator"
+              label="Click to select different date"
+              v-model="shareObject.shareMethod.shareOn"
+              prepend-icon="event"
+              readonly
+            ></v-text-field>
+            <v-date-picker v-model="shareObject.shareMethod.shareOn" scrollable :allowed-dates="allowedDates">
+              <template scope="{ cancel }">
+                <v-card-row actions>
+                  <v-btn flat primary @click.native="showTimePicker = false">Cancel</v-btn>
+                </v-card-row>
+              </template>
+            </v-date-picker>
+          </v-dialog>
+        </v-flex>
+        <v-flex xs6 v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+          <v-select
+            v-bind:items="frequencyOptions"
+            v-model="shareObject.shareMethod.frequency"
+            label="Frequency"
+            dark
+            single-line
+            auto
+          ></v-select>
+        </v-flex>
+        <v-flex xs6 v-show="shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.DATE || shareObject.shareMethod.shareScheduleType === SHARE_SCHEDULE_TYPES.PERIODICAL">
+          <v-select
+            v-bind:items="timeOptions"
+            v-model="shareObject.time"
+            label="Time"
+            dark
+            single-line
+            auto
+          ></v-select>
+        </v-flex>
+      </v-layout>
+      <v-tabs
+        grow
+        scroll-bars
+        v-model="selectedTab"
+        light
+      >
+        <v-tabs-bar slot="activators">
+          <v-tabs-item
+            v-for="t in tabs"
+            :key="t"
+            :href="t"
+            ripple
+          >
+            {{ t }}
+          </v-tabs-item>
+          <v-tabs-slider></v-tabs-slider>
+        </v-tabs-bar>
+        <v-tabs-content
+          v-for="t in tabs"
+          :key="t"
+          :id="t"
+        >
+          <v-card flat>
+            <CustomerList :showSelected="selectedTab === 'Selected Customers'" :customerList="customerList"></CustomerList>
+          </v-card>
+        </v-tabs-content>
+      </v-tabs>
+    </v-container>
   </div>
 </template>
 <style language="scss">
@@ -128,7 +152,6 @@
 </style>
 <script>
 import { mapGetters } from 'vuex';
-import Datepicker from 'vuejs-datepicker';
 import FilterTag from '../components/filter/FilterTag.vue';
 import CustomerList from './components/customer/CustomerList.vue';
 import { PERIODICAL_OPTIONS, TIME_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
@@ -159,6 +182,10 @@ export default {
       disableShareDate: {
         to: yesterday,
       },
+      allowedDates: function (date) {
+        return date > yesterday;
+      },
+      showTimePicker: false,
       shareObject: new Share({
         uid: this.userId,
         // subject: this.shareEmail.subject,
@@ -181,16 +208,9 @@ export default {
         TIME_OPTIONS.AFTERNOON,
         TIME_OPTIONS.EVENING,
       ],
-      selectedGroup: 'all customers',
-      groups: [
-        'all customers',
-        'group A',
-        'group B',
-        'group C',
-        'group D',
-        'group E',
-      ],
       showSelected: false,
+      tabs: ['Customer List', 'Selected Customers'],
+      selectedTab: 'Customer List',
       customerList: [
         {
           id: 1,
@@ -271,7 +291,6 @@ export default {
     },
   },
   components: {
-    Datepicker,
     CustomerList,
     FilterTag,
   },

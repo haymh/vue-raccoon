@@ -1,50 +1,47 @@
 <template>
-      <div class="columns has-text-centered">
-        <div class="column is-3">
-          <p class="subtitle is-5">
-            <!-- <strong>{{propertyDetail.address.address1}}</strong><br> -->
-            {{propertyDetail.address | formatAddress}}
-          </p>
-        </div>
-        <div class="column is-6">
-          <div class="has-right-border">
-            <p class="title is-4 is-marginless">{{propertyDetail.price | formatNumber(0, '$')}}</p>
-            <p class="heading">Price</p>
-          </div>
-          <div class="has-right-border">
-            <p class="title is-4 is-marginless">{{propertyDetail.beds}}</p>
-            <p class="heading">beds</p>
-          </div>
-          <div class="has-right-border">
-            <p class="title is-4 is-marginless">{{propertyDetail.baths}}</p>
-            <p class="heading">baths</p>
-          </div>
-          <div class="has-right-border">
-            <p class="title is-4 is-marginless">{{propertyDetail.sizeInSF}}</p>
-            <p class="heading">Sq.Ft</p>
-          </div>
-          <div style="display: inline-block;">
-            <p class="title is-4 is-marginless">{{propertyDetail.sizeInSF | formatNumber(2, '$')}} <i class="subtitle is-6">Sq. Ft.</i></p>
-            <p class="title is-6">{{propertyDetail.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></p>
-          </div>
-        </div>
-        <div class="column is-3">
-          <p class="control has-addons">
-            <a class="button">
-              <span>favorite</span>
-              <span class="icon">
-                <i class="fa fa-heart"></i>
-              </span>
-            </a>
-            <a class="button">
-              <span>share</span>
-              <span class="icon">
-                <i class="fa fa-share"></i>
-              </span>
-            </a>
-          </p>
-        </div>
+<div>
+  <v-layout row wrap>
+    <v-flex xs12 md3>
+      <p class="title">{{propertyDetail.address | formatAddress}}
+      <v-btn class="hidden-sm-and-up" icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+        <v-icon>favorite</v-icon>
+      </v-btn>
+      </p>
+    </v-flex>
+    <v-flex xs12 md5>
+      <div class="has-right-border">
+        <p>{{propertyDetail.price | formatNumber(0, '$')}}</p>
+        <p>Price</p>
       </div>
+      <div class="has-right-border">
+        <p>{{propertyDetail.beds}}</p>
+        <p>beds</p>
+      </div>
+      <div class="has-right-border">
+        <p>{{propertyDetail.baths}}</p>
+        <p>baths</p>
+      </div>
+      <div class="has-right-border">
+        <p>{{propertyDetail.sizeInSF}}</p>
+        <p>Sq.Ft</p>
+      </div>
+      <div style="display: inline-block;">
+        <p>{{propertyDetail.unitPriceInSF | formatNumber(2, '$')}}</p>
+        <p>Per <i>Sq. Ft.</i></p>
+      </div>
+    </v-flex>
+    <v-flex md3 class="hidden-xs-only">
+      <v-btn icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+        <v-icon>favorite</v-icon>
+      </v-btn>
+      <v-btn>
+        share
+        <v-icon>share</v-icon>
+      </v-btn>
+    </v-flex>
+  </v-layout>
+</div>
+  
 </template>
 <style scoped>
 .has-right-border{
@@ -56,8 +53,34 @@
 }
 </style>
 <script>
+import { mapGetters } from 'vuex';
+import { db, timeStamp } from '../../api/fire';
+
 export default {
   name: 'Summary',
   props: ['propertyDetail'],
+  created() {
+    console.log(this.userId);
+    this.$bindAsObject('favorite', db.ref(`buyerData/${this.userId}/favoriteHouses/${this.propertyDetail._id}`));
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+    ]),
+    like() {
+      return this.favorite.createdAt !== undefined;
+    },
+  },
+  methods: {
+    likeListing() {
+      console.log(this.favorite);
+      const value = this.favorite.createdAt;
+      if (value) {
+        this.$firebaseRefs.favorite.remove();
+      } else {
+        this.$firebaseRefs.favorite.set({ createdAt: timeStamp });
+      }
+    },
+  },
 };
 </script>

@@ -1,23 +1,17 @@
 <template>
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <navbar></navbar>
-		<transition name="fade" mode="out-in">
-			<main class="main">
-				<router-view></router-view>
-			</main>
-		</transition>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+    <v-app>
+      <navbar class="hidden-xs-only"></navbar>
+      <main class="main">
+        <router-view></router-view>
+      </main>
+      <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
+    </v-app>
   </div>
 </template>
-<style lang="scss">
-$blue: #72d0eb;
-$family-serif: "Lato", serif; // Add a serif family
-$primary: $blue;
-$family-primary: $family-serif; // Use the new serif family
-@import "~bulma";
-</style>
-
-
 <style lang="css">
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 html, body, #app, .main {
@@ -25,8 +19,10 @@ html, body, #app, .main {
   height: 100%;
 }
 .main {
-  height: calc(100vh - 50px);
-  overflow-y: auto;
+  height: calc(100% - 56px);
+  overflow-y: scroll;
+  margin: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -41,23 +37,6 @@ a {
 	color: #34495e;
 	text-decoration: none;
 }
-.section {
-  background-color: #fafafa;
-}
-/*.view {
-	margin: 0 auto;
-	position: relative;
-}*/
-
-.fade-enter-active,
-.fade-leave-active {
-	transition: all 0.2s ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-	opacity: 0;
-}
 </style>
 <script>
 import firebase from 'firebase';
@@ -66,6 +45,7 @@ import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
 import navbar from './navbar.vue';
+import BottomNav from '../components/nav/BottomNav.vue';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */
@@ -74,9 +54,26 @@ export default {
   data() {
     return {
       needCreateUser: false,
+      navs: [
+        {
+          text: 'Main',
+          icon: 'home',
+          page: '/main',
+        },
+        {
+          text: 'Chat',
+          icon: 'chat',
+          page: '/chat',
+        },
+        {
+          text: 'Settings',
+          icon: 'settings',
+          page: '/view1',
+        },
+      ],
     };
   },
-  components: { Login, UserInfo, navbar },
+  components: { Login, UserInfo, navbar, BottomNav },
   computed: mapGetters(['user']),
   created() {
     // add event listener for auth state

@@ -2,12 +2,14 @@ import * as types from '../mutation-types';
 
 // initial state
 const state = {
-  showSideBar: true,
+  showSideBar: false,
 };
 
 const mutations = {
-  [types.TOGGLE_SIDEBAR](_state) {
-    _state.showSideBar = !_state.showSideBar;
+  [types.TOGGLE_SIDEBAR](_state, show) {
+    if (show !== null && show !== undefined) {
+      _state.showSideBar = show;
+    }
   },
 };
 

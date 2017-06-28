@@ -25,39 +25,25 @@ export default {
 
 <template>
 <div class="ChatTextBox">
-    <textarea placeholder="按 Enter 发送" v-model="content" v-on:keyup="onKeyup"></textarea>
-    <div class="controls">
-      <a class="button is-primary is-outlined" @click="send">Send</a>
-    </div>
+    <v-text-field hide-details class="ma-0" label="Label Text" multi-line v-model="content" v-on:keyup="onKeyup"></v-text-field>
+    <v-btn floating primary @click.native="send" class="send-button">
+      <v-icon light>send</v-icon>
+    </v-btn>
 </div>
 </template>
 
 <style scoped>
 .ChatTextBox {
-  height: 160px;
-  margin: 0;
   border-top: solid 1px #ddd;
+  position: relative;
 }
 
-.ChatTextBox textarea {
-  padding: 10px;
-  width: 100%;
-  height: 120px;
-  box-sizing: border-box;
-  border: none;
-  outline: none;
-  resize: none;
-  font-size: 16px;
-  margin-bottom: 0;
-}
 .ChatTextBox .send-button {
-  height: 100%;
-  font-weight: bold;
-}
-.controls{
-  margin-top: 0;
-  padding-top: 0;
-  background-color: white;
-  text-align: right;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  margin: 10px;
+  z-index: 1;
 }
 </style>

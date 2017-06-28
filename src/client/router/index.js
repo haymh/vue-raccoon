@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import View1 from '../view1.vue';
-import ChatView from '../../components/chat/Chat.vue';
+import ChatView from '../Chat.vue';
 import Main from '../main.vue';
 import SingleListing from '../../components/singlelist/singlelisting.vue';
 import Detail from '../Detail.vue';

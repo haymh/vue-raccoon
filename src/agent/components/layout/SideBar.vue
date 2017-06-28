@@ -1,63 +1,90 @@
 <template>
-  <div class="app-sidebar">
-    <aside class="menu">
-      <p class="menu-label">
-        General
-      </p>
-      <ul class="menu-list">
-        <li><router-link to="/dashboard">Dashboard</router-link></li>
-        <li><a>Customers</a></li>
-        <li><router-link to="/main">House</router-link></li>
-        <li><router-link to="/view1">View1</router-link></li>
-        <li><router-link to="/chat">{{ $t('nav.chat') }}</router-link></li>
-      </ul>
-      <p class="menu-label">
-        Articles
-      </p>
-      <ul class="menu-list">
-        <li>
-          <a>Real Estate</a>
-          <ul>
-            <li><a>Members</a></li>
-            <li><a>Plugins</a></li>
-            <li><a>Add a member</a></li>
-          </ul>
-        </li>
-        <li>
-          <a>American Life</a>
-          <ul>
-            <li><a>Members</a></li>
-            <li><a>Plugins</a></li>
-            <li><a>Add a member</a></li>
-          </ul>
-        </li>
-      </ul>
-    </aside>
-  </div>
+  <v-navigation-drawer
+    v-model="isActive"
+    absolute
+    clipped
+    temporary
+    :mini-variant.sync="mini"
+    dark
+  >
+    <v-list dense>
+      <template v-for="(item, i) in items">
+        <v-layout
+          row
+          v-if="item.heading"
+          align-center
+          :key="i"
+        >
+          <v-flex xs6>
+            <v-subheader v-if="item.heading">
+              {{ item.heading }}
+            </v-subheader>
+          </v-flex>
+        </v-layout>
+        <v-divider
+          dark
+          v-else-if="item.divider"
+          class="my-4"
+          :key="i"
+        ></v-divider>
+        <v-list-item
+          :key="i"
+          v-else
+        >
+          <v-list-tile :href="item.link">
+            <v-list-tile-action>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ item.text }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-item>
+      </template>
+    </v-list>
+  </v-navigation-drawer>
 </template>
-<style>
-.app-sidebar {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  bottom: 0;
-  padding: 20px 0 50px;
-  width: 166px;
-  min-width: 45px;
-  max-height: 100vh;
-  height: calc(100% - 50px);
-  z-index: 1024 - 1;
-  background: #FFF;
-  box-shadow: 0 2px 3px rgba(17, 17, 17, 0.1), 0 0 0 1px rgba(17, 17, 17, 0.1);
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-.menu {
-  margin: 10px;
-}
-</style>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'SideBar',
+  data() {
+    return {
+      mini: false,
+      items: [
+        { heading: 'Main' },
+        { icon: 'lightbulb_outline', text: 'Dashboard', link: '/dashboard#' },
+        { icon: 'touch_app', text: 'Customers', link: '' },
+        { icon: 'touch_app', text: 'Chat', link: '/chat#' },
+        { divider: true },
+        { heading: 'General' },
+        { icon: 'add', text: 'Create new share', link: '/main#' },
+        { icon: 'modify', text: 'Manage share' },
+        { divider: true },
+        { icon: 'archive', text: 'Archive' },
+        { icon: 'delete', text: 'Trash' },
+        { divider: true },
+        { icon: 'settings', text: 'Settings' },
+        { icon: 'chat_bubble', text: 'Trash' },
+        { icon: 'help', text: 'Help' },
+        { icon: 'phonelink', text: 'App downloads' },
+        { icon: 'keyboard', text: 'Keyboard shortcuts' },
+      ],
+    };
+  },
+  computed: {
+    ...mapGetters(['showSideBar']),
+    isActive: {
+      get() {
+        return this.showSideBar;
+      },
+      set(val) {
+        this.$store.dispatch('toggleSideBar', val);
+      },
+    },
+  },
 };
 </script>

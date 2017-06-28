@@ -85,8 +85,9 @@ export const upsertRoom = ({ commit }, room) => {
 };
 
 // app
-export const toggleSideBar = ({ commit }) => {
-  commit(types.TOGGLE_SIDEBAR);
+export const toggleSideBar = ({ commit }, show) => {
+  console.log('toggle sidebar', show);
+  commit(types.TOGGLE_SIDEBAR, show);
 };
 
 // share

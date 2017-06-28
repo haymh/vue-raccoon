@@ -2,7 +2,6 @@
   <div>
     <a class="button" @click="readUserLocally">load user from local storage</a>
     <a class="button" @click="searchHouse">search house</a>
-    <FilterElement></FilterElement>
     <Pagination
       :currentPage="current"
       :pageSize="10"
@@ -33,7 +32,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
-import FilterElement from '../components/filter/Filter-element.vue';
 import ChatBar from '../components/chat/ChatBar.vue';
 import MortgageCalculator from '../components/mortgage_calculator/MortgageCalculator.vue';
 import Pagination from '../components/list/Pagination.vue';
@@ -53,7 +51,6 @@ export default {
     'filterResults',
   ]),
   components: {
-    FilterElement,
     ChatBar,
     MortgageCalculator,
     Pagination,

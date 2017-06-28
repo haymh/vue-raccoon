@@ -1,28 +1,50 @@
 <template>
-  <nav class="nav-global nav is-default has-shadow" id="top">
-      <div class="nav-left">
-        <div class="nav-item">
-          <span class="icon is-medium">
-            <i v-bind:class="[showSideBar ? 'fa-angle-left':'fa-bars', 'fa']"
-              @click="$store.dispatch('toggleSideBar')"></i>
-          </span>
-        </div>
-        <router-link class="nav-item is-brand" to="/" exact>
-          <img src="../../../../static/logo.png">
-        </router-link>
-      </div>
-      <div class="nav-center">
-        <div class="nav-item">
-          <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
-        </div>
-      </div>
+  <v-toolbar class="white">
+    <v-toolbar-side-icon v-on:click.native.stop="toggleSideBar"></v-toolbar-side-icon>
+    <v-toolbar-title class="hidden-sm-and-down">
+      <router-link to="/" exact>
+        <img style="height:24px;" src="../../../../static/logo.png">
+      </router-link>
+    </v-toolbar-title>
+    <v-toolbar-items>
+      <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
+      <v-toolbar-item class="hidden-xs-only">
+        <Login v-show="user.isTemp" />
+      </v-toolbar-item>
+      <v-toolbar-item class="hidden-xs-only">
+        <UserInfo v-show="!user.isTemp" :user="user" />
+      </v-toolbar-item>
+      <v-toolbar-item class="hidden-xs-only">
+        <router-link to="/user/123">Profile</router-link>
+      </v-toolbar-item>
+      <v-toolbar-item class="hidden-sm-and-up">
+        <v-menu bottom left offset-y origin="top right" transition="v-scale-transition">
+          <v-btn dark icon slot="activator">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-item>
+              <UserInfo v-show="!user.isTemp" :user="user" />
+              <v-list-tile>
+                <UserInfo v-show="!user.isTemp" :user="user" />
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>
+                  <UserInfo v-show="!user.isTemp" :user="user" />
+                </v-list-tile-title>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-title>
+                  <router-link to="/user/123">Profile</router-link>
+                </v-list-tile-title>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </v-toolbar-item>
+    </v-toolbar-items>
+  </v-toolbar>
 
-      <div class="nav-right nav-menu">
-        <Login class="nav-item" v-show="user.isTemp" />
-        <UserInfo class="nav-item" v-show="!user.isTemp" :user="user" />
-        <router-link class="nav-item is-tab" to="/user/123">Profile</router-link>
-      </div>
-  </nav>
 </template>
 
 <style>
@@ -63,5 +85,11 @@
     name: 'navbar',
     components: { Login, UserInfo, HouseSearchBar },
     computed: mapGetters(['user', 'showSideBar']),
+    methods: {
+      toggleSideBar() {
+        console.log('setting show side bar', !this.showSideBar);
+        this.$store.dispatch('toggleSideBar', !this.showSideBar);
+      },
+    },
   };
 </script>

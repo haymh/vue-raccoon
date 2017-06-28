@@ -6,8 +6,8 @@
     </div>
     <div class="column is-narrow right-container">
       <header class="toolbar-container">
-        <FilterBar>
-        </FilterBar>
+        <FilterCondensed>
+        </FilterCondensed>
         <div class="columns is-narrow is-gapless toolbar">
           <div class="column is-5">
             <SortBar></SortBar>
@@ -53,7 +53,7 @@
 <script>
 import list from '../components/list/list.vue';
 import SortBar from '../components/list/SortBar.vue';
-import FilterBar from '../components/filter/Filter-element.vue';
+import FilterCondensed from '../components/filter/FilterCondensed.vue';
 import Map from '../components/map/Map.vue';
 import API from '../api';
 
@@ -71,7 +71,7 @@ export default {
     });
   },
   components: {
-    FilterBar,
+    FilterCondensed,
     'house-list': list,
     SortBar,
     RaccoonMap: Map,

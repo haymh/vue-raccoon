@@ -1,23 +1,18 @@
 <template>
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <NavBar></NavBar>
-    <SideBar v-show="showSideBar"></SideBar>
-		<transition name="fade" mode="out-in">
-			<main class="main" :style="{'margin-left': sideBarWidth + 'px'}">
-				<router-view></router-view>
-			</main>
-		</transition>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+    <v-app>
+      <SideBar class="hidden-xs-only"></SideBar>
+      <NavBar class="hidden-xs-only"></NavBar>
+      <main class="main">
+        <router-view></router-view>
+      </main>
+      <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
+    </v-app>
   </div>
 </template>
-<style lang="scss">
-$blue: #72d0eb;
-$family-serif: "Lato", serif; // Add a serif family
-$primary: $blue;
-$family-primary: $family-serif; // Use the new serif family
-@import "~bulma";
-</style>
-
 
 <style lang="css">
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
@@ -25,10 +20,14 @@ html, body, #app, .main {
   overflow: hidden;
   height: 100%;
 }
+html {
+  padding: 0 !important;
+}
 .main {
-  height: calc(100vh - 50px);
+  height: calc(100% - 56px);
   overflow-y: auto;
-  margin-left: 180px;
+  margin: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -46,20 +45,6 @@ a {
 .section {
   background-color: #fafafa;
 }
-/*.view {
-	margin: 0 auto;
-	position: relative;
-}*/
-
-.fade-enter-active,
-.fade-leave-active {
-	transition: all 0.2s ease;
-}
-
-.fade-enter,
-.fade-leave-active {
-	opacity: 0;
-}
 </style>
 <script>
 import firebase from 'firebase';
@@ -68,6 +53,7 @@ import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
 import { NavBar, SideBar, AppFooter } from './components/layout';
+import BottomNav from '../components/nav/BottomNav.vue';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */
@@ -76,17 +62,33 @@ export default {
   data() {
     return {
       needCreateUser: false,
+      navs: [
+        {
+          text: 'Dashboard',
+          icon: 'dashboard',
+          page: '/dashboard',
+        },
+        {
+          text: 'Search',
+          icon: 'search',
+          page: '/search',
+        },
+        {
+          text: 'Chat',
+          icon: 'chat',
+          page: '/chat',
+        },
+        {
+          text: 'Settings',
+          icon: 'settings',
+          page: '/view1',
+        },
+      ],
     };
   },
-  components: { Login, UserInfo, NavBar, SideBar, AppFooter },
+  components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav },
   computed: {
-    ...mapGetters(['user', 'showSideBar']),
-    sideBarWidth() {
-      if (this.showSideBar) {
-        return 166;
-      }
-      return 0;
-    },
+    ...mapGetters(['user']),
   },
   created() {
     // add event listener for auth state

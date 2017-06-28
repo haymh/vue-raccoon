@@ -1,69 +1,28 @@
 <template>
-  <div>
+  <div class="container-list">
     <div id="list" class="scrollable-list">
+      <div v-html="searchResultSummary"></div>
       <div class="singlelist" v-for="item in currentList" :key="item._id">
-        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly"></single-list>
+        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly" :height="cardHeight"></single-list>
       </div>
     </div>
     <Pagination
-      :currentPage="currentPage"
+      v-show="houseList !== null && houseList.length !== 0"
+      v-model="currentPage"
       :pageSize="pageSize"
       :total="houseList.length"
-      :size="10"
-      :chunk="true"
       @currentChanged="changeCurrent">
     </Pagination>
   </div>
 </template>
 <style>
- .scrollable-list {
-   height: calc(100% - 32px);
-   overflow-y: scroll;
- }
- .singlelist {
-   margin-bottom: 4px;
-   max-width: 650px;
- }
- @media (max-width: 979px) {
-  .singlelist .list {
-     width: 380px;
-   }
-  .singlelist .list .left-column {
-     width: 100% !important;
-   }
-  .singlelist .list .basic-info {
-     width: 100% !important;
-   }
-  .singlelist .list .right-column {
-     display: none;
-   }
- }
- .singlelist .list {
-   /*max-width: 650px;*/
-   /*min-width: 300px;*/
+ .container-list {
+   height: 100%;
    overflow: hidden;
-   padding: 0px;
-   position: relative;
-   /*margin: 0px !important;*/
-   margin: auto;
  }
- .singlelist .list .actions {
-   position: absolute;
-   width: 50%;
-   bottom: 0px;
- }
- .singlelist .list .like {
-   z-index: 1;
-   position: absolute;
-   top: 0px;
-   padding: 5px;
-   margin: 10px;
- }
- .singlelist .list .basic-info {
-   z-index: 1;
-   position: absolute;
-   width: 50%;
-   bottom: 0px;
+ .scrollable-list {
+   height: calc(100% - 50px);
+   overflow-y: auto;
  }
 </style>
 <script>
@@ -77,7 +36,7 @@ export default {
   data() {
     return {
       position: 0,
-      currentPage: 0,
+      currentPage: 1,
       scrollUnit: 260,
       pageSize: 20,
     };
@@ -92,6 +51,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    cardHeight: {
+      type: Number,
+      default: 270,
+    },
   },
   components: {
     'single-list': SingleList,
@@ -100,11 +63,18 @@ export default {
   computed: {
     ...mapGetters([
       'hoveredHouse',
+      'searchTerms',
     ]),
     currentList() {
-      const begin = this.currentPage * this.pageSize;
+      const begin = (this.currentPage - 1) * this.pageSize;
       const end = begin + this.pageSize;
       return this.houseList.slice(begin, end);
+    },
+    searchResultSummary() {
+      if (this.searchTerms && this.houseList) {
+        return `<p>Found <i>${this.houseList.length}</i> houses in <strong>${this.searchTerms.city}, ${this.searchTerms.state}</strong></p>`;
+      }
+      return '';
     },
   },
   watch: {
@@ -132,6 +102,12 @@ export default {
             houses: this.currentList,
           });
         }
+      },
+    },
+    currentPage: {
+      handler() {
+        console.log('currentPage', this.currentPage);
+        this.scrollTo(0);
       },
     },
   },

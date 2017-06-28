@@ -1,13 +1,12 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import Vuetify from 'vuetify';
 import moment from 'moment';
 import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
 import VueI18n from 'vue-i18n';
 import VueFire from 'vuefire';
-import Element from 'element-ui';
-import 'element-ui/lib/theme-default/index.css';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 import App from './App.vue';
@@ -18,7 +17,7 @@ import locales from './locales';
 
 import { NO_MIN, NO_MAX } from '../components/filter/filter-schema';
 
-Vue.use(Element);
+Vue.use(Vuetify);
 Vue.use(VueResource);
 Vue.use(VueLazyload, {
   error: 'http://placehold.it/325x250',

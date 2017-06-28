@@ -1,20 +1,20 @@
 <template>
-  <div class="login">
-    <a class="button is-light" href="#" v-on:click="openLogin">Login</a>
-    <div class="modal" v-bind:class="{ 'is-active': formOpen }">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Raccoon</p>
-          <button class="delete" v-on:click="dismissLogin"></button>
-        </header>
-        <section class="modal-card-body">
-          <i v-if="!formReady" class="fa fa-spinner is-large"></i>
-          <div id="firebaseui-auth-container"></div>
-        </section>
-      </div>
-    </div>
-  </div>
+
+  <v-dialog v-model="formOpen">
+    <v-btn primary light slot="activator">Login</v-btn>
+    <v-card>
+      <v-card-row>
+        <v-card-title>Raccoon</v-card-title>
+      </v-card-row>
+      <v-card-row>
+        <div id="firebaseui-auth-container"></div>
+      </v-card-row>
+      <v-card-row actions>
+        <v-btn v-on:click.native="dismissLogin">Cancel</v-btn>
+      </v-card-row>
+    </v-card>
+  </v-dialog>
+
 </template>
 
 <style>
@@ -74,12 +74,7 @@
       this.ui.reset();
     },
     methods: {
-      openLogin(event) {
-        event.preventDefault();
-        this.formOpen = true;
-      },
-      dismissLogin(event) {
-        event.preventDefault();
+      dismissLogin() {
         this.formOpen = false;
       },
       login() {

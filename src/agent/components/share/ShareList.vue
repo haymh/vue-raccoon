@@ -1,84 +1,77 @@
 <template>
-  <div class="card">
-    <header class="card-header">
-      <p class="card-header-title">
-        {{title}}
-      </p>
-      <a class="card-header-icon" v-if="plus">
-        <span class="icon">
-          <i class="fa fa-plus"></i>
-        </span>
-      </a>
-    </header>
-    <div class="card-header">
-      <p class="control has-addons">
-        <span class="label">Sort:</span>
-        <span class="select">
-          <select v-model="selectedOrder">
-            <option
-              v-for="item in order"
-              :label="item"
-              :value="item">
-            </option>
-          </select>
-        </span>
-      </p>
-    </div>
-    <div class="card-content table-view">
-      <table class="table is-striped is-narrow">
-        <tr v-for="shareRecord in list">
-            <td>{{shareRecord.shareTime}}</td>
-            <td>{{shareRecord.createdAt}}</td>
-            <td>{{shareRecord.title}}</td>
-            <td>{{shareRecord.customer}}</td>
-            <td class="is-icon" v-if="editable">
-              <a href="#">
-                <i class="fa fa-pencil"></i>
-              </a>
-            </td>
-            <td class="is-icon" v-if="removable">
-              <a href="#">
-                <i class="fa fa-trash"></i>
-              </a>
-            </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+<v-card>
+  <v-card-title class="indigo light--text">
+    {{title}}
+    <v-spacer></v-spacer>
+    <v-text-field
+      light
+      append-icon="search"
+      label="Search"
+      single-line
+      hide-details
+      v-model="search"
+    ></v-text-field>
+  </v-card-title>
+  <v-card-row>
+    <v-card-row actions class="indigo darken-2 light--text">
+      <span v-if="selected.length > 0">
+        <strong>{{selected.length}}</strong> entries are selected
+      </span>
+      <v-spacer></v-spacer>
+      <v-btn icon>
+        <v-icon class="white--text">delete</v-icon>
+      </v-btn>
+    </v-card-row>
+  </v-card-row>
+  <v-data-table
+    v-bind:headers="headers"
+    v-bind:items="items"
+    v-bind:search="search"
+    v-model="selected"
+    selected-key="id"
+    select-all
+    class="elevation-1"
+  >
+    <template slot="items" scope="props">
+      <td>
+        <v-checkbox
+          primary
+          hide-details
+          v-model="props.selected"
+        ></v-checkbox>
+      </td>
+      <td  class="text-xs-right">{{ props.item.shareTime }}</td>
+      <td  class="text-xs-right">{{ props.item.createdAt }}</td>
+      <td>
+        <v-edit-dialog
+          @open="props.item._title = props.item.title"
+          @cancel="props.item.title = props.item._title || props.item.title"
+          lazy
+        > {{ props.item.title }}
+          <v-text-field
+            slot="input"
+            label="Edit"
+            v-bind:value="props.item.title"
+            v-on:change="val => props.item.title = val"
+            single-line counter="counter"
+          ></v-text-field>
+        </v-edit-dialog>
+      </td>
+      <td  class="text-xs-right">{{ props.item.customer }}</td>
+    </template>
+  </v-data-table>
+</v-card>
+
 </template>
-<style>
-.table-view {
-  display: block;
-  width: 100%;
-  min-height: .01%;
-  height: 75%;
-  overflow-x: auto;
-}
-</style>
 <script>
 export default {
-  name: 'ShareList',
   data() {
     return {
-      order: ['time', 'customer'],
-      selectedOrder: 'time',
+      search: '',
+      selected: [],
     };
   },
-  props: {
-    title: String,
-    list: Array,
-    plus: {
-      type: Boolean,
-      default: false,
-    },
-    editable: {
-      type: Boolean,
-      default: false,
-    },
-    removable: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: ['headers', 'items', 'title'],
 };
 </script>
+

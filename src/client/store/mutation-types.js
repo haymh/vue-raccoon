@@ -14,3 +14,5 @@ export const SELECT_HOUSE = 'SELECT_HOUSE';
 export const UNSELECT_HOUSE = 'UNSELECT_HOUSE';
 export const HOVER_HOUSE = 'HOVER_HOUSE';
 export const SET_SORT = 'SET_SORT';
+
+export const ADD_SEARCH_TERMS = 'ADD_SEARCH_TERMS';
