@@ -60,7 +60,6 @@
     },
     "users": {
       // anyone logged in can read
-      ".read": "auth !== null",
       ".indexOn": ["type"],
       "$userId": {
         // only user self can write data
