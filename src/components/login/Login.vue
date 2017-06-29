@@ -48,11 +48,6 @@
         this.formOpen = true;
       }
     },
-    computed: {
-      isTemp() {
-        return this.$store.state.user.isTemp;
-      },
-    },
     mounted() {
       // const uiConfig = {
       //   callbacks: { signInSuccess: this.signInSuccess },
@@ -105,37 +100,31 @@
           default: break;
         }
         if (provider) {
-          // check isTemp
-          if (!this.isTemp) {
-            console.log('link user');
-            firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
-              // Accounts successfully linked.
-              const credential = result.credential;
-              const user = result.user;
-              console.log(credential, user);
-              firebase.auth().signInWithCredential(credential).then((signedUser) => {
-                console.log('hengmeng sb', signedUser);
-                // update db
-                // isTemp photo displayName email
-              });
-              // this.$store.dispatch('setUserProfile',
-              //   {
-              //     id: user.uid,
-              //     isTemp: false,
-              //     nickname: user.providerData[0].displayName,
-              //     avatar: user.providerData[0].photoURL,
-              //     email: user.email,
-              //     displayName: user.providerData[0].displayName,
-              //   },
-              // );
-            }).catch((error) => {
-              console.error(error);
-              // Handle Errors here.
-              // ...
+          console.log('link user');
+          firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
+            // Accounts successfully linked.
+            const credential = result.credential;
+            const user = result.user;
+            console.log(credential, user);
+            firebase.auth().signInWithCredential(credential).then((signedUser) => {
+              console.log('hengmeng sb', signedUser);
+              // update db
+              // isTemp photo displayName email
             });
-          } else {
+            // this.$store.dispatch('setUserProfile',
+            //   {
+            //     id: user.uid,
+            //     isTemp: false,
+            //     nickname: user.providerData[0].displayName,
+            //     avatar: user.providerData[0].photoURL,
+            //     email: user.email,
+            //     displayName: user.providerData[0].displayName,
+            //   },
+            // );
+          }).catch((error) => {
+            console.error(error);
             firebase.auth().signInWithPopup(provider);
-          }
+          });
         }
       },
     },
