@@ -9,10 +9,10 @@
     <v-toolbar-items>
       <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
       <v-toolbar-item class="hidden-xs-only">
-        <Login v-show="user.isTemp" />
+        <Login v-show="user.isTemp"></Login>
       </v-toolbar-item>
       <v-toolbar-item class="hidden-xs-only">
-        <UserInfo v-show="!user.isTemp" :user="user" />
+        <UserInfo v-show="!user.isTemp" :user="user"></UserInfo>
       </v-toolbar-item>
       <v-toolbar-item class="hidden-xs-only">
         <router-link to="/user/123">Profile</router-link>
@@ -24,13 +24,13 @@
           </v-btn>
           <v-list>
             <v-list-item>
-              <UserInfo v-show="!user.isTemp" :user="user" />
+              More Actions
               <v-list-tile>
-                <UserInfo v-show="!user.isTemp" :user="user" />
+                Item 1
               </v-list-tile>
               <v-list-tile>
                 <v-list-tile-title>
-                  <UserInfo v-show="!user.isTemp" :user="user" />
+                  Item 2
                 </v-list-tile-title>
               </v-list-tile>
               <v-list-tile>

@@ -47,7 +47,7 @@ export default {
       }
       console.log('queryObject', queryObject);
       this.$store.dispatch('searchHouse', queryObject);
-      this.$router.push('/main');
+      this.$router.push('/search');
     },
   },
 };

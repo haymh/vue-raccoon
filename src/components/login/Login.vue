@@ -7,7 +7,14 @@
         <v-card-title>Raccoon</v-card-title>
       </v-card-row>
       <v-card-row>
+        <v-card-text>
+          {{message}}
+        </v-card-text>
+      </v-card-row>
+      <v-card-row>
         <v-btn primary light v-on:click.native="link('google')">Google</v-btn>
+      </v-card-row>
+      <v-card-row>
         <v-btn v-on:click.native="link('facebook')">Facebook</v-btn>
       </v-card-row>
       <v-card-row actions>
@@ -32,6 +39,7 @@
 
 <script>
   import firebase from 'firebase';
+  // import { timeStamp } from '../../api/fire';
   // import { ui } from '../../api/fire';
   import '../../../node_modules/firebaseui/dist/firebaseui.css';
 
@@ -41,38 +49,13 @@
       return {
         formOpen: false,
         formReady: false,
+        message: 'Choose one sign-in method',
       };
     },
     created() {
       if (this.$route.query.mode === 'select') {
         this.formOpen = true;
       }
-    },
-    mounted() {
-      // const uiConfig = {
-      //   callbacks: { signInSuccess: this.signInSuccess },
-      //   signInFlow: 'popup',
-      //   signInOptions: [
-      //     // Leave the lines as is for the providers you want to offer your users.
-      //     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-      //     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      //     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-      //     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-      //     firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      //   ],
-      //   signInSuccessUrl: '/main',
-      // };
-
-      // // Initialize the FirebaseUI Widget using Firebase.
-      // this.ui = ui;
-
-      // // The start method will wait until the DOM is loaded.
-      // this.ui.start('#firebaseui-auth-container', uiConfig);
-      // this.formReady = true;
-    },
-    beforeDestroy() {
-      console.log('about to destroy this view');
-      this.ui.reset();
     },
     methods: {
       dismissLogin() {
@@ -106,24 +89,27 @@
             const credential = result.credential;
             const user = result.user;
             console.log(credential, user);
-            firebase.auth().signInWithCredential(credential).then((signedUser) => {
-              console.log('hengmeng sb', signedUser);
-              // update db
-              // isTemp photo displayName email
-            });
-            // this.$store.dispatch('setUserProfile',
-            //   {
-            //     id: user.uid,
-            //     isTemp: false,
-            //     nickname: user.providerData[0].displayName,
-            //     avatar: user.providerData[0].photoURL,
-            //     email: user.email,
-            //     displayName: user.providerData[0].displayName,
-            //   },
-            // );
+            this.$store.dispatch('setUser',
+              {
+                id: user.uid,
+                isTemp: user.isAnonymous,
+                displayName: user.providerData[0].displayName,
+              },
+            );
+            this.formOpen = false;
           }).catch((error) => {
             console.error(error);
-            firebase.auth().signInWithPopup(provider);
+            firebase.auth().signInWithCredential(error.credential)
+              .then((user) => {
+                // TODO: update user store
+                this.formOpen = false;
+                console.log('new user signed in', user);
+                this.$router.replace('/main');
+              })
+              .catch((err) => {
+                console.log(err);
+                this.message = `Failed to sign with ${providerName}`;
+              });
           });
         }
       },
