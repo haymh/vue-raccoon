@@ -44,8 +44,18 @@ export const setSort = ({ commit }, { key, asc }) => {
 };
 
 export const setUser = ({ commit },
-   { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
-  commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
+   { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar, displayName }) => {
+  console.log('setUser, isTemp', isTemp);
+  commit(types.CHANGE_USER, {
+    id,
+    isTemp,
+    nickname,
+    favoriteHouses,
+    searches,
+    userRooms,
+    avatar,
+    displayName,
+  });
   // set firebase user id, so we can refresh token
   raccoonAPI.refreshToken(id);
 };

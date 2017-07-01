@@ -110,7 +110,21 @@ export default {
           if (userProfile.val() !== null) {
             // user exists
             // read user profile
-            this.$store.dispatch('setUserProfile', { id, ...userProfile.val() });
+            console.log('User exists, isTemp', isTemp);
+            let displayName = user.displayName;
+            if (!displayName) {
+              if (user.providerData[0]) {
+                displayName = user.providerData[0].displayName;
+              } else {
+                displayName = 'Visitor';
+              }
+            }
+            this.$store.dispatch('setUser', {
+              id,
+              ...userProfile.val(),
+              isTemp,
+              displayName,
+            });
             // read user generated data
             // db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
             //   console.log(buyerData.val());
@@ -144,29 +158,21 @@ export default {
             console.log('creating user ', id);
             const updates = {};
             updates[`/users/${id}`] = {
-              isTemp,
-              type: 'buyer',
-              nickname: 'Visitor',
+              type: 'agent',
+              nickname: '',
               createdAt: timeStamp,
-              lastLogin: timeStamp,
-              email: user.email,
-              displayName: user.displayName,
-            };
-            // create a buyer data
-            updates[`/buyerData/${id}`] = {
-              lastUpdate: timeStamp,
+              avatar: '../../static/profile.png',
             };
             db.ref().update(updates).then(() => {
               this.$store.dispatch('setUser',
                 {
                   id,
-                  isTemp,
-                  nickname: 'Visitor',
-                  email: user.email,
-                  displayName: user.displayName,
+                  isTemp: true,
+                  displayName: 'Visitor',
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
+                  avatar: '../../static/profile.png',
                 },
               );
             });

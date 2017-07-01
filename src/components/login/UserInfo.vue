@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="formOpen">
-    <v-btn primary light slot="activator">{{user.displayName}}</v-btn>
+    <v-btn primary light slot="activator">{{user.nickname || user.displayName || 'Visitor'}}</v-btn>
     <v-card>
       <v-card-row>
         <v-card-title>Raccoon</v-card-title>

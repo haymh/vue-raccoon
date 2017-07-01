@@ -65,13 +65,10 @@
       "$userId": {
         // only user self can write data
         ".write": "auth.uid === $userId",
-        ".validate": "newData.hasChildren(['nickname', 'type', 'isTemp', 'createdAt', 'lastLogin'])",
+        ".validate": "newData.hasChildren(['nickname', 'type', 'avatar', 'createdAt'])",
         "type": { ".validate": "newData.val() === 'buyer' || newData.val() === 'agent' " },
-        "isTemp": { ".validate": "newData.isBoolean()" },
         "createdAt": { ".validate": "newData.val() <= now" },
-        "lastLogin": { ".validate": "newData.val() <= now" },
-        "displayName": { ".validate": "newData.isString() && newData.val().length < 20" },
-        "email": { ".validate": "newData.isString() && newData.val().length < 20" }
+        "nickname": { ".validate": "newData.isString() && newData.val().length < 20" }
       }
     },
     "buyerData": {

@@ -43,7 +43,6 @@ import firebase from 'firebase';
 import { mapGetters } from 'vuex';
 import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
-import UserInfo from '../components/login/UserInfo.vue';
 import navbar from './navbar.vue';
 import BottomNav from '../components/nav/BottomNav.vue';
 
@@ -73,7 +72,7 @@ export default {
       ],
     };
   },
-  components: { Login, UserInfo, navbar, BottomNav },
+  components: { Login, navbar, BottomNav },
   computed: mapGetters(['user']),
   created() {
     // add event listener for auth state
@@ -95,7 +94,21 @@ export default {
           if (userProfile.val() !== null) {
             // user exists
             // read user profile
-            this.$store.dispatch('setUserProfile', { id, ...userProfile.val() });
+            console.log('User exists, isTemp', isTemp);
+            let displayName = user.displayName;
+            if (!displayName) {
+              if (user.providerData[0]) {
+                displayName = user.providerData[0].displayName;
+              } else {
+                displayName = 'Visitor';
+              }
+            }
+            this.$store.dispatch('setUser', {
+              id,
+              ...userProfile.val(),
+              isTemp,
+              displayName,
+            });
             // read user generated data
             // db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
             //   console.log(buyerData.val());
@@ -129,13 +142,10 @@ export default {
             console.log('creating user ', id);
             const updates = {};
             updates[`/users/${id}`] = {
-              isTemp,
               type: 'buyer',
-              nickname: 'Visitor',
+              nickname: '',
               createdAt: timeStamp,
-              lastLogin: timeStamp,
-              email: user.email,
-              displayName: user.displayName,
+              avatar: '../../static/profile.png',
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
@@ -145,13 +155,12 @@ export default {
               this.$store.dispatch('setUser',
                 {
                   id,
-                  isTemp,
-                  nickname: 'Visitor',
-                  email: user.email,
-                  displayName: user.displayName,
+                  isTemp: true,
+                  displayName: 'Visitor',
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
+                  avatar: '../../static/profile.png',
                 },
               );
             });
