@@ -10,20 +10,23 @@ const state = {
   favoriteHouses: [],
   searches: [],
   userRooms: [],
+  displayName: '',
 };
 
 // mutations
 /* eslint-disable no-param-reassign */
 const mutations = {
   [types.CHANGE_USER](_state,
-    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) {
-    _state.id = id;
+    { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar, displayName }) {
+    console.log('isTemp', isTemp);
+    _state.id = id || _state.id;
     _state.isTemp = isTemp;
-    _state.nickname = nickname;
-    _state.favoriteHouses = favoriteHouses;
-    _state.searches = searches;
-    _state.userRooms = userRooms;
-    _state.avatar = avatar;
+    _state.nickname = nickname || _state.nickname;
+    _state.favoriteHouses = favoriteHouses || _state.favoriteHouses;
+    _state.searches = searches || _state.search;
+    _state.userRooms = userRooms || _state.userRooms;
+    _state.avatar = avatar || _state.avatar;
+    _state.displayName = displayName || _state.displayName;
   },
 
   [types.LOAD_USER_PROFILE](_state, { id, isTemp, nickname, avatar, displayName, email }) {

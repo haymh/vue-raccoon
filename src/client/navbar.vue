@@ -17,7 +17,7 @@
       <v-toolbar-item class="hidden-xs-only">
         <router-link to="/user/123">Profile</router-link>
       </v-toolbar-item>
-      <v-toolbar-item class="hidden-sm-and-up">
+      <v-toolbar-item class="hidden-md-and-up">
         <v-menu bottom left offset-y origin="top right" transition="v-scale-transition">
           <v-btn dark icon slot="activator">
             <v-icon>more_vert</v-icon>

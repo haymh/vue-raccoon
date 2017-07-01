@@ -95,11 +95,19 @@ export default {
             // user exists
             // read user profile
             console.log('User exists, isTemp', isTemp);
+            let displayName = user.displayName;
+            if (!displayName) {
+              if (user.providerData[0]) {
+                displayName = user.providerData[0].displayName;
+              } else {
+                displayName = 'Visitor';
+              }
+            }
             this.$store.dispatch('setUser', {
               id,
               ...userProfile.val(),
               isTemp,
-              displayName: user.displayName || user.providerData[0].displayName || 'Visitor',
+              displayName,
             });
             // read user generated data
             // db.ref(`/buyerData/${id}`).on('value', (buyerData) => {
@@ -134,13 +142,10 @@ export default {
             console.log('creating user ', id);
             const updates = {};
             updates[`/users/${id}`] = {
-              isTemp,
               type: 'buyer',
               nickname: '',
               createdAt: timeStamp,
-              lastLogin: timeStamp,
-              email: user.email,
-              displayName: user.displayName,
+              avatar: '../../static/profile.png',
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
