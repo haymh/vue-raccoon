@@ -12,7 +12,8 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
+    "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix"
   },
   "dependencies": {
     "axios": "^0.16.2",
@@ -58,7 +59,7 @@
     "cross-env": "^5.0.1",
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.4",
-    "eslint": "^3.19.0",
+    "eslint": "^4.1.1",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.8.0",

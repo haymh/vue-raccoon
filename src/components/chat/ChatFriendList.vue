@@ -167,13 +167,13 @@ export default {
       } else {
         const { promise, roomKey } = this.createRoom(this.userId, friend['.key']);
         promise
-        .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
-        .then(() => {
-          this.$emit('openchat', roomKey, friend);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
+          .then(() => {
+            this.$emit('openchat', roomKey, friend);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       }
     },
     openChatByRoom(room, index) {

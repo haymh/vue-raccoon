@@ -50,7 +50,7 @@ class RacAPIClient {
         // params: { types: '(cities)', q: qs },
         params: { q: qs },
       })
-    .then(response => response.data);
+      .then(response => response.data);
   }
 
   getFavorite(firebaseUserId) {
@@ -58,7 +58,7 @@ class RacAPIClient {
       {
         params: { uid: firebaseUserId },
       })
-    .then(response => response.data);
+      .then(response => response.data);
   }
 
   getRecentViewed(userId) {

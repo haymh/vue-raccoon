@@ -132,7 +132,7 @@ export default {
         return;
       }
       this.highlightedPosition = this.highlightedPosition - 1 < 0
-      ? this.options.length - 1 : this.highlightedPosition - 1;
+        ? this.options.length - 1 : this.highlightedPosition - 1;
     },
     select() {
       const selectedOption = this.options[this.highlightedPosition];

@@ -601,7 +601,7 @@ export const search = (searchTerms) => {
           visits: 60,
         },
       ])
-    , 500);
+      , 500);
   });
 };
 
@@ -665,7 +665,7 @@ export const findById = (id) => {
           visits: 60,
         },
       )
-    , 500);
+      , 500);
   });
 };
 

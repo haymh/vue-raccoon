@@ -59,8 +59,8 @@ export const generateQuery = (conditions) => {
         query = query.concat(queryBuilder(c.key, [
           { key: '$in',
             value: c.choices
-                .filter(choice => choice.checked)
-                .map(choice => choice.value),
+              .filter(choice => choice.checked)
+              .map(choice => choice.value),
           },
         ]));
         break;

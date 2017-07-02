@@ -60,7 +60,7 @@ export function unselectAllHouses({ commit }) {
 // user
 
 export const setUser = ({ commit },
-   { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar, displayName }) => {
+  { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar, displayName }) => {
   console.log('setUser, isTemp', isTemp);
   commit(types.CHANGE_USER, {
     id,
