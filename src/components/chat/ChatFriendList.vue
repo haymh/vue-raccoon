@@ -48,57 +48,6 @@
       </v-list-item>
     </template>
   </v-list>
-
-
-
-<!--<div class="ChatList">
-  <aside class="menu">
-    <p class="menu-label">
-      Recent
-    </p>
-    <ul class="menu-list" is="transition-group">
-      <ChatListRoomItem
-        v-for="(room, index) in userRooms"
-        :room="room"
-        :class="{ active: isActive(room.roomId) }"
-        :key="room.roomId"
-        @click.native="openChatByRoom(room, index)">
-      </ChatListRoomItem>
-    </ul>
-    <p class="menu-label">
-      Suggested
-    </p>
-    <ul class="menu-list" is="transition-group">
-      <li v-for="(person, index) in peopleList"
-        :class="{ active: isActive(person['.key']) }"
-        :key="person['.key']"
-        @click="openChat(person, index)">
-        <div class="columns is-mobile">
-          <div class="column is-3">
-            <img class="avatar" :alt="person.nickname" :src="person.avatar">
-          </div>
-          <div class="column is-6">
-            <p class="name">{{person.nickname}}</p>
-          </div>
-          <div class="column is-2">
-              <span v-show="showUnread(person)" class="tag is-danger">{{ unreadCount(person) }}</span> 
-          </div>
-          <div class="column is-1">
-              <el-dropdown>
-              <span class="el-dropdown-link">
-                <i class="el-icon-caret-bottom"></i>
-              </span>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Block</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown> 
-          </div>
-        </div>
-      </li>
-    </ul>
-  </aside>
-</div>-->
 </template>
 
 <script>
