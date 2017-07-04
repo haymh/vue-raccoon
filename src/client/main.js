@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import Vuetify from 'vuetify';
+import 'vuetify/dist/vuetify.min.css';
 import moment from 'moment';
 import VueResource from 'vue-resource';
 import VueLazyload from 'vue-lazyload';
