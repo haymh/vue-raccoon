@@ -7,10 +7,10 @@
           <v-list-item>
             <v-list-tile avatar tag="div">
               <v-list-tile-avatar>
-                <img src="https://randomuser.me/api/portraits/men/85.jpg">
+                <img :src="user.avatar">
               </v-list-tile-avatar>
               <v-list-tile-content>
-                <v-list-tile-title>John Leider</v-list-tile-title>
+                <v-list-tile-title>{{name}}</v-list-tile-title>
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-btn icon @click.native.stop="mini = !mini">
@@ -20,7 +20,7 @@
             </v-list-tile>
           </v-list-item>
         </v-list>
-        <ChatFriendList :peopleList="peopleList" @openchat="openChat"></ChatFriendList>
+        <ChatFriendList :friendList="friendList" @openchat="openChat"></ChatFriendList>
       </v-navigation-drawer>
       <v-toolbar fixed class="indigo darken-4" light>
         <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -51,7 +51,6 @@ import { mapGetters } from 'vuex';
 
 import ChatFriendList from './ChatFriendList.vue';
 import ChatWindow from './ChatWindow.vue';
-import { db } from '../../api/fire';
 
 export default {
   name: 'ChatFrame',
@@ -62,14 +61,13 @@ export default {
       right: null,
       activeRoomId: '',
       activeFriend: null,
-      peopleList: [],
     };
   },
+  props: ['friendList'],
   computed: {
     ...mapGetters([
       'userId',
       'user',
-      'userRooms',
     ]),
     chatTitle() {
       if (this.activeFriend) {
@@ -77,9 +75,9 @@ export default {
       }
       return 'Select a Friend Start Chat';
     },
-  },
-  created() {
-    this.$bindAsArray('peopleList', db.ref('/users').orderByChild('type').equalTo('agent'));
+    name() {
+      return this.user.nickname || this.user.displayName || 'Visitor';
+    },
   },
   components: {
     ChatFriendList,

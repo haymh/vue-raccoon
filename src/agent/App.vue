@@ -157,7 +157,7 @@ export default {
             console.log('creating user ', id);
             const updates = {};
             updates[`/agents/${id}`] = {
-              avatar: '../../static/profile.png',
+              avatar: '/static/profile.png',
               verified: false,
               isMember: false,
               createdAt: timeStamp,
@@ -177,7 +177,7 @@ export default {
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
-                  avatar: '../../static/profile.png',
+                  avatar: '/static/profile.png',
                 },
               );
             });

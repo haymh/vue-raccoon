@@ -1,17 +1,12 @@
 <template>
     <v-list-item>
       <v-list-tile>
-        <v-list-tile-avatar>
+        <v-list-tile-avatar v-badge="{ value: formattedUnreadCount, right: true, visible: showUnread}" class="red--after">
           <img :alt="person.nickname" :src="person.avatar">
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
         </v-list-tile-content>
-        <!--<div class="column is-2">
-          <transition name="fade">
-            <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>
-          </transition>
-        </div>-->
       </v-list-tile>
     </v-list-item>
 </template>
@@ -38,6 +33,14 @@ export default {
     ...mapGetters([
       'userId',
     ]),
+    showUnread() {
+      const unread = this.unread['.value'];
+      console.log(unread, unread > 0);
+      return unread && unread > 0;
+    },
+    formattedUnreadCount() {
+      return this.unread['.value'] > 10 ? '10+' : this.unread['.value'];
+    },
   },
   filters: {
     unreadFormatter(count) {
@@ -55,21 +58,7 @@ export default {
       }
       return undefined;
     },
-    showUnread() {
-      const unread = this.unread['.value'];
-      console.log(unread);
-      return unread && unread > 0;
-    },
   },
 };
 </script>
 
-<style scoped lang="css">
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0
-}
-</style>

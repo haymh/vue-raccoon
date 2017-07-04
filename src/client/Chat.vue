@@ -1,5 +1,5 @@
 <template>
-<ChatFrame class="chat-container"></ChatFrame>
+<ChatFrame class="chat-container" :friendList="chatList"></ChatFrame>
 </template>
 
 <style scoped>
@@ -9,12 +9,38 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex';
 import ChatFrame from '../components/chat/ChatFrame.vue';
+import { db } from '../api/fire';
 
 export default {
   name: 'Chat',
   components: {
     ChatFrame,
+  },
+  created() {
+    this.$bindAsArray('peopleList', db.ref('/agents'));
+  },
+  computed: {
+    ...mapGetters([
+      'userRooms',
+    ]),
+    chatList() {
+      return [
+        {
+          type: 'room',
+          title: 'recent',
+          list: this.userRooms,
+          icon: 'history',
+        },
+        {
+          type: 'people',
+          title: 'contact',
+          list: this.peopleList,
+          icon: 'people',
+        },
+      ];
+    },
   },
 };
 </script>

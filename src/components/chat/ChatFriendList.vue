@@ -1,51 +1,41 @@
 <template>
   <v-list>
-
-    <v-list-item>
-      <v-list-tile>
-        <v-list-tile-action>
-          <v-icon>history</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>
-            Recent
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list-item>
-
-    <ChatListRoomItem v-for="(room, index) in userRooms" :room="room" :class="{ active: isActive(room.roomId) }" :key="room.roomId"
-      @click.native="openChatByRoom(room, index)">
-    </ChatListRoomItem>
-
-    <!--<v-subheader>Suggested</v-subheader>-->
-    
-    <v-list-item>
-      <v-list-tile>
-        <v-list-tile-action>
-          <v-icon>people</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>
-            Suggested
-          </v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list-item>
-
-    <template v-for="(item, i) in peopleList">
-      <v-list-item @click="openChat(item, i)" :key="i">
+    <template v-for="(list, index) in friendList">
+      <v-list-item>
         <v-list-tile>
-          <v-list-tile-avatar>
-            <img :src="item.avatar" />
-          </v-list-tile-avatar>
+          <v-list-tile-action>
+            <v-icon>{{list.icon}}</v-icon>
+          </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>
-              {{ item.nickname }}
+              {{list.title}}
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list-item>
+      <template v-if="list.type === 'room'">
+        <ChatListRoomItem
+          v-for="(room, ri) in list.list"
+          :room="room"
+          :class="{ active: isActive(room.roomId) }"
+          :key="room.roomId"
+          @click.native="openChatByRoom(room, ri)">
+        </ChatListRoomItem>
+      </template>
+      <template v-if="list.type === 'people'">
+        <v-list-item v-for="(item, i) in list.list" @click="openChat(item, i)" :key="i">
+          <v-list-tile>
+            <v-list-tile-avatar>
+              <img :src="item.avatar" />
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ item.nickname }}
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list-item>
+      </template>
     </template>
   </v-list>
 </template>
@@ -59,7 +49,27 @@ const roomRef = db.ref('/rooms');
 
 export default {
   name: 'ChatFriendList',
-  props: ['peopleList'],
+  props: {
+    friendList: {
+      type: Array,
+      default() {
+        return [
+          {
+            type: 'room',
+            title: 'recent',
+            list: [],
+            icon: 'history',
+          },
+          {
+            type: 'people',
+            title: 'contact',
+            list: [],
+            icon: 'people',
+          },
+        ];
+      },
+    },
+  },
   data() {
     return {
       activeIndex: null,
@@ -68,8 +78,12 @@ export default {
   computed: {
     ...mapGetters([
       'userId',
-      'userRooms',
     ]),
+    rooms() {
+      return this.friendList
+        .filter(list => list.type === 'room')
+        .reduce((r, list) => r.concat(list.list), []);
+    },
   },
   components: {
     ChatListRoomItem,
@@ -131,7 +145,7 @@ export default {
       this.$emit('openchat', room.roomId, null);
     },
     roomId(friend) {
-      const res = this.userRooms.filter(room => room.members[friend['.key']] !== undefined);
+      const res = this.rooms.filter(room => room.members[friend['.key']] !== undefined);
       if (res.length === 0) {
         return undefined;
       }
