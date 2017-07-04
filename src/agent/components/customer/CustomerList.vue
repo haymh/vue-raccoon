@@ -14,7 +14,7 @@
           auto
         ></v-select>
       </v-flex>
-      <v-flex v-for="c in customerList" xs12 md6>
+      <v-flex v-for="(c, i) in customerList" :key="i" xs12 md6>
         <CustomerCard class="mt-2" :customer="c" :showOnlyWhenSelected="showSelected"></CustomerCard>
       </v-flex>
     </v-layout>
