@@ -128,15 +128,16 @@ export default {
     },
     openChat(friend, index) {
       console.log('open chat', index);
-      this.activeIndex = friend['.key'];
       const roomId = this.roomId(friend);
       if (roomId) {
+        this.activeIndex = roomId;
         this.$emit('openchat', roomId, friend);
       } else {
         const { promise, roomKey } = this.createRoom(this.userId, friend['.key']);
         promise
         .then(() => this.addRoomToUser(this.userId, friend['.key'], roomKey))
         .then(() => {
+          this.activeIndex = roomKey;
           this.$emit('openchat', roomKey, friend);
         })
         .catch((e) => {
