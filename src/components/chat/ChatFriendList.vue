@@ -16,10 +16,11 @@
       <template v-if="list.type === 'room'">
         <ChatListRoomItem
           v-for="(room, ri) in list.list"
+          :peopleTable="peopleTable"
           :room="room"
-          :class="{ active: isActive(room.roomId) }"
+          :active="isActive(room.roomId)"
           :key="room.roomId"
-          @click.native="openChatByRoom(room, ri)">
+          @clicked="openChatByRoom">
         </ChatListRoomItem>
       </template>
       <template v-if="list.type === 'people'">
@@ -68,6 +69,10 @@ export default {
           },
         ];
       },
+    },
+    peopleTable: {
+      type: String,
+      required: true,
     },
   },
   data() {
@@ -139,10 +144,10 @@ export default {
         });
       }
     },
-    openChatByRoom(room, index) {
-      console.log('open chat by room', room.roomId, index);
-      this.activeIndex = room.roomId;
-      this.$emit('openchat', room.roomId, null);
+    openChatByRoom(roomId, friend) {
+      console.log('open chat by room', roomId, friend);
+      this.activeIndex = roomId;
+      this.$emit('openchat', roomId, friend);
     },
     roomId(friend) {
       const res = this.rooms.filter(room => room.members[friend['.key']] !== undefined);

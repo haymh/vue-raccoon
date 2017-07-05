@@ -1,5 +1,5 @@
 <template>
-<ChatFrame class="chat-container" :friendList="chatList"></ChatFrame>
+<ChatFrame class="chat-container" peopleTable="agents" :friendList="chatList"></ChatFrame>
 </template>
 
 <style scoped>

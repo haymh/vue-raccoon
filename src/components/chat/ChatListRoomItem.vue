@@ -1,12 +1,19 @@
 <template>
     <v-list-item>
-      <v-list-tile>
-        <v-list-tile-avatar v-badge="{ value: formattedUnreadCount, right: true, visible: showUnread}" class="red--after">
+      <v-list-tile @click.native="clicked">
+        <v-list-tile-avatar>
           <img :alt="person.nickname" :src="person.avatar">
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
         </v-list-tile-content>
+        <v-list-tile-action>
+          <v-icon
+            v-badge="{ value: formattedUnreadCount, left: true, visible: showUnread}"
+            v-bind:class="[active ? 'teal--text' : 'grey--text', 'red--after']">
+            chat_bubble
+          </v-icon>
+        </v-list-tile-action>
       </v-list-tile>
     </v-list-item>
 </template>
@@ -17,16 +24,22 @@ import { db } from '../../api/fire';
 
 export default {
   name: 'ChatListRoomItem',
-  props: ['room'],
+  props: {
+    room: Object,
+    peopleTable: String,
+    active: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
-    return {
-    };
+    return {};
   },
   created() {
     console.log(this.room.members);
     const personId = this.notMe(this.room.members);
     console.log('Other Person Id: ', personId);
-    this.$bindAsObject('person', db.ref(`/users/${personId}`));
+    this.$bindAsObject('person', db.ref(`/${this.peopleTable}/${personId}`));
     this.$bindAsObject('unread', db.ref(`/unread/${this.userId}/${this.room.roomId}`));
   },
   computed: {
@@ -57,6 +70,9 @@ export default {
         }
       }
       return undefined;
+    },
+    clicked() {
+      this.$emit('clicked', this.room.roomId, this.person);
     },
   },
 };

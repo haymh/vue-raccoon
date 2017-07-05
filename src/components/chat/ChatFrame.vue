@@ -20,7 +20,7 @@
             </v-list-tile>
           </v-list-item>
         </v-list>
-        <ChatFriendList :friendList="friendList" @openchat="openChat"></ChatFriendList>
+        <ChatFriendList :peopleTable="peopleTable" :friendList="friendList" @openchat="openChat"></ChatFriendList>
       </v-navigation-drawer>
       <v-toolbar fixed class="indigo darken-4" light>
         <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -63,7 +63,7 @@ export default {
       activeFriend: null,
     };
   },
-  props: ['friendList'],
+  props: ['friendList', 'peopleTable'],
   computed: {
     ...mapGetters([
       'userId',
@@ -71,7 +71,8 @@ export default {
     ]),
     chatTitle() {
       if (this.activeFriend) {
-        return this.activeFriend.nickname;
+        const name = this.activeFriend.nickname || 'Visitor';
+        return `Chatting with ${name}`;
       }
       return 'Select a Friend Start Chat';
     },
