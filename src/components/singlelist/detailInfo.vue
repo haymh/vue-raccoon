@@ -53,9 +53,9 @@ export default {
   props: ['listingData'],
   created() {
     this.viewLike = this.$options.filters.formatNumber(this.listingData.views, 0, '')
-                      .concat(' views/')
-                      .concat(this.$options.filters.formatNumber(this.listingData.likes, 0, ''))
-                      .concat(' likes');
+      .concat(' views/')
+      .concat(this.$options.filters.formatNumber(this.listingData.likes, 0, ''))
+      .concat(' likes');
     if (this.listingData.timestamps.onMarket) {
       this.daysOnline = this.daysFromToday(this.listingData.timestamps.onMarket);
     }

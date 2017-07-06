@@ -57,18 +57,18 @@ export default {
       console.log('loading');
       console.log('Dirty: ', crap.searchQueryIsDirty);
       raccoonAPI.getAutoComplete(queryString)
-      .then((json) => {
+        .then((json) => {
         // success
-        console.log('loaded', json);
-        const res = json.predictions.map(obj =>
-          ({ text: obj.description, value: obj }));
-        console.log(res);
-        crap.searchQueryIsDirty = false;
-        cb(res);
-      }, (err) => {
-        console.log('err', err);
-        crap.searchQueryIsLoading = false;
-      });
+          console.log('loaded', json);
+          const res = json.predictions.map(obj =>
+            ({ text: obj.description, value: obj }));
+          console.log(res);
+          crap.searchQueryIsDirty = false;
+          cb(res);
+        }, (err) => {
+          console.log('err', err);
+          crap.searchQueryIsLoading = false;
+        });
     }, 1000),
     handleSelect(selected) {
       this.$emit('newQuery', selected);

@@ -182,7 +182,7 @@ export default {
       disableShareDate: {
         to: yesterday,
       },
-      allowedDates: function (date) {
+      allowedDates(date) {
         return date > yesterday;
       },
       showTimePicker: false,
