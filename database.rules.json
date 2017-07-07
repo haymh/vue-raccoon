@@ -65,10 +65,46 @@
       "$userId": {
         // only user self can write data
         ".write": "auth.uid === $userId",
-        ".validate": "newData.hasChildren(['nickname', 'type', 'avatar', 'createdAt'])",
-        "type": { ".validate": "newData.val() === 'buyer' || newData.val() === 'agent' " },
+        ".validate": "newData.hasChildren(['nickname', 'avatar', 'createdAt'])",
         "createdAt": { ".validate": "newData.val() <= now" },
         "nickname": { ".validate": "newData.isString() && newData.val().length < 20" }
+      }
+    },
+    "agents": {
+      ".read": "auth !== null",
+      "$userId": {
+        ".write": "auth.uid === $userId",
+        ".validate": "newData.hasChildren(['avatar', 'verified', 'isMember', 'createdAt', 'paid', 'license','licenseIssueDate', 'nickname', 'lastName', 'firstName'])",
+        "createdAt": { ".validate": "newData.val() <= now" },
+        "verified": { ".validate": "newData.isBoolean()" },
+        "isMember": { ".validate": "newData.isBoolean()" },
+        "paid": { ".validate": "newData.isBoolean()" },
+        "phone": {
+          "$pid": {
+            "type": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "phone": { ".validate": "newData.isString() && newData.val().length > 0" }
+          }
+        },
+        "email": {
+          "$eid": {
+            "email": { ".validate": "newData.isString() && newData.val().length > 0" }
+          }
+        },
+        "specialties": {
+          "$sid": {
+            "city": { ".validate": "newData.isString() && newData.val().length > 0" }
+          }
+        },
+        "address": {
+          "$aid": {
+            "streetName": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "streetNumber": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "city": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "state": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "country": { ".validate": "newData.isString() && newData.val().length > 0" },
+            "zip": { ".validate": "newData.isString() && newData.val().length > 0" }
+          }
+        }
       }
     },
     "buyerData": {

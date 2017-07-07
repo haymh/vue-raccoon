@@ -86,14 +86,20 @@
           console.log('link user');
           firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
             // Accounts successfully linked.
-            const credential = result.credential;
             const user = result.user;
-            console.log(credential, user);
+            let displayName = user.displayName;
+            if (!displayName) {
+              if (user.providerData[0]) {
+                displayName = user.providerData[0].displayName;
+              } else {
+                displayName = 'Visitor';
+              }
+            }
             this.$store.dispatch('setUser',
               {
                 id: user.uid,
                 isTemp: user.isAnonymous,
-                displayName: user.providerData[0].displayName,
+                displayName,
               },
             );
             this.formOpen = false;
