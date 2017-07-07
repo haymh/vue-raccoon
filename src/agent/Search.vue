@@ -1,19 +1,20 @@
 <template>
 <div class="search-container">
-  <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
+  <HouseSearchBar class="autocomplete-input" route="main"></HouseSearchBar>
   <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
     <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
+    <v-toolbar light>
+      <v-btn icon="icon" @click.native="showFullFilter = false" light>
+        <v-icon>close</v-icon>
+      </v-btn>
+      <v-toolbar-title>Filter</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn light flat @click.native="dialog = false">Save</v-btn>
+    </v-toolbar>
     <v-card>
-      <v-card-row>
-        <v-toolbar light>
-          <v-btn icon="icon" @click.native="showFullFilter = false" light>
-            <v-icon>close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Filter</v-toolbar-title>
-          <v-btn light flat @click.native="dialog = false">Save</v-btn>
-        </v-toolbar>
+      <v-card-text>
         <SortBar></SortBar>
-      </v-card-row>
+      </v-card-text>
       <v-card-text>
         <FilterFullSize></FilterFullSize>
       </v-card-text>
@@ -23,7 +24,7 @@
 </template>
 <style scoped>
 .search-container {
-  height: 100%;
+  flex-grow: 2;
 }
 </style>
 

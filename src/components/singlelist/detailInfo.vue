@@ -1,7 +1,7 @@
 <template>
-  <div class="detail-info-wrapper is-marginless">
+  <div class="detail-info-wrapper">
     <div class="heading" style="padding-left: 10px">{{viewLike}}</div>
-    <table class="table is-striped detail">
+    <table class="detail">
       <tbody>
         <tr>
           <td>$/Sq. Ft.: <b>{{listingData.unitPriceInSF | formatNumber(2, '$')}}</b></td>

@@ -13,13 +13,14 @@
       </v-flex>
       <v-flex md6 class="hidden-sm-and-down pa-0">
         <list-detail-info v-bind:listingData="singleListingData">
-          <v-btn icon v-bind:class="[cardSelected ? 'green--text' : 'grey--text']" @click.native="selectCard">
+          <div>
+            <v-btn icon v-bind:class="[cardSelected ? 'green--text' : 'grey--text']" @click.native="selectCard">
             <v-icon>done</v-icon>
           </v-btn>
-        </list-detail-info>
-        <footer class="card-footer actions">
           <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
-        </footer>
+          </div>
+          
+        </list-detail-info>
       </v-flex>
     </v-layout>
   </v-card>

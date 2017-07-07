@@ -5,8 +5,9 @@
         <v-icon class="grey--text text--darken-2">map</v-icon>
       </v-btn>
       <v-toolbar-title class="grey--text text--darken-4">
-        <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
+        <HouseSearchBar class="autocomplete-input" route="search"></HouseSearchBar>
       </v-toolbar-title>
+      <v-spacer></v-spacer>
       <v-btn icon light @click.native="setShowMap(false)">
         <v-icon class="grey--text text--darken-2">list</v-icon>
       </v-btn>

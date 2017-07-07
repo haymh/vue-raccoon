@@ -1,31 +1,29 @@
 <template>
   <v-card hover horizontal v-show="show" @mouseover="hover" class="mt-1">
-    <v-card-row>
-      <v-card-text>
-        <strong>{{house.address | formatAddress}}</strong>
-        <div>{{house.price | formatNumber(0, '$')}}</div>
-      </v-card-text>
-    </v-card-row>
-    <v-card-row>
-      <v-card-text>
-        <div>{{house.beds}} Beds</div>
-        <div>{{house.baths}} Baths</div>
-      </v-card-text>
-    </v-card-row>
-    <v-card-row>
-      <v-card-text>
-        <div>{{house.sizeInSF}} Sq. Ft.</div>
-        <div>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></div>
-      </v-card-text>
-    </v-card-row>
-    <v-card-row actions>
-      <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
-        <v-icon>favorite</v-icon>
-      </v-btn>
-      <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
-        <v-icon>done</v-icon>
-      </v-btn>
-    </v-card-row>
+    <v-container fluid grid-list-lg>
+      <v-layout row>
+        <v-flex xs3>
+          <strong>{{house.address | formatAddress}}</strong>
+          <div>{{house.price | formatNumber(0, '$')}}</div>
+        </v-flex>
+        <v-flex xs3>
+          <div>{{house.beds}} Beds</div>
+          <div>{{house.baths}} Baths</div>
+        </v-flex>
+        <v-flex xs3>
+          <div>{{house.sizeInSF}} Sq. Ft.</div>
+          <div>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></div>
+        </v-flex>
+        <v-flex xs3>
+          <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+            <v-icon>favorite</v-icon>
+          </v-btn>
+          <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
+            <v-icon>done</v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </v-card>
 </template>
 <script>

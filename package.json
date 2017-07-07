@@ -38,11 +38,11 @@
     "vue-router": "^2.7.0",
     "vue2-google-maps": "^0.7.9",
     "vuefire": "^1.4.3",
-    "vuetify": "^0.12.7",
+    "vuetify": "^0.13.0",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.1",
+    "autoprefixer": "^7.1.2",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
@@ -62,9 +62,9 @@
     "eslint": "^4.1.1",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.8.0",
+    "eslint-loader": "^1.9.0",
     "eslint-plugin-html": "^3.0.0",
-    "eslint-plugin-import": "^2.6.1",
+    "eslint-plugin-import": "^2.7.0",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.15.3",
     "extract-text-webpack-plugin": "^2.1.2",
@@ -102,10 +102,10 @@
     "vue-loader": "^13.0.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.3.4",
-    "webpack": "^3.0.0",
+    "webpack": "^3.1.0",
     "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-middleware": "^1.11.0",
-    "webpack-hot-middleware": "^2.18.1",
+    "webpack-hot-middleware": "^2.18.2",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
