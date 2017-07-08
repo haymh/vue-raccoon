@@ -1,18 +1,16 @@
 <template>
   <v-list>
     <template v-for="(list, index) in friendList">
-      <v-list-item>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon>{{list.icon}}</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>
-              {{list.title}}
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list-item>
+      <v-list-tile>
+        <v-list-tile-action>
+          <v-icon>{{list.icon}}</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>
+            {{list.title}}
+          </v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
       <template v-if="list.type === 'room'">
         <ChatListRoomItem
           v-for="(room, ri) in list.list"
@@ -24,18 +22,16 @@
         </ChatListRoomItem>
       </template>
       <template v-if="list.type === 'people'">
-        <v-list-item v-for="(item, i) in list.list" @click="openChat(item, i)" :key="i">
-          <v-list-tile>
-            <v-list-tile-avatar>
-              <img :src="item.avatar" />
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>
-                {{ item.nickname }}
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list-item>
+        <v-list-tile v-for="(item, i) in list.list" @click="openChat(item, i)" :key="i">
+          <v-list-tile-avatar>
+            <img :src="item.avatar" />
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>
+              {{ item.nickname }}
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </template>
     </template>
   </v-list>

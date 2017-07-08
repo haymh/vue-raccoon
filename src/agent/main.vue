@@ -4,10 +4,10 @@
     <v-flex xs6 md6 class="pa-0">
       <v-tabs id="left-desktop-tabs" grow dark>
         <v-card class="primary white--text">
-            <v-container fluid grid-list-lg>
+            <v-container fluid grid-list-lg class="pb-0">
               <v-layout row>
                 <v-flex sm3>
-                  <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+                  <v-dialog lazy v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
                 <v-btn small slot="activator" @click="toggleFilter">full filter</v-btn>
                 <v-toolbar light>
                   <v-btn icon="icon" @click.native="showFullFilter = false" light>
@@ -85,7 +85,7 @@
     <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Search Results'">
       <div>
         <v-card-text>
-          <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+          <v-dialog v-model="showFullFilter" lazy persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
             <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
             <v-toolbar light>
               <v-btn icon="icon" @click.native="showFullFilter = false" light>

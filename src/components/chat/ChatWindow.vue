@@ -147,17 +147,8 @@ export default {
 
 .chat-panel .send-text {
   /*height: 120px;*/
-  flex: 0 1 120px;
+  flex: 0 1 150px;
   position: relative;
-}
-
-.chat-panel .send-text .send-button {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 5px;
-  margin: 10px;
-  z-index: 1;
 }
 
 .chat-panel .message {
