@@ -152,7 +152,7 @@ export default {
 }
 
 .chat-panel .message {
-  height: calc(100% - 120px);
+  height: calc(100% - 123px);
   flex: 1 0 auto;
   overflow-y: scroll;
   overflow-x: hidden;

@@ -25,7 +25,7 @@ export default {
 
 <template>
 <div class="ChatTextBox">
-    <v-text-field hide-details class="ma-0" label="Label Text" multi-line v-model="content" v-on:keyup="onKeyup">
+    <v-text-field hide-details label="Label Text" multi-line v-model="content" v-on:keyup="onKeyup">
     </v-text-field>
     <v-btn 
       class="pink"
