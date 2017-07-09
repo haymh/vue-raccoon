@@ -1,15 +1,11 @@
 <template>
   <div>
-    <div id="url-input">
-      <input class="input" placeholder="输入文章 URL" type="url" v-model="url">
-      <button class="button is-success" v-on:click="parse">Reader Mode</button>
+    <router-link class="button is-primary" :to="'/articleParser'">Article Parser</router-link>
+    <div v-if="loadingList" class="box">
+      <clip-loader v-if="loadingList"></clip-loader>
     </div>
-    <div class="box content" id="content">
-      <div v-if="inProgress">Converting Article to Reader Mode...</div>
-      <div v-if="!inProgress">
-        <h3>{{ title }}</h3>
-        <div v-html="content"></div>
-      </div>
+    <div v-if="!loadingList" v-for="item in articleInfo">
+      <single-article-list :singleArticleListingData="item"></single-article-list>
     </div>
   </div>
 </template>
@@ -28,33 +24,34 @@
 </style>
 
 <script>
+import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
+import SingleArticleList from './components/Articles/SingleArticleList.vue';
+
 export default {
   name: 'article',
   data() {
     return {
-      url: '',
-      title: 'title placeholder',
-      content: 'content placeholder',
-      inProgress: false,
+      articleInfo: [],
+      loadingList: false,
     };
   },
+  components: {
+    'clip-loader': ClipLoader,
+    'single-article-list': SingleArticleList,
+  },
+  created() {
+    console.log('called create');
+    this.getArticleNames();
+  },
   methods: {
-    parse() {
-      this.reqData = {};
-      this.reqData.url = this.url;
-      console.log(this.url);
-      this.inProgress = true;
-
-      this.$http.post('https://us-central1-article-parser.cloudfunctions.net/articleParse', this.reqData).then((response) => {
+    getArticleNames() {
+      this.loadingList = true;
+      console.log(this.loadingList);
+      this.$http.post('https://us-central1-article-parser.cloudfunctions.net/getArticleInfo').then((response) => {
         console.log(response);
-        this.inProgress = false;
-
-        this.title = response.body.title;
-        this.content = response.body.content;
-      }, (response) => {
-        console.log(response);
+        this.articleInfo = response.body;
+        this.loadingList = false;
       });
-      console.log('returned');
     },
   },
 };
