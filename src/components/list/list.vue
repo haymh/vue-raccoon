@@ -6,6 +6,7 @@
         <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly" :height="cardHeight"></single-list>
       </div>
     </div>
+    <!--TODO: Need to make list full height and scroll on whole page. Pagination should be fix position.-->
     <Pagination
       v-show="houseList !== null && houseList.length !== 0"
       v-model="currentPage"
