@@ -4,15 +4,22 @@ module.exports = {
   parserOptions: {
     sourceType: 'module'
   },
-  extends: 'airbnb-base',
-  'env': {
+  env: {
     'browser': true,
-    'node': true,
   },
+  extends: 'airbnb-base',
   // required to lint *.vue files
   plugins: [
     'html'
   ],
+  // check if imports actually resolve
+  'settings': {
+    'import/resolver': {
+      'webpack': {
+        'config': 'build/webpack.base.conf.js'
+      }
+    }
+  },
   // add your custom rules here
   'rules': {
     'import/no-unresolved': 0,
