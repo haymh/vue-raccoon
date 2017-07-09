@@ -1,31 +1,25 @@
 <template>
-  <div class="detail-info-wrapper">
-    <div class="heading" style="padding-left: 10px">{{viewLike}}</div>
-    <table class="detail">
-      <tbody>
-        <tr>
-          <td>$/Sq. Ft.: <b>{{listingData.unitPriceInSF | formatNumber(2, '$')}}</b></td>
-          <td>Year Built: <b>{{listingData.built | formatDate}}</b></td>
-        </tr>
-        <tr>
-          <td>Days Online: <b>{{daysOnline}}</b></td>
-          <td>Lot Size: <b>{{lot}}</b> Sq.Ft.</td>
-        </tr>
-        <tr>
-          <td>HOA: <b>{{hoa}}</b></td>
-          <td>Status: <b>{{listingData.status}}</b></td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="level">
-      <div class="level-item" v-for="tag in listingData.tags">
-        <span class="tag is-info">{{tag}}</span>
-      </div>
-      <div class="level-right">
-        <slot></slot>
-      </div>
-    </div>
-  </div>
+  <v-card>
+    <v-card-title>{{viewLike}}</v-card-title>
+    <v-container fluid grid-list-lg class="pb-0">
+      <v-layout row>
+        <v-flex xs6 class="pa-0">
+          <p>$/Sq. Ft.: <b>{{listingData.unitPriceInSF | formatNumber(2, '$')}}</b></p>
+          <p>Year Built: <b>{{listingData.built | formatDate}}</b></p>
+          <p>HOA: <b>{{hoa}}</b></p>
+        </v-flex>
+        <v-flex xs6 class="pa-0">
+          <p>Days Online: <b>{{daysOnline}}</b></p>
+          <p>Lot Size: <b>{{lot}}</b></p>
+          <p>Status: <b>{{listingData.status}}</b></p>
+        </v-flex>
+      </v-layout>
+    </v-container>
+    <!--<v-card-text>
+      <v-chip v-for="(tag, i) in listingData.tags" :key="i">{{tag}}</v-chip>
+    </v-card-text>-->
+    <slot></slot>
+  </v-card>
 </template>
 
 <style scoped>

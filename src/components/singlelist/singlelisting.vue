@@ -7,18 +7,18 @@
         <v-btn class="like" icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
           <v-icon>favorite</v-icon>
         </v-btn>
-        <v-btn icon outline floating v-bind:class="[cardSelected ? 'green--text' : 'grey--text', 'check', 'hidden-md-and-up']" @click.native="selectCard">
+        <v-btn icon outline v-bind:class="[cardSelected ? 'green--text' : 'grey--text', 'check', 'hidden-md-and-up']" @click.native="selectCard">
           <v-icon>done</v-icon>
         </v-btn>
       </v-flex>
       <v-flex md6 class="hidden-sm-and-down pa-0">
         <list-detail-info v-bind:listingData="singleListingData">
-          <div>
+          <v-card-actions>
             <v-btn icon v-bind:class="[cardSelected ? 'green--text' : 'grey--text']" @click.native="selectCard">
-            <v-icon>done</v-icon>
-          </v-btn>
-          <router-link class="card-footer-item button is-white" :to="`/house/${singleListingData._id}`">View Detail</router-link>
-          </div>
+              <v-icon>done</v-icon>
+            </v-btn>
+            <v-btn :to="`/house/${singleListingData._id}`">View Detail</v-btn>
+          </v-card-actions>
           
         </list-detail-info>
       </v-flex>
@@ -74,7 +74,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 270,
+      default: 300,
     },
   },
   components: {

@@ -1,5 +1,7 @@
 <template>
-  <v-card hover horizontal v-show="show" @mouseover="hover" class="mt-1">
+  <v-card hover horizontal v-show="show"
+    :class="[isSelfDisplayHouse ? 'blue lighten-4' : '', 'mt-1']"
+    v-tooltip:bottom="{ html: tooltipText, visible: tooltipText !== null }">
     <v-container fluid grid-list-lg>
       <v-layout row>
         <v-flex xs3>
@@ -45,6 +47,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    tooltipText: {
+      type: String,
+      default: null,
+    },
+    displayHouse: Object,
   },
   created() {
     console.log('SHORT ITEM', this.house);
@@ -60,6 +67,9 @@ export default {
     },
     itemSelected() {
       return this.selectedHouses.indexOf(this.house) !== -1;
+    },
+    isSelfDisplayHouse() {
+      return this.house === this.displayHouse;
     },
     show() {
       if (this.showOnlyWhenSelected) {
@@ -96,9 +106,6 @@ export default {
           house: this.house,
         });
       }
-    },
-    hover() {
-      this.$emit('hoverHouse', this.house);
     },
   },
 };
