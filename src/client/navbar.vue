@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar class="white">
+  <v-toolbar class="white" style="z-index:1">
     <v-toolbar-side-icon v-on:click.native.stop="toggleSideBar"></v-toolbar-side-icon>
     <v-toolbar-title class="hidden-sm-and-down">
       <router-link to="/" exact>
@@ -9,6 +9,7 @@
     <v-spacer></v-spacer>
     <HouseSearchBar class="autocomplete-input" route="search"></HouseSearchBar>
     <v-spacer></v-spacer>
+    <router-link to="/chat">Chat</router-link>
     <Login v-show="user.isTemp"></Login>
     <UserInfo v-show="!user.isTemp" :user="user"></UserInfo>
     <router-link to="/user/123">Profile</router-link>
@@ -41,7 +42,7 @@
 .autocomplete-input {
   flex-grow: 2;
 }
-.nav-global {
+/*.nav-global {
 	z-index: 999;
 	top: 0;
 	left: 0;
@@ -62,7 +63,7 @@
 	margin-right: 10px;
 	display: inline-block;
 	vertical-align: middle;
-}
+}*/
 </style>
 
 <script>

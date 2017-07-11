@@ -1,5 +1,5 @@
 <template>
-  <v-card class="box list mr-1 ml-1" @mouseover="select" v-show="show" hover>
+  <v-card class="box list" @mouseover="select" v-show="show" hover>
     <v-layout row>
       <v-flex xs12 sm12 md6 class="pa-0">
         <HouseGalleryWithInfo :house="singleListingData" :clickHandler="onClickHandler" :height="height"></HouseGalleryWithInfo>

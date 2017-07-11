@@ -20,7 +20,9 @@
             <RaccoonMap class="map" :houseData="allHouses" :searchByGeo="searchByGeo">
             </RaccoonMap>
             <div class="singlelist hidden-sm-and-up">
-              <SingleList :singleListingData="hoveredHouse" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
+              <SingleList
+                :singleListingData="hoveredHouse" 
+                v-if="hoveredHouse !== undefined && hoveredHouse !== null">
               </SingleList>
             </div>
           </div>
