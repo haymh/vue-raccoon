@@ -2,29 +2,23 @@
 <v-layout row wrap>
   <v-flex xs12 md6 class="ma-2">
     <v-card>
-      <v-card-row class="blue-grey darken-1">
-        <v-card-title>
-          <span class="white--text">Your Share</span>
-          <v-spacer></v-spacer>
-          <v-menu id="space" bottom left origin="top right" transition="v-scale-transition">
-            <v-btn icon="icon" slot="activator" class="white--text">
-              <v-icon>more_vert</v-icon>
-            </v-btn>
-            <v-list>
-              <v-list-item>
-                <v-list-tile>
-                  <v-list-tile-title>Create New</v-list-tile-title>
-                </v-list-tile>
-              </v-list-item>
-              <v-list-item>
-                <v-list-tile>
-                  <v-list-tile-title>Send Feedback</v-list-tile-title>
-                </v-list-tile>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-card-title>
-      </v-card-row>
+      <v-card-title class="blue white--text">
+        <span class="white--text">Your Share</span>
+        <v-spacer></v-spacer>
+        <v-menu id="space" bottom left origin="top right" transition="v-scale-transition">
+          <v-btn icon="icon" slot="activator" class="white--text">
+            <v-icon>more_vert</v-icon>
+          </v-btn>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-title>Create New</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-title>Send Feedback</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </v-card-title>
     </v-card>
     <v-expansion-panel expand>
       <v-expansion-panel-content key="0">
