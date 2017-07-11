@@ -2,7 +2,6 @@
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
-    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
     <v-app>
       <SideBar class="hidden-xs-only"></SideBar>
       <NavBar class="hidden-xs-only"></NavBar>
@@ -55,7 +54,7 @@ import UserInfo from '../components/login/UserInfo.vue';
 import { NavBar, SideBar, AppFooter } from './components/layout';
 import BottomNav from '../components/nav/BottomNav.vue';
 
-const peopleListRef = db.ref('/users');
+const agentsRef = db.ref('/agents');
 /* eslint-disable no-undef */
 export default {
   name: 'App',
@@ -106,7 +105,7 @@ export default {
             userPresenceRef.set(true);
           }
         });
-        peopleListRef.child(id).on('value', (userProfile) => {
+        agentsRef.child(id).on('value', (userProfile) => {
           if (userProfile.val() !== null) {
             // user exists
             // read user profile
@@ -157,11 +156,17 @@ export default {
             // create a user profile
             console.log('creating user ', id);
             const updates = {};
-            updates[`/users/${id}`] = {
-              type: 'agent',
-              nickname: '',
+            updates[`/agents/${id}`] = {
+              avatar: '/static/profile.png',
+              verified: false,
+              isMember: false,
               createdAt: timeStamp,
-              avatar: '../../static/profile.png',
+              paid: false,
+              license: '',
+              licenseIssueDate: '',
+              nickname: '',
+              lastName: '',
+              firstName: '',
             };
             db.ref().update(updates).then(() => {
               this.$store.dispatch('setUser',
@@ -172,7 +177,7 @@ export default {
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
-                  avatar: '../../static/profile.png',
+                  avatar: '/static/profile.png',
                 },
               );
             });

@@ -2,7 +2,7 @@
   <div id="app">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
-    <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>
+    <!--<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>-->
     <v-app>
       <navbar class="hidden-xs-only"></navbar>
       <main class="main">
@@ -145,7 +145,7 @@ export default {
               type: 'buyer',
               nickname: '',
               createdAt: timeStamp,
-              avatar: '../../static/profile.png',
+              avatar: '/static/profile.png',
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
@@ -160,7 +160,7 @@ export default {
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
-                  avatar: '../../static/profile.png',
+                  avatar: '/static/profile.png',
                 },
               );
             });

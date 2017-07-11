@@ -4,7 +4,6 @@
     {{title}}
     <v-spacer></v-spacer>
     <v-text-field
-      light
       append-icon="search"
       label="Search"
       single-line
@@ -12,17 +11,15 @@
       v-model="search"
     ></v-text-field>
   </v-card-title>
-  <v-card-row>
-    <v-card-row actions class="indigo darken-2 light--text">
-      <span v-if="selected.length > 0">
-        <strong>{{selected.length}}</strong> entries are selected
-      </span>
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon class="white--text">delete</v-icon>
-      </v-btn>
-    </v-card-row>
-  </v-card-row>
+  <v-card-actions class="indigo darken-2 light--text">
+    <span v-if="selected.length > 0">
+      <strong>{{selected.length}}</strong> entries are selected
+    </span>
+    <v-spacer></v-spacer>
+    <v-btn icon>
+      <v-icon class="white--text">delete</v-icon>
+    </v-btn>
+  </v-card-actions>
   <v-data-table
     v-bind:headers="headers"
     v-bind:items="items"

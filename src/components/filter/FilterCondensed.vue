@@ -7,7 +7,7 @@
         v-bind:items="schema.conditions.price.minChoices"
         v-model="schema.conditions.price.min"
         label="Min Price"
-        dark
+        hide-details	
       >
         <template slot="selection" scope="data">
           <v-list-tile-content :key="data.item">
@@ -27,7 +27,7 @@
         v-bind:items="schema.conditions.price.maxChoices"
         v-model="schema.conditions.price.max"
         label="Max Price"
-        dark
+        hide-details
       >
         <template slot="selection" scope="data">
           <v-list-tile-content :key="data.item">
@@ -47,7 +47,7 @@
         v-bind:items="schema.conditions.beds.minChoices"
         v-model="schema.conditions.beds.min"
         label="Min Beds"
-        dark
+        hide-details
       >
         <template slot="selection" scope="data">
           <v-list-tile-content :key="data.item">
@@ -68,7 +68,7 @@
         v-bind:items="schema.conditions.beds.maxChoices"
         v-model="schema.conditions.beds.max"
         label="Max Beds"
-        dark
+        hide-details
       >
         <template slot="selection" scope="data">
           <v-list-tile-content :key="data.item">
@@ -98,7 +98,7 @@
           v-bind:items="schema.conditions.beds.minChoices"
           v-model="schema.conditions.beds.min"
           label="Min Beds"
-          dark
+          hide-details
         >
           <template slot="selection" scope="data">
             <v-list-tile-content :key="data.item">
@@ -119,7 +119,7 @@
           v-bind:items="schema.conditions.beds.maxChoices"
           v-model="schema.conditions.beds.max"
           label="Max Beds"
-          dark
+          hide-details
         >
           <template slot="selection" scope="data">
             <v-list-tile-content :key="data.item">
@@ -139,7 +139,7 @@
           v-bind:items="schema.conditions.baths.minChoices"
           v-model="schema.conditions.baths.min"
           label="Min Baths"
-          dark
+          hide-details
         >
           <template slot="selection" scope="data">
             <v-list-tile-content :key="data.item">
@@ -160,7 +160,7 @@
           v-bind:items="schema.conditions.hoa.maxChoices"
           v-model="schema.conditions.hoa.max"
           label="Max HOA"
-          dark
+          hide-details
         >
           <template slot="selection" scope="data">
             <v-list-tile-content :key="data.item">

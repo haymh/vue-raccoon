@@ -4,7 +4,7 @@
     value="true"
     class="transparent"
   >
-    <v-btn flat dark class="indigo--text" v-for="(n, i) in navs"
+    <v-btn flat class="indigo--text" v-for="(n, i) in navs"
       :key="i"
       @click.native="select(i)"
       :value="selected === i">

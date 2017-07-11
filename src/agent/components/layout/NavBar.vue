@@ -6,50 +6,40 @@
         <img style="height:24px;" src="../../../../static/logo.png">
       </router-link>
     </v-toolbar-title>
-    <v-toolbar-items>
-      <HouseSearchBar class="autocomplete-input"></HouseSearchBar>
-      <v-toolbar-item class="hidden-xs-only">
-        <Login v-show="user.isTemp" />
-      </v-toolbar-item>
-      <v-toolbar-item class="hidden-xs-only">
+    <v-spacer></v-spacer>
+    <HouseSearchBar class="autocomplete-input" route="main"></HouseSearchBar>
+    <v-spacer></v-spacer>
+    <Login v-show="user.isTemp" />
+    <UserInfo v-show="!user.isTemp" :user="user" />
+    <router-link to="/user/123">Profile</router-link>
+    <v-menu bottom left offset-y origin="top right" transition="v-scale-transition">
+      <v-btn dark icon slot="activator">
+        <v-icon>more_vert</v-icon>
+      </v-btn>
+      <v-list>
         <UserInfo v-show="!user.isTemp" :user="user" />
-      </v-toolbar-item>
-      <v-toolbar-item class="hidden-xs-only">
-        <router-link to="/user/123">Profile</router-link>
-      </v-toolbar-item>
-      <v-toolbar-item class="hidden-sm-and-up">
-        <v-menu bottom left offset-y origin="top right" transition="v-scale-transition">
-          <v-btn dark icon slot="activator">
-            <v-icon>more_vert</v-icon>
-          </v-btn>
-          <v-list>
-            <v-list-item>
-              <UserInfo v-show="!user.isTemp" :user="user" />
-              <v-list-tile>
-                <UserInfo v-show="!user.isTemp" :user="user" />
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-title>
-                  <UserInfo v-show="!user.isTemp" :user="user" />
-                </v-list-tile-title>
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-title>
-                  <router-link to="/user/123">Profile</router-link>
-                </v-list-tile-title>
-              </v-list-tile>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-      </v-toolbar-item>
-    </v-toolbar-items>
+        <v-list-tile>
+          <UserInfo v-show="!user.isTemp" :user="user" />
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-title>
+            <UserInfo v-show="!user.isTemp" :user="user" />
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-list-tile>
+          <v-list-tile-title>
+            <router-link to="/user/123">Profile</router-link>
+          </v-list-tile-title>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
   </v-toolbar>
 
 </template>
 
 <style>
 .autocomplete-input {
-  width: auto;
+  flex-grow: 2;
 }
 .nav-global {
 	z-index: 999;

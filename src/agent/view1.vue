@@ -61,7 +61,7 @@
       <h1>Filter Results</h1>
       <pre>{{ filterResults }}</pre> -->
 
-      <ChatBar></ChatBar>
+      <!--<ChatBar></ChatBar>-->
       <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
     </div>
     

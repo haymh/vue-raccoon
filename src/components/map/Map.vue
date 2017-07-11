@@ -255,12 +255,12 @@
           this.markers.filter(
             marker => !marker.getMap() &&
                       this.map.getBounds().contains(marker.getPosition()))
-                      .forEach(marker => marker.setMap(this.map));
+            .forEach(marker => marker.setMap(this.map));
 
           this.markers.filter(
             marker => marker.getMap() &&
                       !this.map.getBounds().contains(marker.getPosition()))
-                      .forEach(marker => marker.setMap(null));
+            .forEach(marker => marker.setMap(null));
 
           this.markers.forEach((marker) => {
             marker.setMap(this.map);

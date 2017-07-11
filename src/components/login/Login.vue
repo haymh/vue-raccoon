@@ -3,23 +3,15 @@
   <v-dialog v-model="formOpen">
     <v-btn primary light slot="activator">Login</v-btn>
     <v-card>
-      <v-card-row>
-        <v-card-title>Raccoon</v-card-title>
-      </v-card-row>
-      <v-card-row>
-        <v-card-text>
-          {{message}}
-        </v-card-text>
-      </v-card-row>
-      <v-card-row>
-        <v-btn primary light v-on:click.native="link('google')">Google</v-btn>
-      </v-card-row>
-      <v-card-row>
-        <v-btn v-on:click.native="link('facebook')">Facebook</v-btn>
-      </v-card-row>
-      <v-card-row actions>
+      <v-card-title>Raccoon</v-card-title>
+      <v-card-text>
+        {{message}}
+      </v-card-text>
+      <v-btn primary light v-on:click.native="link('google')">Google</v-btn>
+      <v-btn v-on:click.native="link('facebook')">Facebook</v-btn>
+      <v-card-actions>
         <v-btn v-on:click.native="dismissLogin">Cancel</v-btn>
-      </v-card-row>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 
@@ -86,14 +78,20 @@
           console.log('link user');
           firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
             // Accounts successfully linked.
-            const credential = result.credential;
             const user = result.user;
-            console.log(credential, user);
+            let displayName = user.displayName;
+            if (!displayName) {
+              if (user.providerData[0]) {
+                displayName = user.providerData[0].displayName;
+              } else {
+                displayName = 'Visitor';
+              }
+            }
             this.$store.dispatch('setUser',
               {
                 id: user.uid,
                 isTemp: user.isAnonymous,
-                displayName: user.providerData[0].displayName,
+                displayName,
               },
             );
             this.formOpen = false;

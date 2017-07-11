@@ -182,9 +182,7 @@ export default {
       disableShareDate: {
         to: yesterday,
       },
-      allowedDates: function (date) {
-        return date > yesterday;
-      },
+      allowedDates: date => date > yesterday,
       showTimePicker: false,
       shareObject: new Share({
         uid: this.userId,
