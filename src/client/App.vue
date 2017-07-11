@@ -145,7 +145,7 @@ export default {
               type: 'buyer',
               nickname: '',
               createdAt: timeStamp,
-              avatar: '../../static/profile.png',
+              avatar: '/static/profile.png',
             };
             // create a buyer data
             updates[`/buyerData/${id}`] = {
@@ -160,7 +160,7 @@ export default {
                   favoriteHouses: [],
                   searches: [],
                   userRooms: [],
-                  avatar: '../../static/profile.png',
+                  avatar: '/static/profile.png',
                 },
               );
             });

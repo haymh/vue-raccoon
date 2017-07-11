@@ -35,7 +35,6 @@
 }
 .map-container .save-button {
   position: absolute;
-  z-index: 1;
   margin-top: 10px;
 }
 .map-container {

@@ -1,19 +1,19 @@
 <template>
-    <v-list-item>
-      <v-list-tile>
-        <v-list-tile-avatar>
-          <img :alt="person.nickname" :src="person.avatar">
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
-        </v-list-tile-content>
-        <!--<div class="column is-2">
-          <transition name="fade">
-            <span v-show="showUnread()" class="tag is-danger">{{ this.unread['.value'] | unreadFormatter }}</span>
-          </transition>
-        </div>-->
-      </v-list-tile>
-    </v-list-item>
+    <v-list-tile @click.native="clicked">
+      <v-list-tile-avatar>
+        <img :alt="person.nickname" :src="person.avatar">
+      </v-list-tile-avatar>
+      <v-list-tile-content>
+        <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
+      </v-list-tile-content>
+      <v-list-tile-action>
+        <v-icon
+          v-badge="{ value: formattedUnreadCount, left: true, visible: showUnread}"
+          v-bind:class="[active ? 'teal--text' : 'grey--text', 'red--after']">
+          chat_bubble
+        </v-icon>
+      </v-list-tile-action>
+    </v-list-tile>
 </template>
 
 <script>
@@ -22,22 +22,36 @@ import { db } from '../../api/fire';
 
 export default {
   name: 'ChatListRoomItem',
-  props: ['room'],
+  props: {
+    room: Object,
+    peopleTable: String,
+    active: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
-    return {
-    };
+    return {};
   },
   created() {
     console.log(this.room.members);
     const personId = this.notMe(this.room.members);
     console.log('Other Person Id: ', personId);
-    this.$bindAsObject('person', db.ref(`/users/${personId}`));
+    this.$bindAsObject('person', db.ref(`/${this.peopleTable}/${personId}`));
     this.$bindAsObject('unread', db.ref(`/unread/${this.userId}/${this.room.roomId}`));
   },
   computed: {
     ...mapGetters([
       'userId',
     ]),
+    showUnread() {
+      const unread = this.unread['.value'];
+      console.log(unread, unread > 0);
+      return unread && unread > 0;
+    },
+    formattedUnreadCount() {
+      return this.unread['.value'] > 10 ? '10+' : this.unread['.value'];
+    },
   },
   filters: {
     unreadFormatter(count) {
@@ -55,21 +69,10 @@ export default {
       }
       return undefined;
     },
-    showUnread() {
-      const unread = this.unread['.value'];
-      console.log(unread);
-      return unread && unread > 0;
+    clicked() {
+      this.$emit('clicked', this.room.roomId, this.person);
     },
   },
 };
 </script>
 
-<style scoped lang="css">
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s
-}
-.fade-enter, .fade-leave-active {
-  opacity: 0
-}
-</style>
