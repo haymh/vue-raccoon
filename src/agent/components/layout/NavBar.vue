@@ -9,7 +9,7 @@
     <v-spacer></v-spacer>
     <HouseSearchBar class="autocomplete-input" route="main"></HouseSearchBar>
     <v-spacer></v-spacer>
-    <Login v-show="user.isTemp" />
+    <Login v-show="user.isTemp" agent />
     <UserInfo v-show="!user.isTemp" :user="user" />
     <router-link to="/user/123">Profile</router-link>
     <v-menu bottom left offset-y origin="top right" transition="v-scale-transition">

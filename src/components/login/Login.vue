@@ -8,7 +8,7 @@
         {{message}}
       </v-card-text>
       <v-btn primary light v-on:click.native="link('google')">Google</v-btn>
-      <v-btn v-on:click.native="link('facebook')">Facebook</v-btn>
+      <v-btn v-if="!agent" v-on:click.native="link('facebook')">Facebook</v-btn>
       <v-card-actions>
         <v-btn v-on:click.native="dismissLogin">Cancel</v-btn>
       </v-card-actions>
@@ -37,6 +37,12 @@
 
   export default {
     name: 'Login',
+    props: {
+      agent: {
+        type: Boolean,
+        default: false,
+      },
+    },
     data() {
       return {
         formOpen: false,
@@ -48,6 +54,7 @@
       if (this.$route.query.mode === 'select') {
         this.formOpen = true;
       }
+      console.log('login for agent: ', this.agent);
     },
     methods: {
       dismissLogin() {
@@ -75,41 +82,44 @@
           default: break;
         }
         if (provider) {
-          console.log('link user');
-          firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
-            // Accounts successfully linked.
-            const user = result.user;
-            let displayName = user.displayName;
-            if (!displayName) {
-              if (user.providerData[0]) {
-                displayName = user.providerData[0].displayName;
-              } else {
-                displayName = 'Visitor';
-              }
-            }
-            this.$store.dispatch('setUser',
-              {
-                id: user.uid,
-                isTemp: user.isAnonymous,
-                displayName,
-              },
-            );
-            this.formOpen = false;
-          }).catch((error) => {
-            console.error(error);
-            firebase.auth().signInWithCredential(error.credential)
-              .then((user) => {
-                // TODO: update user store
-                this.formOpen = false;
-                console.log('new user signed in', user);
-                this.$router.replace('/main');
-              })
-              .catch((err) => {
-                console.log(err);
-                this.message = `Failed to sign with ${providerName}`;
-              });
-          });
+          this.authWithProvider(provider);
         }
+      },
+      authWithProvider(provider) {
+        console.log('link user');
+        firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
+          // Accounts successfully linked.
+          const user = result.user;
+          let displayName = user.displayName;
+          if (!displayName) {
+            if (user.providerData[0]) {
+              displayName = user.providerData[0].displayName;
+            } else {
+              displayName = 'Visitor';
+            }
+          }
+          this.$store.dispatch('setUser',
+            {
+              id: user.uid,
+              isTemp: user.isAnonymous,
+              displayName,
+            },
+          );
+          this.formOpen = false;
+        }).catch((error) => {
+          console.error(error);
+          firebase.auth().signInWithCredential(error.credential)
+            .then((user) => {
+              // TODO: update user store
+              this.formOpen = false;
+              console.log('new user signed in', user);
+              this.$router.replace('/main');
+            })
+            .catch((err) => {
+              console.log(err);
+              this.message = `Failed to sign with ${provider}`;
+            });
+        });
       },
     },
   };
