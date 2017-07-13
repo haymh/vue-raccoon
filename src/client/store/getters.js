@@ -20,3 +20,4 @@ export const lastFilter = state => state.houses.lastFilter;
 export const userId = state => state.user.id;
 export const nickname = state => state.user.nickname;
 export const userRooms = state => state.user.userRooms;
+export const searchTerms = state => state.houses.searchTerms;

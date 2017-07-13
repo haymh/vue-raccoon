@@ -1,5 +1,5 @@
 <template>
-  <tr v-show="show" @mouseover="hover">
+  <tr class="" v-show="show">
       <td>{{house.address | formatAddress}}</td>
       <td>{{house.price | formatNumber(0, '$')}}</td>
       <td>{{house.beds}}</td>
@@ -7,18 +7,14 @@
       <td>{{house.sizeInSF}}</td>
       <td>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></td>
       <td>
-        <a class="like" v-bind:style="{color: like? '#ff3860':'grey'}">
-          <span class="icon is-medium" v-on:click="likeListing">
-            <i v-bind:class="['fa',like ? 'fa-heart' : 'fa-heart-o']"></i>
-          </span>
-        </a>
+        <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+          <v-icon>favorite</v-icon>
+        </v-btn>
       </td>
-      <td @click="selectItem">
-        <a v-bind:style="{color: itemSelected? '#1B998B':'grey'}">
-          <span class="icon is-medium">
-            <i class="fa fa-check"></i>
-          </span>
-        </a>
+      <td>
+        <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
+          <v-icon>done</v-icon>
+        </v-btn>
       </td>
   </tr>
 </template>
@@ -30,6 +26,7 @@ export default {
   name: 'TableItem',
   data() {
     return {
+      elevation: 1,
     };
   },
   props: {
@@ -85,6 +82,8 @@ export default {
       }
     },
     hover() {
+      console.log('e');
+      this.elevation = 5;
       this.$emit('hoverHouse', this.house);
     },
   },

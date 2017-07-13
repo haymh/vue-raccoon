@@ -1,20 +1,28 @@
 <template>
-  <div class="login">
-    <a class="button is-light" href="#" v-on:click="openLogin">Login</a>
-    <div class="modal" v-bind:class="{ 'is-active': formOpen }">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Raccoon</p>
-          <button class="delete" v-on:click="dismissLogin"></button>
-        </header>
-        <section class="modal-card-body">
-          <i v-if="!formReady" class="fa fa-spinner is-large"></i>
-          <div id="firebaseui-auth-container"></div>
-        </section>
-      </div>
-    </div>
-  </div>
+
+  <v-dialog v-model="formOpen">
+    <v-btn primary light slot="activator">Login</v-btn>
+    <v-card>
+      <v-card-row>
+        <v-card-title>Raccoon</v-card-title>
+      </v-card-row>
+      <v-card-row>
+        <v-card-text>
+          {{message}}
+        </v-card-text>
+      </v-card-row>
+      <v-card-row>
+        <v-btn primary light v-on:click.native="link('google')">Google</v-btn>
+      </v-card-row>
+      <v-card-row>
+        <v-btn v-on:click.native="link('facebook')">Facebook</v-btn>
+      </v-card-row>
+      <v-card-row actions>
+        <v-btn v-on:click.native="dismissLogin">Cancel</v-btn>
+      </v-card-row>
+    </v-card>
+  </v-dialog>
+
 </template>
 
 <style>
@@ -31,7 +39,8 @@
 
 <script>
   import firebase from 'firebase';
-  import { ui } from '../../api/fire';
+  // import { timeStamp } from '../../api/fire';
+  // import { ui } from '../../api/fire';
   import '../../../node_modules/firebaseui/dist/firebaseui.css';
 
   export default {
@@ -40,6 +49,7 @@
       return {
         formOpen: false,
         formReady: false,
+        message: 'Choose one sign-in method',
       };
     },
     created() {
@@ -47,39 +57,8 @@
         this.formOpen = true;
       }
     },
-    mounted() {
-      const uiConfig = {
-        callbacks: { signInSuccess: this.signInSuccess },
-        signInFlow: 'popup',
-        signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-          firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-          firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-          firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-          firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        ],
-        signInSuccessUrl: '/main',
-      };
-
-      // Initialize the FirebaseUI Widget using Firebase.
-      this.ui = ui;
-
-      // The start method will wait until the DOM is loaded.
-      this.ui.start('#firebaseui-auth-container', uiConfig);
-      this.formReady = true;
-    },
-    beforeDestroy() {
-      console.log('about to destroy this view');
-      this.ui.reset();
-    },
     methods: {
-      openLogin(event) {
-        event.preventDefault();
-        this.formOpen = true;
-      },
-      dismissLogin(event) {
-        event.preventDefault();
+      dismissLogin() {
         this.formOpen = false;
       },
       login() {
@@ -91,6 +70,54 @@
         this.formOpen = false;
         this.ui.reset();
         return true;
+      },
+      link(providerName) {
+        let provider = null;
+        switch (providerName) {
+          case 'google':
+            provider = new firebase.auth.GoogleAuthProvider();
+            break;
+          case 'facebook':
+            provider = new firebase.auth.FacebookAuthProvider();
+            break;
+          default: break;
+        }
+        if (provider) {
+          console.log('link user');
+          firebase.auth().currentUser.linkWithPopup(provider).then((result) => {
+            // Accounts successfully linked.
+            const user = result.user;
+            let displayName = user.displayName;
+            if (!displayName) {
+              if (user.providerData[0]) {
+                displayName = user.providerData[0].displayName;
+              } else {
+                displayName = 'Visitor';
+              }
+            }
+            this.$store.dispatch('setUser',
+              {
+                id: user.uid,
+                isTemp: user.isAnonymous,
+                displayName,
+              },
+            );
+            this.formOpen = false;
+          }).catch((error) => {
+            console.error(error);
+            firebase.auth().signInWithCredential(error.credential)
+              .then((user) => {
+                // TODO: update user store
+                this.formOpen = false;
+                console.log('new user signed in', user);
+                this.$router.replace('/main');
+              })
+              .catch((err) => {
+                console.log(err);
+                this.message = `Failed to sign with ${providerName}`;
+              });
+          });
+        }
       },
     },
   };

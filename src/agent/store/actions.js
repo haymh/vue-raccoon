@@ -60,8 +60,18 @@ export function unselectAllHouses({ commit }) {
 // user
 
 export const setUser = ({ commit },
-   { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar }) => {
-  commit(types.CHANGE_USER, { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar });
+  { id, isTemp, nickname, favoriteHouses, searches, userRooms, avatar, displayName }) => {
+  console.log('setUser, isTemp', isTemp);
+  commit(types.CHANGE_USER, {
+    id,
+    isTemp,
+    nickname,
+    favoriteHouses,
+    searches,
+    userRooms,
+    avatar,
+    displayName,
+  });
   // set firebase user id, so we can refresh token
   raccoonAPI.refreshToken(id);
 };
@@ -85,8 +95,9 @@ export const upsertRoom = ({ commit }, room) => {
 };
 
 // app
-export const toggleSideBar = ({ commit }) => {
-  commit(types.TOGGLE_SIDEBAR);
+export const toggleSideBar = ({ commit }, show) => {
+  console.log('toggle sidebar', show);
+  commit(types.TOGGLE_SIDEBAR, show);
 };
 
 // share
@@ -104,4 +115,26 @@ export function selectCustomers({ commit }, { ids }) {
 
 export function unselectCustomers({ commit }, { ids }) {
   commit(types.UNSELECT_CUSTOMERS, { ids });
+}
+
+export function setByFilter({ commit }, byFilter) {
+  commit(types.SET_BY_FILTER, { byFilter });
+}
+
+export function setShareId({ commit }, uid) {
+  commit(types.SET_SHARE_ID, { uid });
+}
+
+export function setShareEmail({ commit }, email) {
+  commit(types.SET_SHARE_EMAIL, { email });
+}
+
+export function setQuery({ commit }, query) {
+  commit(types.SET_QUERY, { query });
+}
+
+// article
+export function setArticleInfo({ commit }, articleInfo) {
+  raccoonAPI.createArticle(articleInfo);
+  commit(types.ARTICLE_INFO, articleInfo);
 }

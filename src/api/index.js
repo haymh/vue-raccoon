@@ -9,8 +9,8 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 // const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
-// const baseURL = 'http://localhost:3000';
-const baseURL = 'http://104.196.242.243:3000';
+const baseURL = 'http://localhost:3000';
+// const baseURL = 'http://104.196.242.243:3000';
 
 class RacAPIClient {
   constructor() {
@@ -50,7 +50,7 @@ class RacAPIClient {
         // params: { types: '(cities)', q: qs },
         params: { q: qs },
       })
-    .then(response => response.data);
+      .then(response => response.data);
   }
 
   getFavorite(firebaseUserId) {
@@ -58,7 +58,7 @@ class RacAPIClient {
       {
         params: { uid: firebaseUserId },
       })
-    .then(response => response.data);
+      .then(response => response.data);
   }
 
   getRecentViewed(userId) {
@@ -84,6 +84,14 @@ class RacAPIClient {
     return this.client.get(`/house/${houseId}`).then(response => response.data);
   }
 
+  getShare(shareId) {
+    return this.client.get(`/share/${shareId}`)
+      .then((response) => {
+        console.log('shareObject', response.data);
+        return this.client.post('/house/search', response.data.query);
+      });
+  }
+
   getSchool(urlValue) {
     return this.client.get('/house/school', {
       params: { box: urlValue },
@@ -91,7 +99,27 @@ class RacAPIClient {
   }
 
   createShare(share) {
+    console.log(this);
     return this.client.post('/share', share).then(response => response.data);
+  }
+
+  update(share) {
+    return this.client.put('/share', share).then(response => response.data);
+  }
+
+  createArticle(articleInfo) {
+    console.log('article info front end');
+    return this.client.post('/article/create', articleInfo).then(() => {
+      console.log('articleInfo uploaded');
+    });
+  }
+
+  getAllArticles() {
+    console.log('here at index');
+    return this.client.get('/article/getAll').then((response) => {
+      console.log(response);
+      return response.data;
+    });
   }
 }
 

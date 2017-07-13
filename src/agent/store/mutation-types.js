@@ -29,3 +29,10 @@ export const SELECT_CUSTOMER = 'SELECT_CUSTOMER';
 export const SELECT_CUSTOMERS = 'SELECT_CUSTOMERS';
 export const UNSELECT_CUSTOMER = 'UNSELECT_CUSTOMER';
 export const UNSELECT_CUSTOMERS = 'UNSELECT_CUSTOMERS';
+export const SET_BY_FILTER = 'SET_BY_FILTER';
+export const SET_SHARE_ID = 'SET_SHARE_ID';
+export const SET_SHARE_EMAIL = 'SET_SHARE_EMAIL';
+export const SET_QUERY = 'SET_QUERY';
+
+// article
+export const ARTICLE_INFO = 'ARTICLE_INFO';

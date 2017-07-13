@@ -1,21 +1,16 @@
 <template>
-  <div class="user-info">
-    <a href="#" v-on:click="open">
-      {{user.displayName}}
-    </a>
-    <div class="modal is-overlay" v-bind:class="{ 'is-active': formOpen }">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Raccoon</p>
-          <button class="delete" v-on:click="dismiss"></button>
-        </header>
-        <section class="modal-card-body">
-          <button class="primary" v-on:click="logOut">Log out</button>
-        </section>
-      </div>
-    </div>
-  </div>
+  <v-dialog v-model="formOpen">
+    <v-btn primary light slot="activator">{{user.nickname || user.displayName || 'Visitor'}}</v-btn>
+    <v-card>
+      <v-card-row>
+        <v-card-title>Raccoon</v-card-title>
+      </v-card-row>
+      <v-card-row actions>
+        <v-btn v-on:click.native="dismiss">Cancel</v-btn>
+        <v-btn class="green--text darken-1" flat="flat" v-on:click.native="logOut">Log out</v-btn>
+      </v-card-row>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -30,16 +25,10 @@
     },
     props: ['user'],
     methods: {
-      open(event) {
-        event.preventDefault();
-        this.formOpen = true;
-      },
-      dismiss(event) {
-        event.preventDefault();
+      dismiss() {
         this.formOpen = false;
       },
-      logOut(event) {
-        event.preventDefault();
+      logOut() {
         this.formOpen = false;
         firebase.auth().signOut().then(() => console.log('user signed out'), error => console.error(error));
       },

@@ -1,58 +1,127 @@
 <template>
-  <div class="control is-horizontal">
-    <p class="control has-addons">
-      <span class="label">Sort:</span>
-      <span class="select">
-        <select v-model="sortBy" @change="setSort">
-          <option v-for="item in options">{{item}}</option>
-        </select>
-      </span>
-      <a class="button is-primary is-outlined" v-on:click="toggleUpAndDown">
-        <span class="icon is-small">
-          <i v-bind:class="upOrDown"></i>
-        </span>
-        <span>{{highOrLow}}</span>
-      </a>
-    </p>
+  <div>
+    <div>
+      <v-btn flat icon @click.native="toggleSortPanel">
+        <v-icon>sort</v-icon>
+      </v-btn>
+    </div>
+    <div class="box elevation-2" v-show="showSortPanel" v-on-clickaway="hide">
+      <v-tabs
+        id="sort-bar"
+        grow
+        scroll-bars
+        v-model="active"
+        light
+      >
+        <v-tabs-bar slot="activators">
+          <v-tabs-item
+            :key="1"
+            href="sort-bar-az"
+            ripple
+          >
+           A-Z
+          </v-tabs-item>
+          <v-tabs-item
+            key="1"
+            href="sort-bar-za"
+            ripple
+          >
+           Z-A
+          </v-tabs-item> 
+          <v-tabs-slider></v-tabs-slider>
+        </v-tabs-bar>
+
+        <v-tabs-content
+          key="1"
+          id="sort-bar-az"
+        >
+          <v-list>
+            <v-list-item v-for="item in options" :key="item">
+              <v-list-tile ripple @click.native="setSort(item)">
+                <v-list-tile-content>
+                  <v-list-tile-sub-title>{{ item }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-btn icon>
+                    <v-icon v-show="item === sortBy">done</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+        </v-tabs-content>
+        
+        <v-tabs-content
+          key="2"
+          id="sort-bar-za"
+        >
+          <v-list>
+            <v-list-item v-for="item in options" :key="item">
+              <v-list-tile ripple @click.native="setSort(item)">
+                <v-list-tile-content>
+                  <v-list-tile-sub-title>{{ item }}</v-list-tile-sub-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                  <v-btn icon>
+                    <v-icon v-show="item === sortBy">done</v-icon>
+                  </v-btn>
+                </v-list-tile-action>
+              </v-list-tile>
+            </v-list-item>
+          </v-list>
+        </v-tabs-content>
+      </v-tabs>
+    </div>
   </div>
+  
 </template>
-<style>
+
+<style scoped>
+.box {
+  background-color: white;
+  position: absolute;
+  z-index: 4;
+}
 </style>
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   name: 'SortBar',
+  mixins: [clickaway],
   data() {
     return {
       options: [
         'price', 'beds', 'baths', 'lots',
       ],
-      sortBy: '',
-      lowToHigh: true,
+      sortBy: 'price',
+      showSortPanel: false,
+      active: 'sort-bar-az',
     };
   },
   computed: {
-    upOrDown() {
-      return this.lowToHigh ? 'fa fa-arrow-up' : 'fa fa-arrow-down';
-    },
-    highOrLow() {
-      return this.lowToHigh ? 'Low to High' : 'High to Low';
+    lowToHigh() {
+      return this.active === 'sort-bar-az';
     },
   },
   watch: {
-    sortBy: {
+    lowToHigh: {
       handler() {
-        console.log(this.sortBy);
+        this.setSort(this.sortBy);
       },
     },
   },
   methods: {
-    toggleUpAndDown() {
-      this.lowToHigh = !this.lowToHigh;
-      this.setSort();
+    setSort(sortBy) {
+      this.sortBy = sortBy;
+      this.$store.dispatch('setSort', { key: sortBy, asc: this.lowToHigh });
     },
-    setSort() {
-      this.$store.dispatch('setSort', { key: this.sortBy, asc: this.lowToHigh });
+    toggleSortPanel(event) {
+      this.showSortPanel = !this.showSortPanel;
+      event.stopPropagation();
+    },
+    hide() {
+      this.showSortPanel = false;
     },
   },
 };

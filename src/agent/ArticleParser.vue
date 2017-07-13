@@ -55,6 +55,13 @@ export default {
         console.log(response);
         this.uploadInProgress = false;
       });
+
+      // store article information to database
+      const articleInfo = {};
+      articleInfo.name = this.title;
+      articleInfo.createdAt = new Date();
+
+      this.$store.dispatch('setArticleInfo', articleInfo);
     },
   },
 };

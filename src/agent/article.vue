@@ -1,8 +1,9 @@
 <template>
   <div>
     <router-link class="button is-primary" :to="'/articleParser'">Article Parser</router-link>
+    <div v-on:click="getArticleNames">Articles</div>
     <div v-if="loadingList" class="box">
-      <clip-loader v-if="loadingList"></clip-loader>
+      <div v-if="loadingList">Loading Article List</div>
     </div>
     <div v-if="!loadingList" v-for="item in articleInfo">
       <single-article-list :singleArticleListingData="item"></single-article-list>
@@ -24,8 +25,8 @@
 </style>
 
 <script>
-import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
 import SingleArticleList from './components/Articles/SingleArticleList.vue';
+import API from '../api';
 
 export default {
   name: 'article',
@@ -36,7 +37,6 @@ export default {
     };
   },
   components: {
-    'clip-loader': ClipLoader,
     'single-article-list': SingleArticleList,
   },
   created() {
@@ -47,11 +47,16 @@ export default {
     getArticleNames() {
       this.loadingList = true;
       console.log(this.loadingList);
-      this.$http.post('https://us-central1-article-parser.cloudfunctions.net/getArticleInfo').then((response) => {
-        console.log(response);
-        this.articleInfo = response.body;
-        this.loadingList = false;
+
+      API.getAllArticles().then((info) => {
+        console.log(info);
+        this.articleInfo = info;
       });
+      // this.$http.post('https://us-central1-article-parser.cloudfunctions.net/getArticleInfo').then((response) => {
+      //   console.log(response);
+      //   this.articleInfo = response.body;
+      //   this.loadingList = false;
+      // });
     },
   },
 };

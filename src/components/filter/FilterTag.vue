@@ -1,8 +1,7 @@
 <template>
-  <span class="tag is-primary">
+  <v-chip close>
     {{tagText}}
-    <button class="delete is-small"></button>
-  </span>
+  </v-chip>
 </template>
 <script>
 import { BETWEEN, LESS, GREATER, ONEOF, NO_MIN, NO_MAX } from './filter-schema';

@@ -1,5 +1,5 @@
 <style scoped>
-  ul {
+  /*ul {
     list-style-type: none;
     padding: 0;
     max-width: 400px;
@@ -36,29 +36,47 @@
 
   ul.options-list li.highlighted {
     background: #f8f8f8
+  }*/
+  .options-list {
+    position: absolute;
+    z-index: 1;
+  }
+  li.highlighted {
+    background: rgba(0,0,0,.12);
   }
 </style>
 
 <template>
 <div class="">
-  <p class="control has-icon has-icon-right is-marginless"
-     :class="showLoading">
-    <input v-model="keyword" class="input"
-      :placeholder="placeholder"
-      @input="onInput($event.target.value)"
-      @keyup.esc="isOpen = false"
-      @blur="isOpen = false"
-      @keydown.down="moveDown"
-      @keydown.up="moveUp"
-      @keydown.enter="select">
-  </p>
-  <ul v-show="isOpen" class="options-list">
-    <li v-for="(option, index) in options"
-        :class="{'highlighted': index === highlightedPosition}"
-        @mouseenter="highlightedPosition = index" @mousedown="select">
-      <slot name="item" :option="option"></slot>
-    </li>
-  </ul>
+  
+  <v-text-field
+    prepend-icon="search"
+    single-line
+    hide-details
+    v-model="keyword"
+    :label="placeholder"
+    @input.native="onInput($event.target.value)"
+    @keyup.native.esc="isOpen = false"
+    @blur.native="isOpen = false"
+    @keydown.native.down="moveDown"
+    @keydown.native.up="moveUp"
+    @keydown.native.enter="select">
+  </v-text-field>
+
+  <v-card v-show="isOpen" class="options-list">
+    <v-list dense>
+      <v-list-item v-for="(option, index) in options"
+          :key="index"
+          :class="{'highlighted': index === highlightedPosition}"
+          @focus="highlightedPosition = index"
+          @mouseenter="highlightedPosition = index" @click="select">
+        <v-list-tile>
+          <v-list-tile-title v-text="option.text"></v-list-tile-title>
+        </v-list-tile>
+      </v-list-item>
+    </v-list>
+  </v-card>
+  
 </div>
 </template>
 
@@ -114,13 +132,13 @@ export default {
         return;
       }
       this.highlightedPosition = this.highlightedPosition - 1 < 0
-      ? this.options.length - 1 : this.highlightedPosition - 1;
+        ? this.options.length - 1 : this.highlightedPosition - 1;
     },
     select() {
       const selectedOption = this.options[this.highlightedPosition];
       this.$emit('select', selectedOption);
       this.isOpen = false;
-      this.keyword = selectedOption.title;
+      this.keyword = selectedOption.text;
     },
   },
 };

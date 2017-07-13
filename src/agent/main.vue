@@ -1,131 +1,169 @@
 <template>
-  <div class="columns content-container">
-      <div class="column is-half left-container">
-        <header class="toolbar-container">
-          <div class="columns is-multiline is-gapless toolbar">
-            <div class="column is-5">
-                <a class="button is-primary" @click="toggleFilter">show full filter</a>
-            </div>
-            <div class="column is-5">
-              <SortBar></SortBar>
-            </div>
-            <div class="column is-2">
-              <span class="select">
-                <select v-model="selectedView">
-                  <option
-                    v-for="item in viewMode"
-                    :label="item"
-                    :value="item">
-                  </option>
-                </select>
-              </span>
-            </div>
-            <div class="column is-12 filter-dropdown">
-              <div class="filter" v-show="showFullFilter" v-on-clickaway="hideFilter">
-                <FilterFullSize></FilterFullSize>
-              </div>
-            </div>
-            <div class="column is-12">
-              <div class="columns">
-                <div class="column is-6">
-                  <div class="tabs">
-                    <ul v-show="showList || showTable">
-                      <li v-bind:class="{'is-active': !showSelected}"><a @click="setShowSelected(false)">Search Results</a></li>
-                      <li v-bind:class="{'is-active': showSelected}"><a @click="setShowSelected(true)">Selected Houses</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="column is-2">
-                  <p class="control" v-show="!showSelected && (showList || showTable)">
-                    <label class="checkbox">
-                      <input type="checkbox" v-model="selectAll">
-                      This Page
-                    </label>
-                  </p>
-                </div>
-
-                <div class="column is-4">
-                  <p class="control has-addons">
-                    <a class="button is-primary" @click="share">{{shareButtonText}}</a>
-                    <a class="button is-danger" @click="clearSelectedHouse">Clear All</a>
-                  </p>
-                </div>
-              </div>
-            </div>
+<div class="content-container">
+  <v-layout row class="hidden-xs-only">
+    <v-flex xs6 md6 class="pa-0">
+      <v-tabs id="left-desktop-tabs" grow light>
+        <v-card class="primary white--text">
+          <div>
+            <v-card-row>
+              <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+                <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
+                <v-card>
+                  <v-card-row>
+                    <v-toolbar light>
+                      <v-btn icon="icon" @click.native="showFullFilter = false" light>
+                        <v-icon>close</v-icon>
+                      </v-btn>
+                      <v-toolbar-title>Filter</v-toolbar-title>
+                      <v-btn light flat @click.native="dialog = false">Save</v-btn>
+                    </v-toolbar>
+                    <SortBar></SortBar>
+                  </v-card-row>
+                  <v-card-text>
+                    <FilterFullSize></FilterFullSize>
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+              <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
+              <v-btn small @click.native="share">{{shareButtonText}}</v-btn>
+              <v-btn small @click.native="clearSelectedHouse">Clear All</v-btn>
+            </v-card-row>
           </div>
-        </header>
+        </v-card>
+        <v-tabs-bar slot="activators">
+          <v-tabs-slider></v-tabs-slider>
+          <v-tabs-item v-for="(item, i) in viewMode" :key="i" :href="'#left-desktop-tabs-' + item">
+            {{item}}
+          </v-tabs-item>
+        </v-tabs-bar>
 
-        <house-list class="list-container"
-                v-show="showList"
-                :houseList="showSelected? selectedHouses : filterResults"
-                :selectedOnly="showSelected"
-                :selectAll="selectAll">
+        <v-tabs-content id="left-desktop-tabs-cards">
+          <div class="cardlist-container mr-1 ml-1">
+            <house-list :houseList="filterResults" :selectAll="selectAll" :cardHeight="200">
+            </house-list>
+          </div>
+        </v-tabs-content>
+
+        <v-tabs-content id="left-desktop-tabs-map">
+          <v-card flat>
+            <v-card-text>
+              <RaccoonMap class="map" :houses="allHouses" :searchByGeo="searchByGeo"></RaccoonMap>
+            </v-card-text>
+          </v-card>
+        </v-tabs-content>
+
+        <v-tabs-content id="left-desktop-tabs-table">
+          <TableList class="tablelist-container" :houseList="filterResults"></TableList>
+        </v-tabs-content>
+      </v-tabs>
+    </v-flex>
+
+    <v-flex xs6 md6 class="pa-0">
+
+      <TableList :houseList="selectedHouses" :selectedOnly="true" class="tablelist-container mr-3">
+      </TableList>
+      <v-toolbar>
+        <v-toolbar-items>
+          <v-toolbar-item>You have selected {{selectedHouses.length}} houses
+          </v-toolbar-item>
+          <v-toolbar-item>
+            <QrcodeDialog v-model="showQrcode" :generateLink="generateLink" :isLoading="isLoading" :link="link" @next="share">
+            </QrcodeDialog>
+          </v-toolbar-item>
+        </v-toolbar-items>
+      </v-toolbar>
+    </v-flex>
+  </v-layout>
+
+  <v-tabs id="mobile-tabs" grow light class="hidden-sm-and-up" v-model="mobileSelectedView">
+    <v-card class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Search Results'">
+      <div>
+        <v-card-row>
+          <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+            <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
+            <v-card>
+              <v-card-row>
+                <v-toolbar light>
+                  <v-btn icon="icon" @click.native="showFullFilter = false" light>
+                    <v-icon>close</v-icon>
+                  </v-btn>
+                  <v-toolbar-title>Filter</v-toolbar-title>
+                  <v-btn light flat @click.native="dialog = false">Save</v-btn>
+                </v-toolbar>
+                <SortBar></SortBar>
+              </v-card-row>
+              <v-card-text>
+                <FilterFullSize></FilterFullSize>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+          <v-checkbox v-show="showList || showTable" label="This Page" v-model="selectAll" hide-details light></v-checkbox>
+          <v-btn small light flat @click.native="share">
+            {{shareButtonText}}
+            <v-icon>share</v-icon>
+          </v-btn>
+        </v-card-row>
+      </div>
+    </v-card>
+    <v-card horizontal class="primary white--text" v-show="mobileSelectedView === 'mobile-tabs-Selected Houses'">
+      <v-card-column>
+        <v-btn small flat light @click.native="clearSelectedHouse">Clear All</v-btn>
+      </v-card-column>
+      <v-card-column>
+        <v-btn flat small light @click.native="share">
+          {{shareButtonText}}
+          <v-icon>share</v-icon>
+        </v-btn>
+      </v-card-column>
+    </v-card>
+    <v-tabs-bar slot="activators">
+      <v-tabs-slider></v-tabs-slider>
+      <v-tabs-item :key="0" :href="'#mobile-tabs-' + mobileViewMode[0]">
+        {{mobileViewMode[0]}}
+      </v-tabs-item>
+      <v-tabs-item :key="1" :href="'#mobile-tabs-' + mobileViewMode[1]">
+        {{mobileViewMode[1]}} {{this.selectedHouses.length}}
+      </v-tabs-item>
+    </v-tabs-bar>
+    <v-tabs-content id="mobile-tabs-Search Results">
+      <div class="cardlist-container mr-1 ml-1">
+        <house-list :houseList="filterResults" :selectAll="selectAll">
         </house-list>
-        <TableList class="table-container"
-                  :houseList="showSelected? selectedHouses : filterResults"
-                  :selectedOnly="showSelected"
-                  v-show="showTable">
-        </TableList>
-        <RaccoonMap v-show="showMap" class="map" :houses="allHouses" :searchByGeo="searchByGeo">
-        </RaccoonMap>
       </div>
-      <div class="column right-container">
-        <ShareList class="share-list" title="预定分享" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
-        <ShareList class="share-list"title="历史分享" :list="list"></ShareList>
-      </div>
-    </div>
+    </v-tabs-content>
+    <v-tabs-content id="mobile-tabs-Selected Houses">
+      <TableList :houseList="selectedHouses" :selectedOnly="true" class="tablelist-container">
+      </TableList>
+    </v-tabs-content>
+  </v-tabs>
+</div>
+
 </template>
-<style>
+<style scoped>
 .content-container {
-  height: calc(100vh - 50px);
-  max-width: 1300px;
+  height: calc(100vh - 56px);
   margin: auto;
 }
-.left-container {
-  height: 100%;
-  margin-left: 4px;
-  padding: 0;
+.cardlist-container {
+  overflow-y: scroll;
+  height: calc(100vh - 182px);
 }
-.left-container .toolbar-container {
-  margin-top: 4px;
-  height: auto;
-  background-color: white;
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-}
-.left-container .toolbar-container .toolbar {
-  padding: 0 5px;
-}
-.right-container {
-  height: 100%;
-  padding: 0;
-}
-.right-container .share-list {
-  height: calc(50% - 4px);
-  margin-left: 4px;
-  margin-right: 4px;
-  margin-top: 4px;
-  padding: 10px;
-}
-.map-container .map {
-}
-.list-container {
-  padding-top: 5px;
-  height: calc(100% - 74px);
-  position: relative;
-}
-.table-container {
-  padding-top: 5px;
-  height: calc(100% - 74px);
-  position: relative;
+.tablelist-container {
+  height: calc(100vh - 122px);
 }
 .filter-dropdown {
   position: relative;
   display: inline-block;
   width: 100%;
 }
+.sort-bar {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+}
 .filter {
   position: absolute;
-  z-index: 100;
+  z-index: 3;
   left: 0px;
 }
 
@@ -134,117 +172,56 @@
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
 import list from '../components/list/list.vue';
-import SortBar from '../components/list/SortBar.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
+import SortBar from '../components/list/SortBar.vue';
 import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
 import TableList from '../components/list/TableList.vue';
+import QrcodeDialog from './components/share/QrcodeDialog.vue';
+import API from '../api';
+import { generateQuery } from '../components/filter/filter-schema';
+
 
 export default {
   name: 'main',
   mixins: [clickaway],
   data() {
     return {
-      viewMode: ['map', 'cards', 'table'],
+      viewMode: ['cards', 'map', 'table'],
+      mobileViewMode: ['Search Results', 'Selected Houses'],
+      mobileSelectedView: 'mobile-tabs-Search Results',
       selectedView: 'cards',
-      showSelected: false,
       selectAll: false,
       showFullFilter: false,
-      list: [
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-        {
-          shareTime: 'Every week',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group A',
-        },
-        {
-          shareTime: 'Every day',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Group B',
-        },
-        {
-          shareTime: '2017/03/23',
-          createdAt: '2017/02/22',
-          title: 'New houses',
-          customer: 'Jeremy',
-        },
-      ],
+      isLoading: false,
+      showQrcode: false,
+      queryChanged: false,
     };
   },
   components: {
     FilterFullSize,
     'house-list': list,
-    SortBar,
     RaccoonMap: Map,
     ShareList,
     TableList,
+    SortBar,
+    QrcodeDialog,
   },
   computed: {
     ...mapGetters([
       'allHouses',
       'filterResults',
       'selectedHouses',
+      'searchTerms',
+      'lastFilter',
+      'userId',
+      'shareId',
     ]),
     showMap() {
-      return this.selectedView === this.viewMode[0];
+      return this.selectedView === this.viewMode[1];
     },
     showList() {
-      return this.selectedView === this.viewMode[1];
+      return this.selectedView === this.viewMode[0];
     },
     showTable() {
       return this.selectedView === this.viewMode[2];
@@ -263,8 +240,76 @@ export default {
       }
       return `Share ${this.selectedHouses.length}`;
     },
+    link() {
+      if (this.shareId && this.shareId !== '') {
+        return `www.zhaofangabc.com/share/${this.shareId}`;
+      }
+      return '';
+    },
+    query() {
+      const query = generateQuery(this.lastFilter);
+      if (this.searchTerms && this.searchTerms.state) {
+        query.push({
+          key: 'address.stateOrProvince',
+          value: [
+            {
+              key: '$regex',
+              value: `^${this.searchTerms.state}$`,
+            },
+            {
+              key: '$options',
+              value: 'i',
+            },
+          ],
+        });
+        if (this.searchTerms.county) {
+          query.push({
+            key: 'county',
+            value: [
+              {
+                key: '$regex',
+                value: `^${this.searchTerms.county}$`,
+              },
+              {
+                key: '$options',
+                value: 'i',
+              },
+            ],
+          });
+        } else {
+          query.push({
+            key: 'city',
+            value: [
+              {
+                key: '$regex',
+                value: `^${this.searchTerms.city}$`,
+              },
+              {
+                key: '$options',
+                value: 'i',
+              },
+            ],
+          });
+        }
+      }
+      console.log('QUERY', query);
+      return query;
+    },
+  },
+  watch: {
+    query: {
+      handler() {
+        this.queryChanged = true;
+      },
+    },
   },
   methods: {
+    changeView(view) {
+      this.selectedView = view;
+    },
+    isTabActive(view) {
+      return this.selectedView === view;
+    },
     searchByGeo(lat, lng) {
       this.$store.dispatch('searchHouse', { lat, lng, byGeo: true });
     },
@@ -274,9 +319,6 @@ export default {
     findHouseIndex(id) {
       const index = this.filterResults.findIndex(house => house._id === id);
       return { page: Math.floor(index / this.pageSize), index: index % this.pageSize };
-    },
-    setShowSelected(showSelected) {
-      this.showSelected = showSelected;
     },
     toggleFilter(event) {
       console.log('show filter');
@@ -288,19 +330,49 @@ export default {
       this.showFullFilter = false;
     },
     share() {
+      this.showQrcode = false;
       if (this.filterResults.length === 0) {
         console.log('nothing to share');
         return;
       }
+      this.$store.dispatch('setQuery', this.query);
       if (this.selectedHouses.length === 0) {
-        this.$router.push('/shareSetting/true');
+        this.$store.dispatch('setByFilter', true);
+        this.$router.push('/editShareEmail');
         return;
       }
-      this.$router.push('/shareSetting/false');
+      this.$store.dispatch('setByFilter', false);
+      this.$router.push('/editShareEmail');
     },
     clearSelectedHouse() {
       this.$store.dispatch({
         type: 'unselectAllHouses',
+      });
+    },
+    generateLink(event) {
+      console.log('generate link');
+      event.stopPropagation();
+      if (this.showQrcode) {
+        this.showQrcode = false;
+        return;
+      }
+      if (!this.queryChanged) {
+        // link hasn't changed, no new request
+        this.showQrcode = true;
+        return;
+      }
+      this.isLoading = true;
+      const obj = {
+        query: this.query,
+        createdBy: this.userId,
+      };
+      console.log('QR code');
+      API.createShare(obj).then((data) => {
+        console.log(data);
+        this.$store.dispatch('setShareId', data._id);
+        this.queryChanged = false;
+        this.isLoading = false;
+        this.showQrcode = true;
       });
     },
   },
