@@ -13,6 +13,7 @@ import ShareSetting from '../ShareSetting.vue';
 import EditShareEmail from '../EditShareEmail.vue';
 import Dashboard from '../Dashboard.vue';
 import ViewSHareHouse from '../ViewShareHouse.vue';
+import ManageContact from '../ManageContacts.vue';
 
 Vue.use(Router);
 
@@ -34,6 +35,7 @@ export default new Router({
     { path: '/user/:id', component: UserPage },
     { path: '/viewShareHouse/:id', component: ViewSHareHouse },
     { path: '/error/:msg', component: ErrorPage },
+    { path: '/managecontact', component: ManageContact },
     { path: '*', redirect: '/view1' },
   ],
 });
