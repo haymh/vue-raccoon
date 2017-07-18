@@ -69,7 +69,8 @@
           :key="index"
           :class="{'highlighted': index === highlightedPosition}"
           @focus="highlightedPosition = index"
-          @mouseenter="highlightedPosition = index" @click="select">
+          @mouseenter="highlightedPosition = index"
+          @click.native="select">
           <v-list-tile-title v-text="option.text"></v-list-tile-title>
       </v-list-tile>
     </v-list>
