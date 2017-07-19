@@ -8,6 +8,8 @@
           New
           <v-icon>add</v-icon>
         </v-btn>
+        <ImportConatctDialog open="openImport"></ImportConatctDialog>
+
         <v-spacer></v-spacer>
         <v-text-field style="flex-grow: 2" append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
       </v-card-title>
@@ -64,6 +66,7 @@
 </template>
 <script>
 import CreateContact from './CreateContact.vue';
+import ImportConatctDialog from './ImportContactDialog.vue';
 import db from '../../../api/index';
 
 export default {
@@ -74,6 +77,7 @@ export default {
       selected: [],
       showCreateContact: false,
       toEdit: null,
+      openImport: false,
     };
   },
   filters: {
@@ -92,6 +96,7 @@ export default {
   props: ['headers', 'items', 'title', 'userId'],
   components: {
     CreateContact,
+    ImportConatctDialog,
   },
   methods: {
     click() {
