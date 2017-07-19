@@ -1,21 +1,23 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import View1 from '../view1.vue';
-import ChatView from '../Chat.vue';
-import Main from '../main.vue';
-import Search from '../Search.vue';
-import SingleListing from '../../components/singlelist/singlelisting.vue';
-import Detail from '../Detail.vue';
-import UserPage from '../User.vue';
-import ErrorPage from '../Error.vue';
-import ShareSetting from '../ShareSetting.vue';
-import EditShareEmail from '../EditShareEmail.vue';
-import Dashboard from '../Dashboard.vue';
-import ViewSHareHouse from '../ViewShareHouse.vue';
-import ManageContact from '../ManageContacts.vue';
 
 Vue.use(Router);
+
+// route-level code splitting
+const MainView = () => import('../Main.vue');
+const View1 = () => import('../view1.vue');
+const ChatView = () => import('../Chat.vue');
+const SearchView = () => import('../Search.vue');
+const SingleListing = () => import('../../components/singlelist/singlelisting.vue');
+const Detail = () => import('../Detail.vue');
+const UserPage = () => import('../User.vue');
+const ErrorPage = () => import('../Error.vue');
+const ShareSetting = () => import('../ShareSetting.vue');
+const EditShareEmail = () => import('../EditShareEmail.vue');
+const Dashboard = () => import('../Dashboard.vue');
+const ViewSHareHouse = () => import('../ViewShareHouse.vue');
+const ManageContact = () => import('../ManageContacts.vue');
 
 export default new Router({
   mode: 'history',
@@ -25,8 +27,8 @@ export default new Router({
     /* eslint-disable global-require */
     { path: '/view1', component: View1, meta: { breadcrumb: 'Home Page' } },
     { path: '/chat', component: ChatView },
-    { path: '/main', component: Main, meta: { breadcrumb: 'Search Houses' } },
-    { path: '/search', component: Search },
+    { path: '/main', component: MainView, meta: { breadcrumb: 'Search Houses' } },
+    { path: '/search', component: SearchView },
     { path: '/dashboard', component: Dashboard },
     { path: '/shareSetting', component: ShareSetting, meta: { breadcrumb: 'Schedule and Customers' } },
     { path: '/editShareEmail', component: EditShareEmail, meta: { breadcrumb: 'Edit Share Email' } },

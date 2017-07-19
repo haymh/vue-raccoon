@@ -55,8 +55,9 @@ export default {
       items: [
         { heading: 'Main' },
         { icon: 'lightbulb_outline', text: 'Dashboard', link: '/dashboard' },
+        { icon: 'contacts', text: 'Contacts', link: '/manageContact' },
         { icon: 'touch_app', text: 'Customers', link: '' },
-        { icon: 'touch_app', text: 'Chat', link: '/chat' },
+        { icon: 'chat', text: 'Chat', link: '/chat' },
         { divider: true },
         { heading: 'General' },
         { icon: 'add', text: 'Create new share', link: '/main' },

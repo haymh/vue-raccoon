@@ -106,6 +106,25 @@ class RacAPIClient {
   update(share) {
     return this.client.put('/share', share).then(response => response.data);
   }
+
+  createContact(contact) {
+    return this.client.post('/contact', contact).then(response => response.data);
+  }
+
+  updateContact(contact) {
+    return this.client.put('/contact', contact).then(response => response.data);
+  }
+
+  getContacts(userId, skip, limit) {
+    console.log('userId', userId, 'skip', skip, 'limit', limit);
+    return this.client.get('/contact', {
+      params: {
+        userId,
+        skip,
+        limit,
+      },
+    }).then(response => response.data);
+  }
 }
 
 const instance = new RacAPIClient();

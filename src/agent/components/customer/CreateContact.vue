@@ -154,6 +154,7 @@ export default {
       handler() {
         if (this.toEdit) {
           this.person = this.toEdit;
+          console.log(this.person);
         } else {
           this.person = this.initPerson();
         }
@@ -194,8 +195,7 @@ export default {
       this.person.emails.splice(index, 1);
     },
     save() {
-      console.log(this.person);
-      this.$emit('onSave', this.person);
+      this.$emit('onSave', JSON.parse(JSON.stringify(this.person)));
     },
     onClose() {
       if (this.exitAction) {
@@ -204,7 +204,7 @@ export default {
     },
     initPerson() {
       return {
-        id: '',
+        _id: null,
         firstName: '',
         lastName: '',
         emails: [
