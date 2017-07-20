@@ -28,6 +28,7 @@
     "marker-clusterer-plus": "^2.1.4",
     "moment": "^2.18.1",
     "v-qrcode": "^1.0.3",
+    "vcf": "^2.0.0",
     "vue": "^2.4.1",
     "vue-carousel-3d": "^0.1.18",
     "vue-clickaway": "^2.1.0",

@@ -1,6 +1,8 @@
 <template>
   <v-btn v-bind="$attrs" class="jbtn-file">
-    {{ title }}<input type="file" @change="fileSelected">
+    {{ title }}
+    <input type="file" @change="fileSelected" 
+      :accept="$attrs.accept">
   </v-btn>
 </template>
 
