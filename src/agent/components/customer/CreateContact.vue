@@ -122,7 +122,7 @@ export default {
   name: 'CreateContact',
   data() {
     return {
-      person: this.initPerson(),
+      person: this.toEdit || this.initPerson(),
       emailTypes: ['home', 'work'],
       states: [
         'Alabama', 'Alaska', 'American Samoa', 'Arizona',
@@ -194,8 +194,26 @@ export default {
     removeEmail(index) {
       this.person.emails.splice(index, 1);
     },
+    cleanPerson() {
+      const clean = JSON.parse(JSON.stringify(this.person));
+      let i = clean.emails.length - 1;
+      while (i >= 0) {
+        if (clean.emails[i].email === '') {
+          clean.emails.splice(i, 1);
+        }
+        i -= 1;
+      }
+      i = clean.phones.length - 1;
+      while (i >= 0) {
+        if (clean.phones[i].phone === '') {
+          clean.phones.splice(i, 1);
+        }
+        i -= 1;
+      }
+      return clean;
+    },
     save() {
-      this.$emit('onSave', JSON.parse(JSON.stringify(this.person)));
+      this.$emit('onSave', this.cleanPerson());
     },
     onClose() {
       if (this.exitAction) {

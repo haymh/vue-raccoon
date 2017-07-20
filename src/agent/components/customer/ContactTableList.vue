@@ -14,52 +14,48 @@
         <v-text-field style="flex-grow: 2" append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
       </v-card-title>
       <v-card-actions class="indigo darken-2 light--text">
-        <span v-if="selected.length > 0">
+        <v-select
+          v-bind:items="filterOptions"
+          v-model="filters"
+          label="Filter"
+          prepend-icon="filter_list"
+          multiple
+          chips
+          hide-details
+        ></v-select>
+        <v-spacer></v-spacer>
+        <span v-if="selected.length > 0" class="white--text">
           <strong>{{selected.length}}</strong> entries are selected
         </span>
-        <v-spacer></v-spacer>
         <v-btn icon>
           <v-icon class="white--text">delete</v-icon>
         </v-btn>
       </v-card-actions>
-      <v-data-table v-bind:headers="headers" v-bind:items="items" v-bind:search="search" v-model="selected" selected-key="_id" select-all class="elevation-1">
-        <template slot="items" scope="props">
-          <tr @click="click">
-            <td>
-              <v-checkbox primary hide-details v-model="props.selected"></v-checkbox>
-            </td>
-            <td class="text-xs-center">{{ props.item.firstName }}</td>
-            <td class="text-xs-center">{{ props.item.lastName }}</td>
-            <td class="text-xs-center">
-              <v-chip v-for="(e, i) in props.item.emails" :key="i" class="indigo white--text">
-                {{e.email}}
-                <v-icon right>{{e.type}}</v-icon>
-              </v-chip>
-            </td>
-            <td class="text-xs-center">
-              <v-chip v-for="(p, i) in props.item.phones" :key="i" class="primary white--text">
-                {{p.phone}}
-                <v-icon right>{{p.type | toMIcon}}</v-icon>
-              </v-chip>
-            </td>
-            <td class="text-xs-center">
-              <v-chip v-for="(t, i) in props.item.types" :key="i" class="green white--text">
-                {{t}}
-              </v-chip>
-            </td>
-            <td class="text-xs-center">{{ props.item.lastTimeContact }}</td>
-            <td class="text-xs-center">
-              <v-btn icon @click.native.stop="edit(props.item)">
-                <v-icon>edit</v-icon>
-              </v-btn>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
+      <ContactTable
+        :headers="headers"
+        :items="items"
+        :edit="edit"
+        :editable="true"
+        :search="search"
+        @onSelect="onSelect"></ContactTable>
     </v-card>
     <v-dialog lazy v-model="showCreateContact" persistent fullscreen transition="dialog-bottom-transition" :overlay=false>
       <CreateContact :showExitButton="true" :exitAction="closeCreateContact" :toEdit="toEdit" @onSave="onSave"></CreateContact>
     </v-dialog>
+    <v-snackbar
+      :timeout="snackTimeout"
+      :top="true"
+      v-model="showSnackbar"
+      :success="messageType === 'success'"
+      :info="messageType === 'info'"
+      :warning="messageType === 'warning'"
+      :error="messageType === 'error'"
+      :primary="messageType === 'primary'"
+      :secondary="messageType === 'secondary'"
+    >
+      {{ message }}
+      <v-btn flat :value="messageType" @click.native="showSnackbar = false">Close</v-btn>
+    </v-snackbar>
   </div>
 
 
@@ -67,6 +63,7 @@
 <script>
 import CreateContact from './CreateContact.vue';
 import ImportConatctDialog from './ImportContactDialog.vue';
+import ContactTable from './ContactTable.vue';
 import db from '../../../api/index';
 
 export default {
@@ -78,48 +75,47 @@ export default {
       showCreateContact: false,
       toEdit: null,
       openImport: false,
+      snackTimeout: 6000,
+      showSnackbar: false,
+      message: '',
+      messageType: 'info',
+      filters: [],
+      filterOptions: [
+        'Has Email', 'Has Phone', 'Has Address', 'Has Name',
+      ],
     };
-  },
-  filters: {
-    toMIcon(text) {
-      switch (text) {
-        case 'cell':
-          return 'smartphone';
-        case 'home':
-        case 'work':
-          return text;
-        default:
-          return '';
-      }
-    },
   },
   props: ['headers', 'items', 'title', 'userId'],
   components: {
     CreateContact,
     ImportConatctDialog,
+    ContactTable,
   },
   methods: {
-    click() {
-      console.log('clicked');
-    },
     closeCreateContact() {
       this.showCreateContact = false;
     },
     edit(person) {
       console.log('edit', person);
-      this.toEdit = person;
+      this.toEdit = JSON.parse(JSON.stringify(person));
       this.showCreateContact = true;
     },
     addNew() {
       this.toEdit = null;
       this.showCreateContact = true;
     },
+    showMessage(message, messageType) {
+      this.message = message;
+      this.messageType = messageType;
+      this.showSnackbar = true;
+    },
     onSave(person) {
+      console.log('person', person);
       const obj = {
         ...person,
         createdBy: this.userId,
       };
-      console.log(obj);
+      console.log('obj', obj);
       if (this.toEdit) {
         // Update contact
         db.updateContact(obj)
@@ -127,12 +123,15 @@ export default {
             if (response._id) {
               console.log('contact updated');
               this.$emit('contactUpdated', response);
+              this.showMessage('Contact Has Been Updated', 'success');
             } else {
               console.log('no contact updated');
+              this.showMessage('No Contact Has Been Updated', 'warning');
             }
           })
           .catch((error) => {
             console.error(error);
+            this.showMessage('Failed to Update Contact', 'error');
           });
       } else {
         // Create new contact
@@ -141,15 +140,21 @@ export default {
             if (response._id) {
               console.log('new contact created');
               this.$emit('newContactCreated', response);
+              this.showMessage('New Contact Has Been Created', 'success');
             } else {
               console.log('no new contact created');
+              this.showMessage('No Contact Has Been Created', 'warning');
             }
           })
           .catch((error) => {
             console.error(error);
+            this.showMessage('Failed to Create Contact', 'error');
           });
       }
       this.showCreateContact = false;
+    },
+    onSelect(selected) {
+      this.selected = selected;
     },
   },
 };

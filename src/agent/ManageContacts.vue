@@ -62,6 +62,11 @@ export default {
     },
     onContactUpdated(contact) {
       console.log('merge this contact', contact);
+      const toUpdate = this.list.findIndex(c => c._id === contact._id);
+      console.log('toUpdate', toUpdate);
+      this.list.splice(toUpdate, 1);
+      this.list.push(contact);
+      console.log('list', this.list);
     },
   },
 };
