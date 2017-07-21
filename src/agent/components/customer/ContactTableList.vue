@@ -1,9 +1,7 @@
 <template>
   <div>
-  
     <v-card>
       <v-card-title class="indigo light--text">
-        {{title}}
         <v-btn small @click.native="addNew">
           New
           <v-icon>add</v-icon>
@@ -27,20 +25,26 @@
         <span v-if="selected.length > 0" class="white--text">
           <strong>{{selected.length}}</strong> entries are selected
         </span>
-        <v-btn icon>
+        <v-btn icon @click.native="deleteContacts">
           <v-icon class="white--text">delete</v-icon>
         </v-btn>
       </v-card-actions>
       <ContactTable
-        :headers="headers"
-        :items="items"
+        :items="filteredItem"
         :edit="edit"
         :editable="true"
         :search="search"
         @onSelect="onSelect"></ContactTable>
     </v-card>
     <v-dialog lazy v-model="showCreateContact" persistent fullscreen transition="dialog-bottom-transition" :overlay=false>
-      <CreateContact :showExitButton="true" :exitAction="closeCreateContact" :toEdit="toEdit" @onSave="onSave"></CreateContact>
+      <CreateContact
+        :showExitButton="true"
+        @close="closeCreateContact"
+        @newContactCreated="onNewContactCreated"
+        @contactUpdated="onContactUpdated"
+        :toEdit="toEdit"
+        :userId="userId">
+      </CreateContact>
     </v-dialog>
     <v-snackbar
       :timeout="snackTimeout"
@@ -61,15 +65,29 @@
 
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import CreateContact from './CreateContact.vue';
 import ImportConatctDialog from './ImportContactDialog.vue';
 import ContactTable from './ContactTable.vue';
-import db from '../../../api/index';
+import api from '../../../api/index';
 
 export default {
   name: 'ContactTableList',
+  created() {
+    console.log('ManageContacts created, userId', this.userId);
+    api.getContacts(this.userId, 0, 50)
+      .then((contacts) => {
+        console.log('contacts', contacts);
+        this.items = contacts;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
   data() {
     return {
+      items: [],
+      deleted: [],
       search: '',
       selected: [],
       showCreateContact: false,
@@ -85,18 +103,47 @@ export default {
       ],
     };
   },
-  props: ['headers', 'items', 'title', 'userId'],
   components: {
     CreateContact,
     ImportConatctDialog,
     ContactTable,
+  },
+  computed: {
+    ...mapGetters([
+      'userId',
+    ]),
+    filteredItem() {
+      let filterResult = this.items.filter(item => !item.isDeleted);
+      this.filters.forEach((filter) => {
+        switch (filter) {
+          case 'Has Email':
+            filterResult = filterResult.filter(item => item.emails && item.emails.length > 0);
+            break;
+          case 'Has Phone':
+            filterResult = filterResult.filter(item => item.phones && item.phones.length > 0);
+            break;
+          case 'Has Address':
+            filterResult = filterResult.filter(item => item.addressObject.address !== ''
+                                                        && item.addressObject.address2 !== ''
+                                                        && item.addressObject.city !== ''
+                                                        && item.addressObject.state !== ''
+                                                        && item.addressObject.zip !== '');
+            break;
+          case 'Has Name':
+            filterResult = filterResult.filter(item => item.firstName !== '' || item.lastName !== '');
+            break;
+          default:
+            break;
+        }
+      });
+      return filterResult;
+    },
   },
   methods: {
     closeCreateContact() {
       this.showCreateContact = false;
     },
     edit(person) {
-      console.log('edit', person);
       this.toEdit = JSON.parse(JSON.stringify(person));
       this.showCreateContact = true;
     },
@@ -109,52 +156,34 @@ export default {
       this.messageType = messageType;
       this.showSnackbar = true;
     },
-    onSave(person) {
-      console.log('person', person);
-      const obj = {
-        ...person,
-        createdBy: this.userId,
-      };
-      console.log('obj', obj);
-      if (this.toEdit) {
-        // Update contact
-        db.updateContact(obj)
-          .then((response) => {
-            if (response._id) {
-              console.log('contact updated');
-              this.$emit('contactUpdated', response);
-              this.showMessage('Contact Has Been Updated', 'success');
-            } else {
-              console.log('no contact updated');
-              this.showMessage('No Contact Has Been Updated', 'warning');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            this.showMessage('Failed to Update Contact', 'error');
-          });
-      } else {
-        // Create new contact
-        db.createContact(obj)
-          .then((response) => {
-            if (response._id) {
-              console.log('new contact created');
-              this.$emit('newContactCreated', response);
-              this.showMessage('New Contact Has Been Created', 'success');
-            } else {
-              console.log('no new contact created');
-              this.showMessage('No Contact Has Been Created', 'warning');
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            this.showMessage('Failed to Create Contact', 'error');
-          });
-      }
-      this.showCreateContact = false;
-    },
     onSelect(selected) {
       this.selected = selected;
+    },
+    deleteContacts() {
+      const ids = this.selected.map(item => item._id);
+      console.log('ids to delete', ids);
+      api.deleteContacts(ids)
+        .then((res) => {
+          // TODO: check count with toRemove.length
+          res.toRemove.forEach((r) => {
+            const ri = this.items.findIndex(i => i._id === r._id);
+            this.deleted.push(this.items.splice(ri, 1));
+          });
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    onNewContactCreated(newContact) {
+      this.items.push(newContact);
+      this.showCreateContact = false;
+    },
+    onContactUpdated(contact) {
+      const toUpdate = this.items.findIndex(c => c._id === contact._id);
+      this.items.splice(toUpdate, 1);
+      this.items.push(contact);
+      this.showCreateContact = false;
     },
   },
 };

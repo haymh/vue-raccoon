@@ -1,14 +1,13 @@
 <template>
-<div>
-  <v-toolbar light>
-    <v-btn icon="icon" @click.native="onClose" light>
-      <v-icon>close</v-icon>
-    </v-btn>
-    <v-toolbar-title>New Contact</v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-btn light flat @click.native="save">Save</v-btn>
-  </v-toolbar>
   <v-card>
+    <v-toolbar light>
+      <v-btn icon="icon" @click.native="close" light>
+        <v-icon>close</v-icon>
+      </v-btn>
+      <v-toolbar-title>New Contact</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn light flat @click.native="save">Save</v-btn>
+    </v-toolbar>
     <v-container fluid grid-list-lg>
       <v-layout row wrap>
         <v-flex xs12 sm6>
@@ -115,9 +114,10 @@
       </v-layout>
     </v-container>
   </v-card>
-</div>
 </template>
 <script>
+import api from '../../../api/index';
+
 export default {
   name: 'CreateContact',
   data() {
@@ -154,9 +154,10 @@ export default {
       handler() {
         if (this.toEdit) {
           this.person = this.toEdit;
-          console.log(this.person);
+          console.log('edit existing', this.person);
         } else {
           this.person = this.initPerson();
+          console.log('new contact', this.person);
         }
       },
     },
@@ -174,6 +175,7 @@ export default {
       type: Object,
       default: null,
     },
+    userId: String,
   },
   methods: {
     addPhone() {
@@ -212,13 +214,53 @@ export default {
       }
       return clean;
     },
-    save() {
-      this.$emit('onSave', this.cleanPerson());
+    close() {
+      this.$emit('close');
     },
-    onClose() {
-      if (this.exitAction) {
-        this.exitAction();
+    save() {
+      const obj = {
+        ...this.cleanPerson(),
+        createdBy: this.userId,
+      };
+      console.log('obj', obj);
+      if (this.toEdit) {
+        // Update contact
+        api.updateContact(obj)
+          .then((response) => {
+            if (response._id) {
+              console.log('contact updated');
+              this.$emit('contactUpdated', response);
+              this.person = this.initPerson();
+              // this.showMessage('Contact Has Been Updated', 'success');
+            } else {
+              console.log('no contact updated');
+              // this.showMessage('No Contact Has Been Updated', 'warning');
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            // this.showMessage('Failed to Update Contact', 'error');
+          });
+      } else {
+        // Create new contact
+        api.createContact(obj)
+          .then((response) => {
+            if (response._id) {
+              console.log('new contact created');
+              this.$emit('newContactCreated', response);
+              this.person = this.initPerson();
+              // this.showMessage('New Contact Has Been Created', 'success');
+            } else {
+              console.log('no new contact created');
+              // this.showMessage('No Contact Has Been Created', 'warning');
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            // this.showMessage('Failed to Create Contact', 'error');
+          });
       }
+      this.showCreateContact = false;
     },
     initPerson() {
       return {

@@ -40,13 +40,23 @@ export default {
   data() {
     return {
       selected: [],
+      headers: [
+        {
+          text: 'First Name',
+          left: true,
+          sortable: true,
+          value: 'firstName',
+          align: 'center',
+        },
+        { text: 'Last Name', value: 'lastName', align: 'center' },
+        { text: 'Email', value: 'email', align: 'center' },
+        { text: 'Phone', value: 'phone', align: 'center' },
+        { text: 'Type', value: 'type', align: 'center' },
+        { text: 'Last Time Contact', value: 'lastTimeContact', align: 'center' },
+      ],
     };
   },
   props: {
-    headers: {
-      type: Array,
-      required: true,
-    },
     items: {
       type: Array,
       required: true,
