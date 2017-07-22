@@ -1,48 +1,22 @@
 <template>
-<div>
-  <div class="singlelist" v-show="!empty" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
-    <single-list :singleListingData="hoveredHouse">
+<div class="table-list">
+  <div class="display" v-show="!empty" v-if="hoveredHouse !== undefined && hoveredHouse !== null">
+    <single-list :singleListingData="hoveredHouse" :height="250">
     </single-list>
   </div>
-  <div class="scrollable mb-1 ma-1 pa-1" v-show="!empty">
-    <!--<table class="table is-striped is-narrow">
-      <thead>
-        <tr>
-          <th>Address</th>
-          <th>Price</th>
-          <th>Beds</th>
-          <th>Baths</th>
-          <th>Sq.Ft.</th>
-          <th>$/Sq.Ft.</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <TableItem v-for="house in houseList"
-                :key="house._id"
-                :house="house"
-                :showOnlyWhenSelected="selectedOnly"
-                @mouseover.native="select(house)">
-      </TableItem>
-    </table>-->
+  <div class="list mb-1 ma-1 pa-1" v-show="!empty">
     <ShortCardItem v-for="(house, index) in houseList"
               :key="house._id"
+              :displayHouse="hoveredHouse"
               :house="house"
               :showOnlyWhenSelected="selectedOnly"
               :divider="index + 1 < houseList.length"
-              @mouseover.native="select(house)">
+              tooltipText="click to display in card"
+              @click.native="select(house)">
     </ShortCardItem>
-    <!--<v-list three-line>
-      <ShortItem v-for="(house, index) in houseList"
-                :key="house._id"
-                :house="house"
-                :showOnlyWhenSelected="selectedOnly"
-                :divider="index + 1 < houseList.length"
-                @mouseover.native="select(house)">
-      </ShortItem>
-    </v-list>-->
   </div>
   <Pagination
+    class="pagination"
     :currentPage="currentPage"
     :pageSize="pageSize"
     :total="houseList.length"
@@ -53,7 +27,35 @@
   </Pagination>
 </div>
 </template>
-<style>
+<style scoped>
+.table-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: column;
+  flex-flow: column;
+  overflow: hidden;
+}
+
+.table-list .pagination {
+  flex: 0 1 50px;
+  position: relative;
+}
+
+.table-list .display {
+  flex: 0 1 250px;
+}
+
+.table-list .list {
+  height: calc(100% - 300px);
+  flex: 1 0 auto;
+  padding: 0px;
+  overflow-y: scroll;
+  margin-top: 4px;
+}
+
 .scrollable {
   height: calc(100% - 296px);
   padding: 0px;

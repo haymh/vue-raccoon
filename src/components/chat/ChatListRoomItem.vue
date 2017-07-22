@@ -1,21 +1,19 @@
 <template>
-    <v-list-item>
-      <v-list-tile @click.native="clicked">
-        <v-list-tile-avatar>
-          <img :alt="person.nickname" :src="person.avatar">
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
-          <v-icon
-            v-badge="{ value: formattedUnreadCount, left: true, visible: showUnread}"
-            v-bind:class="[active ? 'teal--text' : 'grey--text', 'red--after']">
-            chat_bubble
-          </v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-    </v-list-item>
+    <v-list-tile @click.native="clicked">
+      <v-list-tile-avatar>
+        <img :alt="person.nickname" :src="person.avatar">
+      </v-list-tile-avatar>
+      <v-list-tile-content>
+        <v-list-tile-title class="name">{{person.nickname}}</v-list-tile-title>
+      </v-list-tile-content>
+      <v-list-tile-action>
+        <v-icon
+          v-badge="{ value: formattedUnreadCount, left: true, visible: showUnread}"
+          v-bind:class="[active ? 'teal--text' : 'grey--text', 'red--after']">
+          chat_bubble
+        </v-icon>
+      </v-list-tile-action>
+    </v-list-tile>
 </template>
 
 <script>

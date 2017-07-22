@@ -108,18 +108,24 @@ class RacAPIClient {
   }
 
   createArticle(articleInfo) {
-    console.log('article info front end');
-    return this.client.post('/article/create', articleInfo).then(() => {
-      console.log('articleInfo uploaded');
+    console.log('RaccoonAPI creating article in DB');
+    return this.client.post('/article/create', articleInfo).then((response, err) => {
+      if (!err) {
+        console.log('RaccoonAPI article created in DB');
+      } else {
+        console.log('RaccoonAPI error on create article', err);
+      }
     });
   }
 
   getAllArticles() {
-    console.log('here at index');
-    return this.client.get('/article/getAll').then((response) => {
-      console.log(response);
-      return response.data;
-    });
+    console.log('RaccoonAPI getting all articleInfo');
+    return this.client.get('/article/getAll').then(response => response.data);
+  }
+
+  getArticleNameByDBName(dbName) {
+    console.log('RaccoonAPI getting article Name using dbName');
+    return this.client.get(`/article/${dbName}`).then(response => response.data);
   }
 }
 

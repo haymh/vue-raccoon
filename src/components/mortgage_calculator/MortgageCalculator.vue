@@ -8,16 +8,14 @@
         </span>
       </div>
       <v-card>
-        <v-card-row class="blue-grey darken-1">
-          <v-card-title>
+        <v-card-title>
             <span class="white--text">Monthly Payment &nbsp;&nbsp;{{ monthlyPayment | formatNumber(0, '$') }}</span>
             <v-spacer></v-spacer>
             <v-btn icon="icon" slot="activator" class="white--text">
               <v-icon>bookmark</v-icon>
             </v-btn>
           </v-card-title>
-        </v-card-row>
-        <v-card-row class="ma-2">
+        <v-card-text class="ma-2">
           <v-layout row wrap>
             <v-flex offset-xs2 xs6 offset-md2 md6>
               <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
@@ -33,14 +31,14 @@
               </ul>
             </v-flex>
           </v-layout>
-        </v-card-row>
+        </v-card-text>
       </v-card>
       <v-card>
-        <v-card-row class="ma-2">
+        <v-card-text class="ma-2">
           <v-layout row wrap>
             <v-flex xs12 md6>
               <v-text-field label="Price" :value="newPrice" prefix="$" v-on:input="enterPrice"></v-text-field>
-              <v-slider  v-model.number="newPrice" dark :min="minPrice" :max="maxPrice" :step="1000"></v-slider>
+              <v-slider v-model.number="newPrice" :min="minPrice" :max="maxPrice" :step="1000"></v-slider>
             </v-flex>
             <v-flex xs12 md6>
               <v-layout row wrap>
@@ -51,7 +49,7 @@
                 <v-text-field label="Down Payment Percentage" :value="downPaymentRate" suffix="%" v-on:input="dataChange('downPaymentRate', $event)"></v-text-field>
               </v-flex>
               <v-flex xs12 md12>
-                <v-slider  v-model.number="downPaymentRate" dark :min="0" :max="100" :step="1000"></v-slider>
+                <v-slider  v-model.number="downPaymentRate" :min="0" :max="100" :step="1000"></v-slider>
               </v-flex>
               </v-layout>
             </v-flex>
@@ -63,7 +61,6 @@
                     v-bind:items="loanTypes"
                     v-model="selectedLoanType"
                     label="Loan Type"
-                    dark
                     auto
                     item-text="text"
                     item-value="index"
@@ -109,7 +106,7 @@
               </v-layout>
             </v-flex>
           </v-layout>
-        </v-card-row>
+        </v-card-text>
       </v-card>
     </v-expansion-panel-content>
   </v-expansion-panel>

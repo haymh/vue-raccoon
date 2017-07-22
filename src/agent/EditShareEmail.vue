@@ -4,18 +4,14 @@
     <v-dialog fullscreen v-model="showModal">
       <v-btn class="grey--text text--darken-2" slot="activator">Email Preview</v-btn>
       <v-card>
-        <v-card-row>
-          <v-card-title>Email Preview</v-card-title>
-        </v-card-row>
-        <v-card-row>
-          <v-card-text class="text-md-center">
-            <div v-if="showModal" v-html="email"></div>
-          </v-card-text>
-        </v-card-row>
-        <v-card-row actions>
+        <v-card-title>Email Preview</v-card-title>
+        <v-card-text class="text-md-center">
+          <div v-if="showModal" v-html="email"></div>
+        </v-card-text>
+        <v-card-actions>
           <v-btn class="green--text darken-1" flat @click.native="nextStep">Continue Share Schedule Setup</v-btn>
           <v-btn class="red--text darken-1" flat @click.native="showModal = false">Close</v-btn>
-        </v-card-row>
+        </v-card-actions>
       </v-card>
     </v-dialog>
     <v-spacer></v-spacer>
@@ -23,64 +19,52 @@
   </v-toolbar>
   <main></main>
   <v-card>
-    <v-card-row>
-      <v-card-title>
-        Edit Your Share
-      </v-card-title>
-    </v-card-row>
-    <v-card-row>
-      <v-card-text>
-        <v-subheader class="grey--text text--lighten-1">Email Subject</v-subheader>
-        <v-text-field
-          multi-line
-          value=""
-          label="e.g. Check out those hot homes!"
-          v-model="emailSubject"
-        ></v-text-field>
-      </v-card-text>
-    </v-card-row>
-    <v-card-row>
-      <v-card-text>
-        <v-subheader class="grey--text text--lighten-1">Summary for those properties</v-subheader>
-        <v-text-field
-          multi-line
-          value=""
-          label="e.g. Check out those hot homes!"
-          v-model="shareTitle"
-        ></v-text-field>
-      </v-card-text>
-    </v-card-row>
-    <v-card-row>
-      <v-card-text>
-        <v-subheader class="grey--text text--lighten-1">Things you want to tell your customers</v-subheader>
-        <v-text-field
-          multi-line
-          value=""
-          label="Something nice to say about those properties"
-          v-model="shareTitle"
-        ></v-text-field>
-      </v-card-text>
-    </v-card-row>
-    <v-card-row actions class="hidden-xs-only">
+    <v-card-title>
+      Edit Your Share
+    </v-card-title>
+    <v-card-text>
+      <v-subheader class="grey--text text--lighten-1">Email Subject</v-subheader>
+      <v-text-field
+        multi-line
+        value=""
+        label="e.g. Check out those hot homes!"
+        v-model="emailSubject"
+      ></v-text-field>
+    </v-card-text>
+    <v-card-text>
+      <v-subheader class="grey--text text--lighten-1">Summary for those properties</v-subheader>
+      <v-text-field
+        multi-line
+        value=""
+        label="e.g. Check out those hot homes!"
+        v-model="shareTitle"
+      ></v-text-field>
+    </v-card-text>
+    <v-card-text>
+      <v-subheader class="grey--text text--lighten-1">Things you want to tell your customers</v-subheader>
+      <v-text-field
+        multi-line
+        value=""
+        label="Something nice to say about those properties"
+        v-model="shareTitle"
+      ></v-text-field>
+    </v-card-text>
+    <v-card-text actions class="hidden-xs-only">
       <v-btn class="green--text darken-1" flat="flat" @click.native="nextStep">Continue Share Schedule Setup</v-btn>
       <v-dialog fullscreen v-model="showModal">
         <v-btn class="grey--text text--darken-2" slot="activator">Email Preview</v-btn>
         <v-card>
-          <v-card-row>
-            <v-card-title>Email Preview</v-card-title>
-          </v-card-row>
-          <v-card-row>
-            <v-card-text class="text-md-center">
-              <div v-if="showModal" v-html="email"></div>
-            </v-card-text>
-          </v-card-row>
-          <v-card-row actions>
+          <v-card-title>Email Preview</v-card-title>
+          <v-card-text class="text-md-center">
+            <div v-if="showModal" v-html="email"></div>
+          </v-card-text>
+          <v-card-actions>
             <v-btn class="green--text darken-1" flat="flat" @click.native="nextStep">Continue Share Schedule Setup</v-btn>
             <v-btn class="red--text darken-1" flat="flat" @click.native="showModal = false">Close</v-btn>
-          </v-card-row>
+          </v-card-actions>
         </v-card>
       </v-dialog>
-    </v-card-row>
+    </v-card-text>
   </v-card>
 </div>
 

@@ -37,7 +37,7 @@ export default {
       this.parsingInProgress = true;
 
       this.$http.post('https://us-central1-article-parser.cloudfunctions.net/articleParse', this.reqData).then((response) => {
-        console.log(response);
+        console.log('article parsed: ', response);
         this.parsingInProgress = false;
 
         this.title = response.body.title;
@@ -52,16 +52,16 @@ export default {
       this.uploadInProgress = true;
 
       this.$http.post('https://us-central1-article-parser.cloudfunctions.net/upload-article', this.reqData).then((response) => {
-        console.log(response);
+        console.log('article uploaded: ', response);
         this.uploadInProgress = false;
+
+        // store article information to database
+        const articleInfo = {};
+        articleInfo.name = this.title;
+        articleInfo.createdAt = response.data.createdAt;
+        articleInfo.dbName = response.data.dbName;
+        this.$store.dispatch('setArticleInfo', articleInfo);
       });
-
-      // store article information to database
-      const articleInfo = {};
-      articleInfo.name = this.title;
-      articleInfo.createdAt = new Date();
-
-      this.$store.dispatch('setArticleInfo', articleInfo);
     },
   },
 };

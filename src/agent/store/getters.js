@@ -33,3 +33,9 @@ export const byFilter = state => state.share.byFilter;
 export const shareId = state => state.share.uid;
 export const shareEmail = state => state.share.email;
 export const query = state => state.share.query;
+
+// Articles
+export const getFileNameByDBName = state => (dbName) => {
+  console.log('article state', state.articles);
+  return state.articles.articleNameMap[dbName];
+};

@@ -1,50 +1,42 @@
 <template>
-  <div class="content-container">
-    <v-card height="100%" class="grey lighten-4" id="navigation-1">
-      <v-navigation-drawer class="grey lighten-4 pb-0" temporary persistent hide-overlay absolute height="100%" light v-model="drawer"
-        :mini-variant.sync="mini">
-        <v-list class="pa-0">
-          <v-list-item>
-            <v-list-tile avatar tag="div">
-              <v-list-tile-avatar>
-                <img :src="user.avatar">
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>{{name}}</v-list-tile-title>
-              </v-list-tile-content>
-              <v-list-tile-action>
-                <v-btn icon @click.native.stop="mini = !mini">
-                  <v-icon>chevron_left</v-icon>
-                </v-btn>
-              </v-list-tile-action>
-            </v-list-tile>
-          </v-list-item>
-        </v-list>
-        <ChatFriendList :peopleTable="peopleTable" :friendList="friendList" @openchat="openChat"></ChatFriendList>
-      </v-navigation-drawer>
-      <v-toolbar fixed class="indigo darken-4" light>
-        <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title>
-          {{chatTitle}}
-        </v-toolbar-title>
-        <v-avatar v-if="activeFriend">
-          <img :src="activeFriend.avatar">
-        </v-avatar>
-      </v-toolbar>
-      <ChatWindow class="chat-window" :roomId="activeRoomId" :userId="userId" :user="user"></ChatWindow>
-    </v-card>
-  </div>
+  <v-card height="100%" class="grey lighten-4" id="navigation-1">
+    <v-navigation-drawer class="grey lighten-4 pb-0" temporary persistent hide-overlay absolute height="100%" light v-model="drawer"
+      :mini-variant.sync="mini">
+      <v-list class="pa-0">
+        <v-list-tile avatar tag="div">
+          <v-list-tile-avatar>
+            <img :src="user.avatar">
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>{{name}}</v-list-tile-title>
+          </v-list-tile-content>
+          <v-list-tile-action>
+            <v-btn icon @click.native.stop="mini = !mini">
+              <v-icon>chevron_left</v-icon>
+            </v-btn>
+          </v-list-tile-action>
+        </v-list-tile>
+      </v-list>
+      <ChatFriendList :peopleTable="peopleTable" :friendList="friendList" @openchat="openChat"></ChatFriendList>
+    </v-navigation-drawer>
+    <v-toolbar class="indigo darken-4" light>
+      <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>
+        {{chatTitle}}
+      </v-toolbar-title>
+      <v-avatar v-if="activeFriend">
+        <img :src="activeFriend.avatar">
+      </v-avatar>
+    </v-toolbar>
+    <ChatWindow class="chat-window" :roomId="activeRoomId" :userId="userId" :user="user"></ChatWindow>
+  </v-card>
 </template>
 
 
 <style scoped>
-.content-container {
-  overflow: hidden;
-}
 .chat-window {
-  padding-top: 56px;
+  padding-bottom:56px;
 }
-
 </style>
 <script>
 import { mapGetters } from 'vuex';

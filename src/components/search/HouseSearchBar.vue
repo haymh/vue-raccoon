@@ -13,6 +13,7 @@ export default {
   data() {
     return {};
   },
+  props: ['route'],
   methods: {
     search() {
       // construct search terms for house searching
@@ -47,7 +48,7 @@ export default {
       }
       console.log('queryObject', queryObject);
       this.$store.dispatch('searchHouse', queryObject);
-      this.$router.push('/search');
+      this.$router.push(`/${this.route}`);
     },
   },
 };

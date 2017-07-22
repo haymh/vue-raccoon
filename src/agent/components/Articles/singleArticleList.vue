@@ -1,9 +1,14 @@
 <template>
-  <div class="box">
-    <h4 class="title is-4">
-      <router-link :to="`/articleView/${this.singleArticleListingData.fileName}`">{{this.singleArticleListingData.fileName}}</router-link>
-    </h4>
-  </div>
+  <router-link :to="`/articleView/${this.singleArticleListingData.dbName}`">
+    <v-list>
+      <v-list-tile avatar ripple>
+        <v-list-tile-content>
+          <v-list-tile-title>{{ singleArticleListingData.name }}</v-list-tile-title>
+          <v-list-tile-sub-title class="grey--text text--darken-4">{{ singleArticleListingData.createdAt }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+  </router-link>
 </template>
 <script>
 export default {

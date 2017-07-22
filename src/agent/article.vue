@@ -1,11 +1,7 @@
 <template>
   <div>
-    <router-link class="button is-primary" :to="'/articleParser'">Article Parser</router-link>
-    <div v-on:click="getArticleNames">Articles</div>
-    <div v-if="loadingList" class="box">
-      <div v-if="loadingList">Loading Article List</div>
-    </div>
-    <div v-if="!loadingList" v-for="item in articleInfo">
+    <v-btn primary dark :to="'/articleParser'">Article Parser</v-btn>
+    <div v-for="item in articleInfo">
       <single-article-list :singleArticleListingData="item"></single-article-list>
     </div>
   </div>
@@ -25,6 +21,7 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex';
 import SingleArticleList from './components/Articles/SingleArticleList.vue';
 import API from '../api';
 
@@ -36,27 +33,37 @@ export default {
       loadingList: false,
     };
   },
+  watch: {
+    user: {
+      handler(newUser) {
+        if (newUser) {
+          console.log('new User', newUser);
+          this.getArticleInfo();
+        }
+      },
+    },
+  },
+  computed: {
+    ...mapGetters([
+      'user',
+    ]),
+  },
   components: {
     'single-article-list': SingleArticleList,
   },
-  created() {
-    console.log('called create');
-    this.getArticleNames();
-  },
   methods: {
-    getArticleNames() {
+    getArticleInfo() {
+      console.log(this.user);
       this.loadingList = true;
       console.log(this.loadingList);
 
       API.getAllArticles().then((info) => {
-        console.log(info);
+        console.log('articleInfo', info);
         this.articleInfo = info;
+        for (let i = 0; i < info.length; i += 1) {
+          this.$store.dispatch('setArticleInfo', info[i]);
+        }
       });
-      // this.$http.post('https://us-central1-article-parser.cloudfunctions.net/getArticleInfo').then((response) => {
-      //   console.log(response);
-      //   this.articleInfo = response.body;
-      //   this.loadingList = false;
-      // });
     },
   },
 };

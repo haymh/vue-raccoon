@@ -65,15 +65,13 @@
 
   <v-card v-show="isOpen" class="options-list">
     <v-list dense>
-      <v-list-item v-for="(option, index) in options"
+      <v-list-tile v-for="(option, index) in options"
           :key="index"
           :class="{'highlighted': index === highlightedPosition}"
           @focus="highlightedPosition = index"
           @mouseenter="highlightedPosition = index" @click="select">
-        <v-list-tile>
           <v-list-tile-title v-text="option.text"></v-list-tile-title>
-        </v-list-tile>
-      </v-list-item>
+      </v-list-tile>
     </v-list>
   </v-card>
   
