@@ -25,20 +25,22 @@ export default {
       this.reqData = {};
       this.reqData.filename = fileName;
 
-      // get article name
-      const storageTitle = this.$store.getters.getFileNameByDBName(this.$route.params.fileName);
-      if (storageTitle) {
-        this.title = storageTitle;
-      } else {
-        API.getArticleNameByDBName(this.$route.params.fileName).then((response) => {
-          console.log('article name response', response);
-          this.title = response;
-        });
-      }
-      console.log('article view title: ', this.title);
 
       this.$http.post('https://us-central1-article-parser.cloudfunctions.net/downloadArticle', this.reqData).then((response) => {
+        // get article content
         this.articleContent = response.body;
+
+        // get article name
+        const storageTitle = this.$store.getters.getFileNameByDBName(this.$route.params.fileName);
+        if (storageTitle) {
+          this.title = storageTitle;
+        } else {
+          API.getArticleNameByDBName(this.$route.params.fileName).then((articleName) => {
+            console.log('article name response', articleName);
+            this.title = articleName;
+          });
+        }
+        console.log('article view title: ', this.title);
       });
     },
   },

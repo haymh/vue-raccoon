@@ -30,7 +30,7 @@
         <v-list-tile
           :key="i"
           v-else
-          :href="item.link">
+          :to="item.link">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
@@ -54,13 +54,15 @@ export default {
       mini: false,
       items: [
         { heading: 'Main' },
-        { icon: 'lightbulb_outline', text: 'Dashboard', link: '/dashboard#' },
+        { icon: 'lightbulb_outline', text: 'Dashboard', link: '/dashboard' },
+        { icon: 'contacts', text: 'Contacts', link: '/manageContact' },
         { icon: 'touch_app', text: 'Customers', link: '' },
         { icon: 'touch_app', text: 'Articles', link: '/article#' },
         { icon: 'touch_app', text: 'Chat', link: '/chat#' },
+        { icon: 'chat', text: 'Chat', link: '/chat' },
         { divider: true },
         { heading: 'General' },
-        { icon: 'add', text: 'Create new share', link: '/main#' },
+        { icon: 'add', text: 'Create new share', link: '/main' },
         { icon: 'modify', text: 'Manage share' },
         { divider: true },
         { icon: 'archive', text: 'Archive' },

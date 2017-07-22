@@ -7,9 +7,9 @@
             <v-container fluid grid-list-lg class="pb-0">
               <v-layout row>
                 <v-flex sm3 class="pa-0">
-                  <v-dialog lazy v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+                  <v-dialog lazy v-model="showFullFilter" persistent fullscreen transition="dialog-bottom-transition" :overlay=false>
                     <v-btn small slot="activator" @click="toggleFilter">full filter</v-btn>
-                    <v-toolbar light>
+                    <v-toolbar>
                       <v-btn icon="icon" @click.native="showFullFilter = false" light>
                         <v-icon>close</v-icon>
                       </v-btn>
@@ -84,7 +84,7 @@
       <v-container fluid grid-list-lg class="pb-0">
         <v-layout row>
           <v-flex xs4 class="pa-0">
-            <v-dialog v-model="showFullFilter" lazy persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+            <v-dialog v-model="showFullFilter" lazy persistent fullscreen transition="dialog-bottom-transition" :overlay=false>
               <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
               <v-toolbar light>
                 <v-btn icon="icon" @click.native="showFullFilter = false" light>

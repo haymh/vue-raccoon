@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-btn primary dark :to="'/articleParser'">Article Parser</v-btn>
+    <button v-on:click="getArticleInfo">Get Articles</button>
     <div v-for="item in articleInfo">
       <single-article-list :singleArticleListingData="item"></single-article-list>
     </div>
@@ -33,6 +34,9 @@ export default {
       loadingList: false,
     };
   },
+  created() {
+    this.getArticleInfo();
+  },
   watch: {
     user: {
       handler(newUser) {
@@ -57,13 +61,18 @@ export default {
       this.loadingList = true;
       console.log(this.loadingList);
 
-      API.getAllArticles().then((info) => {
-        console.log('articleInfo', info);
-        this.articleInfo = info;
-        for (let i = 0; i < info.length; i += 1) {
-          this.$store.dispatch('setArticleInfo', info[i]);
-        }
-      });
+      this.articleInfo = this.$store.getters.getArticleInfo;
+      console.log('articleInfo ', this.articleInfo);
+
+      if (this.articleInfo.length === 0) {
+        API.getAllArticles().then((info) => {
+          console.log('articleInfo', info);
+          this.articleInfo = info;
+          for (let i = 0; i < info.length; i += 1) {
+            this.$store.dispatch('setArticleInfo', info[i]);
+          }
+        });
+      }
     },
   },
 };

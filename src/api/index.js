@@ -127,6 +127,29 @@ class RacAPIClient {
     console.log('RaccoonAPI getting article Name using dbName');
     return this.client.get(`/article/${dbName}`).then(response => response.data);
   }
+
+  createContact(contact) {
+    return this.client.post('/contact', contact).then(response => response.data);
+  }
+
+  updateContact(contact) {
+    return this.client.put('/contact', contact).then(response => response.data);
+  }
+
+  deleteContacts(ids) {
+    return this.client.post('/contact/delete', { ids }).then(response => response.data);
+  }
+
+  getContacts(userId, skip, limit) {
+    console.log('userId', userId, 'skip', skip, 'limit', limit);
+    return this.client.get('/contact', {
+      params: {
+        userId,
+        skip,
+        limit,
+      },
+    }).then(response => response.data);
+  }
 }
 
 const instance = new RacAPIClient();

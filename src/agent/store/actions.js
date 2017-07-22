@@ -135,6 +135,5 @@ export function setQuery({ commit }, query) {
 
 // article
 export function setArticleInfo({ commit }, articleInfo) {
-  raccoonAPI.createArticle(articleInfo);
   commit(types.ARTICLE_INFO, articleInfo);
 }

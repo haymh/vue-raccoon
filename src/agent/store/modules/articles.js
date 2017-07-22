@@ -8,8 +8,10 @@ const state = {
 const mutations = {
   [types.ARTICLE_INFO](_state, articleInfo) {
     console.log('mutating article state', articleInfo);
-    _state.articleInfo.push(articleInfo);
-    _state.articleNameMap[articleInfo.dbName] = articleInfo.name;
+    if (!_state.articleNameMap[articleInfo.dbName]) {
+      _state.articleInfo.push(articleInfo);
+      _state.articleNameMap[articleInfo.dbName] = articleInfo.name;
+    }
     console.log('persisted data: ', _state.articleNameMap[articleInfo.dbName]);
   },
 };

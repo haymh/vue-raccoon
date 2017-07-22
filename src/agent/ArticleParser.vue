@@ -18,6 +18,8 @@
 <style>
 </style>
 <script>
+import API from '../api';
+
 export default {
   name: 'articleParser',
   data() {
@@ -60,6 +62,7 @@ export default {
         articleInfo.name = this.title;
         articleInfo.createdAt = response.data.createdAt;
         articleInfo.dbName = response.data.dbName;
+        API.createArticle(articleInfo);
         this.$store.dispatch('setArticleInfo', articleInfo);
       });
     },
