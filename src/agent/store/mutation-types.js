@@ -23,6 +23,7 @@ export const ADD_SEARCH_TERMS = 'ADD_SEARCH_TERMS';
 
 // app
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
+export const SHOW_PROGRESSBAR = 'SHOW_PROGRESSBAR';
 
 // share
 export const SELECT_CUSTOMER = 'SELECT_CUSTOMER';

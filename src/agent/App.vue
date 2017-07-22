@@ -3,6 +3,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
     <v-app>
+      <ProgressBar v-show="$store.state.app.showProgressBar"></ProgressBar>
       <SideBar class="hidden-xs-only"></SideBar>
       <NavBar class="hidden-xs-only"></NavBar>
       <main class="main">
@@ -53,6 +54,7 @@ import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
 import { NavBar, SideBar, AppFooter } from './components/layout';
 import BottomNav from '../components/nav/BottomNav.vue';
+import ProgressBar from '../components/nav/ProgressBar.vue';
 
 const agentsRef = db.ref('/agents');
 /* eslint-disable no-undef */
@@ -85,7 +87,7 @@ export default {
       ],
     };
   },
-  components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav },
+  components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav, ProgressBar },
   computed: {
     ...mapGetters(['user']),
   },
