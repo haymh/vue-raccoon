@@ -48,20 +48,6 @@
         :userId="userId">
       </CreateContact>
     </v-dialog>
-    <v-snackbar
-      :timeout="snackTimeout"
-      :top="true"
-      v-model="showSnackbar"
-      :success="messageType === 'success'"
-      :info="messageType === 'info'"
-      :warning="messageType === 'warning'"
-      :error="messageType === 'error'"
-      :primary="messageType === 'primary'"
-      :secondary="messageType === 'secondary'"
-    >
-      {{ message }}
-      <v-btn flat :value="messageType" @click.native="showSnackbar = false">Close</v-btn>
-    </v-snackbar>
   </div>
 
 
@@ -101,10 +87,6 @@ export default {
       showCreateContact: false,
       toEdit: null,
       openImport: false,
-      snackTimeout: 6000,
-      showSnackbar: false,
-      message: '',
-      messageType: 'info',
       filters: [],
       filterOptions: [
         'Has Email', 'Has Phone', 'Has Address', 'Has Name',

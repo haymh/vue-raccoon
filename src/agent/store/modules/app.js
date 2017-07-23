@@ -3,6 +3,11 @@ import * as types from '../mutation-types';
 // initial state
 const state = {
   showSideBar: false,
+  snackbar: {
+    showSnackbar: false,
+    message: '',
+    messageType: 'info',
+  },
 };
 
 const mutations = {
@@ -11,6 +16,12 @@ const mutations = {
       _state.showSideBar = show;
     }
   },
+  [types.SET_SNACKBAR](_state, snackbar) {
+    if (snackbar) {
+      _state.snackbar = snackbar;
+    }
+  },
+
 };
 
 export default {

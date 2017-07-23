@@ -100,6 +100,10 @@ export const toggleSideBar = ({ commit }, show) => {
   commit(types.TOGGLE_SIDEBAR, show);
 };
 
+export const setSnackbar = ({ commit }, snackbar) => {
+  commit(types.SET_SNACKBAR, snackbar);
+};
+
 // share
 export function selectCustomer({ commit }, { id }) {
   commit(types.SELECT_CUSTOMER, { id });
