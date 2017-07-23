@@ -4,6 +4,7 @@ import raccoonAPI from '../../api';
 
 // house
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
+  commit(types.SHOW_PROGRESSBAR, true);
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
     commit(types.ADD_SEARCH_TERMS, { searchTerms });
     commit(types.RECEIVE_HOUSES, { houses });
@@ -14,6 +15,10 @@ export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
       filter: state.houses.lastFilter,
       isDelta: false,
     });
+    commit(types.SHOW_PROGRESSBAR, false);
+  }).catch((error) => {
+    commit(types.SHOW_PROGRESSBAR, false);
+    console.error('Store.actions.searchHouse', error);
   });
 };
 
