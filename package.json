@@ -29,7 +29,7 @@
     "moment": "^2.18.1",
     "v-qrcode": "^1.0.3",
     "vcf": "^2.0.0",
-    "vue": "^2.4.1",
+    "vue": "^2.4.2",
     "vue-carousel-3d": "^0.1.18",
     "vue-clickaway": "^2.1.0",
     "vue-clipboards": "^1.0.3",
@@ -39,7 +39,7 @@
     "vue-router": "^2.7.0",
     "vue2-google-maps": "^0.7.9",
     "vuefire": "^1.4.3",
-    "vuetify": "^0.13.1",
+    "vuetify": "^0.14.5",
     "vuex": "^2.3.1"
   },
   "devDependencies": {
@@ -103,7 +103,7 @@
     "url-loader": "^0.5.9",
     "vue-loader": "^13.0.2",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.4.1",
+    "vue-template-compiler": "^2.4.2",
     "webpack": "^3.3.0",
     "webpack-bundle-analyzer": "^2.8.3",
     "webpack-dev-middleware": "^1.11.0",
