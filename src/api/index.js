@@ -111,6 +111,13 @@ class RacAPIClient {
     return this.client.post('/contact', contact).then(response => response.data);
   }
 
+  createContacts(contacts) {
+    return this.client.post('/contact', {
+      batch: true,
+      contacts,
+    }).then(response => response.data);
+  }
+
   updateContact(contact) {
     return this.client.put('/contact', contact).then(response => response.data);
   }
@@ -126,6 +133,14 @@ class RacAPIClient {
         userId,
         skip,
         limit,
+      },
+    }).then(response => response.data);
+  }
+
+  getContactsCount(userId) {
+    return this.client.get('/contact/count', {
+      params: {
+        userId,
       },
     }).then(response => response.data);
   }
