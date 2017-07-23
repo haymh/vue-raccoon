@@ -35,8 +35,7 @@
         :edit="edit"
         :editable="true"
         :search="search"
-        @select="onSelect"
-        @loadMore="onLoadMore"></ContactTable>
+        @select="onSelect"></ContactTable>
     </v-card>
     <v-dialog lazy v-model="showCreateContact" persistent fullscreen transition="dialog-bottom-transition" :overlay=false>
       <CreateContact
@@ -63,13 +62,9 @@ export default {
   name: 'ContactTableList',
   created() {
     console.log('ManageContacts created, userId', this.userId);
-    Promise.all([
-      api.getContacts(this.userId, this.page, this.pageSize),
-      api.getContactsCount(this.userId),
-    ]).then((results) => {
-      console.log('results', results);
-      this.contacts = results[0];
-      this.totalItems = results[1];
+    api.getContacts(this.userId).then((contacts) => {
+      this.contacts = contacts;
+      this.totalItems = contacts.length;
       // this.calculateItems();
     }).catch((error) => {
       console.error(error);
@@ -77,8 +72,6 @@ export default {
   },
   data() {
     return {
-      page: 0,
-      pageSize: 50,
       contacts: [],
       totalItems: 0,
       deleted: [],
@@ -127,6 +120,7 @@ export default {
             break;
         }
       });
+      this.totalItems = filterResult.length;
       return filterResult;
     },
   },
@@ -150,17 +144,6 @@ export default {
     onSelect(selected) {
       this.selected = selected;
       console.log('selected');
-    },
-    onLoadMore() {
-      console.log('loading more');
-      this.page += 1;
-      api.getContacts(this.userId, this.page, this.pageSize)
-        .then((contacts) => {
-          this.contacts = this.contacts.concat(contacts);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
     },
     deleteContacts() {
       const ids = this.selected.map(item => item._id);

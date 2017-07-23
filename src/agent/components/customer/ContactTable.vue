@@ -110,11 +110,7 @@ export default {
     calculateItems() {
       const { page, rowsPerPage } = this.pagination;
       console.log('page', page, 'rowsPerPage', rowsPerPage, 'contacts length', this.contacts.length);
-      if (page * rowsPerPage > this.contacts.length) {
-        this.$emit('loadMore');
-      } else {
-        this.items = this.contacts.slice((page - 1) * rowsPerPage, page * rowsPerPage);
-      }
+      this.items = this.contacts.slice((page - 1) * rowsPerPage, page * rowsPerPage);
     },
   },
 };

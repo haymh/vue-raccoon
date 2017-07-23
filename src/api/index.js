@@ -126,13 +126,10 @@ class RacAPIClient {
     return this.client.post('/contact/delete', { ids }).then(response => response.data);
   }
 
-  getContacts(userId, skip, limit) {
-    console.log('userId', userId, 'skip', skip, 'limit', limit);
+  getContacts(userId) {
     return this.client.get('/contact', {
       params: {
         userId,
-        skip,
-        limit,
       },
     }).then(response => response.data);
   }
