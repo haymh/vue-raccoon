@@ -1,5 +1,5 @@
 <template>
-  <v-data-table :pagination.sync="pagination" v-bind="$attrs" :items="items" :headers="headers" v-model="selected" selected-key="_id" select-all class="elevation-1">
+  <v-data-table :pagination.sync="pagination" v-bind="$attrs" :items="items" :headers="headers" v-model="selected" select-all class="elevation-1">
     <template slot="items" scope="props">
       <tr>
         <td>

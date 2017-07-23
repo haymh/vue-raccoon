@@ -5,29 +5,51 @@
         <v-icon>add</v-icon>
       </v-btn>
       <v-card>
+        <v-toolbar light>
+          <v-btn icon="icon" @click.native="dialog = false" light>
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Import Contacts</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn class="green--text darken-1" flat @click.native="save">
+            Agree
+            <v-icon>cloud_upload</v-icon>
+          </v-btn>
+        </v-toolbar>
         <v-card-title>
           <div class="headline">Upload vCard</div>
-        </v-card-title>
-        <v-card-text>
-          {{ file.name }}
-          <ContactTable
-            :contacts="contacts"
-            v-model="selected"
-            :totalItems="totalItems"
-          ></ContactTable>
-        </v-card-text>
-        <v-card-actions>
           <UploadButton
             class="green--text darken-1"
-            flat="flat"
             title="Upload"
             @files="filesSelected"
             accept=".vcf"
           ></UploadButton>
+        </v-card-title>
+        <v-card-actions class="indigo darken-2 light--text">
+          <v-select
+            v-bind:items="filterOptions"
+            v-model="filters"
+            label="Filter"
+            prepend-icon="filter_list"
+            multiple
+            chips
+            hide-details
+          ></v-select>
           <v-spacer></v-spacer>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Cancel</v-btn>
-          <v-btn class="green--text darken-1" flat="flat" @click.native="save">Agree</v-btn>
+          <span v-if="selected.length > 0" class="white--text">
+            <strong>{{selected.length}}</strong> entries are selected
+          </span>
         </v-card-actions>
+        <v-card-text>
+          {{ file.name }}
+          <ContactTable
+            :contacts="filteredItem"
+            v-model="selected"
+            :totalItems="totalItems"
+            selected-key="localId"
+            @select="onSelect"
+          ></ContactTable>
+        </v-card-text>
       </v-card>
     </v-dialog>
   </v-layout>
@@ -50,13 +72,49 @@ export default {
       totalItems: 0,
       selected: [],
       dialog: false,
+      filters: [],
+      filterOptions: [
+        'Has Email', 'Has Phone', 'Has Address', 'Has Name',
+      ],
     };
   },
   components: {
     UploadButton,
     ContactTable,
   },
+  computed: {
+    filteredItem() {
+      let filterResult = this.contacts;
+      this.filters.forEach((filter) => {
+        switch (filter) {
+          case 'Has Email':
+            filterResult = filterResult.filter(item => item.emails && item.emails.length > 0);
+            break;
+          case 'Has Phone':
+            filterResult = filterResult.filter(item => item.phones && item.phones.length > 0);
+            break;
+          case 'Has Address':
+            filterResult = filterResult.filter(item => item.addressObject.address !== ''
+                                                        && item.addressObject.address2 !== ''
+                                                        && item.addressObject.city !== ''
+                                                        && item.addressObject.state !== ''
+                                                        && item.addressObject.zip !== '');
+            break;
+          case 'Has Name':
+            filterResult = filterResult.filter(item => item.firstName !== '' || item.lastName !== '');
+            break;
+          default:
+            break;
+        }
+      });
+      this.totalItems = filterResult.length;
+      return filterResult;
+    },
+  },
   methods: {
+    onSelect(selected) {
+      this.selected = selected;
+    },
     filesSelected(file) {
       console.log('files:', file);
       this.file = file;
@@ -92,12 +150,15 @@ export default {
       }
     },
     processVcards(cards) {
+      let localId = 0;
       cards.forEach((card) => {
         const jcard = card.toJSON();
         console.log(jcard.vcard);
         const contact = {
+          localId,
           createdBy: this.userId,
         };
+        localId += 1;
         jcard[1].forEach((data) => {
           console.log(data[0]);
           try {

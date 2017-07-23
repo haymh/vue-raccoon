@@ -32,6 +32,7 @@
       <ContactTable
         :contacts="filteredItem"
         :totalItems="totalItems"
+        selected-key="_id"
         :edit="edit"
         :editable="true"
         :search="search"
