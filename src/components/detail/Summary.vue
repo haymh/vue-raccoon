@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="summary pa-2">
   <v-layout row wrap>
     <v-flex xs12 md3>
       <p class="title">{{propertyDetail.address | formatAddress}}
@@ -50,6 +50,9 @@
   border-right-width: 1px;
   padding-left: 3px;
   padding-right: 3px;
+}
+.summary {
+  background-color: white;
 }
 </style>
 <script>
