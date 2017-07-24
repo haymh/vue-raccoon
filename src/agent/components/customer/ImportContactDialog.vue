@@ -156,6 +156,17 @@ export default {
         console.log(jcard.vcard);
         const contact = {
           localId,
+          firstName: '',
+          lastName: '',
+          phones: [],
+          emails: [],
+          addressObject: {
+            address: '',
+            address2: '',
+            city: '',
+            state: '',
+            zip: '',
+          },
           createdBy: this.userId,
         };
         localId += 1;
@@ -171,39 +182,24 @@ export default {
                 contact.lastName = data[3][0];
                 break;
               case 'tel':
-                if (contact.phones) {
-                  contact.phones.push({
-                    type: this.phoneType(data[1].type[0]),
-                    phone: data[3],
-                  });
-                } else {
-                  contact.phones = [{
-                    type: this.phoneType(data[1].type[0]),
-                    phone: data[3],
-                  }];
-                }
+                contact.phones.push({
+                  type: this.phoneType(data[1].type[0]),
+                  phone: data[3],
+                });
                 break;
               case 'email':
-                if (contact.emails) {
-                  contact.emails.push({
-                    email: data[3],
-                  });
-                } else {
-                  contact.emails = [{
-                    email: data[3],
-                  }];
-                }
+                contact.emails.push({
+                  email: data[3],
+                });
                 break;
               case 'adr':
-                if (!contact.addressObject) {
-                  contact.addressObject = {
-                    address: data[3][2],
-                    // address2: null
-                    city: data[3][3],
-                    state: data[3][4],
-                    zip: data[3][5],
-                  };
-                }
+                contact.addressObject = {
+                  address: data[3][2],
+                  // address2: null
+                  city: data[3][3],
+                  state: data[3][4],
+                  zip: data[3][5],
+                };
                 break;
               default: break;
             }
