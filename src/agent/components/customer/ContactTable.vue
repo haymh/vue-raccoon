@@ -71,6 +71,8 @@ export default {
     },
     contacts: {
       handler() {
+        // display the first page
+        this.pagination.page = 1;
         this.calculateItems();
       },
       deep: true,
