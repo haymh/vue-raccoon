@@ -9,8 +9,8 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 // const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
-// const baseURL = 'http://localhost:3000';
-const baseURL = 'http://104.196.242.243:3000';
+const baseURL = 'http://localhost:3000';
+// const baseURL = 'http://104.196.242.243:3000';
 
 class RacAPIClient {
   constructor() {
@@ -72,12 +72,7 @@ class RacAPIClient {
       {
         params: { ...searchTerm, byGeo: undefined },
       },
-    ).then((response) => {
-      if (byGeo) {
-        return response.data.map(result => ({ ...result.obj, dist: result.dist }));
-      }
-      return response.data;
-    });
+    ).then(response => response.data);
   }
 
   getHouse(houseId) {

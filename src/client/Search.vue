@@ -21,7 +21,7 @@
             </RaccoonMap>
             <div class="singlelist hidden-sm-and-up">
               <SingleList
-                :singleListingData="hoveredHouse" 
+                :singleListingData="hoveredHouse"
                 v-if="hoveredHouse !== undefined && hoveredHouse !== null">
               </SingleList>
             </div>
@@ -113,7 +113,7 @@
   import SortBar from '../components/list/SortBar.vue';
   import FilterCondensed from '../components/filter/FilterCondensed.vue';
   import HouseSearchBar from '../components/search/HouseSearchBar.vue';
-  import Map from '../components/map/Map.vue';
+  import Map from '../components/map/Map.v2.vue';
   import SingleList from '../components/singlelist/singlelisting.vue';
 
   export default {
@@ -139,10 +139,9 @@
       ]),
     },
     methods: {
-      searchByGeo(lat, lng) {
+      searchByGeo(box) {
         this.$store.dispatch('searchHouse', {
-          lat,
-          lng,
+          box,
           byGeo: true,
         });
       },
