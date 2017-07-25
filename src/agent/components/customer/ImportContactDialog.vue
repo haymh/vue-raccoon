@@ -44,7 +44,6 @@
           {{ file.name }}
           <ContactTable
             :contacts="filteredItem"
-            v-model="selected"
             :totalItems="totalItems"
             selected-key="localId"
             @select="onSelect"
@@ -64,7 +63,7 @@ const ContactTable = () => import('./ContactTable.vue');
 
 export default {
   name: 'ImportContactDialog',
-  props: ['open', 'userId'],
+  props: ['userId'],
   data() {
     return {
       file: {},
@@ -114,6 +113,7 @@ export default {
   methods: {
     onSelect(selected) {
       this.selected = selected;
+      console.log('onselect', this.selected);
     },
     filesSelected(file) {
       console.log('files:', file);
@@ -128,15 +128,32 @@ export default {
       };
       reader.readAsText(file);
     },
+    showMessage(message, messageType) {
+      this.$store.dispatch('setSnackbar', {
+        message,
+        messageType,
+        showSnackbar: true,
+      });
+    },
     save() {
+      if (this.contacts.length === 0) {
+        this.showMessage('Please upload your vcard', 'warning');
+        return;
+      }
+      if (this.selected.length === 0) {
+        this.showMessage('Please select the contacts you want to save', 'warning');
+        return;
+      }
       console.log('saving', this.selected);
       api.createContact(this.selected)
         .then((response) => {
-          console.log(response);
+          this.$emit('contactsUploaded', response);
+          this.showMessage('New contacts have been created', 'success');
+          this.dialog = false;
         })
         .catch((error) => {
           console.error(error);
-          // this.showMessage('Failed to Create Contact', 'error');
+          this.showMessage('Failed to Create Contact', 'error');
         });
     },
     phoneType(type) {

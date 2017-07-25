@@ -6,7 +6,7 @@
           New
           <v-icon>add</v-icon>
         </v-btn>
-        <ImportConatctDialog open="openImport" :userId="userId"></ImportConatctDialog>
+        <ImportConatctDialog @contactsUploaded="onContactsUploaded" :userId="userId"></ImportConatctDialog>
 
         <v-spacer></v-spacer>
         <v-text-field style="flex-grow: 2" append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
@@ -80,7 +80,6 @@ export default {
       search: '',
       showCreateContact: false,
       toEdit: null,
-      openImport: false,
       filters: [],
       filterOptions: [
         'Has Email', 'Has Phone', 'Has Address', 'Has Name',
@@ -144,7 +143,7 @@ export default {
     },
     onSelect(selected) {
       this.selected = selected;
-      console.log('selected');
+      console.log('onselect in ContactTableList', this.selected);
     },
     deleteContacts() {
       const ids = this.selected.map(item => item._id);
@@ -161,6 +160,9 @@ export default {
         .catch((err) => {
           console.error(err);
         });
+    },
+    onContactsUploaded(contacts) {
+      this.contacts.push(...contacts);
     },
     onNewContactCreated(newContact) {
       this.contacts.push(newContact);

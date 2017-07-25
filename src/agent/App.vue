@@ -22,7 +22,7 @@
         :secondary="snackbar.messageType === 'secondary'"
       >
         {{ snackbar.message }}
-        <v-btn flat :value="snackbar.messageType" @click.native="_showSnackbar = false">Close</v-btn>
+        <v-btn flat :value="snackbar.messageType" @click.stop="_showSnackbar = false">Close</v-btn>
       </v-snackbar>
     </v-app>
   </div>

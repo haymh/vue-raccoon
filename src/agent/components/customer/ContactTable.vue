@@ -79,6 +79,7 @@ export default {
     },
     selected: {
       handler() {
+        console.log('emit select');
         this.$emit('select', this.selected);
       },
       deep: true,
