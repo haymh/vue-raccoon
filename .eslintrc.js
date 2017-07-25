@@ -31,6 +31,7 @@ module.exports = {
     'object-shorthand': 1,
     'no-underscore-dangle': 0,
     'no-multi-assign': 0,
+    'no-useless-escape': 0,
   },
   'globals': {
     'google': true,

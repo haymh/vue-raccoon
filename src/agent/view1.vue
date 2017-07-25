@@ -45,7 +45,7 @@
       </div>-->
     
     <!--This is hacking for toolbar in both mobile and desktop-->
-    <main class="hidden-sm-and-up"></main>
+    <!-- <main class="hidden-sm-and-up"></main> -->
     <div>
       <v-expansion-panel>
         <v-expansion-panel-content>
@@ -67,23 +67,6 @@
     
   </div>
 </template>
-<style>
-.dropdown {
-  position: relative;
-  display: inline-block;
-  width: 50%;
-}
-.filter {
-  /*width: 300px;*/
-  position: absolute;
-  z-index: 100;
-  left: 0px;
-}
-.toolbar {
-  position: fixed;
-  top:0;
-}
-</style>
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';

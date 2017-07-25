@@ -1,7 +1,7 @@
 <template>
 <div class="search-container">
-  <HouseSearchBar class="autocomplete-input" route="main"></HouseSearchBar>
-  <v-dialog v-model="showFullFilter" persistent fullscreen transition="v-dialog-bottom-transition" :overlay=false>
+  <HouseSearchBar class="autocomplete-input hidden-sm-and-up" route="main"></HouseSearchBar>
+  <v-dialog v-model="showFullFilter" persistent fullscreen transition="dialog-bottom-transition" :overlay=false>
     <v-btn small dark slot="activator" @click="toggleFilter">full filter</v-btn>
     <v-toolbar light>
       <v-btn icon="icon" @click.native="showFullFilter = false" light>
@@ -9,7 +9,7 @@
       </v-btn>
       <v-toolbar-title>Filter</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn light flat @click.native="dialog = false">Save</v-btn>
+      <v-btn light flat @click.native="showFullFilter = false">Save</v-btn>
     </v-toolbar>
     <v-card>
       <v-card-text>

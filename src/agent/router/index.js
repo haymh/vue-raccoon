@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+
 Vue.use(Router);
 
 // route-level code splitting
@@ -16,6 +17,7 @@ const ShareSetting = () => import('../ShareSetting.vue');
 const EditShareEmail = () => import('../EditShareEmail.vue');
 const Dashboard = () => import('../Dashboard.vue');
 const ViewSHareHouse = () => import('../ViewShareHouse.vue');
+const ManageContact = () => import('../ManageContacts.vue');
 
 export default new Router({
   mode: 'history',
@@ -35,6 +37,7 @@ export default new Router({
     { path: '/user/:id', component: UserPage },
     { path: '/viewShareHouse/:id', component: ViewSHareHouse },
     { path: '/error/:msg', component: ErrorPage },
+    { path: '/managecontact', component: ManageContact },
     { path: '*', redirect: '/view1' },
   ],
 });

@@ -9,8 +9,8 @@ import axios from 'axios';
 import * as houseAPI from './house';
 
 // const baseURL = 'https://rest-dot-raccoon-c86bb.appspot-preview.com';
-// const baseURL = 'http://localhost:3000';
-const baseURL = 'http://104.196.242.243:3000';
+const baseURL = 'http://localhost:3000';
+// const baseURL = 'http://104.196.242.243:3000';
 
 class RacAPIClient {
   constructor() {
@@ -105,6 +105,41 @@ class RacAPIClient {
 
   update(share) {
     return this.client.put('/share', share).then(response => response.data);
+  }
+
+  createContact(contact) {
+    return this.client.post('/contact', contact).then(response => response.data);
+  }
+
+  createContacts(contacts) {
+    return this.client.post('/contact', {
+      batch: true,
+      contacts,
+    }).then(response => response.data);
+  }
+
+  updateContact(contact) {
+    return this.client.put('/contact', contact).then(response => response.data);
+  }
+
+  deleteContacts(ids) {
+    return this.client.post('/contact/delete', { ids }).then(response => response.data);
+  }
+
+  getContacts(userId) {
+    return this.client.get('/contact', {
+      params: {
+        userId,
+      },
+    }).then(response => response.data);
+  }
+
+  getContactsCount(userId) {
+    return this.client.get('/contact/count', {
+      params: {
+        userId,
+      },
+    }).then(response => response.data);
   }
 }
 

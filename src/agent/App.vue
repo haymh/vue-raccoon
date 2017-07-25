@@ -10,6 +10,20 @@
         <router-view></router-view>
       </main>
       <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
+      <v-snackbar
+        :timeout="snackTimeout"
+        :top="true"
+        v-model="_showSnackbar"
+        :success="snackbar.messageType === 'success'"
+        :info="snackbar.messageType === 'info'"
+        :warning="snackbar.messageType === 'warning'"
+        :error="snackbar.messageType === 'error'"
+        :primary="snackbar.messageType === 'primary'"
+        :secondary="snackbar.messageType === 'secondary'"
+      >
+        {{ snackbar.message }}
+        <v-btn flat :value="snackbar.messageType" @click.native="_showSnackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-app>
   </div>
 </template>
@@ -63,6 +77,7 @@ export default {
   data() {
     return {
       needCreateUser: false,
+      snackTimeout: 6000,
       navs: [
         {
           text: 'Dashboard',
@@ -89,7 +104,17 @@ export default {
   },
   components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav, ProgressBar },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(['user', 'snackbar']),
+    _showSnackbar: {
+      set(val) {
+        const snackbarCopy = JSON.parse(JSON.stringify(this.snackbar));
+        snackbarCopy.showSnackbar = val;
+        this.$store.dispatch('setSnackbar', snackbarCopy);
+      },
+      get() {
+        return this.snackbar.showSnackbar;
+      },
+    },
   },
   created() {
     // add event listener for auth state
