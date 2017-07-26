@@ -16,6 +16,7 @@ const ShareSetting = () => import('../ShareSetting.vue');
 const EditShareEmail = () => import('../EditShareEmail.vue');
 const Dashboard = () => import('../Dashboard.vue');
 const ViewSHareHouse = () => import('../ViewShareHouse.vue');
+const Profile = () => import('../Profile.vue');
 
 export default new Router({
   mode: 'history',
@@ -34,7 +35,7 @@ export default new Router({
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
     { path: '/viewShareHouse/:id', component: ViewSHareHouse },
-    { path: '/profile', component: Profile },
+    { path: '/profile/:agentId', component: Profile },
     { path: '/error/:msg', component: ErrorPage },
     { path: '*', redirect: '/view1' },
   ],
