@@ -16,3 +16,8 @@ export const HOVER_HOUSE = 'HOVER_HOUSE';
 export const SET_SORT = 'SET_SORT';
 
 export const ADD_SEARCH_TERMS = 'ADD_SEARCH_TERMS';
+
+// app
+export const SHOW_PROGRESSBAR = 'SHOW_PROGRESSBAR';
+export const SET_SNACKBAR = 'SET_SNACKBAR';
+
