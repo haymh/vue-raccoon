@@ -5,6 +5,8 @@
     :zoom="12"
     @idle="onIdle"
     @click="onMapClicked"
+    @dragend="onDragEnd"
+    @resize="onZoomChanged"
     @bounds_changed="mapBoundsChanged($event)"
     style="width: 100%; height: 100%"
     ref="map"
@@ -56,6 +58,25 @@
       };
     },
 
+    watch: {
+      markers: {
+        handler(markers) {
+          if (!this.searchingByGeo) {
+            console.log('setting new bounds');
+            const bounds = new google.maps.LatLngBounds();
+            markers.forEach((marker) => {
+              const { lat, lng } = marker.house.googleLocation.location;
+              const googleLatLng = new google.maps.LatLng(lat, lng);
+              bounds.extend(googleLatLng);
+            });
+            this.fittingBounds = true;
+            this.$refs.map.fitBounds(bounds);
+          } else { this.searchingByGeo = false; }
+        },
+        deep: true,
+      },
+    },
+
     created() {
       loaded.then(() => {
         this.HouseMarker = HouseMarkerClassGenerator();
@@ -70,6 +91,8 @@
         };
       });
       this.buildMapControls();
+      this.fittingBounds = false;
+      this.searchingByGeo = true;
     },
 
     methods: {
@@ -77,23 +100,30 @@
        * Listeners
        */
       googleMapLoaded() {
-        // this.searchByGeo({ box: this.$refs.map.$mapObject.getBounds() });
       },
 
       // idle listener
       onIdle() {
         console.log('Map is idle');
-        this.searchByGeo(this.bounds);
+        if (this.shouldSearchByGeo && this.searchByGeo) {
+          this.searchByGeo(this.bounds);
+          this.shouldSearchByGeo = false;
+          this.searchingByGeo = true;
+        }
       },
 
       // zoom listener
       onZoomChanged() {
-
+        console.log('zoom changed');
+        if (!this.fittingBounds) {
+          this.shouldSearchByGeo = true;
+        } else { this.fittingBounds = false; }
       },
 
       // dragend listener
       onDragEnd() {
-
+        console.log('User stop dragging');
+        this.shouldSearchByGeo = true;
       },
 
       // map click listener
@@ -123,17 +153,19 @@
       },
 
       onMarkerMouseover(marker) {
-        const { house } = marker;
-        const { lat, lng } = house.googleLocation.location;
-        const googleLatLng = new google.maps.LatLng(lat, lng);
-        const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
+        if (!this.activePriceOverlay) {
+          const { house } = marker;
+          const { lat, lng } = house.googleLocation.location;
+          const googleLatLng = new google.maps.LatLng(lat, lng);
+          const bounds = new google.maps.LatLngBounds(googleLatLng, googleLatLng);
 
-        this.activePriceOverlay = new this.PriceOverlay(
-          bounds,
-          this.$refs.map.$mapObject,
-          marker,
-          { house },
-        );
+          this.activePriceOverlay = new this.PriceOverlay(
+            bounds,
+            this.$refs.map.$mapObject,
+            marker,
+            { house },
+          );
+        }
       },
 
       onMarkerMouseout() {
