@@ -6,12 +6,12 @@
     @idle="onIdle"
     @click="onMapClicked"
     @dragend="onDragEnd"
-    @resize="onZoomChanged"
+    @zoom_changed="onZoomChanged"
     @bounds_changed="mapBoundsChanged($event)"
     style="width: 100%; height: 100%"
     ref="map"
   >
-    <gmap-cluster :maxZoom="10">
+    <gmap-cluster :maxZoom="11">
       <gmap-marker
         :key="index"
         v-for="(marker, index) in markers"
@@ -90,7 +90,6 @@
           },
         };
       });
-      this.buildMapControls();
       this.fittingBounds = false;
       this.searchingByGeo = true;
     },
@@ -109,7 +108,7 @@
           this.searchByGeo(this.bounds);
           this.shouldSearchByGeo = false;
           this.searchingByGeo = true;
-        }
+        } else { this.searchingByGeo = false; }
       },
 
       // zoom listener
@@ -143,6 +142,11 @@
 
       // on marker click listener
       onMarkerClick(marker) {
+        if (this.activeMarker) {
+          this.activeOverlay.toggleDOM();
+          this.activeOverlay = null;
+        }
+
         const { house } = marker;
         const { lat, lng } = house.googleLocation.location;
         const googleLatLng = new google.maps.LatLng(lat, lng);
@@ -150,6 +154,8 @@
 
         this.activeOverlay = new this.HouseMarker(bounds, this.$refs.map.$mapObject, { house });
         this.activeMarker = marker;
+        this.activePriceOverlay.remove();
+        this.activePriceOverlay = null;
       },
 
       onMarkerMouseover(marker) {
@@ -169,7 +175,7 @@
       },
 
       onMarkerMouseout() {
-        if (!this.activeMarker) {
+        if (this.activePriceOverlay) {
           this.activePriceOverlay.remove();
           this.activePriceOverlay = null;
         }
@@ -178,16 +184,6 @@
       /*
        * other methods
        */
-      buildMapControls() {
-        const saveBtn = document.createElement('a');
-        saveBtn.className = 'button is-danger';
-        saveBtn.innerHTML = 'save search';
-        saveBtn.style.margin = '8px';
-        saveBtn.addEventListener('click', () => {
-          console.log('save');
-        });
-        saveBtn.index = 1;
-      },
     },
   };
 </script>
