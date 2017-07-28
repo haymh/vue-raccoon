@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
+import firebase from 'firebase';
+import api from '../../api';
+import store from '../../agent/store';
 
 Vue.use(Router);
 
@@ -19,7 +21,7 @@ const Dashboard = () => import('../Dashboard.vue');
 const ViewSHareHouse = () => import('../ViewShareHouse.vue');
 const ManageContact = () => import('../ManageContacts.vue');
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
@@ -41,3 +43,28 @@ export default new Router({
     { path: '*', redirect: '/view1' },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    next();
+  } else {
+    let id = null;
+    firebase.auth().signInAnonymously()
+      .then((u) => {
+        id = u.uid;
+        return api.refreshToken(id);
+      })
+      .then(() => {
+        store.dispatch('setUser', { id });
+        next();
+      })
+      .catch((error) => {
+        console.log('error during sign in anonymously', error);
+        next(error);
+      });
+  }
+});
+
+export default router;
+
