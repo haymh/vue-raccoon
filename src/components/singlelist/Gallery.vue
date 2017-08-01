@@ -5,12 +5,6 @@
     </swiper-slide>
     <div class="swiper-button-prev" slot="button-prev"></div>
     <div class="swiper-button-next" slot="button-next"></div>
-      <!-- <a class="icon is-medium leftArrow" v-on:click="prevImage">
-        <i class="fa fa-caret-left" aria-hidden="true"></i>
-      </a>
-      <a class="icon is-medium rightArrow" v-on:click="nextImage">
-        <i class="fa fa-caret-right" aria-hidden="true"></i>
-      </a> -->
   </swiper>
 </template>
 

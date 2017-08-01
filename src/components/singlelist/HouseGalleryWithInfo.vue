@@ -1,13 +1,13 @@
 <template>
 <div>
   <Gallery :images="house.pics" class="gallery" :style="{height: height + 'px'}"></Gallery>
-    <!-- <div class="basic-info">
+    <div class="basic-info">
       <div class="price ml-2">{{price}}</div>
       <div class="value-label ml-2">{{beds}}</div>
       <div class="value-label">{{baths}}</div>
       <div class="value-label">{{sizeInSF}}</div>
       <div class="address ml-2">{{address}}</div>
-    </div> -->
+    </div> 
 </div>
 </template>
 
