@@ -49,6 +49,7 @@ router.beforeEach((to, from, next) => {
   if (user) {
     next();
   } else {
+    console.log('should sign in');
     let id = null;
     firebase.auth().signInAnonymously()
       .then((u) => {
