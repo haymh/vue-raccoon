@@ -77,14 +77,10 @@ export const setUser = ({ commit },
     avatar,
     displayName,
   });
-  // set firebase user id, so we can refresh token
-  raccoonAPI.refreshToken(id);
 };
 
 export function setUserProfile({ commit }, { id, isTemp, nickname, avatar, displayName, email }) {
   commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar, displayName, email });
-  // set firebase user id, so we can refresh token
-  raccoonAPI.refreshToken(id);
 }
 
 export const setUserData = ({ commit }, { favoriteHouses, searches }) => {
