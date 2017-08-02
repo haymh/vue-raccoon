@@ -16,12 +16,7 @@
                       <v-flex xs6>
                         <div class="headline">
                           {{ fullName }}
-                          <v-btn round small primary dark v-if="isAgentPageOwnedByUser" @click.native="showEditProfileModal = true">
-                            Edit
-                          </v-btn>
-                          <EditProfileModal v-if="showEditProfileModal" @close="showEditProfileModal = false">
-                            <h3 slot="header">custom header</h3>
-                          </EditProfileModal>
+                          <EditProfileModal :parentData="agent" @interface="updateAgentProfile"></EditProfileModal>
                         </div>
                         <v-layout row>
                           <v-flex xs6>
@@ -110,8 +105,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import { db } from '../api/fire';
-import EditProfileModal from './EditProfileModal.vue';
-// import API from '../api';
+import EditProfileModal from './components/profile/EditProfileModal.vue';
+import API from '../api';
 // import Pagination from '../components/list/Pagination.vue';
 
 export default {
@@ -119,7 +114,6 @@ export default {
   data() {
     return {
       page: 4,
-      showEditProfileModal: false,
       // firstName: this.agent.firstName,
       // lastName: 'Lin',
       // profileImage: 'https://photos.zillowstatic.com/h_g/IS56ok2t3lllk60000000000.jpg',
@@ -163,9 +157,9 @@ export default {
     console.log('Agent ID: ', this.$route.params.agentId);
 
     this.$bindAsObject('agent', db.ref(`/agents/${this.$route.params.agentId}`));
-    // API.searchHouse({ county: 'Los Angeles' }).then((results) => {
-    //   console.log(results);
-    // });
+    API.searchHouse({ zip: 91006 }).then((results) => {
+      console.log(results);
+    });
     // console.log('agent data: ', this.agent);
   },
   computed: {
@@ -186,7 +180,7 @@ export default {
       return (this.agent.about && this.agent.about.content) || 'nothing';
     },
     profileImage() {
-      return this.agent.profileImage || 'http://www.chymfm.com/wp-content/uploads/sites/8/2016/04/question-mark-face-593x315.jpg';
+      return this.agent.profileImage || '/static/profile.png';
     },
     isAgentPageOwnedByUser() {
       return this.$route.params.agentId === this.userId;
@@ -207,10 +201,13 @@ export default {
       return {};
     },
   },
-  method: {
-    updateAgentProfile() {
-      this.agent.firstName = 'Eden';
+  methods: {
+    updateAgentProfile(agent) {
+      this.agent = agent;
     },
+    // test(data) {
+    //   console.log('data after child handle: ', data.firstName);
+    // },
   },
 };
 </script>

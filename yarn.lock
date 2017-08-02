@@ -3246,11 +3246,11 @@ https-proxy-agent@1:
     debug "2"
     extend "3"
 
-iconv-lite@0.4.15:
+iconv-lite@0.4.15, iconv-lite@~0.4.13:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
-iconv-lite@^0.4.17, iconv-lite@~0.4.13:
+iconv-lite@^0.4.17:
   version "0.4.18"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.18.tgz#23d8656b16aae6742ac29732ea8f0336a4789cf2"
 
@@ -6624,10 +6624,6 @@ vue2-google-maps@^0.7.9:
     babel-runtime "^5.8.0"
     marker-clusterer-plus "^2.1.4"
 
-vue@^2.3.3:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.3.4.tgz#5ec3b87a191da8090bbef56b7cfabd4158038171"
-
 vue@^2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.4.1.tgz#76e0b8eee614613532216b7bfe784e0b5695b160"
@@ -6636,11 +6632,9 @@ vuefire@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-1.4.3.tgz#6ad02e10d191efefbc1ca78da1611772289ff74c"
 
-vuetify@^0.13.1:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.13.1.tgz#12f016053bed932dbf20fae43267636c3871fa2b"
-  dependencies:
-    vue "^2.3.3"
+vuetify@^0.14.7:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.14.7.tgz#04e919b3e9c932f55c1f1a24f3f2d930b2478ebe"
 
 vuex@^2.3.1:
   version "2.3.1"
