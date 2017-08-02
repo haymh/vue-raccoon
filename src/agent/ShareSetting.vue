@@ -53,19 +53,19 @@
               <v-radio
                 label="Share Once Now"
                 v-model="shareObject.shareMethod.shareScheduleType"
-                :value="SHARE_SCHEDULE_TYPES.NOW" primary dark hide-details></v-radio>
+                :value="SHARE_SCHEDULE_TYPES.NOW" primary hide-details></v-radio>
             </v-flex>
             <v-flex xs12 md4>
               <v-radio
                 label="Share Once in Future"
                 v-model="shareObject.shareMethod.shareScheduleType"
-                :value="SHARE_SCHEDULE_TYPES.DATE" primary dark hide-details></v-radio>
+                :value="SHARE_SCHEDULE_TYPES.DATE" primary hide-details></v-radio>
             </v-flex>
             <v-flex xs12 md4>
               <v-radio
                 label="Share every"
                 v-model="shareObject.shareMethod.shareScheduleType"
-                :value="SHARE_SCHEDULE_TYPES.PERIODICAL" primary dark hide-details></v-radio>
+                :value="SHARE_SCHEDULE_TYPES.PERIODICAL" primary hide-details></v-radio>
             </v-flex>
           </v-layout>
         </v-flex>
@@ -96,7 +96,6 @@
             v-bind:items="frequencyOptions"
             v-model="shareObject.shareMethod.frequency"
             label="Frequency"
-            dark
             single-line
             auto
           ></v-select>
@@ -106,7 +105,6 @@
             v-bind:items="timeOptions"
             v-model="shareObject.time"
             label="Time"
-            dark
             single-line
             auto
           ></v-select>

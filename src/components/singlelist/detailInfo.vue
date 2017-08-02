@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card flat>
     <v-card-title>{{viewLike}}</v-card-title>
     <v-container fluid grid-list-lg class="pb-0">
       <v-layout row>

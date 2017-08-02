@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import firebase from 'firebase';
+import api from '../../api';
+import store from '../../agent/store';
 
 Vue.use(Router);
 
@@ -16,9 +19,10 @@ const ShareSetting = () => import('../ShareSetting.vue');
 const EditShareEmail = () => import('../EditShareEmail.vue');
 const Dashboard = () => import('../Dashboard.vue');
 const ViewSHareHouse = () => import('../ViewShareHouse.vue');
+const ManageContact = () => import('../ManageContacts.vue');
 const Profile = () => import('../Profile.vue');
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
@@ -37,6 +41,33 @@ export default new Router({
     { path: '/viewShareHouse/:id', component: ViewSHareHouse },
     { path: '/profile/:agentId', component: Profile },
     { path: '/error/:msg', component: ErrorPage },
+    { path: '/managecontact', component: ManageContact },
     { path: '*', redirect: '/view1' },
   ],
 });
+
+router.beforeEach((to, from, next) => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    next();
+  } else {
+    console.log('should sign in');
+    let id = null;
+    firebase.auth().signInAnonymously()
+      .then((u) => {
+        id = u.uid;
+        return api.refreshToken(id);
+      })
+      .then(() => {
+        store.dispatch('setUser', { id });
+        next();
+      })
+      .catch((error) => {
+        console.log('error during sign in anonymously', error);
+        next(error);
+      });
+  }
+});
+
+export default router;
+

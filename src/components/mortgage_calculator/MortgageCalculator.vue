@@ -21,7 +21,7 @@
               <VueChart type="pie" :data="chartData" :options="chartOption"></VueChart>
             </v-flex>
             <v-flex xs12 md12>
-              <ul v-for="(label, index) in chartData.labels">
+              <ul v-for="(label, index) in chartData.labels" :key="index">
                 <li v-bind:style="colorStyle(chartData.datasets[0].backgroundColor[index])">
                   {{label}}
                   <span style="float:right">

@@ -77,14 +77,10 @@ export const setUser = ({ commit },
     avatar,
     displayName,
   });
-  // set firebase user id, so we can refresh token
-  raccoonAPI.refreshToken(id);
 };
 
 export function setUserProfile({ commit }, { id, isTemp, nickname, avatar, displayName, email }) {
   commit(types.LOAD_USER_PROFILE, { id, isTemp, nickname, avatar, displayName, email });
-  // set firebase user id, so we can refresh token
-  raccoonAPI.refreshToken(id);
 }
 
 export const setUserData = ({ commit }, { favoriteHouses, searches }) => {
@@ -103,6 +99,10 @@ export const upsertRoom = ({ commit }, room) => {
 export const toggleSideBar = ({ commit }, show) => {
   console.log('toggle sidebar', show);
   commit(types.TOGGLE_SIDEBAR, show);
+};
+
+export const setSnackbar = ({ commit }, snackbar) => {
+  commit(types.SET_SNACKBAR, snackbar);
 };
 
 // share

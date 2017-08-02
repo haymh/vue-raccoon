@@ -1,17 +1,21 @@
 <template>
   <v-card raised horizontal>
-    <v-card-row img="http://bulma.io/images/placeholders/96x96.png"></v-card-row>
-    <v-card-column>
-      <v-card-row class="brown white--text">
-        <v-card-text>
-          <strong>{{customer.name}}</strong>
-          <div>Feb 23, 7:00pm</div>
-        </v-card-text>
-      </v-card-row>
-      <v-card-row actions class="brown darken-2">
-        <v-checkbox label="select" v-model="cardSelected" dark></v-checkbox>
-      </v-card-row>
-    </v-card-column>
+    <v-container fluid grid-list-lg>
+      <v-layout row>
+        <v-flex xs5>
+          <v-card-media contain src="https://randomuser.me/api/portraits/men/35.jpg" height="125px"></v-card-media>
+        </v-flex>
+        <v-flex xs7>
+          <v-card-text>
+            <strong>{{customer.name}}</strong>
+            <div>Feb 23, 7:00pm</div>
+          </v-card-text>
+          <v-card-text>
+            <v-checkbox label="select" v-model="cardSelected"></v-checkbox>
+          </v-card-text>
+        </v-flex>
+      </v-layout>
+    </v-container>
   </v-card>
 </template>
 <script>

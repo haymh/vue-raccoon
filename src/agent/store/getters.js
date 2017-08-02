@@ -25,6 +25,7 @@ export const userRooms = state => state.user.userRooms;
 
 // app
 export const showSideBar = state => state.app.showSideBar;
+export const snackbar = state => state.app.snackbar;
 
 // share
 export const selectedCustomers = state => state.share.selectedCustomers;

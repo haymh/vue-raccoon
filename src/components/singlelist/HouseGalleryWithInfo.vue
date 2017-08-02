@@ -1,24 +1,14 @@
 <template>
-<carousel-3d
-  :perspective="180"
-  :controls-visible="true"
-  :display="1"
-  border="0"
-  :height="height"
-  :minSwipeDistance="60"
-  class="ma-0"
-  >
-  <slide v-for="(url, index) in house.pics" :index="index" :key="index">
-    <img v-lazy="url" @click="clickHandler">
+<div>
+  <Gallery :images="house.pics" class="gallery" :style="{height: height + 'px'}"></Gallery>
     <div class="basic-info">
       <div class="price ml-2">{{price}}</div>
       <div class="value-label ml-2">{{beds}}</div>
       <div class="value-label">{{baths}}</div>
       <div class="value-label">{{sizeInSF}}</div>
       <div class="address ml-2">{{address}}</div>
-    </div>
-  </slide>
-</carousel-3d>
+    </div> 
+</div>
 </template>
 
 <style scoped>
@@ -54,7 +44,7 @@
 </style>
 
 <script>
-import { Carousel3d, Slide } from 'vue-carousel-3d';
+import Gallery from './Gallery.vue';
 
 export default {
   name: 'HouseGalleryWithInfo',
@@ -64,8 +54,7 @@ export default {
     'height',
   ],
   components: {
-    Carousel3d,
-    Slide,
+    Gallery,
   },
   computed: {
     price() {
