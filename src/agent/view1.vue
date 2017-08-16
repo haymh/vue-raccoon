@@ -17,6 +17,24 @@
           <v-icon class="grey--text text--darken-2">filter</v-icon>
         </v-btn>
       </v-toolbar>
+      <div style="height:500px;">
+        <MapCluster class="map"
+          :showCluster="showCluster"
+          :searchByGeo="searchByGeo"
+          :clusterData="cluster"
+          :houseData="allHouses"
+          :outline="outline"
+          style="height:100%">
+        </MapCluster>
+      </div>
+      <v-btn @click="updateCluster(0)">level 0</v-btn>
+      <v-btn @click="updateCluster(1)">level 1</v-btn>
+      <v-btn @click="updateCluster(2)">level 2</v-btn>
+      <v-btn @click="updateCluster(3)">level 3</v-btn>
+      <v-btn @click="search({county: 'san diego', state:'ca'})">SD</v-btn>
+      <v-btn @click="search({city: 'compton', state:'ca'})">compton</v-btn>
+      <v-btn @click="search({city: 'arcadia', state:'ca'})">arcadia</v-btn>
+      
       <!--<v-layout row wrap>
         <v-flex xs3 class="text-xs-center pa-0">
           <v-btn small dark flat>List</v-btn>
@@ -47,13 +65,13 @@
     <!--This is hacking for toolbar in both mobile and desktop-->
     <!-- <main class="hidden-sm-and-up"></main> -->
     <div>
-      <v-expansion-panel>
+      <!-- <v-expansion-panel>
         <v-expansion-panel-content>
           <div slot="header">Filter</div>
           <FilterFullSize></FilterFullSize>
         </v-expansion-panel-content>
       </v-expansion-panel>
-      <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator>
+      <MortgageCalculator :price="price" :hoa="hoa"></MortgageCalculator> -->
       <!-- <h1>User</h1>
       <pre>{{ user }}</pre>
       <h1>All Houses</h1>
@@ -62,7 +80,7 @@
       <pre>{{ filterResults }}</pre> -->
 
       <!--<ChatBar></ChatBar>-->
-      <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList>
+      <!-- <ShareList class="share-list" title="预定分享" :headers="headers" :list="list" :plus="true" :removable="true" :editable="true"></ShareList> -->
     </div>
     
   </div>
@@ -76,6 +94,8 @@ import Pagination from '../components/list/Pagination.vue';
 import FilterFullSize from '../components/filter/FilterFullSize.vue';
 import ShareList from '../agent/components/share/ShareList.vue';
 import HouseSearchBar from '../components/search/HouseSearchBar.vue';
+import MapCluster from '../components/map/MapCluster.vue';
+import API from '../api';
 
 
 export default {
@@ -85,6 +105,7 @@ export default {
       price: 30000,
       hoa: 300,
       current: 0,
+      clusters: [],
       showFullFilter: false,
       dialog: false,
       headers: [
@@ -179,6 +200,9 @@ export default {
     'user',
     'allHouses',
     'filterResults',
+    'showCluster',
+    'cluster',
+    'outline',
   ]),
   components: {
     ChatBar,
@@ -187,8 +211,24 @@ export default {
     FilterFullSize,
     ShareList,
     HouseSearchBar,
+    MapCluster,
   },
   methods: {
+    updateCluster(level) {
+      API.getClusterByLevel(level).then((clusters) => {
+        this.clusters = clusters;
+        console.log(clusters);
+      });
+    },
+    search(searchTerms) {
+      this.$store.dispatch('searchHouseMap', searchTerms);
+    },
+    searchByGeo(searchTerm) {
+      this.$store.dispatch('searchHouseMap', {
+        ...searchTerm,
+        byGeo: true,
+      });
+    },
     searchHouse() {
       this.$store.dispatch('searchHouse');
     },

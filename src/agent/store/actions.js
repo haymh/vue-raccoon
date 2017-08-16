@@ -1,6 +1,8 @@
+
 import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
 import raccoonAPI from '../../api';
+import { openStreetAPI, MapUtil } from '../../api/map';
 
 // house
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
@@ -20,6 +22,59 @@ export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
     commit(types.SHOW_PROGRESSBAR, false);
     console.error('Store.actions.searchHouse', error);
   });
+};
+
+export const searchHouseMap = ({ commit }, searchTerms) => {
+  console.log('searchHouseMap');
+  if (searchTerms.byGeo) {
+    console.log('search cluster by geo');
+    const box = searchTerms.box;
+    const a = MapUtil.calculateAreaFromRaccoonBox(box);
+    let level = searchTerms.level === undefined ? null : searchTerms.level;
+    if (level === null) {
+      level = MapUtil.areaToClusterLevel(a);
+    }
+    console.log('cluster level', level, 'search term level', searchTerms.level);
+    if (level === -1) {
+      // display house marker on map
+      commit(types.SHOW_CLUSTER, false);
+    } else {
+      // TODO: search cluster by box and level
+      raccoonAPI.searchCluster(box, level).then((data) => {
+        console.log('data', data);
+        if (data && data.length > 0) {
+          commit(types.SET_CLUSTER, data);
+          // display cluster on map
+          commit(types.SHOW_CLUSTER, true);
+        } else {
+          commit(types.SHOW_CLUSTER, false);
+        }
+      });
+    }
+  } else {
+    openStreetAPI.getOutline(searchTerms).then((data) => {
+      console.log('openStreetAPI result', data);
+      commit(types.SET_OUTLINE, data[0]);
+      const { a, raccoonBboxString } = MapUtil.calculateAreaFromBbox(data[0].boundingbox);
+      console.log('area', a, 'km^2', 'raccoonBboxString', raccoonBboxString);
+      const level = MapUtil.areaToClusterLevel(a);
+      console.log('cluster level', level);
+      if (level === -1) {
+        // display house marker on map
+        commit(types.SHOW_CLUSTER, false);
+        return Promise.resolve(null);
+      }
+      console.log('search clusters by bounding box');
+      return raccoonAPI.searchCluster(raccoonBboxString, level);
+    }).then((cluster) => {
+      if (cluster) {
+        console.log('cluster', cluster);
+        commit(types.SET_CLUSTER, cluster);
+        // display cluster on map
+        commit(types.SHOW_CLUSTER, true);
+      }
+    });
+  }
 };
 
 export function fetchHouses({ commit }) {
@@ -61,6 +116,10 @@ export function unselectHouses({ commit }, { houses }) {
 export function unselectAllHouses({ commit }) {
   commit(types.UNSELECT_ALL_HOUSES);
 }
+
+export const setOutline = ({ commit }, outline) => {
+  commit(types.SET_OUTLINE, outline);
+};
 
 // user
 

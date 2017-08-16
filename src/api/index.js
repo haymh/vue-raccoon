@@ -148,6 +148,19 @@ class RacAPIClient {
       },
     }).then(response => response.data);
   }
+
+  getClusterByLevel(level) {
+    return this.client.get(`/house/cluster/${level}`).then(response => response.data);
+  }
+
+  searchCluster(box, level) {
+    return this.client.get('/house/searchCluster', {
+      params: {
+        level,
+        box,
+      },
+    }).then(response => response.data);
+  }
 }
 
 const instance = new RacAPIClient();

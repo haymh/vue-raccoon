@@ -114,7 +114,7 @@
         grow
         scroll-bars
         v-model="selectedTab"
-        light
+        dark
       >
         <v-tabs-bar slot="activators">
           <v-tabs-item
@@ -133,7 +133,8 @@
           :id="t"
         >
           <v-card flat>
-            <CustomerList :showSelected="selectedTab === 'Selected Customers'" :customerList="customerList"></CustomerList>
+             <ShareCustomerList :showSelected="selectedTab === 'Selected Customers'" :customerList="customerList"></ShareCustomerList> 
+            <!-- <ContactTableList></ContactTableList> -->
           </v-card>
         </v-tabs-content>
       </v-tabs>
@@ -151,7 +152,8 @@
 <script>
 import { mapGetters } from 'vuex';
 import FilterTag from '../components/filter/FilterTag.vue';
-import CustomerList from './components/customer/CustomerList.vue';
+import ShareCustomerList from './components/customer/ShareCustomerList.vue';
+import ContactTableList from './components/customer/ContactTableList.vue';
 import { PERIODICAL_OPTIONS, TIME_OPTIONS, SHARE_SCHEDULE_TYPES, Share } from './components/share/shareSchema';
 import API from '../api';
 
@@ -167,6 +169,11 @@ export default {
     this.shareObject.createdBy = this.userId;
     this.shareObject.query = this.query;
     console.log('shareObject', this.shareObject);
+    API.getContacts(this.userId).then((contacts) => {
+      this.customerList = contacts;
+    }).catch((error) => {
+      console.error(error);
+    });
   },
   watch: {
     shareObject: {
@@ -177,6 +184,7 @@ export default {
   },
   data() {
     return {
+      customerList: [],
       disableShareDate: {
         to: yesterday,
       },
@@ -207,48 +215,6 @@ export default {
       showSelected: false,
       tabs: ['Customer List', 'Selected Customers'],
       selectedTab: 'Customer List',
-      customerList: [
-        {
-          id: 1,
-          name: 'Heng',
-        },
-        {
-          id: 2,
-          name: 'Heng',
-        },
-        {
-          id: 3,
-          name: 'Heng',
-        },
-        {
-          id: 4,
-          name: 'Heng',
-        },
-        {
-          id: 5,
-          name: 'Heng',
-        },
-        {
-          id: 6,
-          name: 'Heng',
-        },
-        {
-          id: 7,
-          name: 'Heng',
-        },
-        {
-          id: 8,
-          name: 'Heng',
-        },
-        {
-          id: 9,
-          name: 'Heng',
-        },
-        {
-          id: 10,
-          name: 'Heng',
-        },
-      ],
     };
   },
   computed: {
@@ -287,8 +253,9 @@ export default {
     },
   },
   components: {
-    CustomerList,
+    ShareCustomerList,
     FilterTag,
+    ContactTableList,
   },
   methods: {
     setShowSelected(showSelected) {

@@ -16,6 +16,7 @@
     "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix"
   },
   "dependencies": {
+    "@turf/area": "^4.6.0",
     "axios": "^0.16.2",
     "chart.js": "^2.6.0",
     "firebase": "^4.3.0",
