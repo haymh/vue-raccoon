@@ -32,6 +32,7 @@
       <v-btn @click="updateCluster(2)">level 2</v-btn>
       <v-btn @click="updateCluster(3)">level 3</v-btn>
       <v-btn @click="search({county: 'san diego', state:'ca'})">SD</v-btn>
+      <v-btn @click="search({county: 'los angeles', state:'ca'})">LA</v-btn>
       <v-btn @click="search({city: 'compton', state:'ca'})">compton</v-btn>
       <v-btn @click="search({city: 'arcadia', state:'ca'})">arcadia</v-btn>
       

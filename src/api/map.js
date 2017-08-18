@@ -24,7 +24,7 @@ class OpenStreetWrapper {
       params: {
         ...searchTerm,
         format: 'json',
-        polygon: 1,
+        polygon_geojson: 1,
       },
     })
       .then(res => res.data);

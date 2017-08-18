@@ -11,12 +11,15 @@
     style="width: 100%; height: 100%"
     ref="map"
   >
-    <gmap-polygon
-      v-if="outline && outline.length !== 0"
-      :paths="outlineData"
-      :editable="false"
-      :options="outlineOption">
-    </gmap-polygon>
+    <template v-if="outline">
+      <gmap-polygon
+        v-for="(paths, i) in outlineData"
+        :paths="paths"
+        :editable="false"
+        :options="outlineOption"
+        :key="i">
+      </gmap-polygon>
+    </template>
      <template v-if="!showCluster"> 
        <gmap-marker
         :key="index"
@@ -72,14 +75,18 @@
       },
 
       outlineData() {
-        if (this.outline && this.outline.polygonpoints) {
-          const outline = this.outline.polygonpoints.map((o) => {
-            const obj = { lat: parseFloat(o[1]), lng: parseFloat(o[0]) };
-            return obj;
+        if (this.outline && this.outline.geojson.coordinates) {
+          const outlines = this.outline.geojson.coordinates.map((outline) => {
+            const data = outline.length === 1 ? outline[0] : outline;
+            const newOutline = data.map((o) => {
+              const obj = { lat: parseFloat(o[1]), lng: parseFloat(o[0]) };
+              return obj;
+            });
+            return newOutline;
           });
 
-          console.log('outline', outline);
-          return outline;
+          console.log('outlines', outlines);
+          return outlines;
         }
         return [];
       },
@@ -194,6 +201,10 @@
       // idle listener
       onIdle() {
         console.log('Map is idle');
+        if (!this.outline || !this.outline.geojson.coordinates
+          || this.outline.geojson.coordinates.length === 0) {
+          this.shouldSearch = true;
+        }
         if (this.shouldSearch && this.searchByGeo) {
           console.log('searching');
           if (this.levelUnchange) {
@@ -202,17 +213,11 @@
             this.searchByGeo({ box: this.bounds });
           }
         }
-        if (!this.outline || !this.outline.polygonpoints || this.outline.polygonpoints.length === 0) {
-          this.shouldSearch = true;
-        }
       },
 
       // zoom listener
       onZoomChanged() {
         console.log('zoom changed');
-        // if (!this.fittingBounds) {
-        //   this.shouldSearch = true;
-        // } else { this.fittingBounds = false; }
         this.levelUnchange = false;
         this.fitmap = false;
       },
