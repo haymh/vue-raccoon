@@ -27,6 +27,7 @@ export default {
         preloadImages: false,
         // // Enable lazy loading, useless here
         // lazyLoading: true,
+        autoHeight: true,
       },
     };
   },
@@ -42,9 +43,9 @@ export default {
   .swiper-slide {
     text-align: center;
     font-size: 18px;
-    background: #444!important;
+    background: white;
   }
-  .swiper-slide img {
+  /* .swiper-slide img {
     width: auto;
     height: auto;
     max-width: 100%;
@@ -56,5 +57,5 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-  }
+  } */
 </style>
