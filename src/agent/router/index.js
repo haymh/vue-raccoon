@@ -46,22 +46,25 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
+  console.log('Router.beforeEach: ', user);
   if (user) {
     next();
   } else {
-    console.log('should sign in');
+    console.log('Router.beforeEach: should sign in');
     let id = null;
     firebase.auth().signInAnonymously()
       .then((u) => {
+        console.log('Router.beforeEach: should get API token');
         id = u.uid;
         return api.refreshToken(id);
       })
       .then(() => {
+        console.log('Router.beforeEach: should set user');
         store.dispatch('setUser', { id });
         next();
       })
       .catch((error) => {
-        console.log('error during sign in anonymously', error);
+        console.log('Router.beforeEach: error during sign in anonymously', error);
         next(error);
       });
   }

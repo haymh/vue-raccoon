@@ -169,12 +169,6 @@ export default {
           }
         });
         // ...
-      } else {
-        // User is signed out.
-        // Do an anonymously sign in
-        firebase.auth().signInAnonymously().catch((error) => {
-          console.log('error during sign in anonymously', error);
-        });
       }
     });
   },
