@@ -3,12 +3,27 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
     <v-app>
+      <ProgressBar v-show="$store.state.app.showProgressBar"></ProgressBar>
       <SideBar class="hidden-xs-only"></SideBar>
       <NavBar class="hidden-xs-only"></NavBar>
       <main class="main">
         <router-view></router-view>
       </main>
       <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
+      <v-snackbar
+        :timeout="snackTimeout"
+        :top="true"
+        v-model="_showSnackbar"
+        :success="snackbar.messageType === 'success'"
+        :info="snackbar.messageType === 'info'"
+        :warning="snackbar.messageType === 'warning'"
+        :error="snackbar.messageType === 'error'"
+        :primary="snackbar.messageType === 'primary'"
+        :secondary="snackbar.messageType === 'secondary'"
+      >
+        {{ snackbar.message }}
+        <v-btn flat :value="snackbar.messageType" @click.stop="_showSnackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-app>
   </div>
 </template>
@@ -53,6 +68,7 @@ import Login from '../components/login/Login.vue';
 import UserInfo from '../components/login/UserInfo.vue';
 import { NavBar, SideBar, AppFooter } from './components/layout';
 import BottomNav from '../components/nav/BottomNav.vue';
+import ProgressBar from '../components/nav/ProgressBar.vue';
 
 const agentsRef = db.ref('/agents');
 /* eslint-disable no-undef */
@@ -61,6 +77,7 @@ export default {
   data() {
     return {
       needCreateUser: false,
+      snackTimeout: 6000,
       navs: [
         {
           text: 'Dashboard',
@@ -85,9 +102,19 @@ export default {
       ],
     };
   },
-  components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav },
+  components: { Login, UserInfo, NavBar, SideBar, AppFooter, BottomNav, ProgressBar },
   computed: {
-    ...mapGetters(['user']),
+    ...mapGetters(['user', 'snackbar']),
+    _showSnackbar: {
+      set(val) {
+        const snackbarCopy = JSON.parse(JSON.stringify(this.snackbar));
+        snackbarCopy.showSnackbar = val;
+        this.$store.dispatch('setSnackbar', snackbarCopy);
+      },
+      get() {
+        return this.snackbar.showSnackbar;
+      },
+    },
   },
   created() {
     // add event listener for auth state
@@ -184,12 +211,6 @@ export default {
           }
         });
         // ...
-      } else {
-        // User is signed out.
-        // Do an anonymously sign in
-        firebase.auth().signInAnonymously().catch((error) => {
-          console.log('error during sign in anonymously', error);
-        });
       }
     });
   },

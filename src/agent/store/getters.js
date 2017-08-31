@@ -25,6 +25,7 @@ export const userRooms = state => state.user.userRooms;
 
 // app
 export const showSideBar = state => state.app.showSideBar;
+export const snackbar = state => state.app.snackbar;
 
 // share
 export const selectedCustomers = state => state.share.selectedCustomers;
@@ -35,8 +36,10 @@ export const shareEmail = state => state.share.email;
 export const query = state => state.share.query;
 
 // Articles
-export const getArticleInfo = state => state.articles.articleInfo;
-export const getFileNameByDBName = state => (dbName) => {
-  console.log('article state', state.articles);
-  return state.articles.articleNameMap[dbName];
-};
+export const publicArticleInfo = state => state.articles.publicArticleInfo;
+export const userArticleInfo = state => state.articles.userArticleInfo;
+export const getArticleInfoByStorageName = state => storageName =>
+  state.articles.articleInfo[storageName];
+
+// categories
+export const getCategoryNames = state => state.categories.categoryNames;

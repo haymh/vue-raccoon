@@ -10,9 +10,10 @@
       <v-icon>share</v-icon>
     </v-btn>
   </v-toolbar>
-  <main></main>
+  <main class="hidden-sm-and-up"></main>
+  <RaccoonSummary :propertyDetail="currentHouse"></RaccoonSummary>
+  
   <v-container>
-    <RaccoonSummary :propertyDetail="currentHouse"></RaccoonSummary>
     <v-layout row>
       <v-flex xs12 md7>
         <!-- title, pictures and description -->
@@ -32,36 +33,36 @@
         <v-flex xs12 md12>
           <v-layout row wrap>
             <v-flex xs6 md3>
-              <v-subheader>Price</v-subheader>
-              <p>{{currentHouse.price | formatNumber(0, '$')}}</p>
+              <p class="text-xs-center subheading">Price</p>
+              <p class="text-xs-center title">{{currentHouse.price | formatNumber(0, '$')}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>Propery Type</v-subheader>
-              <p>{{currentHouse.propertyType}}</p>
+              <p class="text-xs-center subheading">Propery Type</p>
+              <p class="text-xs-center title">{{currentHouse.propertyType}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>Stories</v-subheader>
-              <p>{{currentHouse.floors || 1}}</p>
+              <p class="text-xs-center subheading">Stories</p>
+              <p class="text-xs-center title">{{currentHouse.floors || 1}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>Built</v-subheader>
-              <p>{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
+              <p class="text-xs-center subheading">Built</p>
+              <p class="text-xs-center title">{{currentHouse.built | formatDate('MMMM YYYY')}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>HOA Dues</v-subheader>
-              <p>{{currentHouse.hoa.fee}}</p>
+              <p class="text-xs-center subheading">HOA Dues</p>
+              <p class="text-xs-center title">{{currentHouse.hoa.fee}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>Community</v-subheader>
-              <p>{{currentHouse.address.city}}</p>
+              <p class="text-xs-center subheading">Community</p>
+              <p class="text-xs-center title">{{currentHouse.address.city}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>County</v-subheader>
-              <p>{{currentHouse.county}}</p>
+              <p class="text-xs-center subheading">County</p>
+              <p class="text-xs-center title">{{currentHouse.county}}</p>
             </v-flex>
             <v-flex xs6 md3>
-              <v-subheader>MLS #</v-subheader>
-              <p>{{currentHouse.mlsNumber}}</p>
+              <p class="text-xs-center subheading">MLS #</p>
+              <p class="text-xs-center title">{{currentHouse.mlsNumber}}</p>
             </v-flex>
           </v-layout>
         </v-flex>

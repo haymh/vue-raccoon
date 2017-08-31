@@ -217,6 +217,13 @@ export default {
     close() {
       this.$emit('close');
     },
+    showMessage(message, messageType) {
+      this.$store.dispatch('setSnackbar', {
+        message,
+        messageType,
+        showSnackbar: true,
+      });
+    },
     save() {
       const obj = {
         ...this.cleanPerson(),
@@ -231,15 +238,15 @@ export default {
               console.log('contact updated');
               this.$emit('contactUpdated', response);
               this.person = this.initPerson();
-              // this.showMessage('Contact Has Been Updated', 'success');
+              this.showMessage('Contact Has Been Updated', 'success');
             } else {
               console.log('no contact updated');
-              // this.showMessage('No Contact Has Been Updated', 'warning');
+              this.showMessage('No Contact Has Been Updated', 'warning');
             }
           })
           .catch((error) => {
             console.error(error);
-            // this.showMessage('Failed to Update Contact', 'error');
+            this.showMessage('Failed to Update Contact', 'error');
           });
       } else {
         // Create new contact
@@ -249,15 +256,15 @@ export default {
               console.log('new contact created');
               this.$emit('newContactCreated', response);
               this.person = this.initPerson();
-              // this.showMessage('New Contact Has Been Created', 'success');
+              this.showMessage('New Contact Has Been Created', 'success');
             } else {
               console.log('no new contact created');
-              // this.showMessage('No Contact Has Been Created', 'warning');
+              this.showMessage('No Contact Has Been Created', 'warning');
             }
           })
           .catch((error) => {
             console.error(error);
-            // this.showMessage('Failed to Create Contact', 'error');
+            this.showMessage('Failed to Create Contact', 'error');
           });
       }
       this.showCreateContact = false;

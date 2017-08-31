@@ -3,6 +3,7 @@ import * as types from './mutation-types';
 import raccoonAPI from '../../api';
 
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
+  commit(types.SHOW_PROGRESSBAR, true);
   raccoonAPI.searchHouse(searchTerms).then((houses) => {
     commit(types.RECEIVE_HOUSES, { houses });
     // TODO: tag favorite houses
@@ -12,6 +13,10 @@ export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
       filter: state.houses.lastFilter,
       isDelta: false,
     });
+    commit(types.SHOW_PROGRESSBAR, false);
+  }).catch((error) => {
+    commit(types.SHOW_PROGRESSBAR, false);
+    console.error('Store.actions.searchHouse', error);
   });
 };
 
@@ -56,8 +61,6 @@ export const setUser = ({ commit },
     avatar,
     displayName,
   });
-  // set firebase user id, so we can refresh token
-  raccoonAPI.refreshToken(id);
 };
 
 export function setUserProfile({ commit }, { id, isTemp, nickname, avatar, displayName, email }) {

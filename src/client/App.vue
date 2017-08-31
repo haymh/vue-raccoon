@@ -4,6 +4,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
     <!--<link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css"></link>-->
     <v-app>
+      <ProgressBar v-show="$store.state.app.showProgressBar"></ProgressBar>
       <navbar class="hidden-xs-only"></navbar>
       <main class="main">
         <router-view></router-view>
@@ -45,6 +46,7 @@ import { db, timeStamp } from '../api/fire';
 import Login from '../components/login/Login.vue';
 import navbar from './navbar.vue';
 import BottomNav from '../components/nav/BottomNav.vue';
+import ProgressBar from '../components/nav/ProgressBar.vue';
 
 const peopleListRef = db.ref('/users');
 /* eslint-disable no-undef */
@@ -72,7 +74,7 @@ export default {
       ],
     };
   },
-  components: { Login, navbar, BottomNav },
+  components: { Login, navbar, BottomNav, ProgressBar },
   computed: mapGetters(['user']),
   created() {
     // add event listener for auth state

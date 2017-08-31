@@ -1,5 +1,5 @@
 <template>
-  <v-data-table v-bind:headers="headers" v-bind:items="items" v-bind:search="search" v-model="selected" selected-key="_id" select-all class="elevation-1">
+  <v-data-table :pagination.sync="pagination" v-bind="$attrs" :items="items" :headers="headers" v-model="selected" select-all class="elevation-1">
     <template slot="items" scope="props">
       <tr>
         <td>
@@ -40,6 +40,8 @@ export default {
   data() {
     return {
       selected: [],
+      items: [],
+      pagination: {},
       headers: [
         {
           text: 'First Name',
@@ -56,17 +58,43 @@ export default {
       ],
     };
   },
-  props: {
-    items: {
-      type: Array,
-      required: true,
+  created() {
+    this.calculateItems();
+  },
+  watch: {
+    pagination: {
+      handler() {
+        console.log('pagination changed');
+        this.calculateItems();
+      },
+      deep: true,
     },
+    contacts: {
+      handler() {
+        // display the first page
+        this.pagination.page = 1;
+        this.calculateItems();
+      },
+      deep: true,
+    },
+    selected: {
+      handler() {
+        console.log('emit select');
+        this.$emit('select', this.selected);
+      },
+      deep: true,
+    },
+  },
+  props: {
     edit: Function,
     editable: {
       type: Boolean,
       default: false,
     },
-    search: String,
+    contacts: {
+      type: Array,
+      required: true,
+    },
   },
   filters: {
     toMIcon(text) {
@@ -81,11 +109,11 @@ export default {
       }
     },
   },
-  watch: {
-    selected: {
-      handler() {
-        this.$emit('onSelect', this.selected);
-      },
+  methods: {
+    calculateItems() {
+      const { page, rowsPerPage } = this.pagination;
+      console.log('page', page, 'rowsPerPage', rowsPerPage, 'contacts length', this.contacts.length);
+      this.items = this.contacts.slice((page - 1) * rowsPerPage, page * rowsPerPage);
     },
   },
 };

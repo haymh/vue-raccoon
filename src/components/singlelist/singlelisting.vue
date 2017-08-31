@@ -11,7 +11,7 @@
           <v-icon>done</v-icon>
         </v-btn>
       </v-flex>
-      <v-flex md6 class="hidden-sm-and-down pa-0">
+      <v-flex md6 class="hidden-sm-and-down pa-0" style="z-index:1">
         <list-detail-info v-bind:listingData="singleListingData">
           <v-card-actions>
             <v-btn icon v-bind:class="[cardSelected ? 'green--text' : 'grey--text']" @click.native="selectCard">

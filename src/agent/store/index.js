@@ -7,6 +7,7 @@ import houses from './modules/houses';
 import app from './modules/app';
 import share from './modules/share';
 import articles from './modules/articles';
+import categories from './modules/categories';
 
 Vue.use(Vuex);
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     app,
     share,
     articles,
+    categories,
   },
   strict: debug,
 });

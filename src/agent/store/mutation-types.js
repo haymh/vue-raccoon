@@ -23,6 +23,8 @@ export const ADD_SEARCH_TERMS = 'ADD_SEARCH_TERMS';
 
 // app
 export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR';
+export const SHOW_PROGRESSBAR = 'SHOW_PROGRESSBAR';
+export const SET_SNACKBAR = 'SET_SNACKBAR';
 
 // share
 export const SELECT_CUSTOMER = 'SELECT_CUSTOMER';
@@ -35,4 +37,8 @@ export const SET_SHARE_EMAIL = 'SET_SHARE_EMAIL';
 export const SET_QUERY = 'SET_QUERY';
 
 // article
-export const ARTICLE_INFO = 'ARTICLE_INFO';
+export const SET_PUBLICARTICLE_INFO = 'SET_PUBLICARTICLE_INFO';
+export const SET_USERARTICLE_INFO = 'SET_USERARTICLE_INFO';
+
+// categories
+export const SET_CATEGORIES = 'SET_CATEGORIES';

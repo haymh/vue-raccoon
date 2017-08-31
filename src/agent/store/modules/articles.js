@@ -1,18 +1,39 @@
 import * as types from '../mutation-types';
 
 const state = {
-  articleInfo: [],
-  articleNameMap: {},
+  publicArticleInfo: [],
+  userArticleInfo: [],
+  articleInfo: {},
 };
 
 const mutations = {
-  [types.ARTICLE_INFO](_state, articleInfo) {
-    console.log('mutating article state', articleInfo);
-    if (!_state.articleNameMap[articleInfo.dbName]) {
-      _state.articleInfo.push(articleInfo);
-      _state.articleNameMap[articleInfo.dbName] = articleInfo.name;
+  [types.SET_PUBLICARTICLE_INFO](_state, articlesInfo) {
+    console.log('setting public articles to store', articlesInfo);
+    // if (_state.articleInfo[articleInfo.storageName]) {
+    //   _state.publicArticleInfo.push(articleInfo);
+    //   _state.articleInfo[articleInfo.storageName] = articleInfo;
+    // }
+    for (let i = 0; i < _state.publicArticleInfo.length; i += 1) {
+      const key = _state.publicArticleInfo[i].storageName;
+      delete _state.articleInfo[key];
     }
-    console.log('persisted data: ', _state.articleNameMap[articleInfo.dbName]);
+    _state.publicArticleInfo = articlesInfo;
+    for (let i = 0; i < _state.publicArticleInfo.length; i += 1) {
+      const key = _state.publicArticleInfo[i].storageName;
+      _state.articleInfo[key] = _state.publicArticleInfo[i];
+    }
+  },
+  [types.SET_USERARTICLE_INFO](_state, articlesInfo) {
+    console.log('setting user articles to store', articlesInfo);
+    // if (_state.articleInfo[articleInfo.storageName]) {
+    //   _state.userArticleInfo.push(articleInfo);
+    //   _state.articleInfo[articleInfo.storageName] = articleInfo;
+    // }
+    for (let i = 0; i < _state.userArticleInfo.length; i += 1) {
+      const key = _state.userArticleInfo[i].storageName;
+      delete _state.articleInfo[key];
+    }
+    _state.userArticleInfo = articlesInfo;
   },
 };
 
