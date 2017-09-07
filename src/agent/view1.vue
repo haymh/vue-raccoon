@@ -22,7 +22,7 @@
           :showCluster="showCluster"
           :searchByGeo="searchByGeo"
           :clusterData="cluster"
-          :houseData="allHouses"
+          :houseData="housesOnMap"
           :outline="outline"
           style="height:100%">
         </MapCluster>
@@ -203,6 +203,7 @@ export default {
     'filterResults',
     'showCluster',
     'cluster',
+    'housesOnMap',
     'outline',
   ]),
   components: {

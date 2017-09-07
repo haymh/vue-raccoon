@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@turf/area": "^4.6.0",
+    "@turf/inside": "^4.6.0",
     "axios": "^0.16.2",
     "chart.js": "^2.6.0",
     "firebase": "^4.3.0",

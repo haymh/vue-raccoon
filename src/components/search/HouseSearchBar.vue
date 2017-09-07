@@ -35,16 +35,21 @@ export default {
         };
       } else {
         const zip = parseInt(secondaryQuery[1], 10);
+        const match = query[0].match(/(.*) county/i);
         queryObject = {
-          city: query[0],
           state: secondaryQuery[0],
         };
+        if (match) {
+          queryObject.county = match[1];
+        } else {
+          queryObject.city = query[0];
+        }
         if (zip) {
           queryObject.zip = zip;
         }
       }
       console.log('queryObject', queryObject);
-      this.$store.dispatch('searchHouse', queryObject);
+      this.$store.dispatch('searchHouseMap', queryObject);
       this.$router.push(`/${this.route}`);
     },
   },

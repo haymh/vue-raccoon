@@ -32,15 +32,9 @@ class OpenStreetWrapper {
 }
 
 export class MapUtil {
-  static calculateAreaFromBbox(boundingbox) {
+  static convertToRaccoonBbox(boundingbox) {
     const [sLat, nLat, wLng, eLng] = boundingbox;
-    const a = MapUtil.calculatePolygonArea([[wLng, sLat], [eLng, sLat],
-      [eLng, nLat], [wLng, nLat], [wLng, sLat]]);
-    console.log('area', a, 'km^2');
-    return {
-      a,
-      raccoonBboxString: [sLat, wLng, nLat, eLng].join(','),
-    };
+    return [sLat, wLng, nLat, eLng].join(',');
   }
 
   static calculateAreaFromRaccoonBox(box) {
@@ -50,20 +44,20 @@ export class MapUtil {
     const upperRight = [floatArray[3], floatArray[2]];
     const lowerRight = [floatArray[3], floatArray[0]];
     const upperLeft = [floatArray[1], floatArray[2]];
-    const a = MapUtil.calculatePolygonArea([lowerLeft, lowerRight,
-      upperRight, upperLeft, lowerLeft]);
-    console.log('area', a, 'km^2');
+    const coordinates = [lowerLeft, lowerRight, upperRight, upperLeft, lowerLeft];
+    const a = MapUtil.calculatePolygonArea({
+      type: 'Polygon',
+      coordinates: [coordinates],
+    });
+    console.log('area', a, 'km^2', coordinates);
     return a;
   }
 
-  static calculatePolygonArea(coordinates) {
+  static calculatePolygonArea(geometry) {
     const polygon = {
       type: 'Feature',
       properties: {},
-      geometry: {
-        type: 'Polygon',
-        coordinates: [coordinates],
-      },
+      geometry,
     };
     const a = area(polygon) / 1000000;
     console.log('area', a, 'km^2');

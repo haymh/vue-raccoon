@@ -31,6 +31,7 @@ class RacAPIClient {
 
   refreshToken(firebaseUserId) {
     let p = Promise.resolve();
+    console.log('refreshing token');
     if (firebaseUserId) {
       this.client.post('/user/auth',
         {
