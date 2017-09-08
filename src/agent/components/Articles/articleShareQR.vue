@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center style="position: relative;">
-      <v-dialog v-model="dialog" lazy absolute>
+      <v-dialog lazy absolute>
         <v-btn icon slot="activator" @click.native="generateQRLink">
           <v-icon class="blue--text">fa-qrcode fa-2x</v-icon>
         </v-btn>
@@ -41,7 +41,7 @@ export default {
     return {
       inProgress: true,
       link: '',
-      host: 'http://localhost:8081/articleShareView/',
+      host: 'articleShareView/',
     };
   },
   methods: {
@@ -53,16 +53,17 @@ export default {
     },
     getShareId() {
       return API.getArticleShareId(this, this.userId, this.articleInfo._id)
-        .then((response) => {
+        .then(async (response) => {
           console.log('shareId response', response);
           const articleShareInfo = {};
           articleShareInfo.articleId = this.articleInfo._id;
           articleShareInfo.createdBy = this.userId;
           if (response === 'ERROR') {
-            API.createArticleShare(articleShareInfo).then((res) => {
+            const shareId = await API.createArticleShare(articleShareInfo).then((res) => {
               console.log('generated shareid', res);
-              return res.body;
+              return res;
             });
+            return shareId;
           }
           return response.body;
         });

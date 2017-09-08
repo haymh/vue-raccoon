@@ -164,7 +164,7 @@ class RacAPIClient {
 
   getArticleSharebyId(articleShareId) {
     console.log('RaccoonAPI getting article share by id', articleShareId);
-    return this.client.get('/articleShare/get', articleShareId).then((response, err) => {
+    return this.client.get(`/articleShare/${articleShareId}`).then((response, err) => {
       if (err) {
         console.log('RaccoonAPI get share id error');
         return err;

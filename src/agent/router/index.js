@@ -21,7 +21,8 @@ const ErrorPage = () => import('../Error.vue');
 const ShareSetting = () => import('../ShareSetting.vue');
 const EditShareEmail = () => import('../EditShareEmail.vue');
 const Dashboard = () => import('../Dashboard.vue');
-const ViewSHareHouse = () => import('../ViewShareHouse.vue');
+const ViewShareHouse = () => import('../ViewShareHouse.vue');
+const ArticleShareView = () => import('../ArticleShareView.vue');
 const ManageContact = () => import('../ManageContacts.vue');
 
 const router = new Router({
@@ -43,7 +44,8 @@ const router = new Router({
     { path: '/listing', component: SingleListing },
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
-    { path: '/viewShareHouse/:id', component: ViewSHareHouse },
+    { path: '/viewShareHouse/:id', component: ViewShareHouse },
+    { path: '/articleShareView/:id', component: ArticleShareView },
     { path: '/error/:msg', component: ErrorPage },
     { path: '/managecontact', component: ManageContact },
     { path: '*', redirect: '/view1' },

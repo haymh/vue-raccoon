@@ -12,7 +12,7 @@
               <v-spacer class="hidden-xs-only"></v-spacer>
               <v-text-field
               name="input-1"
-              label="输入文章 URL"
+              label="输入文章 URL 生成"
               id="article url"
               type="url"
               v-model="url"
@@ -27,7 +27,7 @@
                 <v-icon class="blue--text">fa-qrcode fa-2x</v-icon>
               </v-btn> -->
               <articleShareQR :articleInfo="articleInfo"></articleShareQR>
-              <v-dialog v-model="dialog" persistent  v-if="uploadEnabled">
+              <v-dialog v-model="dialog" persistent  v-if="content && title">
                 <v-btn icon slot="activator">
                   <v-icon class="blue--text">file_upload</v-icon>
                 </v-btn>
@@ -73,8 +73,12 @@
             <v-card-text style="min-height: 200px;">
               <v-container>
                 <div class="box content" id="content">
-                  <h3>{{ title }}</h3>
-                  <div v-html="content"></div>
+                  <articleEditor
+                    :content="content"
+                    :title="title"
+                    @titleChange="val => title = val"
+                    @contentChange="val => content = val">
+                  </articleEditor>
                 </div>
               </v-container>
             </v-card-text>
@@ -92,6 +96,7 @@
 <script>
 import API from '../api';
 import articleShareQR from './components/Articles/articleShareQR.vue';
+import articleEditor from './components/Articles/articleEditor.vue';
 
 export default {
   name: 'articleParser',
@@ -126,6 +131,7 @@ export default {
   },
   components: {
     articleShareQR,
+    articleEditor,
   },
   methods: {
     sendSuccessAlert(message) {
