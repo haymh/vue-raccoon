@@ -25,6 +25,7 @@ class RacAPIClient {
   }
 
   refreshToken(firebaseUserId) {
+    let p = Promise.resolve();
     if (firebaseUserId) {
       this.client.post('/user/auth',
         {
@@ -33,11 +34,16 @@ class RacAPIClient {
         .then((response) => {
           console.log('got token', response.data.token);
           this.client.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+        })
+        .catch((error) => {
+          console.error(error);
+          p = Promise.reject(error);
         });
     } else {
       console.log('firebase user id is not set');
-      throw new Error('firebase user id is not set');
+      p = Promise.reject(new Error('firebase user id is not set'));
     }
+    return p;
   }
 
   /**
