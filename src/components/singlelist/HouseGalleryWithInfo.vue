@@ -1,17 +1,21 @@
 <template>
-<div>
-  <Gallery :images="house.pics" class="gallery" :style="{height: height + 'px'}"></Gallery>
-    <div class="basic-info">
-      <div class="price ml-2">{{price}}</div>
-      <div class="value-label ml-2">{{beds}}</div>
-      <div class="value-label">{{baths}}</div>
-      <div class="value-label">{{sizeInSF}}</div>
-      <div class="address ml-2">{{address}}</div>
-    </div> 
+<div class="gallery-basicinfo-container">
+  <Gallery :images="house.pics" class="gallery" style="height:100%"></Gallery>
+  <div class="basic-info">
+    <div class="price ml-2">{{price}}</div>
+    <div class="value-label ml-2">{{beds}}</div>
+    <div class="value-label">{{baths}}</div>
+    <div class="value-label">{{sizeInSF}}</div>
+    <div class="address ml-2">{{address}}</div>
+  </div> 
 </div>
 </template>
 
 <style scoped>
+.gallery-basicinfo-container {
+  position: relative;
+  max-width: 450px;
+}
 .address {
   padding-left: 3px;
   color: white;
@@ -51,7 +55,6 @@ export default {
   props: [
     'house',
     'clickHandler',
-    'height',
   ],
   components: {
     Gallery,

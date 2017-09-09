@@ -1,7 +1,7 @@
 <template>
   <swiper :options="options">
     <swiper-slide v-for="(url, index) in images" :key="index">
-      <img v-lazy="url" />
+      <img v-lazy="`${baseImageTransformURL}/${url}`" />
     </swiper-slide>
     <div class="swiper-button-prev" slot="button-prev"></div>
     <div class="swiper-button-next" slot="button-next"></div>
@@ -25,10 +25,8 @@ export default {
         loop: true,
         // Disable preloading of all images
         preloadImages: false,
-        // // Enable lazy loading, useless here
-        // lazyLoading: true,
-        autoHeight: true,
       },
+      baseImageTransformURL: 'http://res.cloudinary.com/raccoon-test/image/fetch/w_450,h_250,c_fill,g_auto,f_auto',
     };
   },
   created() {
@@ -44,10 +42,11 @@ export default {
     text-align: center;
     font-size: 18px;
     background: white;
+    height: 100%;
   }
-  /* .swiper-slide img {
+   .swiper-slide img {
     width: auto;
-    height: auto;
+     height: 100%; 
     max-width: 100%;
     max-height: 100%;
     -ms-transform: translate(-50%, -50%);
@@ -57,5 +56,5 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-  } */
+  } 
 </style>
