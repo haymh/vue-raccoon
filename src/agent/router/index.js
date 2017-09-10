@@ -48,7 +48,15 @@ router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
   console.log('Router.beforeEach: ', user);
   if (user) {
-    next();
+    if (!api.gotToken) {
+      // refresh token using current user
+      api.refreshToken(user.uid).then(() => {
+        next();
+      }).catch((error) => {
+        console.log('Router.beforeEach: error during refreshing token', error);
+        next(error);
+      });
+    }
   } else {
     // retrive firebase user info from local storage
     const userKey = Object.keys(window.localStorage).filter(item => item.startsWith('firebase:authUser'))[0];

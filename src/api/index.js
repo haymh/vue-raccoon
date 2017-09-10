@@ -22,6 +22,11 @@ class RacAPIClient {
     this.client.defaults.headers.post['Content-Type'] = 'application/json';
     this.houseAPI = houseAPI;
     this.firebaseUserId = null;
+    this._gotToken = false;
+  }
+
+  get gotToken() {
+    return this._gotToken;
   }
 
   refreshToken(firebaseUserId) {
@@ -34,6 +39,7 @@ class RacAPIClient {
         .then((response) => {
           console.log('got token', response.data.token);
           this.client.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+          this._gotToken = true;
         })
         .catch((error) => {
           console.error(error);
@@ -145,6 +151,5 @@ class RacAPIClient {
 }
 
 const instance = new RacAPIClient();
-Object.freeze(instance);
 
 export default instance;
