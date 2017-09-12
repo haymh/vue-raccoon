@@ -5,6 +5,7 @@ import * as getters from './getters';
 import user from './modules/user';
 import houses from './modules/houses';
 import app from './modules/app';
+import map from './modules/map';
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     app,
     user,
     houses,
+    map,
   },
   strict: debug,
 });

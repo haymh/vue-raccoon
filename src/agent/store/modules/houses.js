@@ -152,6 +152,7 @@ const mutations = {
   [types.ADD_SEARCH_TERMS](_state, { searchTerms }) {
     _state.searchTerms = searchTerms;
   },
+
 };
 /* eslint-enable no-param-reassign */
 

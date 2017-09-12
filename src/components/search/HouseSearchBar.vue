@@ -20,7 +20,7 @@ export default {
       // this.$store.dispatch('searchHouse');
     },
     handleNewQuery(newQuery) {
-      console.log('new query', newQuery.value);
+      console.log('new query', newQuery);
       // query value is either "San Diego, CA, United States"
       // or "San Diego, CA 92122, United States"
       const query = newQuery.text.split(', ');
@@ -35,19 +35,21 @@ export default {
         };
       } else {
         const zip = parseInt(secondaryQuery[1], 10);
-        if (zip) {
-          queryObject = {
-            zip,
-          };
+        const match = query[0].match(/(.*) county/i);
+        queryObject = {
+          state: secondaryQuery[0],
+        };
+        if (match) {
+          queryObject.county = match[1];
         } else {
-          queryObject = {
-            city: query[0],
-            state: query[1],
-          };
+          queryObject.city = query[0];
+        }
+        if (zip) {
+          queryObject.zip = zip;
         }
       }
       console.log('queryObject', queryObject);
-      this.$store.dispatch('searchHouse', queryObject);
+      this.$store.dispatch('searchHouseMap', queryObject);
       this.$router.push(`/${this.route}`);
     },
   },

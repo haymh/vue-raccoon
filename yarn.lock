@@ -2,6 +2,33 @@
 # yarn lockfile v1
 
 
+"@mapbox/geojson-area@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@mapbox/geojson-area/-/geojson-area-0.2.2.tgz#18d7814aa36bf23fbbcc379f8e26a22927debf10"
+  dependencies:
+    wgs84 "0.0.0"
+
+"@turf/area@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@turf/area/-/area-4.6.0.tgz#cba871adbe73ed6d42d1489e04b0bf88c6414514"
+  dependencies:
+    "@mapbox/geojson-area" "^0.2.2"
+    "@turf/meta" "^4.6.0"
+
+"@turf/inside@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@turf/inside/-/inside-4.6.0.tgz#5e469da74bfc75db52271b7dc61aa05ae9d45e93"
+  dependencies:
+    "@turf/invariant" "^4.6.0"
+
+"@turf/invariant@^4.6.0":
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/@turf/invariant/-/invariant-4.7.1.tgz#b95bc41a3cc7f1319d9a4c51ad5b3582905f81e4"
+
+"@turf/meta@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@turf/meta/-/meta-4.6.0.tgz#0d3f9a218e58d1c5e5deedf467c3321dd61203f3"
+
 abbrev@1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
@@ -7097,6 +7124,10 @@ websocket-driver@>=0.5.1:
 websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
+
+wgs84@0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/wgs84/-/wgs84-0.0.0.tgz#34fdc555917b6e57cf2a282ed043710c049cdc76"
 
 whatwg-fetch@>=0.10.0:
   version "2.0.3"

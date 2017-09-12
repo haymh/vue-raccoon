@@ -14,8 +14,11 @@ export const SELECT_HOUSE = 'SELECT_HOUSE';
 export const UNSELECT_HOUSE = 'UNSELECT_HOUSE';
 export const HOVER_HOUSE = 'HOVER_HOUSE';
 export const SET_SORT = 'SET_SORT';
-
 export const ADD_SEARCH_TERMS = 'ADD_SEARCH_TERMS';
+export const SHOW_CLUSTER = 'SHOW_CLUSTER';
+export const SET_CLUSTER = 'SET_CLUSTER';
+export const SET_OUTLINE = 'SET_OUTLINE';
+export const SET_HOUSES_ON_MAP = 'SET_HOUSES_ON_MAP';
 
 // app
 export const SHOW_PROGRESSBAR = 'SHOW_PROGRESSBAR';

@@ -21,3 +21,9 @@ export const userId = state => state.user.id;
 export const nickname = state => state.user.nickname;
 export const userRooms = state => state.user.userRooms;
 export const searchTerms = state => state.houses.searchTerms;
+
+// map
+export const showCluster = state => state.map.showCluster;
+export const cluster = state => state.map.cluster;
+export const outline = state => state.map.outline;
+export const housesOnMap = state => state.map.housesOnMap;

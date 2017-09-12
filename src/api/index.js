@@ -31,6 +31,7 @@ class RacAPIClient {
 
   refreshToken(firebaseUserId) {
     let p = Promise.resolve();
+    console.log('refreshing token');
     if (firebaseUserId) {
       this.client.post('/user/auth',
         {
@@ -145,6 +146,19 @@ class RacAPIClient {
     return this.client.get('/contact/count', {
       params: {
         userId,
+      },
+    }).then(response => response.data);
+  }
+
+  getClusterByLevel(level) {
+    return this.client.get(`/house/cluster/${level}`).then(response => response.data);
+  }
+
+  searchCluster(box, level) {
+    return this.client.get('/house/searchCluster', {
+      params: {
+        level,
+        box,
       },
     }).then(response => response.data);
   }

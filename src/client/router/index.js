@@ -36,7 +36,6 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const user = firebase.auth().currentUser;
-  console.log('Router.beforeEach: ', user);
   if (user) {
     if (!api.gotToken) {
       // refresh token using current user
