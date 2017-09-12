@@ -45,6 +45,8 @@ router.beforeEach((to, from, next) => {
         console.log('Router.beforeEach: error during refreshing token', error);
         next(error);
       });
+    } else {
+      next();
     }
   } else {
     // retrive firebase user info from local storage
