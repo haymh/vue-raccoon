@@ -1,8 +1,8 @@
 <template>
-  <v-card class="box list" @mouseover="select" v-show="show" hover>
-    <v-layout row>
+  <v-card class="box list mt-1" @mouseover="select" v-show="show" hover>
+    <v-layout row :style="{height: height + 'px'}">
       <v-flex xs12 sm12 md6 class="pa-0">
-        <HouseGalleryWithInfo :house="singleListingData" :clickHandler="onClickHandler" :height="height"></HouseGalleryWithInfo>
+        <HouseGalleryWithInfo :house="singleListingData" :clickHandler="onClickHandler" style="height:100%; margin: 0 auto;"></HouseGalleryWithInfo>
         
         <v-btn class="like" icon raised v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
           <v-icon>favorite</v-icon>
@@ -74,7 +74,7 @@ export default {
     },
     height: {
       type: Number,
-      default: 300,
+      default: 250,
     },
   },
   components: {

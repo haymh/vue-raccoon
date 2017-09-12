@@ -34,3 +34,9 @@ export const byFilter = state => state.share.byFilter;
 export const shareId = state => state.share.uid;
 export const shareEmail = state => state.share.email;
 export const query = state => state.share.query;
+
+// map
+export const showCluster = state => state.map.showCluster;
+export const cluster = state => state.map.cluster;
+export const outline = state => state.map.outline;
+export const housesOnMap = state => state.map.housesOnMap;

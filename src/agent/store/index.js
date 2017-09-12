@@ -4,6 +4,7 @@ import * as actions from './actions';
 import * as getters from './getters';
 import user from './modules/user';
 import houses from './modules/houses';
+import map from './modules/map';
 import app from './modules/app';
 import share from './modules/share';
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
   modules: {
     user,
     houses,
+    map,
     app,
     share,
   },

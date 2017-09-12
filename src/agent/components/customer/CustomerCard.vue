@@ -1,21 +1,31 @@
 <template>
   <v-card raised horizontal>
-    <v-container fluid grid-list-lg>
-      <v-layout row>
-        <v-flex xs5>
-          <v-card-media contain src="https://randomuser.me/api/portraits/men/35.jpg" height="125px"></v-card-media>
-        </v-flex>
-        <v-flex xs7>
-          <v-card-text>
-            <strong>{{customer.name}}</strong>
-            <div>Feb 23, 7:00pm</div>
-          </v-card-text>
-          <v-card-text>
-            <v-checkbox label="select" v-model="cardSelected"></v-checkbox>
-          </v-card-text>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    <v-layout row wrap>
+      <v-flex xs10>
+        <v-card-text class="pt-0">
+        <v-chip>
+          <v-avatar class="teal">{{fullName[0]}}</v-avatar>
+          {{fullName}}
+        </v-chip>
+        <v-chip v-for="(t, i) in customer.types" outline v-bind:class="chipClasses[i % 5]" :key="i">{{t}}</v-chip>
+      </v-card-text>
+      <v-card-text class="pt-0 pb-0">
+        <v-chip v-for="(e, i) in customer.emails" outline :key="i" v-bind:class="chipClasses[i % 5]">
+          {{e.email}}
+          <v-icon right>{{e.type}}</v-icon>
+        </v-chip>
+      </v-card-text>
+      </v-flex>
+      <v-flex xs2>
+        <v-card-actions>
+        <v-btn icon>
+          <v-icon>check</v-icon>
+        </v-btn>
+      </v-card-actions>
+      </v-flex>
+    </v-layout>
+      
+      
   </v-card>
 </template>
 <script>
@@ -29,6 +39,17 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      chipClasses: [
+        { secondary: true, 'secondary--text': true },
+        { primary: true, 'primary--text': true },
+        { red: true, 'red--text': true },
+        { indigo: true, 'indigo--text': true },
+        { blue: true, 'blue--text': true },
+      ],
+    };
   },
   computed: {
     ...mapGetters([
@@ -57,6 +78,10 @@ export default {
         return this.cardSelected;
       }
       return true;
+    },
+    fullName() {
+      const fullName = `${this.customer.firstName || ''} ${this.customer.lastName || ''}`;
+      return fullName === ' ' ? 'No Name' : fullName;
     },
   },
   methods: {

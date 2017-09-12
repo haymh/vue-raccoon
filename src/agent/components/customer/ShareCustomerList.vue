@@ -2,14 +2,13 @@
   <div class="container">
     <v-layout row wrap>
       <v-flex xs6 v-show="!showSelected">
-        <v-checkbox label="Select All" v-model="selectAll" dark></v-checkbox>
+        <v-checkbox label="Select All" v-model="selectAll"></v-checkbox>
       </v-flex>
       <v-flex xs6 v-show="!showSelected">
         <v-select
           v-bind:items="groups"
           v-model="selectedGroup"
           label="Groups"
-          dark
           single-line
           auto
         ></v-select>

@@ -1,6 +1,8 @@
+
 import fetch from 'isomorphic-fetch';
 import * as types from './mutation-types';
 import raccoonAPI from '../../api';
+import { openStreetAPI, MapUtil } from '../../api/map';
 
 // house
 export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
@@ -20,6 +22,110 @@ export const searchHouse = ({ commit, state, rootState }, searchTerms) => {
     commit(types.SHOW_PROGRESSBAR, false);
     console.error('Store.actions.searchHouse', error);
   });
+};
+
+export const searchHouseMap = ({ commit, state, rootState }, searchTerms) => {
+  console.log('searchHouseMap');
+  commit(types.SHOW_PROGRESSBAR, true);
+  if (searchTerms.byGeo) {
+    console.log('search cluster by geo');
+    let level = searchTerms.level === undefined ? null : searchTerms.level;
+    const box = searchTerms.box;
+    if (level === null) {
+      const a = MapUtil.calculateAreaFromRaccoonBox(box);
+      level = MapUtil.areaToClusterLevel(a);
+    }
+    console.log('cluster level', level, 'search term level', searchTerms.level);
+    if (level === -1) {
+      // display house marker on map
+      commit(types.SHOW_CLUSTER, false);
+    } else {
+      // TODO: search cluster by box and level
+      Promise.all([
+        raccoonAPI.searchCluster(box, level),
+        raccoonAPI.searchHouse(searchTerms),
+      ]).then((results) => {
+        console.log('result', results);
+        const mapResult = results[0];
+        const listResult = results[1];
+        if (mapResult) {
+          if (mapResult.type === 'cluster') {
+            commit(types.SET_CLUSTER, mapResult.data);
+            // display cluster on map
+            commit(types.SHOW_CLUSTER, true);
+          } else if (mapResult.type === 'houses') {
+            console.log('showing houses');
+            commit(types.SET_HOUSES_ON_MAP, mapResult.data);
+            commit(types.SHOW_CLUSTER, false);
+          }
+        } else {
+          commit(types.SHOW_CLUSTER, false);
+        }
+        commit(types.RECEIVE_HOUSES, { houses: listResult });
+        // TODO: tag favorite houses
+        commit(types.TAG_FAVORITE, { favoriteHouses: rootState.user.favoriteHouses });
+        // Filter house
+        commit(types.FILTER_HOUSE, {
+          filter: state.houses.lastFilter,
+          isDelta: false,
+        });
+        commit(types.SHOW_PROGRESSBAR, false);
+      }).catch((error) => {
+        commit(types.SHOW_PROGRESSBAR, false);
+        console.error('Store.actions.searchHouse', error);
+      });
+    }
+  } else {
+    openStreetAPI.getOutline(searchTerms).then((data) => {
+      console.log('openStreetAPI result', data);
+      commit(types.SET_OUTLINE, data[0]);
+      const raccoonBboxString = MapUtil.convertToRaccoonBbox(data[0].boundingbox);
+      const a = MapUtil.calculatePolygonArea(data[0].geojson);
+      console.log('area', a, 'km^2', 'raccoonBboxString', raccoonBboxString);
+      const level = MapUtil.areaToClusterLevel(a);
+      console.log('cluster level', level);
+      if (level === -1) {
+        // display house marker on map
+        commit(types.SHOW_CLUSTER, false);
+        return Promise.all([
+          Promise.resolve(null),
+          raccoonAPI.searchHouse(searchTerms),
+        ]);
+      }
+      console.log('search clusters by bounding box');
+      return Promise.all([
+        raccoonAPI.searchCluster(raccoonBboxString, level),
+        raccoonAPI.searchHouse(searchTerms),
+      ]);
+    }).then((results) => {
+      console.log('results', results);
+      const mapResult = results[0];
+      const listResult = results[1];
+      if (mapResult) {
+        if (mapResult.type === 'cluster') {
+          commit(types.SET_CLUSTER, mapResult.data);
+          // display cluster on map
+          commit(types.SHOW_CLUSTER, true);
+        } else if (mapResult.type === 'houses') {
+          console.log('showing houses');
+          commit(types.SET_HOUSES_ON_MAP, mapResult.data);
+          commit(types.SHOW_CLUSTER, false);
+        }
+      }
+      commit(types.RECEIVE_HOUSES, { houses: listResult });
+      // TODO: tag favorite houses
+      commit(types.TAG_FAVORITE, { favoriteHouses: rootState.user.favoriteHouses });
+      // Filter house
+      commit(types.FILTER_HOUSE, {
+        filter: state.houses.lastFilter,
+        isDelta: false,
+      });
+      commit(types.SHOW_PROGRESSBAR, false);
+    }).catch((error) => {
+      commit(types.SHOW_PROGRESSBAR, false);
+      console.error('Store.actions.searchHouse', error);
+    });
+  }
 };
 
 export function fetchHouses({ commit }) {
@@ -61,6 +167,10 @@ export function unselectHouses({ commit }, { houses }) {
 export function unselectAllHouses({ commit }) {
   commit(types.UNSELECT_ALL_HOUSES);
 }
+
+export const setOutline = ({ commit }, outline) => {
+  commit(types.SET_OUTLINE, outline);
+};
 
 // user
 

@@ -17,11 +17,19 @@
       <v-layout row style="height: 100%">
         <v-flex xs12 sm6 v-bind:class="[!showMap? 'hidden-xs-only' : '', 'pa-0']" style="height: 100%">
           <div class="map-container">
-            <RaccoonMap class="map" :houseData="allHouses" :searchByGeo="searchByGeo">
-            </RaccoonMap>
+            <!-- <RaccoonMap class="map" :houseData="allHouses" :searchByGeo="searchByGeo">
+            </RaccoonMap> -->
+            <MapCluster class="map"
+              :showCluster="showCluster"
+              :searchByGeo="searchByGeo"
+              :clusterData="cluster"
+              :houseData="housesOnMap"
+              :outline="outline"
+              style="height:100%">
+            </MapCluster>
             <div class="singlelist hidden-sm-and-up">
               <SingleList
-                :singleListingData="hoveredHouse" 
+                :singleListingData="hoveredHouse"
                 v-if="hoveredHouse !== undefined && hoveredHouse !== null">
               </SingleList>
             </div>
@@ -113,7 +121,7 @@
   import SortBar from '../components/list/SortBar.vue';
   import FilterCondensed from '../components/filter/FilterCondensed.vue';
   import HouseSearchBar from '../components/search/HouseSearchBar.vue';
-  import Map from '../components/map/Map.vue';
+  import MapCluster from '../components/map/MapCluster.vue';
   import SingleList from '../components/singlelist/singlelisting.vue';
 
   export default {
@@ -127,7 +135,7 @@
       FilterCondensed,
       'house-list': list,
       SortBar,
-      RaccoonMap: Map,
+      MapCluster,
       HouseSearchBar,
       SingleList,
     },
@@ -136,13 +144,16 @@
         'allHouses',
         'filterResults',
         'hoveredHouse',
+        'showCluster',
+        'cluster',
+        'housesOnMap',
+        'outline',
       ]),
     },
     methods: {
-      searchByGeo(lat, lng) {
-        this.$store.dispatch('searchHouse', {
-          lat,
-          lng,
+      searchByGeo(searchTerm) {
+        this.$store.dispatch('searchHouseMap', {
+          ...searchTerm,
           byGeo: true,
         });
       },

@@ -22,9 +22,16 @@ class RacAPIClient {
     this.client.defaults.headers.post['Content-Type'] = 'application/json';
     this.houseAPI = houseAPI;
     this.firebaseUserId = null;
+    this._gotToken = false;
+  }
+
+  get gotToken() {
+    return this._gotToken;
   }
 
   refreshToken(firebaseUserId) {
+    let p = Promise.resolve();
+    console.log('refreshing token');
     if (firebaseUserId) {
       this.client.post('/user/auth',
         {
@@ -33,11 +40,17 @@ class RacAPIClient {
         .then((response) => {
           console.log('got token', response.data.token);
           this.client.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+          this._gotToken = true;
+        })
+        .catch((error) => {
+          console.error(error);
+          p = Promise.reject(error);
         });
     } else {
       console.log('firebase user id is not set');
-      throw new Error('firebase user id is not set');
+      p = Promise.reject(new Error('firebase user id is not set'));
     }
+    return p;
   }
 
   /**
@@ -72,12 +85,7 @@ class RacAPIClient {
       {
         params: { ...searchTerm, byGeo: undefined },
       },
-    ).then((response) => {
-      if (byGeo) {
-        return response.data.map(result => ({ ...result.obj, dist: result.dist }));
-      }
-      return response.data;
-    });
+    ).then(response => response.data);
   }
 
   getHouse(houseId) {
@@ -141,9 +149,21 @@ class RacAPIClient {
       },
     }).then(response => response.data);
   }
+
+  getClusterByLevel(level) {
+    return this.client.get(`/house/cluster/${level}`).then(response => response.data);
+  }
+
+  searchCluster(box, level) {
+    return this.client.get('/house/searchCluster', {
+      params: {
+        level,
+        box,
+      },
+    }).then(response => response.data);
+  }
 }
 
 const instance = new RacAPIClient();
-Object.freeze(instance);
 
 export default instance;

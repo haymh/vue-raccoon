@@ -3,7 +3,7 @@
     <div id="list" class="scrollable-list">
       <div v-html="searchResultSummary"></div>
       <div class="singlelist" v-for="item in currentList" :key="item._id">
-        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly" :height="cardHeight"></single-list>
+        <single-list :singleListingData="item" :showOnlyWhenSelected="selectedOnly" :height="250"></single-list>
       </div>
     </div>
     <!--TODO: Need to make list full height and scroll on whole page. Pagination should be fix position.-->
@@ -51,10 +51,6 @@ export default {
     selectAll: {
       type: Boolean,
       default: false,
-    },
-    cardHeight: {
-      type: Number,
-      default: 270,
     },
   },
   components: {
