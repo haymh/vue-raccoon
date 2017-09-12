@@ -39,7 +39,7 @@ const router = new Router({
     { path: '/house/:id', component: Detail },
     { path: '/user/:id', component: UserPage },
     { path: '/viewShareHouse/:id', component: ViewSHareHouse },
-    { path: '/profile/:agentId', component: Profile },
+    { path: '/profile/:agentId', props: true, component: Profile },
     { path: '/error/:msg', component: ErrorPage },
     { path: '/managecontact', component: ManageContact },
     { path: '*', redirect: '/view1' },

@@ -55,7 +55,7 @@ export default {
       items: [
         { heading: 'Main' },
         { icon: 'lightbulb_outline', text: 'Dashboard', link: '/dashboard' },
-        { icon: 'touch_app', text: 'Profile', link: '/profile#' },
+        { icon: 'touch_app', text: 'Profile', link: '/profile' },
         { icon: 'touch_app', text: 'Customers', link: '' },
         { icon: 'chat', text: 'Chat', link: '/chat' },
         { divider: true },
