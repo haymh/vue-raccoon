@@ -36,9 +36,9 @@ export const SET_SHARE_ID = 'SET_SHARE_ID';
 export const SET_SHARE_EMAIL = 'SET_SHARE_EMAIL';
 export const SET_QUERY = 'SET_QUERY';
 
-// article
-export const SET_PUBLICARTICLE_INFO = 'SET_PUBLICARTICLE_INFO';
-export const SET_USERARTICLE_INFO = 'SET_USERARTICLE_INFO';
-
 // categories
 export const SET_CATEGORIES = 'SET_CATEGORIES';
+
+// articles
+export const SET_ARTICLE_INFO = 'SET_ARTICLE_INFO';
+export const DELETE_ARTICLE_INFO = 'DELETE_ARTICLE_INFO';

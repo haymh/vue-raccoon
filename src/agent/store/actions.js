@@ -138,16 +138,16 @@ export function setQuery({ commit }, query) {
   commit(types.SET_QUERY, { query });
 }
 
-// article
-export function setPublicArticleInfo({ commit }, articleInfo) {
-  commit(types.SET_PUBLICARTICLE_INFO, articleInfo);
-}
-
-export function setUserArticleInfo({ commit }, articleInfo) {
-  commit(types.SET_USERARTICLE_INFO, articleInfo);
-}
-
 // category
 export function setCategoryInfo({ commit }, categoryInfo) {
   commit(types.SET_CATEGORIES, categoryInfo);
+}
+
+// articles
+export function setArticlesInfo({ commit }, articlesInfo) {
+  commit(types.SET_ARTICLE_INFO, articlesInfo);
+}
+
+export function deleteArticleInfo({ commit }, articleInfo) {
+  commit(types.DELETE_ARTICLE_INFO, articleInfo);
 }

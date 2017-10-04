@@ -23,11 +23,8 @@
               <v-btn icon @click.native="parse">
                 <v-icon class="blue--text">sync</v-icon>
               </v-btn>
-              <!-- <v-btn v-if="shareEnabled" icon :to="`/articleView/${this.storageName}`">
-                <v-icon class="blue--text">fa-qrcode fa-2x</v-icon>
-              </v-btn> -->
-              <articleShareQR :articleInfo="articleInfo"></articleShareQR>
-              <v-dialog v-model="dialog" persistent  v-if="content && title">
+              <articleShareQR v-if="shareEnabled" :articleId="articleInfo._id"></articleShareQR>
+              <v-dialog v-model="dialog" persistent  v-if="content && title && uploadEnabled">
                 <v-btn icon slot="activator">
                   <v-icon class="blue--text">file_upload</v-icon>
                 </v-btn>
@@ -76,8 +73,8 @@
                   <articleEditor
                     :content="content"
                     :title="title"
-                    @titleChange="val => title = val"
-                    @contentChange="val => content = val">
+                    @titleChange="titleChange($event)"
+                    @contentChange="contentChange($event)">
                   </articleEditor>
                 </div>
               </v-container>
@@ -104,10 +101,11 @@ export default {
     return {
       id: '',
       url: '',
+      sourceURL: '',
       title: '',
       content: '',
       storageName: '',
-      articleInfo: null,
+      articleInfo: {},
       inProgress: false,
       categories: [],
       selectedItems: [],
@@ -149,24 +147,15 @@ export default {
       }, 2000);
     },
     parse() {
+      this.sourceURL = this.url;
       this.reqData = {};
-      this.reqData.url = this.url;
-      this.headers = {
-        Authorization: 'Basic IHQ2M1h3UTNEa2VPQm1GNURNcm9WbzJUWE1YQTI6',
-        'Content-Type': 'application/json',
-        'x-api-key': 'MHQJLZ1uAglugnEC64FtvZOf1JmBlAcSq1lBSO7L',
-      };
-      console.log(this.url);
+      this.reqData.url = this.sourceURL;
+      console.log(this.sourceURL);
       this.inProgress = true;
-
       this.$http.post('https://us-central1-article-parser.cloudfunctions.net/articleParse', this.reqData).then((response) => {
         console.log('article parsed: ', response);
         this.inProgress = false;
         this.uploadEnabled = true;
-        // if (err) {
-        //   this.sendFailureAlert(this.parseFailMessage);
-        //   return;
-        // }
         this.title = response.body.title;
         this.content = response.body.content;
         // this.content = response.body;
@@ -178,42 +167,45 @@ export default {
       this.reqData = {};
       this.reqData.content = this.content;
       this.reqData.type = 'text/html; charset=UTF-8';
-      this.reqData.originalname = this.title;
 
       this.inProgress = true;
-
+      console.log('upload this', this.reqData);
       this.$http.post('https://us-central1-article-parser.cloudfunctions.net/upload-article', this.reqData).then((response) => {
         console.log('article uploaded: ', response);
         this.inProgress = false;
         this.uploadEnabled = false;
         this.shareEnabled = true;
         this.storageName = response.data.dbName;
-        // if (err) {
-        //   this.sendSuccessAlert(this.uploadFailureMessage);
-        //   return;
-        // }
         this.sendSuccessAlert(this.uploadSuccessMessage);
         // store article information to database
         const articleInfo = {};
         articleInfo.name = this.title;
         articleInfo.createdAt = new Date();
         articleInfo.storageName = response.data.dbName;
+        if (!this.$store.getters.user.isTemp) {
+          articleInfo.userId = this.$store.getters.userId;
+        } else {
+          articleInfo.source = this.url;
+        }
         articleInfo.categories = this.selectedItems.map((category) => {
           console.log(category);
           return { name: category };
         });
-        if (!this.$store.getters.user.isTemp) {
-          articleInfo.userId = this.$store.getters.userId;
-          this.$store.dispatch('setUserArticleInfo', articleInfo);
-        } else {
-          articleInfo.source = this.url;
-          this.$store.dispatch('setPublicArticleInfo', articleInfo);
-        }
         API.createArticle(articleInfo).then((res) => {
           console.log('api create article data', res);
           this.articleInfo = res.data;
         });
       });
+    },
+    titleChange(event) {
+      this.title = event;
+      this.uploadEnabled = true;
+      this.shareEnabled = false;
+    },
+    contentChange(event) {
+      this.content = event;
+      this.uploadEnabled = true;
+      this.shareEnabled = false;
     },
   },
 };

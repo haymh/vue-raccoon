@@ -36,10 +36,7 @@ export const shareEmail = state => state.share.email;
 export const query = state => state.share.query;
 
 // Articles
-export const publicArticleInfo = state => state.articles.publicArticleInfo;
-export const userArticleInfo = state => state.articles.userArticleInfo;
-export const getArticleInfoByStorageName = state => storageName =>
-  state.articles.articleInfo[storageName];
+export const articlesInfo = state => state.articles.articlesInfo;
 
 // categories
 export const getCategoryNames = state => state.categories.categoryNames;

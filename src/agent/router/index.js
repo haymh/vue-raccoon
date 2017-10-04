@@ -8,7 +8,7 @@ Vue.use(Router);
 
 // route-level code splitting
 const MainView = () => import('../Main.vue');
-const Article = () => import('../article.vue');
+const Article = () => import('../Article.vue');
 const ArticleView = () => import('../ArticleView.vue');
 const ArticleParser = () => import('../ArticleParser.vue');
 const View1 = () => import('../view1.vue');

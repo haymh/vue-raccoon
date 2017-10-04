@@ -119,45 +119,35 @@ class RacAPIClient {
     });
   }
 
-  getAllArticles() {
-    console.log('RaccoonAPI getting all articleInfo');
-    return this.client.get('/article/getAll').then(response => response.data);
+  updateArticle(updateArticleInfo) {
+    console.log('RaccoonAPI updating articleInfo in DB', updateArticleInfo);
+    return this.client.post('/article/updateArticle', updateArticleInfo).then(response => response.data);
   }
 
-  getAllPublicArticles() {
-    console.log('RaccoonAPI getting all public articleInfo');
-    return this.client.get('/article/getAllPublic').then(response => response.data);
+  deleteArticle(articleId) {
+    console.log('RaccoonAPI deleting article in DB', articleId);
+    return this.client.post('/article/deleteArticle', articleId).then(response => response.data);
   }
-
-  getArticleByUserId(userId) {
-    console.log('RaccoonAPI getting article by userId', userId);
-    return this.client.get(`/article/user/${userId}`).then(response => response.data);
-  }
-
-  getArticleByStorageName(storageName) {
-    console.log('RaccoonAPI getting article Name using storageName', storageName);
-    return this.client.get(`/article/${storageName}`).then(response => response.data);
+  /*
+  category: single string Category
+  userId: single string userId
+  storageName: single string storage name
+  */
+  getArticles(options) {
+    console.log('RaccoonAPI getting articles', options);
+    return this.client.post('/article/getArticle', options).then(response => response.data);
   }
 
   // article share
-  createArticleShare(articleShareInfo) {
-    console.log('RaccoonAPI creating article share', articleShareInfo);
-    return this.client.post('/articleShare/create', articleShareInfo).then(response => response.data);
-  }
-
-  getArticleShareId(userId, articleId) {
+  getOrCreateArticleShareId(userId, articleId) {
     console.log('RaccoonAPI getting article Share by userid and articleId', userId, articleId);
     const reqData = {
       userId,
       articleId,
     };
     console.log(reqData);
-    return this.client.get('/articleShare/getId', reqData).then((response) => {
-      if (response.data === 'ERROR') {
-        console.log('RaccoonAPI get article share id error');
-        return response.data;
-      }
-      console.log('RaccoonAPI get article share id successful');
+    return this.client.post('/articleShare/getIdOrCreateId', reqData).then((response) => {
+      console.log('API response share id', response.data);
       return response.data;
     });
   }
@@ -177,16 +167,6 @@ class RacAPIClient {
   getAllCategoriesName() {
     console.log('RaccoonAPI getting all categories');
     return this.client.get('/category/getAllNames').then(response => response.data);
-  }
-
-  getPublicArticlesInCategory(cateName) {
-    console.log('RaccoonAPI getting public articles by category name', cateName);
-    return this.client.get(`/category/public/${cateName}`).then(response => response.data);
-  }
-
-  getUserArticlesInCategory(cateName) {
-    console.log('RaccoonAPI getting user articles by category name', cateName);
-    return this.client.get(`/category/user/${cateName}`).then(response => response.data);
   }
 
   // contact

@@ -37,12 +37,11 @@
             :key="i"
             :to="child.link"
           >
-            <v-list-tile-action v-if="child.icon">
-              <v-icon>{{ child.icon }}</v-icon>
+            <v-list-tile-action>
+              <v-icon v-if="child.icon">{{ child.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>
-                {{ child.text }}
+              <v-list-tile-title v-text="child.text">
               </v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -104,7 +103,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['showSideBar', 'userId']),
+    ...mapGetters(['showSideBar', 'user']),
     isActive: {
       get() {
         return this.showSideBar;
@@ -115,35 +114,42 @@ export default {
     },
   },
   watch: {
-    userId: {
-      handler(userId) {
-        if (userId) {
-          const cateCallBack = (cates) => {
-            console.log('side bar categories: ', cates);
-            const articlesChildren = cates.map((c) => {
-              console.log(c);
-              return { icon: 'modify', text: c.name, link: `/article/${c.name}` };
-            });
-            articlesChildren.push({ icon: 'modify', text: 'All Articles', link: '/article/all' });
-            articlesChildren
-              .push({ icon: 'modify', text: 'My Articles', link: '/article/myarticles' });
-            console.log('articles Children', articlesChildren);
-            for (let i = 0; i < this.items.length; i += 1) {
-              if (this.items[i].text === 'Articles') {
-                this.items[i].children = articlesChildren;
-              }
-            }
-            this.$store.dispatch('setCategoryInfo', cates);
-            console.log(this.items);
-          };
-
+    user: {
+      handler(user) {
+        if (user.id) {
           if (this.$store.getters.getCategoryNames.length !== 0) {
-            cateCallBack(this.$store.getters.getCategoryNames);
+            this.insertArticleCategories(this.$store.getters.getCategoryNames);
           } else {
-            API.getAllCategoriesName().then(cateCallBack);
+            API.getAllCategoriesName().then(this.insertArticleCategories);
           }
         }
       },
+    },
+  },
+  methods: {
+    insertArticleCategories(cats) {
+      console.log('side bar categories: ', cats);
+
+      // careate categories items.
+      const articlesChildren = cats.map((c) => {
+        console.log(c);
+        return { text: c.name, link: `/article/${c.name}` };
+      });
+      articlesChildren.push({ text: 'All Articles', link: '/article/allArticles' });
+      if (!this.user.isTemp) {
+        articlesChildren.push({ text: 'My Articles', link: '/article/myArticles' });
+      }
+      console.log('articles Children', articlesChildren);
+
+      // insert category items in article item.
+      for (let i = 0; i < this.items.length; i += 1) {
+        if (this.items[i].text === 'Articles') {
+          this.items[i].children = articlesChildren;
+        }
+      }
+
+      // dispatch category information to store for faster access.
+      this.$store.dispatch('setCategoryInfo', cats);
     },
   },
 };

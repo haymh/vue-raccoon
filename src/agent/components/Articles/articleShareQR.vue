@@ -1,6 +1,6 @@
 <template>
   <v-layout row justify-center style="position: relative;">
-      <v-dialog lazy absolute>
+      <v-dialog v-if="!user.isTemp" lazy absolute>
         <v-btn icon slot="activator" @click.native="generateQRLink">
           <v-icon class="blue--text">fa-qrcode fa-2x</v-icon>
         </v-btn>
@@ -8,13 +8,13 @@
           <v-card-title>
             <div class="headline">扫描分享</div>
           </v-card-title>
-            <qrcode :value="link" :size="150"></qrcode>
-            <router-link :to="link">{{ link }}</router-link>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Disagree</v-btn>
-            <v-btn class="green--text darken-1" flat="flat" @click.native="dialog = false">Agree</v-btn>
-          </v-card-actions>
+          <v-card-text class="text-xs-center">
+            <qrcode :value="link" :size="200"></qrcode>
+            <v-chip label small class="primary white--text">
+              <v-icon left>link</v-icon>
+              <a class="body-1 white--text" target="_blank" v-bind:href="link">预览</a>
+            </v-chip>
+          </v-card-text>
         </v-card>
       </v-dialog>
     </v-layout>
@@ -27,11 +27,11 @@ import API from '../../../api';
 export default {
   name: 'articleShareQR',
   props: {
-    articleInfo: Object,
+    articleId: String,
   },
   computed: {
     ...mapGetters([
-      'userId',
+      'user',
     ]),
   },
   components: {
@@ -41,35 +41,17 @@ export default {
     return {
       inProgress: true,
       link: '',
-      host: 'articleShareView/',
+      host: 'http://localhost:8081/articleShareView/',
     };
   },
   methods: {
     generateQRLink() {
-      this.getShareId().then((shareId) => {
-        console.log('got shareId', shareId);
-        this.link = this.host + shareId;
-      });
-    },
-    getShareId() {
-      return API.getArticleShareId(this, this.userId, this.articleInfo._id)
-        .then(async (response) => {
-          console.log('shareId response', response);
-          const articleShareInfo = {};
-          articleShareInfo.articleId = this.articleInfo._id;
-          articleShareInfo.createdBy = this.userId;
-          if (response === 'ERROR') {
-            const shareId = await API.createArticleShare(articleShareInfo).then((res) => {
-              console.log('generated shareid', res);
-              return res;
-            });
-            return shareId;
-          }
-          return response.body;
+      API.getOrCreateArticleShareId(this.user.id, this.articleId)
+        .then((response) => {
+          console.log('getshareId racoon', response);
+          this.link = this.host + response;
         });
     },
   },
 };
 </script>
-<style>
-</style>

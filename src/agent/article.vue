@@ -2,7 +2,6 @@
   <div>
     <v-card class="grey lighten-5" flat>
       <v-toolbar dark class="primary elevation-0" extended>
-
       </v-toolbar>
       <v-layout row>
         <v-flex xs12 md8 offset-md2>
@@ -10,20 +9,18 @@
             <v-toolbar card class="white" prominent>
               <v-toolbar-title class="body-2 grey--text">{{ category }}</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>search</v-icon>
-              </v-btn>
-              <v-btn icon :to="'/articleParser'">
-                <v-icon>edit</v-icon>
+              <v-btn icon v-if="!user.isTemp" :to="'/articleParser'">
+                <v-icon>keyboard</v-icon>
               </v-btn>
             </v-toolbar>
             <v-divider></v-divider>
             <v-card-text style="min-height: 200px;">
               <v-list three-line>
-                <div v-for="item in articlesInfo">
+                <div v-if="articlesInfo.length > 0" v-for="item in articlesInfo" v-bind:key="item.title">
                   <single-article-list :singleArticleListingData="item"></single-article-list>
                 </div>
               </v-list>
+              <p v-if="articlesInfo.length == 0" class="text-xs-center">目前没有可显示文章</p>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -47,9 +44,6 @@ export default {
   name: 'article',
   data() {
     return {
-      articlesInfo: [],
-      userArticlesInfo: [],
-      loadingList: false,
       category: '',
     };
   },
@@ -71,6 +65,7 @@ export default {
   computed: {
     ...mapGetters([
       'user',
+      'articlesInfo',
     ]),
   },
   components: {
@@ -79,37 +74,20 @@ export default {
   methods: {
     getArticles() {
       const category = this.$route.params.category;
-      if (category && category === 'all') {
-        this.getPublicArticles();
-        this.category = '所有文章';
-      } else if (category && category === 'myarticles') {
-        this.getUserArticles(this.user.id);
+      const options = {};
+      if (category === 'myArticles') {
+        options.userId = this.user.id;
         this.category = '我的文章';
+      } else if (category === 'allArticles') {
+        this.category = '全部文章';
       } else {
-        this.getArticlesbyCategory(category);
+        options.category = category;
         this.category = category;
       }
-    },
-    getArticlesbyCategory(category) {
-      // const cate = this.$store.getters.getCategoryInfoByName(category);
-      API.getPublicArticlesInCategory(category).then((info) => {
-        console.log('public article in category', info);
-        this.$store.dispatch('setPublicArticleInfo', info);
-        this.articlesInfo = info;
-      });
-    },
-    getUserArticles(userId) {
-      // this.userArticlesInfo = this.$store.getters.userArticleInfo;
-      API.getArticleByUserId(userId).then((info) => {
-        console.log('all userarticleInfo', info);
-        this.$store.dispatch('setUserArticleInfo', info);
-        this.articlesInfo = info;
-      });
-    },
-    getPublicArticles() {
-      API.getAllPublicArticles().then((info) => {
-        this.$store.dispatch('setPublicArticleInfo', info);
-        this.articlesInfo = info;
+      API.getArticles(options).then((articlesInfo) => {
+        console.log('got articleInfo', articlesInfo);
+        this.$store.dispatch('setArticlesInfo', articlesInfo);
+        // this.articlesInfo = articlesInfo;
       });
     },
   },
