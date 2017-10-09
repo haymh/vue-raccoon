@@ -1,7 +1,7 @@
 {
-  "name": "vue-raccoon",
+  "name": "cloud-functions",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "cloud functions",
   "author": "heng meng <hengmeng2009@gmail.com>",
   "private": true,
   "scripts": {
@@ -13,7 +13,11 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix"
+    "lint:fix": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs --fix",
+    "deploy:function": "yarn package-functions && firebase deploy --only functions",
+    "prepackage-functions": "rimraf functions",
+    "package-functions": "babel firebase-functions --out-dir functions --presets=es2015 --copy-files --ignore node_modules",
+    "postpackage-functions": "cd functions && yarn"
   },
   "dependencies": {
     "@turf/area": "^4.6.0",
@@ -48,6 +52,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.2",
@@ -117,5 +122,8 @@
   "engines": {
     "node": ">= 6.9.5",
     "npm": ">= 3.0.0"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/haymh/vue-raccoon.git",
+  "license": "MIT"
 }

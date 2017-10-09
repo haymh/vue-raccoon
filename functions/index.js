@@ -1,34 +1,16 @@
-const functions = require('firebase-functions');
-const cors = require('cors')({origin: true});
+'use strict';
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-const MAILGUN_DOMAIN = 'mg.zhaofangabc.com';
+var _computeClusterFunction = require('./compute-cluster-function');
 
-const mg = require('mailgun.js').client({
-  username: 'api',
-  key: 'key-7ddae8fe18afe8c8bfd8f1e4657de186',
-  public_key: 'pubkey-dbc8a53bb578f1936f6363f60e762c99',
-});
+var _computeClusterFunction2 = _interopRequireDefault(_computeClusterFunction);
 
-exports.email = functions.https.onRequest((req, res) => {
-  console.log('requested email:', req.body);
-  cors(req, res, () => {
-    mg.messages.create(MAILGUN_DOMAIN, {
-      from: 'Raccoon Agent <agent@zhaofangabc.com>',
-      to: ['wenxin3262@gmail.com'],
-      subject: 'Hello',
-      html: req.body.html,
-      'h:Reply-To': '<wenxin3262@gmail.com>',
-    })
-    .then((msg) => {
-      console.log('done.', msg);
-      res.send(msg);
-    }) // logs response data
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send('something wrong');
-    }); // logs any error
-  });
-});
+var _deliverSubscriptionFunction = require('./deliver-subscription-function');
+
+var _deliverSubscriptionFunction2 = _interopRequireDefault(_deliverSubscriptionFunction);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = {
+  computeCluster: _computeClusterFunction2.default,
+  email: _deliverSubscriptionFunction2.default
+};
