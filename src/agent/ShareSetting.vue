@@ -14,7 +14,7 @@
       </v-subheader>
       <v-layout row wrap>
         <v-flex xs12 md3>
-          <div v-for="c in lastFilter">
+          <div v-for="(c, i) in lastFilter" :key="i">
             <FilterTag :filterCondition="c"></FilterTag>
           </div>
         </v-flex>
@@ -83,7 +83,7 @@
               readonly
             ></v-text-field>
             <v-date-picker v-model="shareObject.shareMethod.shareOn" scrollable :allowed-dates="allowedDates">
-              <template scope="{ cancel }">
+              <template slot-scope="{ cancel }">
                 <v-card-row actions>
                   <v-btn flat primary @click.native="showTimePicker = false">Cancel</v-btn>
                 </v-card-row>

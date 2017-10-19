@@ -9,12 +9,12 @@
         label="Min Price"
         hide-details	
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
@@ -29,12 +29,12 @@
         label="Max Price"
         hide-details
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
@@ -49,12 +49,12 @@
         label="Min Beds"
         hide-details
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
@@ -70,12 +70,12 @@
         label="Max Beds"
         hide-details
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
@@ -100,12 +100,12 @@
           label="Min Beds"
           hide-details
         >
-          <template slot="selection" scope="data">
+          <template slot="selection" slot-scope="data">
             <v-list-tile-content :key="data.item">
                 {{data.item | formatChoice(false)}}
             </v-list-tile-content>
           </template>
-          <template slot="item" scope="data">
+          <template slot="item" slot-scope="data">
             <v-list-tile-content>
                 {{data.item | formatChoice(false)}}
             </v-list-tile-content>
@@ -121,12 +121,12 @@
           label="Max Beds"
           hide-details
         >
-          <template slot="selection" scope="data">
+          <template slot="selection" slot-scope="data">
             <v-list-tile-content :key="data.item">
                 {{data.item | formatChoice(false)}}
             </v-list-tile-content>
           </template>
-          <template slot="item" scope="data">
+          <template slot="item" slot-scope="data">
             <v-list-tile-content>
                 {{data.item | formatChoice(false)}}
             </v-list-tile-content>
@@ -141,12 +141,12 @@
           label="Min Baths"
           hide-details
         >
-          <template slot="selection" scope="data">
+          <template slot="selection" slot-scope="data">
             <v-list-tile-content :key="data.item">
                 {{data.item | formatChoice(false, '', '+')}}
             </v-list-tile-content>
           </template>
-          <template slot="item" scope="data">
+          <template slot="item" slot-scope="data">
             <v-list-tile-content>
                 {{data.item | formatChoice(false, '', '+')}}
             </v-list-tile-content>
@@ -162,12 +162,12 @@
           label="Max HOA"
           hide-details
         >
-          <template slot="selection" scope="data">
+          <template slot="selection" slot-scope="data">
             <v-list-tile-content :key="data.item">
                 {{data.item | formatChoice(false, '< ', '$/month')}}
             </v-list-tile-content>
           </template>
-          <template slot="item" scope="data">
+          <template slot="item" slot-scope="data">
             <v-list-tile-content>
                 {{data.item | formatChoice(false, '< ', '$/month')}}
             </v-list-tile-content>

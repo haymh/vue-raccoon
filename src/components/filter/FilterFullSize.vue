@@ -8,12 +8,12 @@
         v-model="schema.conditions.price.min"
         label="Min Price"
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
@@ -28,12 +28,12 @@
         v-model="schema.conditions.price.max"
         label="Max Price"
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(true)}}
           </v-list-tile-content>
@@ -48,12 +48,12 @@
         v-model="schema.conditions.beds.min"
         label="Min Beds"
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
@@ -68,12 +68,12 @@
         v-model="schema.conditions.beds.max"
         label="Max Beds"
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(false)}}
           </v-list-tile-content>
@@ -88,12 +88,12 @@
         v-model="schema.conditions.baths.min"
         label="Min Baths"
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(false, '', '+')}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(false, '', '+')}}
           </v-list-tile-content>
@@ -108,12 +108,12 @@
         v-model="schema.conditions.hoa.max"
         label="Max HOA"
       >
-        <template slot="selection" scope="data">
+        <template slot="selection" slot-scope="data">
           <v-list-tile-content :key="data.item">
               {{data.item | formatChoice(false, '< ', '$/month')}}
           </v-list-tile-content>
         </template>
-        <template slot="item" scope="data">
+        <template slot="item" slot-scope="data">
           <v-list-tile-content>
               {{data.item | formatChoice(false, '< ', '$/month')}}
           </v-list-tile-content>

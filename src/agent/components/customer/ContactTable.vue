@@ -1,6 +1,6 @@
 <template>
   <v-data-table :pagination.sync="pagination" v-bind="$attrs" :items="items" :headers="headers" v-model="selected" select-all class="elevation-1">
-    <template slot="items" scope="props">
+    <template slot="items" slot-scope="props">
       <tr>
         <td>
           <v-checkbox primary hide-details v-model="props.selected"></v-checkbox>

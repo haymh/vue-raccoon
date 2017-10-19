@@ -4,7 +4,7 @@
     :isLoading="searchQueryIsLoading"
     placeholder="请输入city, zip"
     @select="handleSelect">
-    <template slot="item" scope="data">
+    <template slot="item" slot-scope="data">
      <p>
        <strong>{{ data.option.text }}</strong>
      </p>
