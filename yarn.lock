@@ -7163,9 +7163,9 @@ vuefire@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-1.4.4.tgz#dd05f4f8ce44611e14d833db976dd7be1d1a0161"
 
-vuetify@^0.14.11:
-  version "0.14.11"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.14.11.tgz#757760664373ba7a51d70d41a4b527595bbfed36"
+vuetify@^0.16.9:
+  version "0.16.9"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.16.9.tgz#fd61f219e4a40d7afe5e24a803df5658a40b38e4"
 
 vuex@^3.0.0:
   version "3.0.1"

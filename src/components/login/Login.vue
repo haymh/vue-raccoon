@@ -1,13 +1,13 @@
 <template>
 
   <v-dialog v-model="formOpen">
-    <v-btn primary light slot="activator">Login</v-btn>
+    <v-btn color="primary" light slot="activator">Login</v-btn>
     <v-card>
       <v-card-title>Raccoon</v-card-title>
       <v-card-text>
         {{message}}
       </v-card-text>
-      <v-btn primary light v-on:click.native="link('google')">Google</v-btn>
+      <v-btn color="primary" light v-on:click.native="link('google')">Google</v-btn>
       <v-btn v-on:click.native="link('facebook')">Facebook</v-btn>
       <v-card-actions>
         <v-btn v-on:click.native="dismissLogin">Cancel</v-btn>

@@ -85,7 +85,7 @@
             <v-date-picker v-model="shareObject.shareMethod.shareOn" scrollable :allowed-dates="allowedDates">
               <template slot-scope="{ cancel }">
                 <v-card-row actions>
-                  <v-btn flat primary @click.native="showTimePicker = false">Cancel</v-btn>
+                  <v-btn flat color="primary" @click.native="showTimePicker = false">Cancel</v-btn>
                 </v-card-row>
               </template>
             </v-date-picker>
@@ -133,7 +133,7 @@
           :id="t"
         >
           <v-card flat>
-             <ShareCustomerList :showSelected="selectedTab === 'Selected Customers'" :customerList="customerList"></ShareCustomerList> 
+             <ShareCustomerList :showSelected="selectedTab === 'Selected Customers'" :customerList="customerList"></ShareCustomerList>
             <!-- <ContactTableList></ContactTableList> -->
           </v-card>
         </v-tabs-content>

@@ -1,31 +1,33 @@
 <template>
   <v-card hover horizontal v-show="show"
-    :class="[isSelfDisplayHouse ? 'blue lighten-4' : '', 'mt-1']"
-    v-tooltip:bottom="{ html: tooltipText, visible: tooltipText !== null }">
-    <v-container fluid grid-list-lg>
-      <v-layout row>
-        <v-flex xs3>
-          <strong>{{house.address | formatAddress}}</strong>
-          <div>{{house.price | formatNumber(0, '$')}}</div>
-        </v-flex>
-        <v-flex xs3>
-          <div>{{house.beds}} Beds</div>
-          <div>{{house.baths}} Baths</div>
-        </v-flex>
-        <v-flex xs3>
-          <div>{{house.sizeInSF}} Sq. Ft.</div>
-          <div>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></div>
-        </v-flex>
-        <v-flex xs3>
-          <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
-            <v-icon>favorite</v-icon>
-          </v-btn>
-          <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
-            <v-icon>done</v-icon>
-          </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    :class="[isSelfDisplayHouse ? 'blue lighten-4' : '', 'mt-1', 'pa-1']">
+
+    <v-layout row>
+      <v-flex xs3>
+        <strong>{{house.address | formatAddress}}</strong>
+        <div>{{house.price | formatNumber(0, '$')}}</div>
+      </v-flex>
+      <v-flex xs3>
+        <div>{{house.beds}} Beds</div>
+        <div>{{house.baths}} Baths</div>
+      </v-flex>
+      <v-flex xs3>
+        <div>{{house.sizeInSF}} Sq. Ft.</div>
+        <div>{{house.unitPriceInSF | formatNumber(2, '$')}} / <i>Sq. Ft.</i></div>
+      </v-flex>
+      <v-flex xs3>
+        <v-btn icon v-bind:class="[like ? 'red--text' : 'grey--text']" @click.native="likeListing">
+          <v-icon>favorite</v-icon>
+        </v-btn>
+        <v-btn icon v-bind:class="[itemSelected ? 'green--text' : '']" @click.native="selectItem">
+          <v-icon>done</v-icon>
+        </v-btn>
+        <v-tooltip bottom>
+          <v-btn icon slot="activator"><v-icon>info</v-icon></v-btn>
+          <span>{{ tooltipText }}</span>
+        </v-tooltip>
+      </v-flex>
+    </v-layout>
   </v-card>
 </template>
 <script>
