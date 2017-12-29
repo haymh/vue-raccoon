@@ -178,13 +178,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import { mixin as clickaway } from 'vue-clickaway';
-import list from '../components/list/list.vue';
-import FilterFullSize from '../components/filter/FilterFullSize.vue';
-import SortBar from '../components/list/SortBar.vue';
-import Map from '../components/map/Map.vue';
-import ShareList from './components/share/ShareList.vue';
-import TableList from '../components/list/TableList.vue';
-import QrcodeDialog from './components/share/QrcodeDialog.vue';
+import list from '../../components/list/list.vue';
+import FilterFullSize from '../../components/filter/FilterFullSize.vue';
+import SortBar from '../../components/list/SortBar.vue';
+import Map from '../../components/map/Map.vue';
+import TableList from '../../components/list/TableList.vue';
+
+import ShareList from '../components/share/ShareList.vue';
+import QrcodeDialog from '../components/share/QrcodeDialog.vue';
 import API from '../../api';
 import { generateQuery } from '../../components/filter/filter-schema';
 
