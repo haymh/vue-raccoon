@@ -1,8 +1,8 @@
 <template>
-<div>main</div>
+<div>Home</div>
 </template>
 <script>
 export default {
-  name: 'main',
+  name: 'HomeView',
 };
 </script>

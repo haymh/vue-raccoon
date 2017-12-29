@@ -7,7 +7,7 @@ import store from '../../agent/store';
 Vue.use(Router);
 
 // route-level code splitting
-const MainView = () => import('../Main.vue');
+const HomeView = () => import('../views/HomeView.vue');
 const View1 = () => import('../view1.vue');
 const ChatView = () => import('../Chat.vue');
 const SearchView = () => import('../Search.vue');
@@ -29,7 +29,7 @@ const router = new Router({
     /* eslint-disable global-require */
     { path: '/view1', component: View1, meta: { breadcrumb: 'Home Page' } },
     { path: '/chat', component: ChatView },
-    { path: '/main', component: MainView, meta: { breadcrumb: 'Search Houses' } },
+    { path: '/main', component: HomeView, meta: { breadcrumb: 'Search Houses' } },
     { path: '/search', component: SearchView },
     { path: '/dashboard', component: Dashboard },
     { path: '/shareSetting', component: ShareSetting, meta: { breadcrumb: 'Schedule and Customers' } },

@@ -185,12 +185,12 @@ import Map from '../components/map/Map.vue';
 import ShareList from './components/share/ShareList.vue';
 import TableList from '../components/list/TableList.vue';
 import QrcodeDialog from './components/share/QrcodeDialog.vue';
-import API from '../api';
-import { generateQuery } from '../components/filter/filter-schema';
+import API from '../../api';
+import { generateQuery } from '../../components/filter/filter-schema';
 
 
 export default {
-  name: 'main',
+  name: 'HomeView',
   mixins: [clickaway],
   data() {
     return {
