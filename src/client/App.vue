@@ -6,9 +6,13 @@
     <v-app>
       <ProgressBar v-show="$store.state.app.showProgressBar"></ProgressBar>
       <navbar class="hidden-xs-only"></navbar>
+      <v-content>
       <main class="main">
-        <router-view></router-view>
+        <v-container fluid>
+          <router-view></router-view>
+        </v-container>
       </main>
+      </v-content>
       <BottomNav class="hidden-sm-and-up" :navs="navs"></BottomNav>
     </v-app>
   </div>

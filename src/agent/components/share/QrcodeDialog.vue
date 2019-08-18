@@ -1,6 +1,6 @@
 <template>
   <v-dialog fullscreen :value="showQrcode">
-    <v-btn small primary light slot="activator" :loading="isLoading" @click.native="generateLink">Generate QR Code</v-btn>
+    <v-btn small light color="primary" slot="activator" :loading="isLoading" @click.native="generateLink">Generate QR Code</v-btn>
     <v-card>
       <v-card-title v-show="link === ''">Please Search House First</v-card-title>
       <v-card-text class="text-md-center">

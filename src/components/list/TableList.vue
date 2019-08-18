@@ -6,13 +6,13 @@
   </div>
   <div class="list mb-1 ma-1 pa-1" v-show="!empty">
     <ShortCardItem v-for="(house, index) in houseList"
-              :key="house._id"
-              :displayHouse="hoveredHouse"
-              :house="house"
-              :showOnlyWhenSelected="selectedOnly"
-              :divider="index + 1 < houseList.length"
-              tooltipText="click to display in card"
-              @click.native="select(house)">
+      :key="house._id"
+      :displayHouse="hoveredHouse"
+      :house="house"
+      :showOnlyWhenSelected="selectedOnly"
+      :divider="index + 1 < houseList.length"
+      tooltipText="click to display in card"
+      @click.native="select(house)">
     </ShortCardItem>
   </div>
   <Pagination

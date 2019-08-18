@@ -17,12 +17,12 @@
         :paths="paths"
         :editable="false"
         :options="outlineOption"
-        :key="i">
+        :key="'polygon-'+i">
       </gmap-polygon>
     </template>
-    <template v-if="!showCluster"> 
+    <template v-if="!showCluster">
       <gmap-marker
-      :key="index"
+      :key="'houseMarker-'+index"
       v-for="(marker, index) in houseMarkers"
       :position="marker.position"
       :clickable="true"
@@ -30,11 +30,11 @@
       @click="onMarkerClick(marker)"
       @mouseover="onMarkerMouseover(marker)"
       @mouseout="onMarkerMouseout"
-    ></gmap-marker> 
-    </template> 
+    ></gmap-marker>
+    </template>
     <template v-if="showCluster">
     <gmap-marker
-      :key="index"
+      :key="'clusterMarker-'+index"
       v-for="(marker, index) in clusterMarkers"
       :position="marker.position"
       :clickable="true"
